@@ -1,11 +1,12 @@
 Thư viện chuẩn hóa text Tiếng Việt cho python, có 1 số tính năng sau :
 + Chuẩn hóa dấu về kiểu phổ thông. Ví dụ : hoà -> hòa
-+ Chuẩn hóa các dấu dạng Combining Tone. Ví dụ : 0x301 Combining Acute Accent
-+ Xóa các kí tự đặc biệt của HTML lẫn giữa trong âm tiết, Ở ngoài âm tiết thì không thay đổi gì cả. Ví dụ : 0x200B Zero width space 
-+ Điền nốt kí tự còn thiếu nếu chắc chắn. 
++ Chuẩn hóa các dấu dạng Combining Tone và các encode đặc biết khác về dạng phổ thông. Ví dụ : 0x301 Combining Acute Accent
++ Xóa các kí tự đặc biệt của HTML còn sót lại . Ví dụ : dấu cách đặc biệt 0x200B Zero width space 
++ Điền nốt kí tự và dấu còn thiếu nếu chắc chắn. 
 Ví dụ : 
 tôi làm việ ở ban công ngệ FPT, tôi là người viêt nam 
 -> tôi làm việc ở ban công nghệ FPT, tôi là người việt nam
++ Chuẩn hóa i ngắn y dài nếu chắc chắn
 + Không làm lỗi cú pháp có sẵn của text 
 + Tự động sửa 1 số lỗi khác............
 + Code viết bằng C++, Wraper lại cho à python3, chạy rất nhanh. 3MB text Utf-8 chỉ cần 0.01s để xử lý (không tính I/O)
