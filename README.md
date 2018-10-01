@@ -6,8 +6,8 @@ Hướng dẫn sử dụng :
 
 
 Trong thư viện có 2 hàm :
-+ VietnameseTextNormalizer : hàm chuẩn hóa dữ liệu Tiếng Việt cơ bản, chỉ chuẩn hóa i ngắn y dài đối với tên địa danh trong nước dựa theo văn bản hành chính nhà nước
-+ VietnameseTextNormalizerForASR : hàm chuẩn hóa dữ liệu cho ASR, khác với hàm cơ bản là chọn lựa i ngắn y dài rõ ràng theo độ phổ thông của từ và perplexity của câu, ví dụ sẽ chọn [bệnh lý] thay cho [bệnh lí]
++ Normalize : hàm chuẩn hóa dữ liệu Tiếng Việt cơ bản, chỉ chuẩn hóa i ngắn y dài đối với tên địa danh trong nước dựa theo văn bản hành chính nhà nước
++ ASRNormalize : hàm chuẩn hóa dữ liệu cho ASR, khác với hàm cơ bản là chọn lựa i ngắn y dài rõ ràng theo độ phổ thông của từ và perplexity của câu, ví dụ sẽ chọn [bệnh lý] thay cho [bệnh lí]
 
 Thư viện chuẩn hóa text Tiếng Việt cho python, có 1 số tính năng sau :
 + Chuẩn hóa dấu về kiểu phổ thông. Ví dụ : [hoà] -> [hòa]
