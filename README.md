@@ -1,3 +1,10 @@
+Hướng dẫn sử dụng :
++ Đặt file so cùng thư mục chạy với file UnitTestVietnameseTextNormalizer.py
++ Chạy file UnitTestVietnameseTextNormalizer.py
+
+
+
+
 Thư viện chuẩn hóa text Tiếng Việt cho python, có 1 số tính năng sau :
 + Chuẩn hóa dấu về kiểu phổ thông. Ví dụ : hoà -> hòa
 + Chuẩn hóa các dấu dạng Combining Tone và các encode đặc biết khác về dạng phổ thông. Ví dụ : 0x301 Combining Acute Accent
