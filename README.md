@@ -17,7 +17,7 @@ Thư viện chuẩn hóa text Tiếng Việt cho python, có 1 số tính năng 
 Ví dụ : 
 tôi làm việ ở ban công ngệ FPT, tôi là người viêt nam 
 -> tôi làm việc ở ban công nghệ FPT, tôi là người việt nam
-+ Chuẩn hóa i ngắn y dài nếu chắc chắn
++ Chuẩn hóa i ngắn y dài đối với tên các địa danh trong nước. Có mức chuẩn hóa cho ASR theo độ phổ thông của từ và perplexity của câu
 + Không làm lỗi cú pháp có sẵn của text 
 + Tự động sửa 1 số lỗi khác............
 + Code viết bằng C++, Wraper lại cho à python3, chạy rất nhanh. 3MB text Utf-8 chỉ cần 0.01s để xử lý (không tính I/O)
