@@ -5,9 +5,13 @@ Hướng dẫn sử dụng :
 + Chạy file UnitTestVietnameseTextNormalizer.py
 
 
-Trong thư viện có 2 hàm :
+Trong thư viện có 3 hàm :
 + Normalize : hàm chuẩn hóa dữ liệu Tiếng Việt cơ bản, chỉ chuẩn hóa i ngắn y dài đối với tên địa danh trong nước dựa theo văn bản hành chính nhà nước
-+ ASRNormalize : hàm chuẩn hóa dữ liệu cho ASR, khác với hàm cơ bản là chọn lựa i ngắn y dài rõ ràng theo độ phổ thông của từ và perplexity của câu, ví dụ sẽ chọn [bệnh lý] thay cho [bệnh lí]
++ ASRNormalize : hàm chuẩn hóa dữ liệu cho ASR, khác với hàm cơ bản là chọn lựa i ngắn y dài rõ ràng theo độ phổ thông của từ 
+ví dụ sẽ chọn [bệnh lý] thay cho [bệnh lí]
++ ASRYToI : hàm để xử lý dữ liệu cho ASR, thống nhất hết về i ngắn 
+
+
 
 Thư viện chuẩn hóa text Tiếng Việt cho python, có 1 số tính năng sau :
 + Chuẩn hóa dấu về kiểu phổ thông. Ví dụ : [hoà] -> [hòa]
