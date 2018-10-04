@@ -29,7 +29,7 @@ tôi làm việ ở ban công ngệ FPT, tôi là người viêt nam
 + Chuẩn hóa i ngắn y dài đối với tên các địa danh trong nước. Có mức chuẩn hóa cho ASR theo độ phổ thông của từ và perplexity của câu
 + Không làm lỗi cú pháp có sẵn của text 
 + Tự động sửa 1 số lỗi khác............
-+ Code viết bằng C++, Wraper lại cho à python3, chạy rất nhanh. 3MB text Utf-8 chỉ cần 0.01s để xử lý (không tính I/O)
++ Code viết bằng C++, Wraper lại cho à python, chạy rất nhanh. 3MB text Utf-8 chỉ cần 0.01s để xử lý (không tính I/O)
 + Để file so vào thư mục chứa file Test.py và chạy thử
 
 
