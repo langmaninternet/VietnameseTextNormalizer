@@ -5,6 +5,7 @@
 Installation
 ------------
 
+- Build
 ```sh
 make -j
 ```
