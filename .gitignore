@@ -6,8 +6,6 @@
 *.user
 *.userosscache
 *.sln.docstates
-UnitTest/*.qvoice
-*.htsvoice
 *.wav
 *.mp3
 *.f0
