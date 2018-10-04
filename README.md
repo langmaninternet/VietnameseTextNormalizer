@@ -20,9 +20,9 @@ make -j
 	+ ASRNormalize : hàm chuẩn hóa dữ liệu cho ASR, khác với hàm cơ bản là chọn lựa i ngắn y dài rõ ràng theo độ phổ thông của từ. Ví dụ sẽ chọn [bệnh lý] thay cho [bệnh lí]
 	+ ASRYToI : hàm để xử lý dữ liệu cho ASR, thống nhất hết về i ngắn
 Note : 
-+ Nếu bạn truyền vào chuỗi/object ansi-utf8 thì hàm sẽ trả về ansi-utf8
-+ Nếu bạn truyền vào chuỗi/object unicode thì hàm sẽ trả về unicode
-+ Nếu bạn truyền vào 1 số nguyên hoặc loại object khác thì sẽ trả về luôn đối tượng bạn truyền vào
+Nếu bạn truyền vào chuỗi/object ansi-utf8 thì hàm sẽ trả về ansi-utf8
+Nếu bạn truyền vào chuỗi/object unicode thì hàm sẽ trả về unicode
+Nếu bạn truyền vào 1 số nguyên hoặc loại object khác thì sẽ trả về luôn đối tượng bạn truyền vào
 
 Tính năng
 ------------
