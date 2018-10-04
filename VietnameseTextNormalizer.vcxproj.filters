@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="ConfigSystem.h" />
+    <ClInclude Include="SyllableSystem.h" />
+    <ClInclude Include="WordSystem.h" />
+    <ClInclude Include="ContextSystem.h" />
+    <ClInclude Include="VietnameseTextNormalizer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="SyllableSystem.cpp" />
+    <ClCompile Include="WordSystem.cpp" />
+    <ClCompile Include="ContextSystem.cpp" />
+    <ClCompile Include="VietnameseTextNormalizer.cpp" />
+  </ItemGroup>
+</Project>
