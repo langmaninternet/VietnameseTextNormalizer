@@ -1,4 +1,5 @@
 ﻿#include "VietnameseTextNormalizer.h"
+//#undef WIN32_NORMALIZER_TOOL
 #ifndef WIN32_NORMALIZER_TOOL
 extern "C"
 {
@@ -4626,17 +4627,17 @@ void main(void)
 /************************************************************************/
 static PyObject *	VietnameseTextNormalizerStandard(PyObject *self, PyObject *args)
 {
-	char				nullString[10] = { 0 };
-	char * 				input = nullString;
-	std::string			result = "";
-	// parse arguments
-	if (PyArg_ParseTuple(args, "s", &input))
+	char				nullUtf8String[10] = { 0 };
+	wchar_t				nullUnicodeString[10] = { 0 };
+	char * 				utf8input = nullUtf8String;
+	wchar_t *			unicodeInput = nullUnicodeString;
+	if (PyArg_ParseTuple(args, "s", &utf8input) && utf8input != NULL && utf8input != nullUtf8String)
 	{
-		result = input;
-		if (input)
+		std::string	utf8Result = utf8input;
+		if (utf8input)
 		{
 			std::wstring_convert<std::codecvt_utf8<wchar_t>> myconv;
-			std::wstring inputUcs2 = myconv.from_bytes(input);
+			std::wstring inputUcs2 = myconv.from_bytes(utf8input);
 			int nChar = inputUcs2.size();
 			qwchar * ucs2buffer = (qwchar*)qcalloc(nChar + 10/*safe*/, sizeof(qwchar));
 			if (ucs2buffer)
@@ -4651,34 +4652,65 @@ static PyObject *	VietnameseTextNormalizerStandard(PyObject *self, PyObject *arg
 				vntObject.GenStandardText();
 				if (vntObject.standardText && vntObject.standardTextChange > 0)
 				{
-					printf("Normalization : %d change(s)\n", vntObject.standardTextChange);
+					printf("Normalization : %d change(s) - Utf8 mode\n", vntObject.standardTextChange);
 					std::wstring outputUcs2;
 					outputUcs2.reserve(vntObject.standardTextLength + 10/*safe*/);
 					for (int iChar = 0; iChar < vntObject.standardTextLength; iChar++)
 					{
 						outputUcs2 += (wchar_t)(vntObject.standardText[iChar]);
 					}
-					result = myconv.to_bytes(outputUcs2);
+					utf8Result = myconv.to_bytes(outputUcs2);
 				}
 				qfree(ucs2buffer);
 			}
 		}
+		return Py_BuildValue("s", utf8Result.c_str());
 	}
-	return Py_BuildValue("s", result.c_str());
+	else if (PyArg_ParseTuple(args, "u", &unicodeInput) && unicodeInput != NULL && unicodeInput != nullUnicodeString)
+	{
+		std::wstring		unicodeResult = unicodeInput;
+		int					unicodeLength = unicodeResult.size();
+		qwchar *			ucs2buffer = (qwchar*)qcalloc(unicodeLength + 10/*safe*/, sizeof(qwchar));
+		if (ucs2buffer)
+		{
+			for (int iChar = 0; iChar < unicodeLength; iChar++)
+			{
+				ucs2buffer[iChar] = (qwchar)unicodeInput[iChar];
+			}
+			VietnameseTextNormalizer vntObject;
+			vntObject.Input(ucs2buffer);
+			vntObject.Normalization();
+			vntObject.GenStandardText();
+			qfree(ucs2buffer);
+			if (vntObject.standardText && vntObject.standardTextChange > 0)
+			{
+				printf("Normalization : %d change(s) - Ucs2 mode\n", vntObject.standardTextChange);
+				unicodeResult.reserve(vntObject.standardTextLength + 10/*safe*/);
+				for (int iChar = 0; iChar < vntObject.standardTextChange; iChar++)
+				{
+					unicodeResult += (wchar_t)(vntObject.standardText[iChar]);
+				}
+			}
+		}
+		return  Py_BuildValue("u", (Py_UNICODE*)(unicodeResult.c_str()));
+	}
+	PyObject * argsObject = NULL;
+	PyArg_ParseTuple(args, "O", &argsObject);
+	return argsObject;
 }
 static PyObject *	VietnameseTextNormalizerForASR(PyObject *self, PyObject *args)
 {
-	char				nullString[10] = { 0 };
-	char * 				input = nullString;
-	std::string			result = "";
-	// parse arguments
-	if (PyArg_ParseTuple(args, "s", &input))
+	char				nullUtf8String[10] = { 0 };
+	wchar_t				nullUnicodeString[10] = { 0 };
+	char * 				utf8input = nullUtf8String;
+	wchar_t *			unicodeInput = nullUnicodeString;
+	if (PyArg_ParseTuple(args, "s", &utf8input) && utf8input != NULL && utf8input != nullUtf8String)
 	{
-		result = input;
-		if (input)
+		std::string	utf8Result = utf8input;
+		if (utf8input)
 		{
 			std::wstring_convert<std::codecvt_utf8<wchar_t>> myconv;
-			std::wstring inputUcs2 = myconv.from_bytes(input);
+			std::wstring inputUcs2 = myconv.from_bytes(utf8input);
 			int nChar = inputUcs2.size();
 			qwchar * ucs2buffer = (qwchar*)qcalloc(nChar + 10/*safe*/, sizeof(qwchar));
 			if (ucs2buffer)
@@ -4695,34 +4727,67 @@ static PyObject *	VietnameseTextNormalizerForASR(PyObject *self, PyObject *args)
 				vntObject.GenStandardText();
 				if (vntObject.standardText && vntObject.standardTextChange > 0)
 				{
-					printf("Normalization : %d change(s)\n", vntObject.standardTextChange);
+					printf("Normalization : %d change(s) - Utf8 mode\n", vntObject.standardTextChange);
 					std::wstring outputUcs2;
 					outputUcs2.reserve(vntObject.standardTextLength + 10/*safe*/);
 					for (int iChar = 0; iChar < vntObject.standardTextLength; iChar++)
 					{
 						outputUcs2 += (wchar_t)(vntObject.standardText[iChar]);
 					}
-					result = myconv.to_bytes(outputUcs2);
+					utf8Result = myconv.to_bytes(outputUcs2);
 				}
 				qfree(ucs2buffer);
 			}
 		}
+		return Py_BuildValue("s", utf8Result.c_str());
 	}
-	return Py_BuildValue("s", result.c_str());
+	else if (PyArg_ParseTuple(args, "u", &unicodeInput) && unicodeInput != NULL && unicodeInput != nullUnicodeString)
+	{
+		std::wstring		unicodeResult = unicodeInput;
+		int					unicodeLength = unicodeResult.size();
+		qwchar *			ucs2buffer = (qwchar*)qcalloc(unicodeLength + 10/*safe*/, sizeof(qwchar));
+		if (ucs2buffer)
+		{
+			for (int iChar = 0; iChar < unicodeLength; iChar++)
+			{
+				ucs2buffer[iChar] = (qwchar)unicodeInput[iChar];
+			}
+			VietnameseTextNormalizer vntObject;
+			vntObject.flagStandardTextForNLP = true;
+			vntObject.flagStandardTextForASR = true;
+			vntObject.Input(ucs2buffer);
+			vntObject.Normalization();
+			vntObject.GenStandardText();
+			qfree(ucs2buffer);
+			if (vntObject.standardText && vntObject.standardTextChange > 0)
+			{
+				printf("Normalization : %d change(s) - Ucs2 mode\n", vntObject.standardTextChange);
+				unicodeResult.reserve(vntObject.standardTextLength + 10/*safe*/);
+				for (int iChar = 0; iChar < vntObject.standardTextChange; iChar++)
+				{
+					unicodeResult += (wchar_t)(vntObject.standardText[iChar]);
+				}
+			}
+		}
+		return  Py_BuildValue("u", (Py_UNICODE*)(unicodeResult.c_str()));
+	}
+	PyObject * argsObject = NULL;
+	PyArg_ParseTuple(args, "O", &argsObject);
+	return argsObject;
 }
 static PyObject *	VietnameseTextNormalizerForIToY(PyObject *self, PyObject *args)
 {
-	char				nullString[10] = { 0 };
-	char * 				input = nullString;
-	std::string			result = "";
-	// parse arguments
-	if (PyArg_ParseTuple(args, "s", &input))
+	char				nullUtf8String[10] = { 0 };
+	wchar_t				nullUnicodeString[10] = { 0 };
+	char * 				utf8input = nullUtf8String;
+	wchar_t *			unicodeInput = nullUnicodeString;
+	if (PyArg_ParseTuple(args, "s", &utf8input) && utf8input != NULL && utf8input != nullUtf8String)
 	{
-		result = input;
-		if (input)
+		std::string	utf8Result = utf8input;
+		if (utf8input)
 		{
 			std::wstring_convert<std::codecvt_utf8<wchar_t>> myconv;
-			std::wstring inputUcs2 = myconv.from_bytes(input);
+			std::wstring inputUcs2 = myconv.from_bytes(utf8input);
 			int nChar = inputUcs2.size();
 			qwchar * ucs2buffer = (qwchar*)qcalloc(nChar + 10/*safe*/, sizeof(qwchar));
 			if (ucs2buffer)
@@ -4740,22 +4805,55 @@ static PyObject *	VietnameseTextNormalizerForIToY(PyObject *self, PyObject *args
 				vntObject.GenStandardText();
 				if (vntObject.standardText && vntObject.standardTextChange > 0)
 				{
-					printf("Normalization : %d change(s)\n", vntObject.standardTextChange);
+					printf("Normalization : %d change(s) - Utf8 mode\n", vntObject.standardTextChange);
 					std::wstring outputUcs2;
 					outputUcs2.reserve(vntObject.standardTextLength + 10/*safe*/);
 					for (int iChar = 0; iChar < vntObject.standardTextLength; iChar++)
 					{
 						outputUcs2 += (wchar_t)(vntObject.standardText[iChar]);
 					}
-					result = myconv.to_bytes(outputUcs2);
+					utf8Result = myconv.to_bytes(outputUcs2);
 				}
 				qfree(ucs2buffer);
 			}
 		}
+		return Py_BuildValue("s", utf8Result.c_str());
 	}
-	return Py_BuildValue("s", result.c_str());
+	else if (PyArg_ParseTuple(args, "u", &unicodeInput) && unicodeInput != NULL && unicodeInput != nullUnicodeString)
+	{
+		std::wstring		unicodeResult = unicodeInput;
+		int					unicodeLength = unicodeResult.size();
+		qwchar *			ucs2buffer = (qwchar*)qcalloc(unicodeLength + 10/*safe*/, sizeof(qwchar));
+		if (ucs2buffer)
+		{
+			for (int iChar = 0; iChar < unicodeLength; iChar++)
+			{
+				ucs2buffer[iChar] = (qwchar)unicodeInput[iChar];
+			}
+			VietnameseTextNormalizer vntObject;
+			vntObject.flagStandardTextForNLP = true;
+			vntObject.flagStandardTextForASR = true;
+			vntObject.flagConvertYToI = true;
+			vntObject.Input(ucs2buffer);
+			vntObject.Normalization();
+			vntObject.GenStandardText();
+			qfree(ucs2buffer);
+			if (vntObject.standardText && vntObject.standardTextChange > 0)
+			{
+				printf("Normalization : %d change(s) - Ucs2 mode\n", vntObject.standardTextChange);
+				unicodeResult.reserve(vntObject.standardTextLength + 10/*safe*/);
+				for (int iChar = 0; iChar < vntObject.standardTextChange; iChar++)
+				{
+					unicodeResult += (wchar_t)(vntObject.standardText[iChar]);
+				}
+			}
+		}
+		return  Py_BuildValue("u", (Py_UNICODE*)(unicodeResult.c_str()));
+	}
+	PyObject * argsObject = NULL;
+	PyArg_ParseTuple(args, "O", &argsObject);
+	return argsObject;
 }
-
 /************************************************************************/
 /*                                                                      */
 /************************************************************************/
