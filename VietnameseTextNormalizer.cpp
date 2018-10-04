@@ -1459,7 +1459,6 @@ TEXT_NODE *			VietnameseTextNormalizer::InsertJapaneseWordToTheTail(qjwrdidentif
 	TEXT_NODE * textNode = (TEXT_NODE *)qcalloc(1, sizeof(TEXT_NODE));
 	if (textNode/*!=NULL*/)
 	{
-		JAPANESEWORD const * japanesewordNode = japaneseWords + japaneseWordIdentifier;
 		/* TextNode infomation */
 		textNode->originalText = originalText;
 		textNode->originalTextLength = originalTextLength;
@@ -1723,10 +1722,10 @@ void				VietnameseTextNormalizer::Input(const qwchar *text)
 			bool						preloadTagEn = false;
 			bool						preloadTagB = false;
 			bool						preloadTagC = false;
-			bool						preloadTagS = false;
+			//bool						preloadTagS = false;
 			bool						preloadTagL = false;
 			bool						preloadTagQ = false;
-			bool						preloadTagE = false;
+			//bool						preloadTagE = false;
 			bool						preloadRetroflex = false;
 			bool						preloadViEnDup = false;
 			if (startOfNewNode && text[0] == 0x3C/*<*/)
@@ -1754,12 +1753,12 @@ void				VietnameseTextNormalizer::Input(const qwchar *text)
 								case 0x33/*3*/:/*text [<en3>] cost 10*/if (text[4] == 0x3E/*>*/) { text += 5; preloadSize += 5; preloadTagEn = true; pronoucingIndex = 3; }break;
 								}//end of switch (text[3])/*start with [<en..]*/
 								break;
-							case 0x3E/*>*/:/*text [<e>] cost 6*/text += 3; preloadSize += 3; preloadTagE = true; break;
+							case 0x3E/*>*/:/*text [<e>] cost 6*/text += 3; preloadSize += 3;/* preloadTagE = true;*/ break;
 							}//end of switch (text[2])/*start with [<e..]*/
 							break;
 						case 0x6C/*l*/:/*text [<l>] cost 6*/if (text[2] == 0x3E/*>*/) { text += 3; preloadSize += 3; preloadTagL = true; }break;
 						case 0x71/*q*/:/*text [<q>] cost 7*/if (text[2] == 0x3E/*>*/) { text += 3; preloadSize += 3; preloadTagQ = true; }break;
-						case 0x73/*s*/:/*text [<s>] cost 8*/if (text[2] == 0x3E/*>*/) { text += 3; preloadSize += 3; preloadTagS = true; }break;
+						case 0x73/*s*/:/*text [<s>] cost 8*/if (text[2] == 0x3E/*>*/) { text += 3; preloadSize += 3;/* preloadTagS = true;*/ }break;
 						case 0x76/*v*/:
 							if (text[2] == 0x69/*i*/)/*start with [<vi..] */
 							{
@@ -3369,7 +3368,6 @@ void				VietnameseTextNormalizer::Normalization(void)
 					{
 						textNode->englishWordIdentifier = englishWordIdentifier;
 						textNode->textNodeType = TEXT_NODE_TYPE_ENGLISH_WORD;
-						struct ENGLISH_WORD const * englishWordNode = enwords + englishWordIdentifier;
 						textNode->text = text;
 						textNode->textLength = textLength;
 						flagNeedStoreTextMemory = true;
@@ -4150,7 +4148,7 @@ void				VietnameseTextNormalizer::Normalization(void)
 				TEXT_NODE *				leftTextNodeOffset0 = &nullTextNodeForStep2;
 				TEXT_NODE *				leftTextNodeOffset1 = &nullTextNodeForStep2;
 				TEXT_NODE *				leftTextNodeOffset2 = &nullTextNodeForStep2;
-				TEXT_NODE *				leftTextNodeOffset3 = &nullTextNodeForStep2;
+				//TEXT_NODE *				leftTextNodeOffset3 = &nullTextNodeForStep2;
 				//TEXT_NODE *				leftTextNodeOffset4 = &nullTextNodeForStep2;
 				if (textNode->back)
 				{
@@ -4161,14 +4159,14 @@ void				VietnameseTextNormalizer::Normalization(void)
 						if (leftTextNodeOffset1->back)
 						{
 							leftTextNodeOffset2 = leftTextNodeOffset1->back;
-							if (leftTextNodeOffset2->back)
-							{
-								leftTextNodeOffset3 = leftTextNodeOffset2->back;
-								//if (leftTextNodeOffset3->back)
-								//{
-								//	leftTextNodeOffset4 = leftTextNodeOffset3->back;
-								//}
-							}
+							//	if (leftTextNodeOffset2->back)
+							//	{
+							//		leftTextNodeOffset3 = leftTextNodeOffset2->back;
+							//		if (leftTextNodeOffset3->back)
+							//		{
+							//			leftTextNodeOffset4 = leftTextNodeOffset3->back;
+							//		}
+							//	}
 						}
 					}
 				}
@@ -4765,7 +4763,7 @@ static PyMethodDef	VietnameseTextNormalizerMethods[] = {
 	{ "VietnameseTextNormalizer", VietnameseTextNormalizerStandard, METH_VARARGS, "OutputString VietnameseTextNormalizer(String)" },
 	{ "Normalize", VietnameseTextNormalizerStandard, METH_VARARGS, "OutputString Normalize(String)" },
 	{ "ASRNormalize", VietnameseTextNormalizerForASR, METH_VARARGS, "OutputString ASRNormalize(String)" },
-	{ "ASRYtoI", VietnameseTextNormalizerForASR, METH_VARARGS, "OutputString ASRYtoI(String)" },
+	{ "ASRYtoI", VietnameseTextNormalizerForIToY, METH_VARARGS, "OutputString ASRYtoI(String)" },
 
 	{ NULL, NULL, 0, NULL }
 };

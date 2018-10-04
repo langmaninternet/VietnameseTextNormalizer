@@ -1,25 +1,36 @@
 
 CPP_FILES = $(wildcard *.cpp)
-OBJECT_FILES  = $(patsubst %.cpp, object/%.o, $(CPP_FILES))
+OBJECT_PYTHON2_FILES  = $(patsubst %.cpp, ObjectPython2/%.o, $(CPP_FILES))
+OBJECT_PYTHON3_FILES  = $(patsubst %.cpp, ObjectPython3/%.o, $(CPP_FILES))
 
-all: $(OBJECT_FILES)
-	g++-5 -std=c++17 -shared -o release/VietnameseTextNormalizer.so $(OBJECT_FILES) -L. ; \
-	cp -f UnitTestVietnameseTextNormalizer.py release/ ; \
-	cd release ; \
-	echo "Done" ; \
-	echo "Test VietnameseTextNormalizer " ; \
+all: $(OBJECT_PYTHON2_FILES) $(OBJECT_PYTHON3_FILES)
+	g++-5 -std=c++17 -shared -o ReleasePython2/VietnameseTextNormalizer.so $(OBJECT_PYTHON2_FILES) -L. ; \
+	cp -f UnitTestVietnameseTextNormalizer.py ReleasePython2/ ; \
+	cd ReleasePython2 ; \
+	echo "Build Release Python2 Done" ; \
+	echo "Test Python2 - VietnameseTextNormalizer " ; \
+	python2 UnitTestVietnameseTextNormalizer.py ; \
+	cd .. ; \
+	g++-5 -std=c++17 -shared -o ReleasePython3/VietnameseTextNormalizer.so $(OBJECT_PYTHON3_FILES) -L. ; \
+	cp -f UnitTestVietnameseTextNormalizer.py ReleasePython3/ ; \
+	cd ReleasePython3 ; \
+	echo "Build Release Python3 Done" ; \
+	echo "Test Python3 - VietnameseTextNormalizer " ; \
 	python3 UnitTestVietnameseTextNormalizer.py ; )
 	
 
 
 release-dirs:
-	@ ( mkdir -p object release ; )
+	@ ( mkdir -p ObjectPython2 ObjectPython3 ReleasePython2 ReleasePython3 ; )
 	
-object/%.o : %.cpp | release-dirs
-	g++-5 -std=c++17 -c -fPIC -O3 $*.cpp -I/usr/include/python3.5 -o object/$*.o  ;
+ObjectPython2/%.o : %.cpp | release-dirs
+	g++-5 -std=c++17 -c -fPIC -O3 -Wall $*.cpp -I/usr/include/python2.7 -o ObjectPython2/$*.o  ;
 
+ObjectPython3/%.o : %.cpp | release-dirs
+	g++-5 -std=c++17 -c -fPIC -O3 -Wall $*.cpp -I/usr/include/python3.5 -o ObjectPython3/$*.o  ;
+	
 clean: 
-	rm -rf object release ; 
+	rm -rf ObjectPython2 ObjectPython3 ReleasePython2 ReleasePython3 ; 
 	clear ;
 
 

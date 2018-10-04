@@ -30,7 +30,11 @@ bld/
 [Bb]in/
 [Oo]bj/
 [Ll]og/
-buildlinux/
+ObjectPython2/
+ObjectPython3/
+ReleasePython2/
+ReleasePython3/
+
 
 # Visual Studio 2015 cache/options directory
 .vs/
