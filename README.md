@@ -2,19 +2,16 @@
 
 
 Build thành thư viện cho Python
-------------
 ```sh
 make -j
 ```
 
 Hướng dẫn sử dụng
-------------
 + Đặt file so cùng thư mục chạy với file UnitTestVietnameseTextNormalizer.py
 + Chạy file UnitTestVietnameseTextNormalizer.py
 
 
 Chú giải
-------------
 Trong thư viện có 3 hàm :
 + Normalize : hàm chuẩn hóa dữ liệu Tiếng Việt cơ bản, chỉ chuẩn hóa i ngắn y dài đối với tên địa danh trong nước dựa theo văn bản hành chính nhà nước
 + ASRNormalize : hàm chuẩn hóa dữ liệu cho ASR, khác với hàm cơ bản là chọn lựa i ngắn y dài rõ ràng theo độ phổ thông của từ 
@@ -23,7 +20,6 @@ ví dụ sẽ chọn [bệnh lý] thay cho [bệnh lí]
 
 
 Tính năng
-------------
 Thư viện chuẩn hóa text Tiếng Việt cho python, có 1 số tính năng sau :
 + Chuẩn hóa dấu về kiểu phổ thông. Ví dụ : [hoà] -> [hòa]
 + Chuẩn hóa các dấu dạng Combining Tone và các encode đặc biết khác về dạng phổ thông. Ví dụ : 0x301 Combining Acute Accent
