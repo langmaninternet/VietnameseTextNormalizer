@@ -178,7 +178,7 @@ class VietnameseTextNormalizer
 {
 private:
 
-/*protected:*/
+	/*protected:*/
 public:
 	/************************************************************************/
 	/* Text information                                                     */
@@ -226,7 +226,7 @@ public:
 	double					silenceNewLineTime;
 	double					silenceStartTime;
 	double					silenceEndTime;
-/*protected:*/
+	/*protected:*/
 public:
 	void					Log(const char * format, ...);
 	void					Log(const qwchar * wstr, int wstrlen);
