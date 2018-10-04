@@ -11,7 +11,7 @@ make -j
 ```
 
 - Hướng dẫn sử dụng
-	+ Đặt file so cùng thư mục chạy với file UnitTestVietnameseTextNormalizer.py
+	+ Đặt file VietnameseTextNormalizer.so cùng thư mục chạy với file UnitTestVietnameseTextNormalizer.py
 	+ Chạy file UnitTestVietnameseTextNormalizer.py
 
 
