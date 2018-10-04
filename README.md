@@ -1,14 +1,7 @@
 ## Thư viện chuẩn hóa text Tiếng Việt (Có sẵn wrapper cho Python2 và Python3)
 
 
-Build cho Python2
-------------
-```sh
-make -f MakefileForPython2 -j
-```
-
-
-Build cho Python3
+Build thành thư viện cho Python
 ------------
 ```sh
 make -j
