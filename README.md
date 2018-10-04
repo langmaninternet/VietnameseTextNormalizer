@@ -1,6 +1,11 @@
 Thư viện chuẩn hóa text Tiếng Việt cho python
 
-Hướng dẫn sử dụng :
+Hướng dẫn build cho python
++ build thư viên cho python 3 : make -j
++ build thư viên cho python 2 : make -f MakefileForPython2 -j
+
+
+Hướng dẫn sử dụng thư viện:
 + Đặt file so cùng thư mục chạy với file UnitTestVietnameseTextNormalizer.py
 + Chạy file UnitTestVietnameseTextNormalizer.py
 

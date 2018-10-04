@@ -1,0 +1,28 @@
+
+CPP_FILES = $(wildcard *.cpp)
+OBJECT_FILES  = $(patsubst %.cpp, object/%.o, $(CPP_FILES))
+
+all: $(OBJECT_FILES)
+	g++-5 -std=c++17 -shared -o releasePython2/VietnameseTextNormalizer.so $(OBJECT_FILES) -L. ; \
+	cp -f UnitTestVietnameseTextNormalizer.py releasePython2/ ; \
+	cd releasePython2 ; \
+	echo "Done" ; \
+	echo "Test VietnameseTextNormalizer " ; \
+	python2 UnitTestVietnameseTextNormalizer.py ; )
+	
+
+
+release-dirs:
+	@ ( mkdir -p object releasePython2 ; )
+	
+object/%.o : %.cpp | release-dirs
+	g++-5 -std=c++17 -c -fPIC -O3 $*.cpp -I/usr/include/python2.7 -o object/$*.o  ;
+
+clean: 
+	rm -rf object release ; 
+	clear ;
+
+
+.PHONY: all clean
+
+
