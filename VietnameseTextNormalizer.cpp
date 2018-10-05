@@ -3883,7 +3883,7 @@ void				VietnameseTextNormalizer::Normalization(void)
 	/************************************************************************/
 	for (TEXT_NODE * textNode = head; textNode/*!=NULL*/; textNode = textNode->next)
 	{
-		if ((textNode->vietnameseSyllableIdentifier > 0
+		if (textNode->changeable != TEXT_NODE_CAN_NOT_CHANGE && ((textNode->vietnameseSyllableIdentifier > 0
 			&& textNode->englishWordIdentifier == 0
 			&& textNode->vietnameseAbbreviationIndentifier == 0
 			&& textNode->vietnameseLoanWordIndentifier == 0
@@ -3891,7 +3891,7 @@ void				VietnameseTextNormalizer::Normalization(void)
 			&& (vnsyllables[textNode->vietnameseSyllableIdentifier].significant == 0)
 			&& vnsyllables[textNode->vietnameseSyllableIdentifier].correctLength > 0
 			)
-			|| (textNode->vietnameseSyllableIdentifier == VIETNAMESE_SYLLABLE_K_O))
+			|| (textNode->vietnameseSyllableIdentifier == VIETNAMESE_SYLLABLE_K_O)))
 		{
 			int					countTotalSureWay = 0;
 			double				maxWayScore = 0.0;
@@ -4611,6 +4611,7 @@ void				VietnameseTextNormalizer::Refresh(void)
 /* Main                                                                 */
 /************************************************************************/
 #ifdef WIN32_NORMALIZER_TOOL
+#ifndef QBT_VALIDATE_TOOL
 #include <Windows.h>
 void main(void)
 {
@@ -4621,6 +4622,7 @@ void main(void)
 	vntObject.GenStandardText();
 	::MessageBoxW(0, vntObject.standardText, L"Output", MB_OK);
 }
+#endif
 #else
 /************************************************************************/
 /* Python wrapper                                                       */
