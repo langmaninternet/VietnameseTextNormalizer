@@ -76,6 +76,8 @@ namespace std
 #ifndef globalidentifier
 #define globalidentifier int
 #endif
+
+
 #ifndef qvsylidentifier
 #define qvsylidentifier short int
 #endif
