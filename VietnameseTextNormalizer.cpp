@@ -4867,7 +4867,7 @@ static PyMethodDef	VietnameseTextNormalizerMethods[] = {
 
 	{ NULL, NULL, 0, NULL }
 };
-#ifdef PyModuleDef_HEAD_INIT
+#if (PY_MAJOR_VERSION == 3)
 static struct PyModuleDef VietnameseTextNormalizerModule = {
 	PyModuleDef_HEAD_INIT,
 	"VietnameseTextNormalizer",   /* name of module */
@@ -4892,7 +4892,7 @@ PyMODINIT_FUNC initVietnameseTextNormalizer(void)
 	/* Create the module and add the functions */
 	Py_InitModule("VietnameseTextNormalizer", VietnameseTextNormalizerMethods);
 }
-#endif
+#endif // (PY_MAJOR_VERSION == 3)
 
 #endif
 
