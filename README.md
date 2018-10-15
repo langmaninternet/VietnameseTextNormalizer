@@ -46,6 +46,8 @@ tôi làm việ ở ban công ngệ FPT, tôi là người viêt nam
 
 + Viết hoa 1 số tên địa danh phổ thông ở Việt Nam
 
++ Sửa lại việc viết sai chính tả ở 1 số vùng miền như : sự việc xẩy ra (Miền Bắc), xe ô tô bổn chỗ (Miền Trung), ...
+
 + Không làm lỗi cú pháp có sẵn của text 
 
 + Tự động sửa 1 số lỗi khác............
