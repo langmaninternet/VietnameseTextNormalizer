@@ -8,7 +8,7 @@
 /*                                                                   */
 /*                                                                   */
 /* ----------------------------------------------------------------- */
-#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) || defined(_MSC_VER)
+#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) 
 #pragma managed(push, off)
 #endif
 #include "ConfigSystem.h"
@@ -40876,7 +40876,7 @@ extern const int wordSystemSizeInBytes;
 
 
 
-#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) || defined(_MSC_VER)
+#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) 
 #pragma managed(pop)
 #endif
 #endif

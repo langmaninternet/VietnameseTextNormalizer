@@ -11,7 +11,7 @@
 #ifndef _QUANGBT_SYLLABLE_SYSTEM_HEADER_
 #define _QUANGBT_SYLLABLE_SYSTEM_HEADER_
 #include "ConfigSystem.h"
-#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) || defined(_MSC_VER)
+#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) 
 #pragma managed(push, off)
 #endif
 /************************************************************************/
@@ -6438,7 +6438,7 @@ qvmissingsylidentifier MissingEndDetection(qinput const qwchar * syllable/*must 
 
 
 
-#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) || defined(_MSC_VER)
+#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) 
 #pragma managed(pop)
 #endif
 #endif

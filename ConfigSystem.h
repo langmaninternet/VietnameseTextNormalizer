@@ -20,7 +20,7 @@
 #include <string>
 #include <map>
 #include <set>
-#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) || defined(_MSC_VER)
+#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) 
 #pragma managed(push, off)
 #endif
 #ifdef _MSC_VER
@@ -48,7 +48,7 @@
 /************************************************************************/
 
 
-#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) || defined(_MSC_VER)
+#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) 
 #define qwchar wchar_t
 #else
 
@@ -134,7 +134,7 @@ namespace std
 
 
 #ifndef qexport
-#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) || defined(_MSC_VER) 
+#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64)  
 #define qexport extern "C"	__declspec(dllexport)
 #else
 #define qexport
@@ -289,7 +289,7 @@ struct PHONEME_NODE
 /* Macro                                                                */
 /************************************************************************/
 #ifndef qfprintf
-#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) || defined(_MSC_VER)
+#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) 
 #define qfprintf fprintf_s
 #else
 #define qfprintf fprintf
@@ -333,7 +333,7 @@ extern int		countTotalFree;
 /* Debug                                                                */
 /************************************************************************/
 #ifndef qtime
-#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) || defined(_MSC_VER)
+#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) 
 #define qtime SYSTEMTIME
 #define qGetTime(X)	GetSystemTime(X)
 #define	qGetDiffTime(S,E) ((E.wHour - S.wHour)*3600. + (E.wMinute - S.wMinute)*60. + E.wSecond - S.wSecond + (E.wMilliseconds - S.wMilliseconds) / 1000.)
@@ -350,7 +350,7 @@ extern int		countTotalFree;
 
 
 
-#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) || defined(_MSC_VER)
+#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) 
 #pragma managed(pop)
 #endif
 #endif

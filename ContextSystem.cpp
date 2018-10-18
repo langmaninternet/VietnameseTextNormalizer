@@ -9,7 +9,7 @@
 /*                                                                   */
 /* ----------------------------------------------------------------- */
 #include "ContextSystem.h"
-#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) || defined(_MSC_VER)
+#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) 
 #pragma managed(push, off)
 #pragma optimize("", off)
 #else
@@ -35,7 +35,7 @@ return 0;
 
 
 
-#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) || defined(_MSC_VER)
+#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) 
 #pragma optimize("", on)
 #pragma managed(pop)
 #else
