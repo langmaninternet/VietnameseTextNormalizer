@@ -12,11 +12,9 @@ extern "C"
 #include <codecvt>
 #include <list>
 /************************************************************************/
-/* Global variable for Performance Optimization and Safe Return         */
+/* String less compare                                                  */
 /************************************************************************/
 bool					std::wstringslesscmp::operator()(const std::wstring& lhs, const std::wstring& rhs) const { return lhs.compare(rhs) < 0; }
-TEXT_NODE				nullTextNodeForStep1;
-TEXT_NODE				nullTextNodeForStep2;
 /************************************************************************/
 /* Initial                                                              */
 /************************************************************************/
@@ -24,6 +22,11 @@ TEXT_NODE				nullTextNodeForStep2;
 {
 	ValidateSyllableData();
 	Init();
+	/************************************************************************/
+	/* Performance Optimization and Safe Return                             */
+	/************************************************************************/
+	memset(&nullTextNodeForStep1Input, 0, sizeof(nullTextNodeForStep1Input));
+	memset(&nullTextNodeForStep2Normalization, 0, sizeof(nullTextNodeForStep2Normalization));
 }
 void				VietnameseTextNormalizer::Init(void)
 {
@@ -164,12 +167,12 @@ void				VietnameseTextNormalizer::Log(const qwchar * wstr, int wstrlen)
 /************************************************************************/
 double				VietnameseTextNormalizer::SignificantScore(TEXT_NODE * textNode, qvsylidentifier vietnameseSyllableIdentifier)
 {
-	TEXT_NODE *				leftTextNodeOffset0 = &nullTextNodeForStep2;
-	TEXT_NODE *				leftTextNodeOffset1 = &nullTextNodeForStep2;
-	TEXT_NODE *				leftTextNodeOffset2 = &nullTextNodeForStep2;
-	TEXT_NODE *				leftTextNodeOffset3 = &nullTextNodeForStep2;
-	TEXT_NODE *				leftTextNodeOffset4 = &nullTextNodeForStep2;
-	TEXT_NODE *				leftTextNodeOffset5 = &nullTextNodeForStep2;
+	TEXT_NODE *				leftTextNodeOffset0 = &nullTextNodeForStep2Normalization;
+	TEXT_NODE *				leftTextNodeOffset1 = &nullTextNodeForStep2Normalization;
+	TEXT_NODE *				leftTextNodeOffset2 = &nullTextNodeForStep2Normalization;
+	TEXT_NODE *				leftTextNodeOffset3 = &nullTextNodeForStep2Normalization;
+	TEXT_NODE *				leftTextNodeOffset4 = &nullTextNodeForStep2Normalization;
+	TEXT_NODE *				leftTextNodeOffset5 = &nullTextNodeForStep2Normalization;
 	if (textNode->back)
 	{
 		leftTextNodeOffset0 = textNode->back;
@@ -194,12 +197,12 @@ double				VietnameseTextNormalizer::SignificantScore(TEXT_NODE * textNode, qvsyl
 			}
 		}
 	}
-	TEXT_NODE *				rightTextNodeOffset0 = &nullTextNodeForStep2;
-	TEXT_NODE *				rightTextNodeOffset1 = &nullTextNodeForStep2;
-	TEXT_NODE *				rightTextNodeOffset2 = &nullTextNodeForStep2;
-	TEXT_NODE *				rightTextNodeOffset3 = &nullTextNodeForStep2;
-	TEXT_NODE *				rightTextNodeOffset4 = &nullTextNodeForStep2;
-	TEXT_NODE *				rightTextNodeOffset5 = &nullTextNodeForStep2;
+	TEXT_NODE *				rightTextNodeOffset0 = &nullTextNodeForStep2Normalization;
+	TEXT_NODE *				rightTextNodeOffset1 = &nullTextNodeForStep2Normalization;
+	TEXT_NODE *				rightTextNodeOffset2 = &nullTextNodeForStep2Normalization;
+	TEXT_NODE *				rightTextNodeOffset3 = &nullTextNodeForStep2Normalization;
+	TEXT_NODE *				rightTextNodeOffset4 = &nullTextNodeForStep2Normalization;
+	TEXT_NODE *				rightTextNodeOffset5 = &nullTextNodeForStep2Normalization;
 	if (textNode->next)
 	{
 		rightTextNodeOffset0 = textNode->next;
@@ -853,11 +856,11 @@ void				VietnameseTextNormalizer::UpdateVietnameseTextNodeContext(TEXT_NODE * te
 		{
 			textNode->leftVietnameseAbbreviationSure = vnabbreviations[nextAbbreviationIndentifier].LeftSure(leftTextNodeOffset0->vietnameseSyllableIdentifier, leftTextNodeOffset1->vietnameseSyllableIdentifier, leftTextNodeOffset2->vietnameseSyllableIdentifier, leftTextNodeOffset3->vietnameseSyllableIdentifier, leftTextNodeOffset4->vietnameseSyllableIdentifier);
 
-			TEXT_NODE *				rightTextNodeOffset0 = &nullTextNodeForStep1;
-			TEXT_NODE *				rightTextNodeOffset1 = &nullTextNodeForStep1;
-			TEXT_NODE *				rightTextNodeOffset2 = &nullTextNodeForStep1;
-			TEXT_NODE *				rightTextNodeOffset3 = &nullTextNodeForStep1;
-			TEXT_NODE *				rightTextNodeOffset4 = &nullTextNodeForStep1;
+			TEXT_NODE *				rightTextNodeOffset0 = &nullTextNodeForStep1Input;
+			TEXT_NODE *				rightTextNodeOffset1 = &nullTextNodeForStep1Input;
+			TEXT_NODE *				rightTextNodeOffset2 = &nullTextNodeForStep1Input;
+			TEXT_NODE *				rightTextNodeOffset3 = &nullTextNodeForStep1Input;
+			TEXT_NODE *				rightTextNodeOffset4 = &nullTextNodeForStep1Input;
 			if (textNode->next)
 			{
 				rightTextNodeOffset0 = textNode->next;
@@ -941,12 +944,12 @@ void				VietnameseTextNormalizer::UpdateVietnameseTextNodeContext(TEXT_NODE * te
 			int					countSureWay = 0;
 			for (int iway = 0; iway < vnmissingends[vietnameseMissingIndentifiler].length; iway++)
 			{
-				TEXT_NODE *				leftTextNodeOffset0 = &nullTextNodeForStep2;
-				TEXT_NODE *				leftTextNodeOffset1 = &nullTextNodeForStep2;
-				TEXT_NODE *				leftTextNodeOffset2 = &nullTextNodeForStep2;
-				TEXT_NODE *				leftTextNodeOffset3 = &nullTextNodeForStep2;
-				TEXT_NODE *				leftTextNodeOffset4 = &nullTextNodeForStep2;
-				TEXT_NODE *				leftTextNodeOffset5 = &nullTextNodeForStep2;
+				TEXT_NODE *				leftTextNodeOffset0 = &nullTextNodeForStep2Normalization;
+				TEXT_NODE *				leftTextNodeOffset1 = &nullTextNodeForStep2Normalization;
+				TEXT_NODE *				leftTextNodeOffset2 = &nullTextNodeForStep2Normalization;
+				TEXT_NODE *				leftTextNodeOffset3 = &nullTextNodeForStep2Normalization;
+				TEXT_NODE *				leftTextNodeOffset4 = &nullTextNodeForStep2Normalization;
+				TEXT_NODE *				leftTextNodeOffset5 = &nullTextNodeForStep2Normalization;
 				if (textNode->back)
 				{
 					leftTextNodeOffset0 = textNode->back;
@@ -971,12 +974,12 @@ void				VietnameseTextNormalizer::UpdateVietnameseTextNodeContext(TEXT_NODE * te
 						}
 					}
 				}
-				TEXT_NODE *				rightTextNodeOffset0 = &nullTextNodeForStep2;
-				TEXT_NODE *				rightTextNodeOffset1 = &nullTextNodeForStep2;
-				TEXT_NODE *				rightTextNodeOffset2 = &nullTextNodeForStep2;
-				TEXT_NODE *				rightTextNodeOffset3 = &nullTextNodeForStep2;
-				TEXT_NODE *				rightTextNodeOffset4 = &nullTextNodeForStep2;
-				TEXT_NODE *				rightTextNodeOffset5 = &nullTextNodeForStep2;
+				TEXT_NODE *				rightTextNodeOffset0 = &nullTextNodeForStep2Normalization;
+				TEXT_NODE *				rightTextNodeOffset1 = &nullTextNodeForStep2Normalization;
+				TEXT_NODE *				rightTextNodeOffset2 = &nullTextNodeForStep2Normalization;
+				TEXT_NODE *				rightTextNodeOffset3 = &nullTextNodeForStep2Normalization;
+				TEXT_NODE *				rightTextNodeOffset4 = &nullTextNodeForStep2Normalization;
+				TEXT_NODE *				rightTextNodeOffset5 = &nullTextNodeForStep2Normalization;
 				if (textNode->next)
 				{
 					rightTextNodeOffset0 = textNode->next;
@@ -1265,11 +1268,11 @@ void				VietnameseTextNormalizer::UpdateVietnameseTextNodeContext(TEXT_NODE * te
 {
 	for (int isyllable = 0, maxWordLength = 4/*word max length*/ + 2/*left sure max length*/; isyllable < maxWordLength && textNode; isyllable++, textNode = textNode->next)
 	{
-		TEXT_NODE *				leftTextNodeOffset0 = &nullTextNodeForStep2;
-		TEXT_NODE *				leftTextNodeOffset1 = &nullTextNodeForStep2;
-		TEXT_NODE *				leftTextNodeOffset2 = &nullTextNodeForStep2;
-		TEXT_NODE *				leftTextNodeOffset3 = &nullTextNodeForStep2;
-		TEXT_NODE *				leftTextNodeOffset4 = &nullTextNodeForStep2;
+		TEXT_NODE *				leftTextNodeOffset0 = &nullTextNodeForStep2Normalization;
+		TEXT_NODE *				leftTextNodeOffset1 = &nullTextNodeForStep2Normalization;
+		TEXT_NODE *				leftTextNodeOffset2 = &nullTextNodeForStep2Normalization;
+		TEXT_NODE *				leftTextNodeOffset3 = &nullTextNodeForStep2Normalization;
+		TEXT_NODE *				leftTextNodeOffset4 = &nullTextNodeForStep2Normalization;
 		//TEXT_NODE *				leftTextNodeOffset5 = &nullTextNodeForStep2;
 		if (textNode->back)
 		{
@@ -1380,7 +1383,7 @@ TEXT_NODE *			VietnameseTextNormalizer::InsertVietnameseSyllableToTheTail(qvsyli
 	{
 		printf("\nVietnameseTextNormalizer : Calloc fail!");
 		DungManHinh;
-		return &nullTextNodeForStep1;
+		return &nullTextNodeForStep1Input;
 	}
 	return textNode;
 }
@@ -1442,7 +1445,7 @@ TEXT_NODE *			VietnameseTextNormalizer::InsertEnglishWordToTheTail(qvwrdidentifi
 	{
 		printf("\nVietnameseTextNormalizer : Calloc fail!");
 		DungManHinh;
-		return &nullTextNodeForStep1;
+		return &nullTextNodeForStep1Input;
 	}
 	return textNode;
 }
@@ -1487,7 +1490,7 @@ TEXT_NODE *			VietnameseTextNormalizer::InsertJapaneseWordToTheTail(qjwrdidentif
 	{
 		printf("\nVietnameseTextNormalizer : Calloc fail!");
 		DungManHinh;
-		return &nullTextNodeForStep1;
+		return &nullTextNodeForStep1Input;
 	}
 	return textNode;
 }
@@ -1649,7 +1652,7 @@ TEXT_NODE *			VietnameseTextNormalizer::InsertUnknownNodeToTail(qwchar const * o
 		if (flagValidateToolMode && textNode->textNodeType == TEXT_NODE_TYPE_IGNORE_NODE)
 		{
 			qfree(textNode);
-			return &nullTextNodeForStep1;
+			return &nullTextNodeForStep1Input;
 		}
 		else
 		{
@@ -1683,7 +1686,7 @@ TEXT_NODE *			VietnameseTextNormalizer::InsertUnknownNodeToTail(qwchar const * o
 	{
 		printf("\nVietnameseTextNormalizer : Calloc fail!");
 		DungManHinh;
-		return &nullTextNodeForStep1;
+		return &nullTextNodeForStep1Input;
 	}
 	return textNode;
 }
@@ -3389,12 +3392,12 @@ void				VietnameseTextNormalizer::Normalization(void)
 						int					countSureWay = 0;
 						for (int iway = 0; iway < vnmissingends[vietnameseMissingIndentifiler].length; iway++)
 						{
-							TEXT_NODE *				leftTextNodeOffset0 = &nullTextNodeForStep2;
-							TEXT_NODE *				leftTextNodeOffset1 = &nullTextNodeForStep2;
-							TEXT_NODE *				leftTextNodeOffset2 = &nullTextNodeForStep2;
-							TEXT_NODE *				leftTextNodeOffset3 = &nullTextNodeForStep2;
-							TEXT_NODE *				leftTextNodeOffset4 = &nullTextNodeForStep2;
-							TEXT_NODE *				leftTextNodeOffset5 = &nullTextNodeForStep2;
+							TEXT_NODE *				leftTextNodeOffset0 = &nullTextNodeForStep2Normalization;
+							TEXT_NODE *				leftTextNodeOffset1 = &nullTextNodeForStep2Normalization;
+							TEXT_NODE *				leftTextNodeOffset2 = &nullTextNodeForStep2Normalization;
+							TEXT_NODE *				leftTextNodeOffset3 = &nullTextNodeForStep2Normalization;
+							TEXT_NODE *				leftTextNodeOffset4 = &nullTextNodeForStep2Normalization;
+							TEXT_NODE *				leftTextNodeOffset5 = &nullTextNodeForStep2Normalization;
 							if (textNode->back)
 							{
 								leftTextNodeOffset0 = textNode->back;
@@ -3419,12 +3422,12 @@ void				VietnameseTextNormalizer::Normalization(void)
 									}
 								}
 							}
-							TEXT_NODE *				rightTextNodeOffset0 = &nullTextNodeForStep2;
-							TEXT_NODE *				rightTextNodeOffset1 = &nullTextNodeForStep2;
-							TEXT_NODE *				rightTextNodeOffset2 = &nullTextNodeForStep2;
-							TEXT_NODE *				rightTextNodeOffset3 = &nullTextNodeForStep2;
-							TEXT_NODE *				rightTextNodeOffset4 = &nullTextNodeForStep2;
-							TEXT_NODE *				rightTextNodeOffset5 = &nullTextNodeForStep2;
+							TEXT_NODE *				rightTextNodeOffset0 = &nullTextNodeForStep2Normalization;
+							TEXT_NODE *				rightTextNodeOffset1 = &nullTextNodeForStep2Normalization;
+							TEXT_NODE *				rightTextNodeOffset2 = &nullTextNodeForStep2Normalization;
+							TEXT_NODE *				rightTextNodeOffset3 = &nullTextNodeForStep2Normalization;
+							TEXT_NODE *				rightTextNodeOffset4 = &nullTextNodeForStep2Normalization;
+							TEXT_NODE *				rightTextNodeOffset5 = &nullTextNodeForStep2Normalization;
 							if (textNode->next)
 							{
 								rightTextNodeOffset0 = textNode->next;
@@ -3851,11 +3854,11 @@ void				VietnameseTextNormalizer::Normalization(void)
 	/************************************************************************/
 	for (TEXT_NODE * textNode = head; textNode/*!=NULL*/; textNode = textNode->next)
 	{
-		TEXT_NODE *				leftTextNodeOffset0 = &nullTextNodeForStep2;
-		TEXT_NODE *				leftTextNodeOffset1 = &nullTextNodeForStep2;
-		TEXT_NODE *				leftTextNodeOffset2 = &nullTextNodeForStep2;
-		TEXT_NODE *				leftTextNodeOffset3 = &nullTextNodeForStep2;
-		TEXT_NODE *				leftTextNodeOffset4 = &nullTextNodeForStep2;
+		TEXT_NODE *				leftTextNodeOffset0 = &nullTextNodeForStep2Normalization;
+		TEXT_NODE *				leftTextNodeOffset1 = &nullTextNodeForStep2Normalization;
+		TEXT_NODE *				leftTextNodeOffset2 = &nullTextNodeForStep2Normalization;
+		TEXT_NODE *				leftTextNodeOffset3 = &nullTextNodeForStep2Normalization;
+		TEXT_NODE *				leftTextNodeOffset4 = &nullTextNodeForStep2Normalization;
 		if (textNode->back)
 		{
 			leftTextNodeOffset0 = textNode->back;
@@ -4071,11 +4074,11 @@ void				VietnameseTextNormalizer::Normalization(void)
 	{
 		if (textNode->vietnameseWordIdentifier)
 		{
-			TEXT_NODE *				rightTextNodeOffset0 = &nullTextNodeForStep2;
-			TEXT_NODE *				rightTextNodeOffset1 = &nullTextNodeForStep2;
-			TEXT_NODE *				rightTextNodeOffset2 = &nullTextNodeForStep2;
-			TEXT_NODE *				rightTextNodeOffset3 = &nullTextNodeForStep2;
-			TEXT_NODE *				rightTextNodeOffset4 = &nullTextNodeForStep2;
+			TEXT_NODE *				rightTextNodeOffset0 = &nullTextNodeForStep2Normalization;
+			TEXT_NODE *				rightTextNodeOffset1 = &nullTextNodeForStep2Normalization;
+			TEXT_NODE *				rightTextNodeOffset2 = &nullTextNodeForStep2Normalization;
+			TEXT_NODE *				rightTextNodeOffset3 = &nullTextNodeForStep2Normalization;
+			TEXT_NODE *				rightTextNodeOffset4 = &nullTextNodeForStep2Normalization;
 			if (textNode->next)
 			{
 				rightTextNodeOffset0 = textNode->next;
@@ -4146,9 +4149,9 @@ void				VietnameseTextNormalizer::Normalization(void)
 			if (textNode->vietnameseWordIdentifier)
 			{
 
-				TEXT_NODE *				leftTextNodeOffset0 = &nullTextNodeForStep2;
-				TEXT_NODE *				leftTextNodeOffset1 = &nullTextNodeForStep2;
-				TEXT_NODE *				leftTextNodeOffset2 = &nullTextNodeForStep2;
+				TEXT_NODE *				leftTextNodeOffset0 = &nullTextNodeForStep2Normalization;
+				TEXT_NODE *				leftTextNodeOffset1 = &nullTextNodeForStep2Normalization;
+				TEXT_NODE *				leftTextNodeOffset2 = &nullTextNodeForStep2Normalization;
 				//TEXT_NODE *				leftTextNodeOffset3 = &nullTextNodeForStep2;
 				//TEXT_NODE *				leftTextNodeOffset4 = &nullTextNodeForStep2;
 				if (textNode->back)
