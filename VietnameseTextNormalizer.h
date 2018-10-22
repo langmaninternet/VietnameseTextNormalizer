@@ -178,7 +178,7 @@ private:
 	/* Performance Optimization and Safe Return                             */
 	/************************************************************************/
 	TEXT_NODE				nullTextNodeForStep1Input;
-	TEXT_NODE				nullTextNodeForStep2Normalization;
+	TEXT_NODE				nullTextNodeForStep2Normalize;
 /*protected:*/
 public:
 	/************************************************************************/
