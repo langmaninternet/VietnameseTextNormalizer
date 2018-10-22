@@ -2560,7 +2560,7 @@ void				VietnameseTextNormalizer::Input(const qwchar *text)
 /************************************************************************/
 /* Step 2 : Normalization                                               */
 /************************************************************************/
-void				VietnameseTextNormalizer::Normalization(void)
+void				VietnameseTextNormalizer::Normalize(void)
 {
 	/************************************************************************/
 	/*                                                                      */
@@ -4616,12 +4616,12 @@ void				VietnameseTextNormalizer::Refresh(void)
 #ifdef WIN32_NORMALIZER_TOOL
 #ifndef QBT_VALIDATE_TOOL
 #include <Windows.h>
-void main(void)
+void main2(void)
 {
 	wchar_t testStr[] = L"Tôi làm việ ở ban công ngệ FPT, tôi là người viêt nam. hôm nay tôi ko thích ăn mì tôm. tôi làm đc 2 bài tập.";
 	VietnameseTextNormalizer vntObject;
 	vntObject.Input(testStr);
-	vntObject.Normalization();
+	vntObject.Normalize();
 	vntObject.GenStandardText();
 	::MessageBoxW(0, vntObject.standardText, L"Output", MB_OK);
 }
@@ -4653,7 +4653,7 @@ static PyObject *	VietnameseTextNormalizerStandard(PyObject *self, PyObject *arg
 				}
 				VietnameseTextNormalizer vntObject;
 				vntObject.Input(ucs2buffer);
-				vntObject.Normalization();
+				vntObject.Normalize();
 				vntObject.GenStandardText();
 				if (vntObject.standardText && vntObject.standardTextChange > 0)
 				{
@@ -4684,7 +4684,7 @@ static PyObject *	VietnameseTextNormalizerStandard(PyObject *self, PyObject *arg
 			}
 			VietnameseTextNormalizer vntObject;
 			vntObject.Input(ucs2buffer);
-			vntObject.Normalization();
+			vntObject.Normalize();
 			vntObject.GenStandardText();
 			qfree(ucs2buffer);
 			if (vntObject.standardText && vntObject.standardTextChange > 0)
@@ -4728,7 +4728,7 @@ static PyObject *	VietnameseTextNormalizerForASR(PyObject *self, PyObject *args)
 				vntObject.flagStandardTextForNLP = true;
 				vntObject.flagStandardTextForASR = true;
 				vntObject.Input(ucs2buffer);
-				vntObject.Normalization();
+				vntObject.Normalize();
 				vntObject.GenStandardText();
 				if (vntObject.standardText && vntObject.standardTextChange > 0)
 				{
@@ -4761,7 +4761,7 @@ static PyObject *	VietnameseTextNormalizerForASR(PyObject *self, PyObject *args)
 			vntObject.flagStandardTextForNLP = true;
 			vntObject.flagStandardTextForASR = true;
 			vntObject.Input(ucs2buffer);
-			vntObject.Normalization();
+			vntObject.Normalize();
 			vntObject.GenStandardText();
 			qfree(ucs2buffer);
 			if (vntObject.standardText && vntObject.standardTextChange > 0)
@@ -4806,7 +4806,7 @@ static PyObject *	VietnameseTextNormalizerForIToY(PyObject *self, PyObject *args
 				vntObject.flagStandardTextForASR = true;
 				vntObject.flagConvertYToI = true;
 				vntObject.Input(ucs2buffer);
-				vntObject.Normalization();
+				vntObject.Normalize();
 				vntObject.GenStandardText();
 				if (vntObject.standardText && vntObject.standardTextChange > 0)
 				{
@@ -4840,7 +4840,7 @@ static PyObject *	VietnameseTextNormalizerForIToY(PyObject *self, PyObject *args
 			vntObject.flagStandardTextForASR = true;
 			vntObject.flagConvertYToI = true;
 			vntObject.Input(ucs2buffer);
-			vntObject.Normalization();
+			vntObject.Normalize();
 			vntObject.GenStandardText();
 			qfree(ucs2buffer);
 			if (vntObject.standardText && vntObject.standardTextChange > 0)

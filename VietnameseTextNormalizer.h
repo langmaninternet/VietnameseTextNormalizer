@@ -246,7 +246,7 @@ public:
 public:
 	/*constructor*/			VietnameseTextNormalizer();
 	void					Input(const qwchar *text);
-	void					Normalization(void);
+	void					Normalize(void);
 	void					GenStandardText(void);
 	/*desstructor*/			~VietnameseTextNormalizer();
 };
