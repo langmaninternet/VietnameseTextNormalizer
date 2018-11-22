@@ -4113,8 +4113,8 @@ void				VietnameseTextNormalizer::Normalize(void)
 
 			/* .. vô hình chung .. -> .. vô hình trung .. */
 			if (textNode->vietnameseSyllableIdentifier == VIETNAMESE_SYLLABLE_C_H_U_N_G
-				|| leftTextNodeOffset0->vietnameseSyllableIdentifier == VIETNAMESE_SYLLABLE_H_IF_N_H
-				|| leftTextNodeOffset0->vietnameseSyllableIdentifier == VIETNAMESE_SYLLABLE_V_OO
+				&& leftTextNodeOffset0->vietnameseSyllableIdentifier == VIETNAMESE_SYLLABLE_H_IF_N_H
+				&& leftTextNodeOffset1->vietnameseSyllableIdentifier == VIETNAMESE_SYLLABLE_V_OO
 				)
 			{
 				int otherWayIdentifier = VIETNAMESE_SYLLABLE_T_R_U_N_G;
