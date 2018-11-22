@@ -1860,7 +1860,7 @@ void				VietnameseTextNormalizer::Input(const qwchar *text)
 			}
 			if (englishWordIdentifier && pronoucingIndex && pronoucingIndex <= enwords[englishWordIdentifier].pronoucing) englishWordIdentifier += pronoucingIndex;
 			if (englishWordIdentifier == 0 && leftMatchingEnglishIdentifier && pronoucingIndex && pronoucingIndex <= enwords[leftMatchingEnglishIdentifier].pronoucing) leftMatchingEnglishIdentifier += pronoucingIndex;
-			if (vietnameseSyllableIdentifier != 0 && (preloadTagB || preloadTagL || preloadTagQ)) englishWordIdentifier = 0;
+			if (vietnameseSyllableIdentifier != 0 && (preloadTagB || preloadTagL || preloadTagQ || preloadRetroflex)) englishWordIdentifier = 0;
 			/************************************************************************/
 			/*                                                                      */
 			/************************************************************************/
