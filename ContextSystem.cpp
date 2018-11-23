@@ -30,7 +30,6 @@ int UniformResourceIdentifierScheme(qinput const qwchar * text)
 		|| (text[0] == 0x6D/*m*/ && text[1] == 0x6D/*m*/ && text[2] == 0x73/*s*/ && text[3] == 0x3A/*:*/ && text[4] == 0x2F/*/*/ && text[5] == 0x2F/*/*/)
 		));
 
-return 0;
 }
 
 

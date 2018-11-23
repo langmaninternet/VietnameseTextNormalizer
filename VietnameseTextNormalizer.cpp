@@ -379,6 +379,28 @@ double				VietnameseTextNormalizer::SignificantScore(TEXT_NODE * textNode, qvsyl
 	}
 	return currentSyllableSure;
 }
+
+
+
+
+
+
+#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) 
+#pragma managed(push, off)
+#pragma optimize("", off)
+#pragma warning(push)
+#pragma warning(disable : 4100)
+#else
+#pragma GCC push_options
+#pragma GCC optimize ("O0")
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-variable"
+#endif
+
+/************************************************************************/
+/* On going                                                             */
+/************************************************************************/
+
 double				VietnameseTextNormalizer::PerplexityScore(TEXT_NODE * textNode, qvsylidentifier vietnameseSyllableIdentifier)
 {
 #ifdef FLAG_HAVE_NGRAM_ENGINE
@@ -400,8 +422,26 @@ double				VietnameseTextNormalizer::PerplexityScore(TEXT_NODE * textNode, qvsyli
 #else
 	return 0.0;
 #endif
-
 }
+
+#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) 
+#pragma optimize("", on)
+#pragma warning(pop)
+#pragma managed(pop)
+#else
+#pragma GCC diagnostic pop
+#pragma GCC pop_options
+#endif
+
+
+
+
+
+
+
+
+
+
 /************************************************************************/
 /* Update                                                               */
 /************************************************************************/
@@ -852,7 +892,7 @@ void				VietnameseTextNormalizer::UpdateVietnameseTextNodeContext(TEXT_NODE * te
 	}
 	if (textNode->leftVietnameseAbbreviationSure == 0 && textNode->rightVietnameseAbbreviationSure == 0 && vnabbreviations[textNode->vietnameseAbbreviationIndentifier].pronoucing)
 	{
-		for (int nextAbbreviationIndentifier = vnabbreviations[textNode->vietnameseAbbreviationIndentifier].pronoucing; nextAbbreviationIndentifier != 0 && textNode->leftVietnameseAbbreviationSure == 0 && textNode->rightVietnameseAbbreviationSure == 0; nextAbbreviationIndentifier = vnabbreviations[nextAbbreviationIndentifier].pronoucing)
+		for (qvsylidentifier nextAbbreviationIndentifier = vnabbreviations[textNode->vietnameseAbbreviationIndentifier].pronoucing; nextAbbreviationIndentifier != 0 && textNode->leftVietnameseAbbreviationSure == 0 && textNode->rightVietnameseAbbreviationSure == 0; nextAbbreviationIndentifier = vnabbreviations[nextAbbreviationIndentifier].pronoucing)
 		{
 			textNode->leftVietnameseAbbreviationSure = vnabbreviations[nextAbbreviationIndentifier].LeftSure(leftTextNodeOffset0->vietnameseSyllableIdentifier, leftTextNodeOffset1->vietnameseSyllableIdentifier, leftTextNodeOffset2->vietnameseSyllableIdentifier, leftTextNodeOffset3->vietnameseSyllableIdentifier, leftTextNodeOffset4->vietnameseSyllableIdentifier);
 
@@ -907,7 +947,7 @@ void				VietnameseTextNormalizer::UpdateVietnameseTextNodeContext(TEXT_NODE * te
 	/************************************************************************/
 	if (textNode->vietnameseMissingIndentifiler != 0)
 	{
-		int joinWithNextIndentifiler = ((textNode->next /*!= NULL*/ && textNode->text /*!= NULL*/) ? vnmissingends[textNode->vietnameseMissingIndentifiler].JoinWithToken(textNode->text) : 0);
+		qvsylidentifier joinWithNextIndentifiler = ((textNode->next /*!= NULL*/ && textNode->text /*!= NULL*/) ? vnmissingends[textNode->vietnameseMissingIndentifiler].JoinWithToken(textNode->text) : 0);
 		if (joinWithNextIndentifiler != 0)
 		{
 
@@ -944,36 +984,44 @@ void				VietnameseTextNormalizer::UpdateVietnameseTextNodeContext(TEXT_NODE * te
 			int					countSureWay = 0;
 			for (int iway = 0; iway < vnmissingends[vietnameseMissingIndentifiler].length; iway++)
 			{
-				TEXT_NODE *				leftTextNodeOffset0 = &nullTextNodeForStep2Normalize;
-				TEXT_NODE *				leftTextNodeOffset1 = &nullTextNodeForStep2Normalize;
-				TEXT_NODE *				leftTextNodeOffset2 = &nullTextNodeForStep2Normalize;
-				TEXT_NODE *				leftTextNodeOffset3 = &nullTextNodeForStep2Normalize;
-				TEXT_NODE *				leftTextNodeOffset4 = &nullTextNodeForStep2Normalize;
+				//		TEXT_NODE *				leftTextNodeOffset0 = &nullTextNodeForStep2Normalize;
+				//		TEXT_NODE *				leftTextNodeOffset1 = &nullTextNodeForStep2Normalize;
+				//		TEXT_NODE *				leftTextNodeOffset2 = &nullTextNodeForStep2Normalize;
+				//		TEXT_NODE *				leftTextNodeOffset3 = &nullTextNodeForStep2Normalize;
+				//		TEXT_NODE *				leftTextNodeOffset4 = &nullTextNodeForStep2Normalize;
+				//		TEXT_NODE *				leftTextNodeOffset5 = &nullTextNodeForStep2Normalize;
+				//		if (textNode->back)
+				//		{
+				//			leftTextNodeOffset0 = textNode->back;
+				//			if (leftTextNodeOffset0->back)
+				//			{
+				//				leftTextNodeOffset1 = leftTextNodeOffset0->back;
+				//				if (leftTextNodeOffset1->back)
+				//				{
+				//					leftTextNodeOffset2 = leftTextNodeOffset1->back;
+				//					if (leftTextNodeOffset2->back)
+				//					{
+				//						leftTextNodeOffset3 = leftTextNodeOffset2->back;
+				//						if (leftTextNodeOffset3->back)
+				//						{
+				//							leftTextNodeOffset4 = leftTextNodeOffset3->back;
+				//							if (leftTextNodeOffset4->back)
+				//							{
+				//								leftTextNodeOffset5 = leftTextNodeOffset4->back;
+				//							}
+				//						}
+				//					}
+				//				}
+				//			}
+				//		}
+
 				TEXT_NODE *				leftTextNodeOffset5 = &nullTextNodeForStep2Normalize;
-				if (textNode->back)
+				if (leftTextNodeOffset4->back)
 				{
-					leftTextNodeOffset0 = textNode->back;
-					if (leftTextNodeOffset0->back)
-					{
-						leftTextNodeOffset1 = leftTextNodeOffset0->back;
-						if (leftTextNodeOffset1->back)
-						{
-							leftTextNodeOffset2 = leftTextNodeOffset1->back;
-							if (leftTextNodeOffset2->back)
-							{
-								leftTextNodeOffset3 = leftTextNodeOffset2->back;
-								if (leftTextNodeOffset3->back)
-								{
-									leftTextNodeOffset4 = leftTextNodeOffset3->back;
-									if (leftTextNodeOffset4->back)
-									{
-										leftTextNodeOffset5 = leftTextNodeOffset4->back;
-									}
-								}
-							}
-						}
-					}
+					leftTextNodeOffset5 = leftTextNodeOffset4->back;
 				}
+
+
 				TEXT_NODE *				rightTextNodeOffset0 = &nullTextNodeForStep2Normalize;
 				TEXT_NODE *				rightTextNodeOffset1 = &nullTextNodeForStep2Normalize;
 				TEXT_NODE *				rightTextNodeOffset2 = &nullTextNodeForStep2Normalize;
@@ -1334,7 +1382,7 @@ void				VietnameseTextNormalizer::UpdateVietnameseTextNodeContext(TEXT_NODE * te
 /************************************************************************/
 /* Step 1 : Division                                                    */
 /************************************************************************/
-TEXT_NODE *			VietnameseTextNormalizer::InsertVietnameseSyllableToTheTail(qvsylidentifier vietnameseSyllableIdentifier, qwchar const * originalText, int originalTextLength, TEXT_NODE_CAPITAL capital, TEXT_NODE * leftTextNodeOffset0, TEXT_NODE * leftTextNodeOffset1, TEXT_NODE * leftTextNodeOffset2, TEXT_NODE * leftTextNodeOffset3, TEXT_NODE * leftTextNodeOffset4)
+TEXT_NODE *			VietnameseTextNormalizer::InsertVietnameseSyllableToTheTail(qvsylidentifier vietnameseSyllableIdentifier, qwchar const * nodeOriginalText, int nodeOriginalTextLength, TEXT_NODE_CAPITAL capital, TEXT_NODE * leftTextNodeOffset0, TEXT_NODE * leftTextNodeOffset1, TEXT_NODE * leftTextNodeOffset2, TEXT_NODE * leftTextNodeOffset3, TEXT_NODE * leftTextNodeOffset4)
 {
 #ifdef _DEBUG
 	if (capital == TEXT_NODE_CAPITAL_UNKNOWN)
@@ -1351,14 +1399,14 @@ TEXT_NODE *			VietnameseTextNormalizer::InsertVietnameseSyllableToTheTail(qvsyli
 		VIETNAMESE_SYLLABLE const * vietnameseSyllableNode = vnsyllables + vietnameseSyllableIdentifier;
 		textNode->vietnameseSyllableIdentifier = vietnameseSyllableIdentifier;
 		if (vietnameseSyllableNode->english) textNode->englishWordIdentifier = vietnameseSyllableNode->english;
-		textNode->originalText = originalText;
-		textNode->originalTextLength = originalTextLength;
+		textNode->originalText = nodeOriginalText;
+		textNode->originalTextLength = nodeOriginalTextLength;
 		switch (capital)
 		{
 		case TEXT_NODE_CAPITAL_LOWER:textNode->text = vietnameseSyllableNode->lower; textNode->textLength = vietnameseSyllableNode->length; break;
 		case TEXT_NODE_CAPITAL_UPPER:textNode->text = vietnameseSyllableNode->upper; textNode->textLength = vietnameseSyllableNode->length; break;
 		case TEXT_NODE_CAPITAL_CAPITAL:textNode->text = vietnameseSyllableNode->capital; textNode->textLength = vietnameseSyllableNode->length; break;
-		default:textNode->text = originalText; textNode->textLength = originalTextLength; break;
+		default:textNode->text = nodeOriginalText; textNode->textLength = nodeOriginalTextLength; break;
 		}
 		textNode->capital = capital;
 		UpdateVietnameseTextNodeContext(textNode, leftTextNodeOffset0, leftTextNodeOffset1, leftTextNodeOffset2, leftTextNodeOffset3, leftTextNodeOffset4);
@@ -1387,7 +1435,7 @@ TEXT_NODE *			VietnameseTextNormalizer::InsertVietnameseSyllableToTheTail(qvsyli
 	}
 	return textNode;
 }
-TEXT_NODE *			VietnameseTextNormalizer::InsertEnglishWordToTheTail(qvwrdidentifier englishWordIdentifier, qwchar const * originalText, int originalTextLength, TEXT_NODE_CAPITAL capital, TEXT_NODE * leftTextNodeOffset0, TEXT_NODE * leftTextNodeOffset1, TEXT_NODE * leftTextNodeOffset2, TEXT_NODE * leftTextNodeOffset3, TEXT_NODE * leftTextNodeOffset4)
+TEXT_NODE *			VietnameseTextNormalizer::InsertEnglishWordToTheTail(qvwrdidentifier englishWordIdentifier, qwchar const * nodeOriginalText, int nodeOriginalTextLength, TEXT_NODE_CAPITAL capital, TEXT_NODE * leftTextNodeOffset0, TEXT_NODE * leftTextNodeOffset1, TEXT_NODE * leftTextNodeOffset2, TEXT_NODE * leftTextNodeOffset3, TEXT_NODE * leftTextNodeOffset4)
 {
 #ifdef _DEBUG
 	if (capital == TEXT_NODE_CAPITAL_UNKNOWN)
@@ -1403,10 +1451,10 @@ TEXT_NODE *			VietnameseTextNormalizer::InsertEnglishWordToTheTail(qvwrdidentifi
 	{
 		ENGLISH_WORD const * englishwordNode = enwords + englishWordIdentifier;
 		/* TextNode infomation */
-		textNode->originalText = originalText;
-		textNode->originalTextLength = originalTextLength;
-		textNode->text = originalText;
-		textNode->textLength = originalTextLength;
+		textNode->originalText = nodeOriginalText;
+		textNode->originalTextLength = nodeOriginalTextLength;
+		textNode->text = nodeOriginalText;
+		textNode->textLength = nodeOriginalTextLength;
 		textNode->capital = capital;
 		textNode->englishWordIdentifier = englishWordIdentifier;
 		textNode->vietnameseLoanWordIndentifier = englishwordNode->loan;
@@ -1449,7 +1497,7 @@ TEXT_NODE *			VietnameseTextNormalizer::InsertEnglishWordToTheTail(qvwrdidentifi
 	}
 	return textNode;
 }
-TEXT_NODE *			VietnameseTextNormalizer::InsertJapaneseWordToTheTail(qjwrdidentifier japaneseWordIdentifier, qwchar const * originalText, int originalTextLength, TEXT_NODE_CAPITAL capital, TEXT_NODE * leftTextNodeOffset0, TEXT_NODE * leftTextNodeOffset1, TEXT_NODE * leftTextNodeOffset2, TEXT_NODE * leftTextNodeOffset3, TEXT_NODE * leftTextNodeOffset4)
+TEXT_NODE *			VietnameseTextNormalizer::InsertJapaneseWordToTheTail(qjwrdidentifier japaneseWordIdentifier, qwchar const * nodeOriginalText, int nodeOriginalTextLength, TEXT_NODE_CAPITAL capital, TEXT_NODE * leftTextNodeOffset0, TEXT_NODE * leftTextNodeOffset1, TEXT_NODE * leftTextNodeOffset2, TEXT_NODE * leftTextNodeOffset3, TEXT_NODE * leftTextNodeOffset4)
 {
 #ifdef _DEBUG
 	if (capital == TEXT_NODE_CAPITAL_UNKNOWN)
@@ -1464,10 +1512,10 @@ TEXT_NODE *			VietnameseTextNormalizer::InsertJapaneseWordToTheTail(qjwrdidentif
 	if (textNode/*!=NULL*/)
 	{
 		/* TextNode infomation */
-		textNode->originalText = originalText;
-		textNode->originalTextLength = originalTextLength;
-		textNode->text = originalText;
-		textNode->textLength = originalTextLength;
+		textNode->originalText = nodeOriginalText;
+		textNode->originalTextLength = nodeOriginalTextLength;
+		textNode->text = nodeOriginalText;
+		textNode->textLength = nodeOriginalTextLength;
 		textNode->capital = capital;
 		textNode->japaneseWordIdentifier = japaneseWordIdentifier;
 		UpdateVietnameseTextNodeContext(textNode, leftTextNodeOffset0, leftTextNodeOffset1, leftTextNodeOffset2, leftTextNodeOffset3, leftTextNodeOffset4);
@@ -1494,15 +1542,15 @@ TEXT_NODE *			VietnameseTextNormalizer::InsertJapaneseWordToTheTail(qjwrdidentif
 	}
 	return textNode;
 }
-TEXT_NODE *			VietnameseTextNormalizer::InsertUnknownNodeToTail(qwchar const * originalText, int originalTextLength, TEXT_NODE * leftTextNodeOffset0, TEXT_NODE * leftTextNodeOffset1, TEXT_NODE * leftTextNodeOffset2, TEXT_NODE * leftTextNodeOffset3, TEXT_NODE * leftTextNodeOffset4)
+TEXT_NODE *			VietnameseTextNormalizer::InsertUnknownNodeToTail(qwchar const * nodeOriginalText, int nodeOriginalTextLength, TEXT_NODE * leftTextNodeOffset0, TEXT_NODE * leftTextNodeOffset1, TEXT_NODE * leftTextNodeOffset2, TEXT_NODE * leftTextNodeOffset3, TEXT_NODE * leftTextNodeOffset4)
 {
 	TEXT_NODE * textNode = (TEXT_NODE *)qcalloc(1, sizeof(TEXT_NODE));
 	if (textNode/*!=NULL*/)
 	{
 		/* TextNode infomation */
-		if (originalTextLength == 1)
+		if (nodeOriginalTextLength == 1)
 		{
-			switch (*originalText)
+			switch (*nodeOriginalText)
 			{
 			case 0x2C/*,*/:
 				textNode->textNodeType = TEXT_NODE_TYPE_SILENCE;
@@ -1593,7 +1641,7 @@ TEXT_NODE *			VietnameseTextNormalizer::InsertUnknownNodeToTail(qwchar const * o
 		}
 		if (textNode->textNodeType == TEXT_NODE_TYPE_UNKNOWN)
 		{
-			textNode->vietnameseAbbreviationIndentifier = CapitalAbbreviationDetection(originalText);
+			textNode->vietnameseAbbreviationIndentifier = CapitalAbbreviationDetection(nodeOriginalText);
 			if (textNode->vietnameseAbbreviationIndentifier)
 			{
 				textNode->capital = TEXT_NODE_CAPITAL_CAPITAL;
@@ -1627,7 +1675,7 @@ TEXT_NODE *			VietnameseTextNormalizer::InsertUnknownNodeToTail(qwchar const * o
 		if (textNode->textNodeType == TEXT_NODE_TYPE_UNKNOWN)
 		{
 			TEXT_NODE_CAPITAL			capital = TEXT_NODE_CAPITAL_UNKNOWN;
-			textNode->vietnameseLoanWordIndentifier = LoanWordDetection(originalText, &capital);
+			textNode->vietnameseLoanWordIndentifier = LoanWordDetection(nodeOriginalText, &capital);
 			if (textNode->vietnameseLoanWordIndentifier)
 			{
 				textNode->textNodeType = TEXT_NODE_TYPE_VIETNAMESE_LOAN_WORD;
@@ -1637,12 +1685,12 @@ TEXT_NODE *			VietnameseTextNormalizer::InsertUnknownNodeToTail(qwchar const * o
 		}
 		if (textNode->textNodeType == TEXT_NODE_TYPE_UNKNOWN)
 		{
-			if (UniformResourceIdentifierScheme(originalText)) textNode->textNodeType = TEXT_NODE_TYPE_URL;
+			if (UniformResourceIdentifierScheme(nodeOriginalText)) textNode->textNodeType = TEXT_NODE_TYPE_URL;
 		}
 		if (textNode->textNodeType == TEXT_NODE_TYPE_UNKNOWN)
 		{
 			TEXT_NODE_CAPITAL capital = TEXT_NODE_CAPITAL_UNKNOWN;
-			textNode->japaneseWordIdentifier = JapaneseRomanjiWordDetection(originalText, &capital);
+			textNode->japaneseWordIdentifier = JapaneseRomanjiWordDetection(nodeOriginalText, &capital);
 			if (textNode->japaneseWordIdentifier > 0)
 			{
 				if (capital == TEXT_NODE_CAPITAL_UNKNOWN) textNode->capital = TEXT_NODE_CAPITAL_LOWER;
@@ -1656,10 +1704,10 @@ TEXT_NODE *			VietnameseTextNormalizer::InsertUnknownNodeToTail(qwchar const * o
 		}
 		else
 		{
-			textNode->text = originalText;
-			textNode->textLength = originalTextLength;
-			textNode->originalText = originalText;
-			textNode->originalTextLength = originalTextLength;
+			textNode->text = nodeOriginalText;
+			textNode->textLength = nodeOriginalTextLength;
+			textNode->originalText = nodeOriginalText;
+			textNode->originalTextLength = nodeOriginalTextLength;
 			/* Insert*/
 			if (head/*!=NULL*/)
 			{//nếu danh sách đã có một node nào đó
@@ -1700,7 +1748,7 @@ void				VietnameseTextNormalizer::Input(const qwchar *text)
 	/************************************************************************/
 	if (text/*!=NULL*/)
 	{
-		qtime						step1StartTime;
+		qtime						step1StartTime = { 0 };
 		static TEXT_NODE			nullTextNode/*For Optimization Performance*/;
 		TEXT_NODE *				leftTextNodeOffset0 = &nullTextNode;
 		TEXT_NODE *				leftTextNodeOffset1 = &nullTextNode;
@@ -2495,7 +2543,7 @@ void				VietnameseTextNormalizer::Input(const qwchar *text)
 		}//end of for -- flagNeedMoreLoop
 		if (logFile/*!=NULL*/)
 		{//Log for developer
-			qtime step1EndTime;
+			qtime step1EndTime = { 0 };
 			qGetTime(&step1EndTime);
 			double step1Time = qGetDiffTime(step1StartTime, step1EndTime);
 			logTime += step1Time;
@@ -2601,7 +2649,7 @@ void				VietnameseTextNormalizer::Normalize(void)
 				/************************************************************************/
 				/* Text Properties                                                      */
 				/************************************************************************/
-				const qwchar *					originalText = textNode->originalText;
+				const qwchar *					backupOriginalText = textNode->originalText;
 				int								textLength = 0;
 				int								textErrorCombiningTone = 0;
 				int								textCountTotalChange = 0;
@@ -2639,9 +2687,9 @@ void				VietnameseTextNormalizer::Normalize(void)
 				/************************************************************************/
 				/* Bước 1 : Duyệt sơ bộ từ đầu đến cuối                                 */
 				/************************************************************************/
-				for (int iChar = 0, iCharMaxLength = textNode->originalTextLength; iChar < iCharMaxLength; iChar++, originalText++)
+				for (int iChar = 0, iCharMaxLength = textNode->originalTextLength; iChar < iCharMaxLength; iChar++, backupOriginalText++)
 				{
-					qwchar currentCharacter = *originalText;
+					qwchar currentCharacter = *backupOriginalText;
 					if ((currentCharacter & 0xFF00) == 0xFF00 && (currentCharacter & 0x00FF) <= 0x60)
 					{
 						currentCharacter = (currentCharacter & 0x00FF) + 0x20;
@@ -2652,249 +2700,249 @@ void				VietnameseTextNormalizer::Normalize(void)
 						/************************************************************************/
 						/* Nhóm các chữ cái chỉ có trong tiếng việt, viết thường                */
 						/************************************************************************/
-					case 0xE0/*af*/:text[textLength] = 0xE0/*af*/; textLower[textLength] = 0xE0/*af*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0xE1/*as*/:text[textLength] = 0xE1/*as*/; textLower[textLength] = 0xE1/*as*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EA3/*ar*/:text[textLength] = 0x1EA3/*ar*/; textLower[textLength] = 0x1EA3/*ar*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0xE3/*ax*/:text[textLength] = 0xE3/*ax*/; textLower[textLength] = 0xE3/*ax*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EA1/*aj*/:text[textLength] = 0x1EA1/*aj*/; textLower[textLength] = 0x1EA1/*aj*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x103/*aw*/:text[textLength] = 0x103/*aw*/; textLower[textLength] = 0x103/*aw*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EB1/*awf*/:text[textLength] = 0x1EB1/*awf*/; textLower[textLength] = 0x1EB1/*awf*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EAF/*aws*/:text[textLength] = 0x1EAF/*aws*/; textLower[textLength] = 0x1EAF/*aws*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EB3/*awr*/:text[textLength] = 0x1EB3/*awr*/; textLower[textLength] = 0x1EB3/*awr*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EB5/*awx*/:text[textLength] = 0x1EB5/*awx*/; textLower[textLength] = 0x1EB5/*awx*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EB7/*awj*/:text[textLength] = 0x1EB7/*awj*/; textLower[textLength] = 0x1EB7/*awj*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0xE2/*aa*/:text[textLength] = 0xE2/*aa*/; textLower[textLength] = 0xE2/*aa*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EA7/*aaf*/:text[textLength] = 0x1EA7/*aaf*/; textLower[textLength] = 0x1EA7/*aaf*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EA5/*aas*/:text[textLength] = 0x1EA5/*aas*/; textLower[textLength] = 0x1EA5/*aas*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EA9/*aar*/:text[textLength] = 0x1EA9/*aar*/; textLower[textLength] = 0x1EA9/*aar*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EAB/*aax*/:text[textLength] = 0x1EAB/*aax*/; textLower[textLength] = 0x1EAB/*aax*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EAD/*aaj*/:text[textLength] = 0x1EAD/*aaj*/; textLower[textLength] = 0x1EAD/*aaj*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0xE8/*ef*/:text[textLength] = 0xE8/*ef*/; textLower[textLength] = 0xE8/*ef*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0xE9/*es*/:text[textLength] = 0xE9/*es*/; textLower[textLength] = 0xE9/*es*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EBB/*er*/:text[textLength] = 0x1EBB/*er*/; textLower[textLength] = 0x1EBB/*er*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EBD/*ex*/:text[textLength] = 0x1EBD/*ex*/; textLower[textLength] = 0x1EBD/*ex*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EB9/*ej*/:text[textLength] = 0x1EB9/*ej*/; textLower[textLength] = 0x1EB9/*ej*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0xEA/*ee*/:text[textLength] = 0xEA/*ee*/; textLower[textLength] = 0xEA/*ee*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EC1/*eef*/:text[textLength] = 0x1EC1/*eef*/; textLower[textLength] = 0x1EC1/*eef*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EBF/*ees*/:text[textLength] = 0x1EBF/*ees*/; textLower[textLength] = 0x1EBF/*ees*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EC3/*eer*/:text[textLength] = 0x1EC3/*eer*/; textLower[textLength] = 0x1EC3/*eer*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EC5/*eex*/:text[textLength] = 0x1EC5/*eex*/; textLower[textLength] = 0x1EC5/*eex*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EC7/*eej*/:text[textLength] = 0x1EC7/*eej*/; textLower[textLength] = 0x1EC7/*eej*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0xEC/*if*/:text[textLength] = 0xEC/*if*/; textLower[textLength] = 0xEC/*if*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0xED/*is*/:text[textLength] = 0xED/*is*/; textLower[textLength] = 0xED/*is*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EC9/*ir*/:text[textLength] = 0x1EC9/*ir*/; textLower[textLength] = 0x1EC9/*ir*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x129/*ix*/:text[textLength] = 0x129/*ix*/; textLower[textLength] = 0x129/*ix*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1ECB/*ij*/:text[textLength] = 0x1ECB/*ij*/; textLower[textLength] = 0x1ECB/*ij*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0xF2/*of*/:text[textLength] = 0xF2/*of*/; textLower[textLength] = 0xF2/*of*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0xF3/*os*/:text[textLength] = 0xF3/*os*/; textLower[textLength] = 0xF3/*os*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1ECF/*or*/:text[textLength] = 0x1ECF/*or*/; textLower[textLength] = 0x1ECF/*or*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0xF5/*ox*/:text[textLength] = 0xF5/*ox*/; textLower[textLength] = 0xF5/*ox*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1ECD/*oj*/:text[textLength] = 0x1ECD/*oj*/; textLower[textLength] = 0x1ECD/*oj*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0xF4/*oo*/:text[textLength] = 0xF4/*oo*/; textLower[textLength] = 0xF4/*oo*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1ED3/*oof*/:text[textLength] = 0x1ED3/*oof*/; textLower[textLength] = 0x1ED3/*oof*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1ED1/*oos*/:text[textLength] = 0x1ED1/*oos*/; textLower[textLength] = 0x1ED1/*oos*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1ED5/*oor*/:text[textLength] = 0x1ED5/*oor*/; textLower[textLength] = 0x1ED5/*oor*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1ED7/*oox*/:text[textLength] = 0x1ED7/*oox*/; textLower[textLength] = 0x1ED7/*oox*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1ED9/*ooj*/:text[textLength] = 0x1ED9/*ooj*/; textLower[textLength] = 0x1ED9/*ooj*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1A1/*ow*/:text[textLength] = 0x1A1/*ow*/; textLower[textLength] = 0x1A1/*ow*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EDD/*owf*/:text[textLength] = 0x1EDD/*owf*/; textLower[textLength] = 0x1EDD/*owf*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EDB/*ows*/:text[textLength] = 0x1EDB/*ows*/; textLower[textLength] = 0x1EDB/*ows*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EDF/*owr*/:text[textLength] = 0x1EDF/*owr*/; textLower[textLength] = 0x1EDF/*owr*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EE1/*owx*/:text[textLength] = 0x1EE1/*owx*/; textLower[textLength] = 0x1EE1/*owx*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EE3/*owj*/:text[textLength] = 0x1EE3/*owj*/; textLower[textLength] = 0x1EE3/*owj*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0xF9/*uf*/:text[textLength] = 0xF9/*uf*/; textLower[textLength] = 0xF9/*uf*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0xFA/*us*/:text[textLength] = 0xFA/*us*/; textLower[textLength] = 0xFA/*us*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EE7/*ur*/:text[textLength] = 0x1EE7/*ur*/; textLower[textLength] = 0x1EE7/*ur*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x169/*ux*/:text[textLength] = 0x169/*ux*/; textLower[textLength] = 0x169/*ux*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EE5/*uj*/:text[textLength] = 0x1EE5/*uj*/; textLower[textLength] = 0x1EE5/*uj*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1B0/*uw*/:text[textLength] = 0x1B0/*uw*/; textLower[textLength] = 0x1B0/*uw*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EEB/*uwf*/:text[textLength] = 0x1EEB/*uwf*/; textLower[textLength] = 0x1EEB/*uwf*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EE9/*uws*/:text[textLength] = 0x1EE9/*uws*/; textLower[textLength] = 0x1EE9/*uws*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EED/*uwr*/:text[textLength] = 0x1EED/*uwr*/; textLower[textLength] = 0x1EED/*uwr*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EEF/*uwx*/:text[textLength] = 0x1EEF/*uwx*/; textLower[textLength] = 0x1EEF/*uwx*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EF1/*uwj*/:text[textLength] = 0x1EF1/*uwj*/; textLower[textLength] = 0x1EF1/*uwj*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EF3/*yf*/:text[textLength] = 0x1EF3/*yf*/; textLower[textLength] = 0x1EF3/*yf*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0xFD/*ys*/:text[textLength] = 0xFD/*ys*/; textLower[textLength] = 0xFD/*ys*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EF7/*yr*/:text[textLength] = 0x1EF7/*yr*/; textLower[textLength] = 0x1EF7/*yr*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EF9/*yx*/:text[textLength] = 0x1EF9/*yx*/; textLower[textLength] = 0x1EF9/*yx*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EF5/*yj*/:text[textLength] = 0x1EF5/*yj*/; textLower[textLength] = 0x1EF5/*yj*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0xF0/*ð*/:textCountTotalChange++; case 0x111/*dd*/:text[textLength] = 0x111/*dd*/; textLower[textLength] = 0x111/*dd*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; break;
+					case 0xE0/*af*/:text[textLength] = (qwchar)0xE0/*af*/; textLower[textLength] = (qwchar)0xE0/*af*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0xE1/*as*/:text[textLength] = (qwchar)0xE1/*as*/; textLower[textLength] = (qwchar)0xE1/*as*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EA3/*ar*/:text[textLength] = (qwchar)0x1EA3/*ar*/; textLower[textLength] = (qwchar)0x1EA3/*ar*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0xE3/*ax*/:text[textLength] = (qwchar)0xE3/*ax*/; textLower[textLength] = (qwchar)0xE3/*ax*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EA1/*aj*/:text[textLength] = (qwchar)0x1EA1/*aj*/; textLower[textLength] = (qwchar)0x1EA1/*aj*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x103/*aw*/:text[textLength] = (qwchar)0x103/*aw*/; textLower[textLength] = (qwchar)0x103/*aw*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EB1/*awf*/:text[textLength] = (qwchar)0x1EB1/*awf*/; textLower[textLength] = (qwchar)0x1EB1/*awf*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EAF/*aws*/:text[textLength] = (qwchar)0x1EAF/*aws*/; textLower[textLength] = (qwchar)0x1EAF/*aws*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EB3/*awr*/:text[textLength] = (qwchar)0x1EB3/*awr*/; textLower[textLength] = (qwchar)0x1EB3/*awr*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EB5/*awx*/:text[textLength] = (qwchar)0x1EB5/*awx*/; textLower[textLength] = (qwchar)0x1EB5/*awx*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EB7/*awj*/:text[textLength] = (qwchar)0x1EB7/*awj*/; textLower[textLength] = (qwchar)0x1EB7/*awj*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0xE2/*aa*/:text[textLength] = (qwchar)0xE2/*aa*/; textLower[textLength] = (qwchar)0xE2/*aa*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EA7/*aaf*/:text[textLength] = (qwchar)0x1EA7/*aaf*/; textLower[textLength] = (qwchar)0x1EA7/*aaf*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EA5/*aas*/:text[textLength] = (qwchar)0x1EA5/*aas*/; textLower[textLength] = (qwchar)0x1EA5/*aas*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EA9/*aar*/:text[textLength] = (qwchar)0x1EA9/*aar*/; textLower[textLength] = (qwchar)0x1EA9/*aar*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EAB/*aax*/:text[textLength] = (qwchar)0x1EAB/*aax*/; textLower[textLength] = (qwchar)0x1EAB/*aax*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EAD/*aaj*/:text[textLength] = (qwchar)0x1EAD/*aaj*/; textLower[textLength] = (qwchar)0x1EAD/*aaj*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0xE8/*ef*/:text[textLength] = (qwchar)0xE8/*ef*/; textLower[textLength] = (qwchar)0xE8/*ef*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0xE9/*es*/:text[textLength] = (qwchar)0xE9/*es*/; textLower[textLength] = (qwchar)0xE9/*es*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EBB/*er*/:text[textLength] = (qwchar)0x1EBB/*er*/; textLower[textLength] = (qwchar)0x1EBB/*er*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EBD/*ex*/:text[textLength] = (qwchar)0x1EBD/*ex*/; textLower[textLength] = (qwchar)0x1EBD/*ex*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EB9/*ej*/:text[textLength] = (qwchar)0x1EB9/*ej*/; textLower[textLength] = (qwchar)0x1EB9/*ej*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0xEA/*ee*/:text[textLength] = (qwchar)0xEA/*ee*/; textLower[textLength] = (qwchar)0xEA/*ee*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EC1/*eef*/:text[textLength] = (qwchar)0x1EC1/*eef*/; textLower[textLength] = (qwchar)0x1EC1/*eef*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EBF/*ees*/:text[textLength] = (qwchar)0x1EBF/*ees*/; textLower[textLength] = (qwchar)0x1EBF/*ees*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EC3/*eer*/:text[textLength] = (qwchar)0x1EC3/*eer*/; textLower[textLength] = (qwchar)0x1EC3/*eer*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EC5/*eex*/:text[textLength] = (qwchar)0x1EC5/*eex*/; textLower[textLength] = (qwchar)0x1EC5/*eex*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EC7/*eej*/:text[textLength] = (qwchar)0x1EC7/*eej*/; textLower[textLength] = (qwchar)0x1EC7/*eej*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0xEC/*if*/:text[textLength] = (qwchar)0xEC/*if*/; textLower[textLength] = (qwchar)0xEC/*if*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0xED/*is*/:text[textLength] = (qwchar)0xED/*is*/; textLower[textLength] = (qwchar)0xED/*is*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EC9/*ir*/:text[textLength] = (qwchar)0x1EC9/*ir*/; textLower[textLength] = (qwchar)0x1EC9/*ir*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x129/*ix*/:text[textLength] = (qwchar)0x129/*ix*/; textLower[textLength] = (qwchar)0x129/*ix*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1ECB/*ij*/:text[textLength] = (qwchar)0x1ECB/*ij*/; textLower[textLength] = (qwchar)0x1ECB/*ij*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0xF2/*of*/:text[textLength] = (qwchar)0xF2/*of*/; textLower[textLength] = (qwchar)0xF2/*of*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0xF3/*os*/:text[textLength] = (qwchar)0xF3/*os*/; textLower[textLength] = (qwchar)0xF3/*os*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1ECF/*or*/:text[textLength] = (qwchar)0x1ECF/*or*/; textLower[textLength] = (qwchar)0x1ECF/*or*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0xF5/*ox*/:text[textLength] = (qwchar)0xF5/*ox*/; textLower[textLength] = (qwchar)0xF5/*ox*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1ECD/*oj*/:text[textLength] = (qwchar)0x1ECD/*oj*/; textLower[textLength] = (qwchar)0x1ECD/*oj*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0xF4/*oo*/:text[textLength] = (qwchar)0xF4/*oo*/; textLower[textLength] = (qwchar)0xF4/*oo*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1ED3/*oof*/:text[textLength] = (qwchar)0x1ED3/*oof*/; textLower[textLength] = (qwchar)0x1ED3/*oof*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1ED1/*oos*/:text[textLength] = (qwchar)0x1ED1/*oos*/; textLower[textLength] = (qwchar)0x1ED1/*oos*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1ED5/*oor*/:text[textLength] = (qwchar)0x1ED5/*oor*/; textLower[textLength] = (qwchar)0x1ED5/*oor*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1ED7/*oox*/:text[textLength] = (qwchar)0x1ED7/*oox*/; textLower[textLength] = (qwchar)0x1ED7/*oox*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1ED9/*ooj*/:text[textLength] = (qwchar)0x1ED9/*ooj*/; textLower[textLength] = (qwchar)0x1ED9/*ooj*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1A1/*ow*/:text[textLength] = (qwchar)0x1A1/*ow*/; textLower[textLength] = (qwchar)0x1A1/*ow*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EDD/*owf*/:text[textLength] = (qwchar)0x1EDD/*owf*/; textLower[textLength] = (qwchar)0x1EDD/*owf*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EDB/*ows*/:text[textLength] = (qwchar)0x1EDB/*ows*/; textLower[textLength] = (qwchar)0x1EDB/*ows*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EDF/*owr*/:text[textLength] = (qwchar)0x1EDF/*owr*/; textLower[textLength] = (qwchar)0x1EDF/*owr*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EE1/*owx*/:text[textLength] = (qwchar)0x1EE1/*owx*/; textLower[textLength] = (qwchar)0x1EE1/*owx*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EE3/*owj*/:text[textLength] = (qwchar)0x1EE3/*owj*/; textLower[textLength] = (qwchar)0x1EE3/*owj*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0xF9/*uf*/:text[textLength] = (qwchar)0xF9/*uf*/; textLower[textLength] = (qwchar)0xF9/*uf*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0xFA/*us*/:text[textLength] = (qwchar)0xFA/*us*/; textLower[textLength] = (qwchar)0xFA/*us*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EE7/*ur*/:text[textLength] = (qwchar)0x1EE7/*ur*/; textLower[textLength] = (qwchar)0x1EE7/*ur*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x169/*ux*/:text[textLength] = (qwchar)0x169/*ux*/; textLower[textLength] = (qwchar)0x169/*ux*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EE5/*uj*/:text[textLength] = (qwchar)0x1EE5/*uj*/; textLower[textLength] = (qwchar)0x1EE5/*uj*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1B0/*uw*/:text[textLength] = (qwchar)0x1B0/*uw*/; textLower[textLength] = (qwchar)0x1B0/*uw*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EEB/*uwf*/:text[textLength] = (qwchar)0x1EEB/*uwf*/; textLower[textLength] = (qwchar)0x1EEB/*uwf*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EE9/*uws*/:text[textLength] = (qwchar)0x1EE9/*uws*/; textLower[textLength] = (qwchar)0x1EE9/*uws*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EED/*uwr*/:text[textLength] = (qwchar)0x1EED/*uwr*/; textLower[textLength] = (qwchar)0x1EED/*uwr*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EEF/*uwx*/:text[textLength] = (qwchar)0x1EEF/*uwx*/; textLower[textLength] = (qwchar)0x1EEF/*uwx*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EF1/*uwj*/:text[textLength] = (qwchar)0x1EF1/*uwj*/; textLower[textLength] = (qwchar)0x1EF1/*uwj*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EF3/*yf*/:text[textLength] = (qwchar)0x1EF3/*yf*/; textLower[textLength] = (qwchar)0x1EF3/*yf*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0xFD/*ys*/:text[textLength] = (qwchar)0xFD/*ys*/; textLower[textLength] = (qwchar)0xFD/*ys*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EF7/*yr*/:text[textLength] = (qwchar)0x1EF7/*yr*/; textLower[textLength] = (qwchar)0x1EF7/*yr*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EF9/*yx*/:text[textLength] = (qwchar)0x1EF9/*yx*/; textLower[textLength] = (qwchar)0x1EF9/*yx*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EF5/*yj*/:text[textLength] = (qwchar)0x1EF5/*yj*/; textLower[textLength] = (qwchar)0x1EF5/*yj*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0xF0/*ð*/:textCountTotalChange++; case 0x111/*dd*/:text[textLength] = (qwchar)0x111/*dd*/; textLower[textLength] = (qwchar)0x111/*dd*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; break;
 						/************************************************************************/
 						/* Nhóm các chữ cái có cả trong tiếng việt lẫn tiếng anh viết thường    */
 						/************************************************************************/
-					case 0x61/*a*/:text[textLength] = 0x61/*a*/; textLower[textLength] = 0x61/*a*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; textCountEnglishVowelCharacter++; break;
-					case 0x62/*b*/:text[textLength] = 0x62/*b*/; textLower[textLength] = 0x62/*b*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; textCountEnglishConsonantCharacter++; break;
-					case 0x63/*c*/:text[textLength] = 0x63/*c*/; textLower[textLength] = 0x63/*c*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; textCountEnglishConsonantCharacter++; break;
-					case 0x64/*d*/:text[textLength] = 0x64/*d*/; textLower[textLength] = 0x64/*d*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; textCountEnglishConsonantCharacter++; break;
-					case 0x65/*e*/:text[textLength] = 0x65/*e*/; textLower[textLength] = 0x65/*e*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; textCountEnglishVowelCharacter++; break;
-					case 0x66/*f*/:text[textLength] = 0x66/*f*/; textLower[textLength] = 0x66/*f*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; textCountEnglishConsonantCharacter++; break;
-					case 0x67/*g*/:text[textLength] = 0x67/*g*/; textLower[textLength] = 0x67/*g*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; textCountEnglishConsonantCharacter++; break;
-					case 0x68/*h*/:text[textLength] = 0x68/*h*/; textLower[textLength] = 0x68/*h*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; textCountEnglishConsonantCharacter++; break;
-					case 0x69/*i*/:text[textLength] = 0x69/*i*/; textLower[textLength] = 0x69/*i*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; textCountEnglishVowelCharacter++; break;
-					case 0x6A/*j*/:text[textLength] = 0x6A/*j*/; textLower[textLength] = 0x6A/*j*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; textCountEnglishConsonantCharacter++; break;
-					case 0x6B/*k*/:text[textLength] = 0x6B/*k*/; textLower[textLength] = 0x6B/*k*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; textCountEnglishConsonantCharacter++; break;
-					case 0x6C/*l*/:text[textLength] = 0x6C/*l*/; textLower[textLength] = 0x6C/*l*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; textCountEnglishConsonantCharacter++; break;
-					case 0x6D/*m*/:text[textLength] = 0x6D/*m*/; textLower[textLength] = 0x6D/*m*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; textCountEnglishConsonantCharacter++; break;
-					case 0x6E/*n*/:text[textLength] = 0x6E/*n*/; textLower[textLength] = 0x6E/*n*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; textCountEnglishConsonantCharacter++; break;
-					case 0x6F/*o*/:text[textLength] = 0x6F/*o*/; textLower[textLength] = 0x6F/*o*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; textCountEnglishVowelCharacter++; break;
-					case 0x3C1/*ρ*/:textCountTotalChange++; case 0x70/*p*/:text[textLength] = 0x70/*p*/; textLower[textLength] = 0x70/*p*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; textCountEnglishConsonantCharacter++; break;
-					case 0x71/*q*/:text[textLength] = 0x71/*q*/; textLower[textLength] = 0x71/*q*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; textCountEnglishConsonantCharacter++; break;
-					case 0x72/*r*/:text[textLength] = 0x72/*r*/; textLower[textLength] = 0x72/*r*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; textCountEnglishConsonantCharacter++; break;
-					case 0x73/*s*/:text[textLength] = 0x73/*s*/; textLower[textLength] = 0x73/*s*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; textCountEnglishConsonantCharacter++; break;
-					case 0x74/*t*/:text[textLength] = 0x74/*t*/; textLower[textLength] = 0x74/*t*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; textCountEnglishConsonantCharacter++; break;
-					case 0x75/*u*/:text[textLength] = 0x75/*u*/; textLower[textLength] = 0x75/*u*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; textCountEnglishVowelCharacter++; break;
-					case 0x76/*v*/:text[textLength] = 0x76/*v*/; textLower[textLength] = 0x76/*v*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; textCountEnglishConsonantCharacter++; break;
-					case 0x77/*w*/:text[textLength] = 0x77/*w*/; textLower[textLength] = 0x77/*w*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; textCountEnglishConsonantCharacter++; break;
-					case 0x78/*x*/:text[textLength] = 0x78/*x*/; textLower[textLength] = 0x78/*x*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; textCountEnglishConsonantCharacter++; break;
-					case 0x79/*y*/:text[textLength] = 0x79/*y*/; textLower[textLength] = 0x79/*y*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; textCountEnglishVowelCharacter++; break;
-					case 0x7A/*z*/:text[textLength] = 0x7A/*z*/; textLower[textLength] = 0x7A/*z*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; textCountEnglishConsonantCharacter++; break;
+					case 0x61/*a*/:text[textLength] = (qwchar)0x61/*a*/; textLower[textLength] = (qwchar)0x61/*a*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; textCountEnglishVowelCharacter++; break;
+					case 0x62/*b*/:text[textLength] = (qwchar)0x62/*b*/; textLower[textLength] = (qwchar)0x62/*b*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; textCountEnglishConsonantCharacter++; break;
+					case 0x63/*c*/:text[textLength] = (qwchar)0x63/*c*/; textLower[textLength] = (qwchar)0x63/*c*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; textCountEnglishConsonantCharacter++; break;
+					case 0x64/*d*/:text[textLength] = (qwchar)0x64/*d*/; textLower[textLength] = (qwchar)0x64/*d*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; textCountEnglishConsonantCharacter++; break;
+					case 0x65/*e*/:text[textLength] = (qwchar)0x65/*e*/; textLower[textLength] = (qwchar)0x65/*e*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; textCountEnglishVowelCharacter++; break;
+					case 0x66/*f*/:text[textLength] = (qwchar)0x66/*f*/; textLower[textLength] = (qwchar)0x66/*f*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; textCountEnglishConsonantCharacter++; break;
+					case 0x67/*g*/:text[textLength] = (qwchar)0x67/*g*/; textLower[textLength] = (qwchar)0x67/*g*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; textCountEnglishConsonantCharacter++; break;
+					case 0x68/*h*/:text[textLength] = (qwchar)0x68/*h*/; textLower[textLength] = (qwchar)0x68/*h*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; textCountEnglishConsonantCharacter++; break;
+					case 0x69/*i*/:text[textLength] = (qwchar)0x69/*i*/; textLower[textLength] = (qwchar)0x69/*i*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; textCountEnglishVowelCharacter++; break;
+					case 0x6A/*j*/:text[textLength] = (qwchar)0x6A/*j*/; textLower[textLength] = (qwchar)0x6A/*j*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; textCountEnglishConsonantCharacter++; break;
+					case 0x6B/*k*/:text[textLength] = (qwchar)0x6B/*k*/; textLower[textLength] = (qwchar)0x6B/*k*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; textCountEnglishConsonantCharacter++; break;
+					case 0x6C/*l*/:text[textLength] = (qwchar)0x6C/*l*/; textLower[textLength] = (qwchar)0x6C/*l*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; textCountEnglishConsonantCharacter++; break;
+					case 0x6D/*m*/:text[textLength] = (qwchar)0x6D/*m*/; textLower[textLength] = (qwchar)0x6D/*m*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; textCountEnglishConsonantCharacter++; break;
+					case 0x6E/*n*/:text[textLength] = (qwchar)0x6E/*n*/; textLower[textLength] = (qwchar)0x6E/*n*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; textCountEnglishConsonantCharacter++; break;
+					case 0x6F/*o*/:text[textLength] = (qwchar)0x6F/*o*/; textLower[textLength] = (qwchar)0x6F/*o*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; textCountEnglishVowelCharacter++; break;
+					case 0x3C1/*ρ*/:textCountTotalChange++; case 0x70/*p*/:text[textLength] = (qwchar)0x70/*p*/; textLower[textLength] = (qwchar)0x70/*p*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; textCountEnglishConsonantCharacter++; break;
+					case 0x71/*q*/:text[textLength] = (qwchar)0x71/*q*/; textLower[textLength] = (qwchar)0x71/*q*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; textCountEnglishConsonantCharacter++; break;
+					case 0x72/*r*/:text[textLength] = (qwchar)0x72/*r*/; textLower[textLength] = (qwchar)0x72/*r*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; textCountEnglishConsonantCharacter++; break;
+					case 0x73/*s*/:text[textLength] = (qwchar)0x73/*s*/; textLower[textLength] = (qwchar)0x73/*s*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; textCountEnglishConsonantCharacter++; break;
+					case 0x74/*t*/:text[textLength] = (qwchar)0x74/*t*/; textLower[textLength] = (qwchar)0x74/*t*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; textCountEnglishConsonantCharacter++; break;
+					case 0x75/*u*/:text[textLength] = (qwchar)0x75/*u*/; textLower[textLength] = (qwchar)0x75/*u*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; textCountEnglishVowelCharacter++; break;
+					case 0x76/*v*/:text[textLength] = (qwchar)0x76/*v*/; textLower[textLength] = (qwchar)0x76/*v*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; textCountEnglishConsonantCharacter++; break;
+					case 0x77/*w*/:text[textLength] = (qwchar)0x77/*w*/; textLower[textLength] = (qwchar)0x77/*w*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; textCountEnglishConsonantCharacter++; break;
+					case 0x78/*x*/:text[textLength] = (qwchar)0x78/*x*/; textLower[textLength] = (qwchar)0x78/*x*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; textCountEnglishConsonantCharacter++; break;
+					case 0x79/*y*/:text[textLength] = (qwchar)0x79/*y*/; textLower[textLength] = (qwchar)0x79/*y*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; textCountEnglishVowelCharacter++; break;
+					case 0x7A/*z*/:text[textLength] = (qwchar)0x7A/*z*/; textLower[textLength] = (qwchar)0x7A/*z*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_LOWER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountLowerCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; textCountEnglishConsonantCharacter++; break;
 						/************************************************************************/
 						/* Nhóm các chữ cái chỉ có trong tiếng việt, viết hoa                   */
 						/************************************************************************/
-					case 0xC0/*AF*/:text[textLength] = 0xC0/*AF*/; textLower[textLength] = 0xE0/*af*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0xC1/*AS*/:text[textLength] = 0xC1/*AS*/; textLower[textLength] = 0xE1/*as*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EA2/*AR*/:text[textLength] = 0x1EA2/*AR*/; textLower[textLength] = 0x1EA3/*ar*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0xC3/*AX*/:text[textLength] = 0xC3/*AX*/; textLower[textLength] = 0xE3/*ax*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EA0/*AJ*/:text[textLength] = 0x1EA0/*AJ*/; textLower[textLength] = 0x1EA1/*aj*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x102/*AW*/:text[textLength] = 0x102/*AW*/; textLower[textLength] = 0x103/*aw*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EB0/*AWF*/:text[textLength] = 0x1EB0/*AWF*/; textLower[textLength] = 0x1EB1/*awf*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EAE/*AWS*/:text[textLength] = 0x1EAE/*AWS*/; textLower[textLength] = 0x1EAF/*aws*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EB2/*AWR*/:text[textLength] = 0x1EB2/*AWR*/; textLower[textLength] = 0x1EB3/*awr*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EB4/*AWX*/:text[textLength] = 0x1EB4/*AWX*/; textLower[textLength] = 0x1EB5/*awx*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EB6/*AWJ*/:text[textLength] = 0x1EB6/*AWJ*/; textLower[textLength] = 0x1EB7/*awj*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0xC2/*AA*/:text[textLength] = 0xC2/*AA*/; textLower[textLength] = 0xE2/*aa*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EA6/*AAF*/:text[textLength] = 0x1EA6/*AAF*/; textLower[textLength] = 0x1EA7/*aaf*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EA4/*AAS*/:text[textLength] = 0x1EA4/*AAS*/; textLower[textLength] = 0x1EA5/*aas*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EA8/*AAR*/:text[textLength] = 0x1EA8/*AAR*/; textLower[textLength] = 0x1EA9/*aar*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EAA/*AAX*/:text[textLength] = 0x1EAA/*AAX*/; textLower[textLength] = 0x1EAB/*aax*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EAC/*AAJ*/:text[textLength] = 0x1EAC/*AAJ*/; textLower[textLength] = 0x1EAD/*aaj*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0xC8/*EF*/:text[textLength] = 0xC8/*EF*/; textLower[textLength] = 0xE8/*ef*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0xC9/*ES*/:text[textLength] = 0xC9/*ES*/; textLower[textLength] = 0xE9/*es*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EBA/*ER*/:text[textLength] = 0x1EBA/*ER*/; textLower[textLength] = 0x1EBB/*er*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EBC/*EX*/:text[textLength] = 0x1EBC/*EX*/; textLower[textLength] = 0x1EBD/*ex*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EB8/*EJ*/:text[textLength] = 0x1EB8/*EJ*/; textLower[textLength] = 0x1EB9/*ej*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0xCA/*EE*/:text[textLength] = 0xCA/*EE*/; textLower[textLength] = 0xEA/*ee*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EC0/*EEF*/:text[textLength] = 0x1EC0/*EEF*/; textLower[textLength] = 0x1EC1/*eef*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EBE/*EES*/:text[textLength] = 0x1EBE/*EES*/; textLower[textLength] = 0x1EBF/*ees*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EC2/*EER*/:text[textLength] = 0x1EC2/*EER*/; textLower[textLength] = 0x1EC3/*eer*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EC4/*EEX*/:text[textLength] = 0x1EC4/*EEX*/; textLower[textLength] = 0x1EC5/*eex*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EC6/*EEJ*/:text[textLength] = 0x1EC6/*EEJ*/; textLower[textLength] = 0x1EC7/*eej*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0xCC/*IF*/:text[textLength] = 0xCC/*IF*/; textLower[textLength] = 0xEC/*if*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0xCD/*IS*/:text[textLength] = 0xCD/*IS*/; textLower[textLength] = 0xED/*is*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EC8/*IR*/:text[textLength] = 0x1EC8/*IR*/; textLower[textLength] = 0x1EC9/*ir*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x128/*IX*/:text[textLength] = 0x128/*IX*/; textLower[textLength] = 0x129/*ix*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1ECA/*IJ*/:text[textLength] = 0x1ECA/*IJ*/; textLower[textLength] = 0x1ECB/*ij*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0xD2/*OF*/:text[textLength] = 0xD2/*OF*/; textLower[textLength] = 0xF2/*of*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0xD3/*OS*/:text[textLength] = 0xD3/*OS*/; textLower[textLength] = 0xF3/*os*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1ECE/*OR*/:text[textLength] = 0x1ECE/*OR*/; textLower[textLength] = 0x1ECF/*or*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0xD5/*OX*/:text[textLength] = 0xD5/*OX*/; textLower[textLength] = 0xF5/*ox*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1ECC/*OJ*/:text[textLength] = 0x1ECC/*OJ*/; textLower[textLength] = 0x1ECD/*oj*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0xD4/*OO*/:text[textLength] = 0xD4/*OO*/; textLower[textLength] = 0xF4/*oo*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1ED2/*OOF*/:text[textLength] = 0x1ED2/*OOF*/; textLower[textLength] = 0x1ED3/*oof*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1ED0/*OOS*/:text[textLength] = 0x1ED0/*OOS*/; textLower[textLength] = 0x1ED1/*oos*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1ED4/*OOR*/:text[textLength] = 0x1ED4/*OOR*/; textLower[textLength] = 0x1ED5/*oor*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1ED6/*OOX*/:text[textLength] = 0x1ED6/*OOX*/; textLower[textLength] = 0x1ED7/*oox*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1ED8/*OOJ*/:text[textLength] = 0x1ED8/*OOJ*/; textLower[textLength] = 0x1ED9/*ooj*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1A0/*OW*/:text[textLength] = 0x1A0/*OW*/; textLower[textLength] = 0x1A1/*ow*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EDC/*OWF*/:text[textLength] = 0x1EDC/*OWF*/; textLower[textLength] = 0x1EDD/*owf*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EDA/*OWS*/:text[textLength] = 0x1EDA/*OWS*/; textLower[textLength] = 0x1EDB/*ows*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EDE/*OWR*/:text[textLength] = 0x1EDE/*OWR*/; textLower[textLength] = 0x1EDF/*owr*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EE0/*OWX*/:text[textLength] = 0x1EE0/*OWX*/; textLower[textLength] = 0x1EE1/*owx*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EE2/*OWJ*/:text[textLength] = 0x1EE2/*OWJ*/; textLower[textLength] = 0x1EE3/*owj*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0xD9/*UF*/:text[textLength] = 0xD9/*UF*/; textLower[textLength] = 0xF9/*uf*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0xDA/*US*/:text[textLength] = 0xDA/*US*/; textLower[textLength] = 0xFA/*us*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EE6/*UR*/:text[textLength] = 0x1EE6/*UR*/; textLower[textLength] = 0x1EE7/*ur*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x168/*UX*/:text[textLength] = 0x168/*UX*/; textLower[textLength] = 0x169/*ux*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EE4/*UJ*/:text[textLength] = 0x1EE4/*UJ*/; textLower[textLength] = 0x1EE5/*uj*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1AF/*UW*/:text[textLength] = 0x1AF/*UW*/; textLower[textLength] = 0x1B0/*uw*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EEA/*UWF*/:text[textLength] = 0x1EEA/*UWF*/; textLower[textLength] = 0x1EEB/*uwf*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EE8/*UWS*/:text[textLength] = 0x1EE8/*UWS*/; textLower[textLength] = 0x1EE9/*uws*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EEC/*UWR*/:text[textLength] = 0x1EEC/*UWR*/; textLower[textLength] = 0x1EED/*uwr*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EEE/*UWX*/:text[textLength] = 0x1EEE/*UWX*/; textLower[textLength] = 0x1EEF/*uwx*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EF0/*UWJ*/:text[textLength] = 0x1EF0/*UWJ*/; textLower[textLength] = 0x1EF1/*uwj*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EF2/*YF*/:text[textLength] = 0x1EF2/*YF*/; textLower[textLength] = 0x1EF3/*yf*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0xDD/*YS*/:text[textLength] = 0xDD/*YS*/; textLower[textLength] = 0xFD/*ys*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EF6/*YR*/:text[textLength] = 0x1EF6/*YR*/; textLower[textLength] = 0x1EF7/*yr*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EF8/*YX*/:text[textLength] = 0x1EF8/*YX*/; textLower[textLength] = 0x1EF9/*yx*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x1EF4/*YJ*/:text[textLength] = 0x1EF4/*YJ*/; textLower[textLength] = 0x1EF5/*yj*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0xD0/*Ð*/:textCountTotalChange++; case 0x110/*DD*/:text[textLength] = 0x110/*DD*/; textLower[textLength] = 0x111/*dd*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; break;
+					case 0xC0/*AF*/:text[textLength] = (qwchar)0xC0/*AF*/; textLower[textLength] = (qwchar)0xE0/*af*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0xC1/*AS*/:text[textLength] = (qwchar)0xC1/*AS*/; textLower[textLength] = (qwchar)0xE1/*as*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EA2/*AR*/:text[textLength] = (qwchar)0x1EA2/*AR*/; textLower[textLength] = (qwchar)0x1EA3/*ar*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0xC3/*AX*/:text[textLength] = (qwchar)0xC3/*AX*/; textLower[textLength] = (qwchar)0xE3/*ax*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EA0/*AJ*/:text[textLength] = (qwchar)0x1EA0/*AJ*/; textLower[textLength] = (qwchar)0x1EA1/*aj*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x102/*AW*/:text[textLength] = (qwchar)0x102/*AW*/; textLower[textLength] = (qwchar)0x103/*aw*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EB0/*AWF*/:text[textLength] = (qwchar)0x1EB0/*AWF*/; textLower[textLength] = (qwchar)0x1EB1/*awf*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EAE/*AWS*/:text[textLength] = (qwchar)0x1EAE/*AWS*/; textLower[textLength] = (qwchar)0x1EAF/*aws*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EB2/*AWR*/:text[textLength] = (qwchar)0x1EB2/*AWR*/; textLower[textLength] = (qwchar)0x1EB3/*awr*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EB4/*AWX*/:text[textLength] = (qwchar)0x1EB4/*AWX*/; textLower[textLength] = (qwchar)0x1EB5/*awx*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EB6/*AWJ*/:text[textLength] = (qwchar)0x1EB6/*AWJ*/; textLower[textLength] = (qwchar)0x1EB7/*awj*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0xC2/*AA*/:text[textLength] = (qwchar)0xC2/*AA*/; textLower[textLength] = (qwchar)0xE2/*aa*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EA6/*AAF*/:text[textLength] = (qwchar)0x1EA6/*AAF*/; textLower[textLength] = (qwchar)0x1EA7/*aaf*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EA4/*AAS*/:text[textLength] = (qwchar)0x1EA4/*AAS*/; textLower[textLength] = (qwchar)0x1EA5/*aas*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EA8/*AAR*/:text[textLength] = (qwchar)0x1EA8/*AAR*/; textLower[textLength] = (qwchar)0x1EA9/*aar*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EAA/*AAX*/:text[textLength] = (qwchar)0x1EAA/*AAX*/; textLower[textLength] = (qwchar)0x1EAB/*aax*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EAC/*AAJ*/:text[textLength] = (qwchar)0x1EAC/*AAJ*/; textLower[textLength] = (qwchar)0x1EAD/*aaj*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0xC8/*EF*/:text[textLength] = (qwchar)0xC8/*EF*/; textLower[textLength] = (qwchar)0xE8/*ef*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0xC9/*ES*/:text[textLength] = (qwchar)0xC9/*ES*/; textLower[textLength] = (qwchar)0xE9/*es*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EBA/*ER*/:text[textLength] = (qwchar)0x1EBA/*ER*/; textLower[textLength] = (qwchar)0x1EBB/*er*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EBC/*EX*/:text[textLength] = (qwchar)0x1EBC/*EX*/; textLower[textLength] = (qwchar)0x1EBD/*ex*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EB8/*EJ*/:text[textLength] = (qwchar)0x1EB8/*EJ*/; textLower[textLength] = (qwchar)0x1EB9/*ej*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0xCA/*EE*/:text[textLength] = (qwchar)0xCA/*EE*/; textLower[textLength] = (qwchar)0xEA/*ee*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EC0/*EEF*/:text[textLength] = (qwchar)0x1EC0/*EEF*/; textLower[textLength] = (qwchar)0x1EC1/*eef*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EBE/*EES*/:text[textLength] = (qwchar)0x1EBE/*EES*/; textLower[textLength] = (qwchar)0x1EBF/*ees*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EC2/*EER*/:text[textLength] = (qwchar)0x1EC2/*EER*/; textLower[textLength] = (qwchar)0x1EC3/*eer*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EC4/*EEX*/:text[textLength] = (qwchar)0x1EC4/*EEX*/; textLower[textLength] = (qwchar)0x1EC5/*eex*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EC6/*EEJ*/:text[textLength] = (qwchar)0x1EC6/*EEJ*/; textLower[textLength] = (qwchar)0x1EC7/*eej*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0xCC/*IF*/:text[textLength] = (qwchar)0xCC/*IF*/; textLower[textLength] = (qwchar)0xEC/*if*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0xCD/*IS*/:text[textLength] = (qwchar)0xCD/*IS*/; textLower[textLength] = (qwchar)0xED/*is*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EC8/*IR*/:text[textLength] = (qwchar)0x1EC8/*IR*/; textLower[textLength] = (qwchar)0x1EC9/*ir*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x128/*IX*/:text[textLength] = (qwchar)0x128/*IX*/; textLower[textLength] = (qwchar)0x129/*ix*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1ECA/*IJ*/:text[textLength] = (qwchar)0x1ECA/*IJ*/; textLower[textLength] = (qwchar)0x1ECB/*ij*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0xD2/*OF*/:text[textLength] = (qwchar)0xD2/*OF*/; textLower[textLength] = (qwchar)0xF2/*of*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0xD3/*OS*/:text[textLength] = (qwchar)0xD3/*OS*/; textLower[textLength] = (qwchar)0xF3/*os*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1ECE/*OR*/:text[textLength] = (qwchar)0x1ECE/*OR*/; textLower[textLength] = (qwchar)0x1ECF/*or*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0xD5/*OX*/:text[textLength] = (qwchar)0xD5/*OX*/; textLower[textLength] = (qwchar)0xF5/*ox*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1ECC/*OJ*/:text[textLength] = (qwchar)0x1ECC/*OJ*/; textLower[textLength] = (qwchar)0x1ECD/*oj*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0xD4/*OO*/:text[textLength] = (qwchar)0xD4/*OO*/; textLower[textLength] = (qwchar)0xF4/*oo*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1ED2/*OOF*/:text[textLength] = (qwchar)0x1ED2/*OOF*/; textLower[textLength] = (qwchar)0x1ED3/*oof*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1ED0/*OOS*/:text[textLength] = (qwchar)0x1ED0/*OOS*/; textLower[textLength] = (qwchar)0x1ED1/*oos*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1ED4/*OOR*/:text[textLength] = (qwchar)0x1ED4/*OOR*/; textLower[textLength] = (qwchar)0x1ED5/*oor*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1ED6/*OOX*/:text[textLength] = (qwchar)0x1ED6/*OOX*/; textLower[textLength] = (qwchar)0x1ED7/*oox*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1ED8/*OOJ*/:text[textLength] = (qwchar)0x1ED8/*OOJ*/; textLower[textLength] = (qwchar)0x1ED9/*ooj*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1A0/*OW*/:text[textLength] = (qwchar)0x1A0/*OW*/; textLower[textLength] = (qwchar)0x1A1/*ow*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EDC/*OWF*/:text[textLength] = (qwchar)0x1EDC/*OWF*/; textLower[textLength] = (qwchar)0x1EDD/*owf*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EDA/*OWS*/:text[textLength] = (qwchar)0x1EDA/*OWS*/; textLower[textLength] = (qwchar)0x1EDB/*ows*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EDE/*OWR*/:text[textLength] = (qwchar)0x1EDE/*OWR*/; textLower[textLength] = (qwchar)0x1EDF/*owr*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EE0/*OWX*/:text[textLength] = (qwchar)0x1EE0/*OWX*/; textLower[textLength] = (qwchar)0x1EE1/*owx*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EE2/*OWJ*/:text[textLength] = (qwchar)0x1EE2/*OWJ*/; textLower[textLength] = (qwchar)0x1EE3/*owj*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0xD9/*UF*/:text[textLength] = (qwchar)0xD9/*UF*/; textLower[textLength] = (qwchar)0xF9/*uf*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0xDA/*US*/:text[textLength] = (qwchar)0xDA/*US*/; textLower[textLength] = (qwchar)0xFA/*us*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EE6/*UR*/:text[textLength] = (qwchar)0x1EE6/*UR*/; textLower[textLength] = (qwchar)0x1EE7/*ur*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x168/*UX*/:text[textLength] = (qwchar)0x168/*UX*/; textLower[textLength] = (qwchar)0x169/*ux*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EE4/*UJ*/:text[textLength] = (qwchar)0x1EE4/*UJ*/; textLower[textLength] = (qwchar)0x1EE5/*uj*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1AF/*UW*/:text[textLength] = (qwchar)0x1AF/*UW*/; textLower[textLength] = (qwchar)0x1B0/*uw*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EEA/*UWF*/:text[textLength] = (qwchar)0x1EEA/*UWF*/; textLower[textLength] = (qwchar)0x1EEB/*uwf*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EE8/*UWS*/:text[textLength] = (qwchar)0x1EE8/*UWS*/; textLower[textLength] = (qwchar)0x1EE9/*uws*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EEC/*UWR*/:text[textLength] = (qwchar)0x1EEC/*UWR*/; textLower[textLength] = (qwchar)0x1EED/*uwr*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EEE/*UWX*/:text[textLength] = (qwchar)0x1EEE/*UWX*/; textLower[textLength] = (qwchar)0x1EEF/*uwx*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EF0/*UWJ*/:text[textLength] = (qwchar)0x1EF0/*UWJ*/; textLower[textLength] = (qwchar)0x1EF1/*uwj*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EF2/*YF*/:text[textLength] = (qwchar)0x1EF2/*YF*/; textLower[textLength] = (qwchar)0x1EF3/*yf*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0xDD/*YS*/:text[textLength] = (qwchar)0xDD/*YS*/; textLower[textLength] = (qwchar)0xFD/*ys*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EF6/*YR*/:text[textLength] = (qwchar)0x1EF6/*YR*/; textLower[textLength] = (qwchar)0x1EF7/*yr*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EF8/*YX*/:text[textLength] = (qwchar)0x1EF8/*YX*/; textLower[textLength] = (qwchar)0x1EF9/*yx*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x1EF4/*YJ*/:text[textLength] = (qwchar)0x1EF4/*YJ*/; textLower[textLength] = (qwchar)0x1EF5/*yj*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0xD0/*Ð*/:textCountTotalChange++; case 0x110/*DD*/:text[textLength] = (qwchar)0x110/*DD*/; textLower[textLength] = (qwchar)0x111/*dd*/; textType[textLength] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountVietnameseOnlyCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; break;
 						/************************************************************************/
 						/* Nhóm các chữ cái có cả trong tiếng việt lẫn tiếng anh viết hoa       */
 						/************************************************************************/
-					case 0x41/*A*/:text[textLength] = 0x41/*A*/; textLower[textLength] = 0x61/*a*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x42/*B*/:text[textLength] = 0x42/*B*/; textLower[textLength] = 0x62/*b*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; break;
-					case 0x43/*C*/:text[textLength] = 0x43/*C*/; textLower[textLength] = 0x63/*c*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; break;
-					case 0x44/*D*/:text[textLength] = 0x44/*D*/; textLower[textLength] = 0x64/*d*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; break;
-					case 0x45/*E*/:text[textLength] = 0x45/*E*/; textLower[textLength] = 0x65/*e*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x46/*F*/:text[textLength] = 0x46/*F*/; textLower[textLength] = 0x66/*f*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; break;
-					case 0x47/*G*/:text[textLength] = 0x47/*G*/; textLower[textLength] = 0x67/*g*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; break;
-					case 0x48/*H*/:text[textLength] = 0x48/*H*/; textLower[textLength] = 0x68/*h*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; break;
-					case 0x49/*I*/:text[textLength] = 0x49/*I*/; textLower[textLength] = 0x69/*i*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x4A/*J*/:text[textLength] = 0x4A/*J*/; textLower[textLength] = 0x6A/*j*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; break;
-					case 0x4B/*K*/:text[textLength] = 0x4B/*K*/; textLower[textLength] = 0x6B/*k*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; break;
-					case 0x4C/*L*/:text[textLength] = 0x4C/*L*/; textLower[textLength] = 0x6C/*l*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; break;
-					case 0x4D/*M*/:text[textLength] = 0x4D/*M*/; textLower[textLength] = 0x6D/*m*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; break;
-					case 0x4E/*N*/:text[textLength] = 0x4E/*N*/; textLower[textLength] = 0x6E/*n*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; break;
-					case 0x4F/*O*/:text[textLength] = 0x4F/*O*/; textLower[textLength] = 0x6F/*o*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x3A1/*Ρ*/:textCountTotalChange++; case 0x50/*P*/:text[textLength] = 0x50/*P*/; textLower[textLength] = 0x70/*p*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; break;
-					case 0x51/*Q*/:text[textLength] = 0x51/*Q*/; textLower[textLength] = 0x71/*q*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; break;
-					case 0x52/*R*/:text[textLength] = 0x52/*R*/; textLower[textLength] = 0x72/*r*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; break;
-					case 0x53/*S*/:text[textLength] = 0x53/*S*/; textLower[textLength] = 0x73/*s*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; break;
-					case 0x54/*T*/:text[textLength] = 0x54/*T*/; textLower[textLength] = 0x74/*t*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; break;
-					case 0x55/*U*/:text[textLength] = 0x55/*U*/; textLower[textLength] = 0x75/*u*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x56/*V*/:text[textLength] = 0x56/*V*/; textLower[textLength] = 0x76/*v*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; break;
-					case 0x57/*W*/:text[textLength] = 0x57/*W*/; textLower[textLength] = 0x77/*w*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; break;
-					case 0x58/*X*/:text[textLength] = 0x58/*X*/; textLower[textLength] = 0x78/*x*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; break;
-					case 0x59/*Y*/:text[textLength] = 0x59/*Y*/; textLower[textLength] = 0x79/*y*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
-					case 0x5A/*Z*/:text[textLength] = 0x5A/*Z*/; textLower[textLength] = 0x7A/*z*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; break;
+					case 0x41/*A*/:text[textLength] = (qwchar)0x41/*A*/; textLower[textLength] = (qwchar)0x61/*a*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x42/*B*/:text[textLength] = (qwchar)0x42/*B*/; textLower[textLength] = (qwchar)0x62/*b*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; break;
+					case 0x43/*C*/:text[textLength] = (qwchar)0x43/*C*/; textLower[textLength] = (qwchar)0x63/*c*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; break;
+					case 0x44/*D*/:text[textLength] = (qwchar)0x44/*D*/; textLower[textLength] = (qwchar)0x64/*d*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; break;
+					case 0x45/*E*/:text[textLength] = (qwchar)0x45/*E*/; textLower[textLength] = (qwchar)0x65/*e*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x46/*F*/:text[textLength] = (qwchar)0x46/*F*/; textLower[textLength] = (qwchar)0x66/*f*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; break;
+					case 0x47/*G*/:text[textLength] = (qwchar)0x47/*G*/; textLower[textLength] = (qwchar)0x67/*g*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; break;
+					case 0x48/*H*/:text[textLength] = (qwchar)0x48/*H*/; textLower[textLength] = (qwchar)0x68/*h*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; break;
+					case 0x49/*I*/:text[textLength] = (qwchar)0x49/*I*/; textLower[textLength] = (qwchar)0x69/*i*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x4A/*J*/:text[textLength] = (qwchar)0x4A/*J*/; textLower[textLength] = (qwchar)0x6A/*j*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; break;
+					case 0x4B/*K*/:text[textLength] = (qwchar)0x4B/*K*/; textLower[textLength] = (qwchar)0x6B/*k*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; break;
+					case 0x4C/*L*/:text[textLength] = (qwchar)0x4C/*L*/; textLower[textLength] = (qwchar)0x6C/*l*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; break;
+					case 0x4D/*M*/:text[textLength] = (qwchar)0x4D/*M*/; textLower[textLength] = (qwchar)0x6D/*m*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; break;
+					case 0x4E/*N*/:text[textLength] = (qwchar)0x4E/*N*/; textLower[textLength] = (qwchar)0x6E/*n*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; break;
+					case 0x4F/*O*/:text[textLength] = (qwchar)0x4F/*O*/; textLower[textLength] = (qwchar)0x6F/*o*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x3A1/*Ρ*/:textCountTotalChange++; case 0x50/*P*/:text[textLength] = (qwchar)0x50/*P*/; textLower[textLength] = (qwchar)0x70/*p*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; break;
+					case 0x51/*Q*/:text[textLength] = (qwchar)0x51/*Q*/; textLower[textLength] = (qwchar)0x71/*q*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; break;
+					case 0x52/*R*/:text[textLength] = (qwchar)0x52/*R*/; textLower[textLength] = (qwchar)0x72/*r*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; break;
+					case 0x53/*S*/:text[textLength] = (qwchar)0x53/*S*/; textLower[textLength] = (qwchar)0x73/*s*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; break;
+					case 0x54/*T*/:text[textLength] = (qwchar)0x54/*T*/; textLower[textLength] = (qwchar)0x74/*t*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; break;
+					case 0x55/*U*/:text[textLength] = (qwchar)0x55/*U*/; textLower[textLength] = (qwchar)0x75/*u*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x56/*V*/:text[textLength] = (qwchar)0x56/*V*/; textLower[textLength] = (qwchar)0x76/*v*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; break;
+					case 0x57/*W*/:text[textLength] = (qwchar)0x57/*W*/; textLower[textLength] = (qwchar)0x77/*w*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; break;
+					case 0x58/*X*/:text[textLength] = (qwchar)0x58/*X*/; textLower[textLength] = (qwchar)0x78/*x*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; break;
+					case 0x59/*Y*/:text[textLength] = (qwchar)0x59/*Y*/; textLower[textLength] = (qwchar)0x79/*y*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountVowelCharacter++; break;
+					case 0x5A/*Z*/:text[textLength] = (qwchar)0x5A/*Z*/; textLower[textLength] = (qwchar)0x7A/*z*/; textType[textLength] = CHARACTER_TYPE_ALPHABET_UPPER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUpperCharacter++; textCountTotalAlphabet++; textCountConsonantCharacter++; break;
 						/************************************************************************/
 						/* Nhóm các kí tự số                                                    */
 						/************************************************************************/
-					case 0x30/*0*/:text[textLength] = 0x30/*0*/; textLower[textLength] = 0x30/*0*/; textType[textLength] = CHARACTER_TYPE_NUMBER; textIndex[textLength] = iChar; textLength++; textCountNumberCharacter++; textCountZeroCharacter++; break;
-					case 0x31/*1*/:text[textLength] = 0x31/*1*/; textLower[textLength] = 0x31/*1*/; textType[textLength] = CHARACTER_TYPE_NUMBER; textIndex[textLength] = iChar; textLength++; textCountNumberCharacter++; break;
-					case 0x32/*2*/:text[textLength] = 0x32/*2*/; textLower[textLength] = 0x32/*2*/; textType[textLength] = CHARACTER_TYPE_NUMBER; textIndex[textLength] = iChar; textLength++; textCountNumberCharacter++; break;
-					case 0x33/*3*/:text[textLength] = 0x33/*3*/; textLower[textLength] = 0x33/*3*/; textType[textLength] = CHARACTER_TYPE_NUMBER; textIndex[textLength] = iChar; textLength++; textCountNumberCharacter++; break;
-					case 0x34/*4*/:text[textLength] = 0x34/*4*/; textLower[textLength] = 0x34/*4*/; textType[textLength] = CHARACTER_TYPE_NUMBER; textIndex[textLength] = iChar; textLength++; textCountNumberCharacter++; break;
-					case 0x35/*5*/:text[textLength] = 0x35/*5*/; textLower[textLength] = 0x35/*5*/; textType[textLength] = CHARACTER_TYPE_NUMBER; textIndex[textLength] = iChar; textLength++; textCountNumberCharacter++; break;
-					case 0x36/*6*/:text[textLength] = 0x36/*6*/; textLower[textLength] = 0x36/*6*/; textType[textLength] = CHARACTER_TYPE_NUMBER; textIndex[textLength] = iChar; textLength++; textCountNumberCharacter++; break;
-					case 0x37/*7*/:text[textLength] = 0x37/*7*/; textLower[textLength] = 0x37/*7*/; textType[textLength] = CHARACTER_TYPE_NUMBER; textIndex[textLength] = iChar; textLength++; textCountNumberCharacter++; break;
-					case 0x38/*8*/:text[textLength] = 0x38/*8*/; textLower[textLength] = 0x38/*8*/; textType[textLength] = CHARACTER_TYPE_NUMBER; textIndex[textLength] = iChar; textLength++; textCountNumberCharacter++; break;
-					case 0x39/*9*/:text[textLength] = 0x39/*9*/; textLower[textLength] = 0x39/*9*/; textType[textLength] = CHARACTER_TYPE_NUMBER; textIndex[textLength] = iChar; textLength++; textCountNumberCharacter++; break;
+					case 0x30/*0*/:text[textLength] = (qwchar)0x30/*0*/; textLower[textLength] = (qwchar)0x30/*0*/; textType[textLength] = CHARACTER_TYPE_NUMBER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountNumberCharacter++; textCountZeroCharacter++; break;
+					case 0x31/*1*/:text[textLength] = (qwchar)0x31/*1*/; textLower[textLength] = (qwchar)0x31/*1*/; textType[textLength] = CHARACTER_TYPE_NUMBER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountNumberCharacter++; break;
+					case 0x32/*2*/:text[textLength] = (qwchar)0x32/*2*/; textLower[textLength] = (qwchar)0x32/*2*/; textType[textLength] = CHARACTER_TYPE_NUMBER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountNumberCharacter++; break;
+					case 0x33/*3*/:text[textLength] = (qwchar)0x33/*3*/; textLower[textLength] = (qwchar)0x33/*3*/; textType[textLength] = CHARACTER_TYPE_NUMBER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountNumberCharacter++; break;
+					case 0x34/*4*/:text[textLength] = (qwchar)0x34/*4*/; textLower[textLength] = (qwchar)0x34/*4*/; textType[textLength] = CHARACTER_TYPE_NUMBER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountNumberCharacter++; break;
+					case 0x35/*5*/:text[textLength] = (qwchar)0x35/*5*/; textLower[textLength] = (qwchar)0x35/*5*/; textType[textLength] = CHARACTER_TYPE_NUMBER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountNumberCharacter++; break;
+					case 0x36/*6*/:text[textLength] = (qwchar)0x36/*6*/; textLower[textLength] = (qwchar)0x36/*6*/; textType[textLength] = CHARACTER_TYPE_NUMBER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountNumberCharacter++; break;
+					case 0x37/*7*/:text[textLength] = (qwchar)0x37/*7*/; textLower[textLength] = (qwchar)0x37/*7*/; textType[textLength] = CHARACTER_TYPE_NUMBER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountNumberCharacter++; break;
+					case 0x38/*8*/:text[textLength] = (qwchar)0x38/*8*/; textLower[textLength] = (qwchar)0x38/*8*/; textType[textLength] = CHARACTER_TYPE_NUMBER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountNumberCharacter++; break;
+					case 0x39/*9*/:text[textLength] = (qwchar)0x39/*9*/; textLower[textLength] = (qwchar)0x39/*9*/; textType[textLength] = CHARACTER_TYPE_NUMBER; textIndex[textLength] = (qwchar)iChar; textLength++; textCountNumberCharacter++; break;
 						/************************************************************************/
 						/* Các dấu câu có trên bàn phím                                         */
 						/************************************************************************/
-					case 0x21/*! exclamation mark*/:text[textLength] = 0x21/*! exclamation mark*/; textLower[textLength] = 0x21/*! exclamation mark*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = iChar; textLength++; textCountOtherOnKeyBoard++; break;
-					case 0x22/*" quotation mark   (entity name is quot;)*/:text[textLength] = 0x22/*" quotation mark   (entity name is quot;)*/; textLower[textLength] = 0x22/*" quotation mark   (entity name is quot;)*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = iChar; textLength++; textCountOtherOnKeyBoard++; break;
-					case 0x23/*# number sign*/:text[textLength] = 0x23/*# number sign*/; textLower[textLength] = 0x23/*# number sign*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = iChar; textLength++; textCountOtherOnKeyBoard++; break;
-					case 0x24/*$ dollar sign*/:text[textLength] = 0x24/*$ dollar sign*/; textLower[textLength] = 0x24/*$ dollar sign*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = iChar; textLength++; textCountOtherOnKeyBoard++; break;
-					case 0x25/*% percent sign*/:text[textLength] = 0x25/*% percent sign*/; textLower[textLength] = 0x25/*% percent sign*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = iChar; textLength++; textCountOtherOnKeyBoard++; break;
-					case 0x26/*& ampersand   (entity name is &amp;)*/:text[textLength] = 0x26/*& ampersand   (entity name is &amp;)*/; textLower[textLength] = 0x26/*& ampersand   (entity name is &amp;)*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = iChar; textLength++; textCountOtherOnKeyBoard++; break;
-					case 0x27/*' apostrophe*/:text[textLength] = 0x27/*' apostrophe*/; textLower[textLength] = 0x27/*' apostrophe*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = iChar; textLength++; textCountOtherOnKeyBoard++; break;
-					case 0x28/*( left parenthesis*/:text[textLength] = 0x28/*( left parenthesis*/; textLower[textLength] = 0x28/*( left parenthesis*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = iChar; textLength++; textCountOtherOnKeyBoard++; break;
-					case 0x29/*) right parenthesis*/:text[textLength] = 0x29/*) right parenthesis*/; textLower[textLength] = 0x29/*) right parenthesis*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = iChar; textLength++; textCountOtherOnKeyBoard++; break;
-					case 0x2A/** asterisk*/:text[textLength] = 0x2A/** asterisk*/; textLower[textLength] = 0x2A/** asterisk*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = iChar; textLength++; textCountOtherOnKeyBoard++; break;
-					case 0x2B/*+ plus sign*/:text[textLength] = 0x2B/*+ plus sign*/; textLower[textLength] = 0x2B/*+ plus sign*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = iChar; textLength++; textCountOtherOnKeyBoard++; break;
-					case 0x2C/*, comma*/:text[textLength] = 0x2C/*, comma*/; textLower[textLength] = 0x2C/*, comma*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = iChar; textLength++; textCountOtherOnKeyBoard++; textCountCommaCharacter++; break;
-					case 0x2D/*- hyphen-minus*/:text[textLength] = 0x2D/*- hyphen-minus*/; textLower[textLength] = 0x2D/*- hyphen-minus*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = iChar; textLength++; textCountOtherOnKeyBoard++; break;
-					case 0x2E/*. dot*/:text[textLength] = 0x2E/*. dot*/; textLower[textLength] = 0x2E/*. dot*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = iChar; textLength++; textCountOtherOnKeyBoard++; textCountDotCharacter++; break;
-					case 0x2F/*/ slash*/:text[textLength] = 0x2F/*/ slash*/; textLower[textLength] = 0x2F/*/ slash*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = iChar; textLength++; textCountOtherOnKeyBoard++; textCountSlashCharacter++; break;
-					case 0x3A/*"; colon*/:text[textLength] = 0x3A/*"; colon*/; textLower[textLength] = 0x3A/*"; colon*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = iChar; textLength++; textCountOtherOnKeyBoard++; break;
-					case 0x3B/*; semicolon*/:text[textLength] = 0x3B/*; semicolon*/; textLower[textLength] = 0x3B/*; semicolon*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = iChar; textLength++; textCountOtherOnKeyBoard++; break;
-					case 0x3C/*< less-than sign   (entity name is &lt;)*/:text[textLength] = 0x3C/*< less-than sign   (entity name is &lt;)*/; textLower[textLength] = 0x3C/*< less-than sign   (entity name is &lt;)*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = iChar; textLength++; textCountOtherOnKeyBoard++; break;
-					case 0x3D/*= equals sign*/:text[textLength] = 0x3D/*= equals sign*/; textLower[textLength] = 0x3D/*= equals sign*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = iChar; textLength++; textCountOtherOnKeyBoard++; break;
-					case 0x3E/*> greater-than sign   (entity name is &gt;)*/:text[textLength] = 0x3E/*> greater-than sign   (entity name is &gt;)*/; textLower[textLength] = 0x3E/*> greater-than sign   (entity name is &gt;)*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = iChar; textLength++; textCountOtherOnKeyBoard++; break;
-					case 0x3F/*? question mark*/:text[textLength] = 0x3F/*? question mark*/; textLower[textLength] = 0x3F/*? question mark*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = iChar; textLength++; textCountOtherOnKeyBoard++; break;
-					case 0x40/*@ commercial at*/:text[textLength] = 0x40/*@ commercial at*/; textLower[textLength] = 0x40/*@ commercial at*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = iChar; textLength++; textCountOtherOnKeyBoard++; break;
-					case 0x5B/*[ left square bracket*/:text[textLength] = 0x5B/*[ left square bracket*/; textLower[textLength] = 0x5B/*[ left square bracket*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = iChar; textLength++; textCountOtherOnKeyBoard++; break;
-					case 0x5C/*\ reverse solidus*/:text[textLength] = 0x5C/*\ reverse solidus*/; textLower[textLength] = 0x5C/*\ reverse solidus*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = iChar; textLength++; textCountOtherOnKeyBoard++; break;
-					case 0x5D/*] right square bracket*/:text[textLength] = 0x5D/*] right square bracket*/; textLower[textLength] = 0x5D/*] right square bracket*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = iChar; textLength++; textCountOtherOnKeyBoard++; break;
-					case 0x5E/*^ circumflex accent*/:text[textLength] = 0x5E/*^ circumflex accent*/; textLower[textLength] = 0x5E/*^ circumflex accent*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = iChar; textLength++; textCountOtherOnKeyBoard++; break;
-					case 0x5F/*_ low line*/:text[textLength] = 0x5F/*_ low line*/; textLower[textLength] = 0x5F/*_ low line*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = iChar; textLength++; textCountOtherOnKeyBoard++; break;
-					case 0x60/*` grave accent*/:text[textLength] = 0x60/*` grave accent*/; textLower[textLength] = 0x60/*` grave accent*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = iChar; textLength++; textCountOtherOnKeyBoard++; break;
-					case 0x7B/*{ left curly bracket*/:text[textLength] = 0x7B/*{ left curly bracket*/; textLower[textLength] = 0x7B/*{ left curly bracket*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = iChar; textLength++; textCountOtherOnKeyBoard++; break;
-					case 0x7C/*| vertical line*/:text[textLength] = 0x7C/*| vertical line*/; textLower[textLength] = 0x7C/*| vertical line*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = iChar; textLength++; textCountOtherOnKeyBoard++; break;
-					case 0x7D/*} right curly bracket*/:text[textLength] = 0x7D/*} right curly bracket*/; textLower[textLength] = 0x7D/*} right curly bracket*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = iChar; textLength++; textCountOtherOnKeyBoard++; break;
-					case 0x7E/*~ tilde*/:text[textLength] = 0x7E/*~ tilde*/; textLower[textLength] = 0x7E/*~ tilde*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = iChar; textLength++; textCountOtherOnKeyBoard++; break;
+					case 0x21/*! exclamation mark*/:text[textLength] = (qwchar)0x21/*! exclamation mark*/; textLower[textLength] = (qwchar)0x21/*! exclamation mark*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = (qwchar)iChar; textLength++; textCountOtherOnKeyBoard++; break;
+					case 0x22/*" quotation mark   (entity name is quot;)*/:text[textLength] = (qwchar)0x22/*" quotation mark   (entity name is quot;)*/; textLower[textLength] = (qwchar)0x22/*" quotation mark   (entity name is quot;)*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = (qwchar)iChar; textLength++; textCountOtherOnKeyBoard++; break;
+					case 0x23/*# number sign*/:text[textLength] = (qwchar)0x23/*# number sign*/; textLower[textLength] = (qwchar)0x23/*# number sign*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = (qwchar)iChar; textLength++; textCountOtherOnKeyBoard++; break;
+					case 0x24/*$ dollar sign*/:text[textLength] = (qwchar)0x24/*$ dollar sign*/; textLower[textLength] = (qwchar)0x24/*$ dollar sign*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = (qwchar)iChar; textLength++; textCountOtherOnKeyBoard++; break;
+					case 0x25/*% percent sign*/:text[textLength] = (qwchar)0x25/*% percent sign*/; textLower[textLength] = (qwchar)0x25/*% percent sign*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = (qwchar)iChar; textLength++; textCountOtherOnKeyBoard++; break;
+					case 0x26/*& ampersand   (entity name is &amp;)*/:text[textLength] = (qwchar)0x26/*& ampersand   (entity name is &amp;)*/; textLower[textLength] = (qwchar)0x26/*& ampersand   (entity name is &amp;)*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = (qwchar)iChar; textLength++; textCountOtherOnKeyBoard++; break;
+					case 0x27/*' apostrophe*/:text[textLength] = (qwchar)0x27/*' apostrophe*/; textLower[textLength] = (qwchar)0x27/*' apostrophe*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = (qwchar)iChar; textLength++; textCountOtherOnKeyBoard++; break;
+					case 0x28/*( left parenthesis*/:text[textLength] = (qwchar)0x28/*( left parenthesis*/; textLower[textLength] = (qwchar)0x28/*( left parenthesis*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = (qwchar)iChar; textLength++; textCountOtherOnKeyBoard++; break;
+					case 0x29/*) right parenthesis*/:text[textLength] = (qwchar)0x29/*) right parenthesis*/; textLower[textLength] = (qwchar)0x29/*) right parenthesis*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = (qwchar)iChar; textLength++; textCountOtherOnKeyBoard++; break;
+					case 0x2A/** asterisk*/:text[textLength] = (qwchar)0x2A/** asterisk*/; textLower[textLength] = (qwchar)0x2A/** asterisk*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = (qwchar)iChar; textLength++; textCountOtherOnKeyBoard++; break;
+					case 0x2B/*+ plus sign*/:text[textLength] = (qwchar)0x2B/*+ plus sign*/; textLower[textLength] = (qwchar)0x2B/*+ plus sign*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = (qwchar)iChar; textLength++; textCountOtherOnKeyBoard++; break;
+					case 0x2C/*, comma*/:text[textLength] = (qwchar)0x2C/*, comma*/; textLower[textLength] = (qwchar)0x2C/*, comma*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = (qwchar)iChar; textLength++; textCountOtherOnKeyBoard++; textCountCommaCharacter++; break;
+					case 0x2D/*- hyphen-minus*/:text[textLength] = (qwchar)0x2D/*- hyphen-minus*/; textLower[textLength] = (qwchar)0x2D/*- hyphen-minus*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = (qwchar)iChar; textLength++; textCountOtherOnKeyBoard++; break;
+					case 0x2E/*. dot*/:text[textLength] = (qwchar)0x2E/*. dot*/; textLower[textLength] = (qwchar)0x2E/*. dot*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = (qwchar)iChar; textLength++; textCountOtherOnKeyBoard++; textCountDotCharacter++; break;
+					case 0x2F/*/ slash*/:text[textLength] = (qwchar)0x2F/*/ slash*/; textLower[textLength] = (qwchar)0x2F/*/ slash*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = (qwchar)iChar; textLength++; textCountOtherOnKeyBoard++; textCountSlashCharacter++; break;
+					case 0x3A/*"; colon*/:text[textLength] = (qwchar)0x3A/*"; colon*/; textLower[textLength] = (qwchar)0x3A/*"; colon*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = (qwchar)iChar; textLength++; textCountOtherOnKeyBoard++; break;
+					case 0x3B/*; semicolon*/:text[textLength] = (qwchar)0x3B/*; semicolon*/; textLower[textLength] = (qwchar)0x3B/*; semicolon*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = (qwchar)iChar; textLength++; textCountOtherOnKeyBoard++; break;
+					case 0x3C/*< less-than sign   (entity name is &lt;)*/:text[textLength] = (qwchar)0x3C/*< less-than sign   (entity name is &lt;)*/; textLower[textLength] = (qwchar)0x3C/*< less-than sign   (entity name is &lt;)*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = (qwchar)iChar; textLength++; textCountOtherOnKeyBoard++; break;
+					case 0x3D/*= equals sign*/:text[textLength] = (qwchar)0x3D/*= equals sign*/; textLower[textLength] = (qwchar)0x3D/*= equals sign*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = (qwchar)iChar; textLength++; textCountOtherOnKeyBoard++; break;
+					case 0x3E/*> greater-than sign   (entity name is &gt;)*/:text[textLength] = (qwchar)0x3E/*> greater-than sign   (entity name is &gt;)*/; textLower[textLength] = (qwchar)0x3E/*> greater-than sign   (entity name is &gt;)*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = (qwchar)iChar; textLength++; textCountOtherOnKeyBoard++; break;
+					case 0x3F/*? question mark*/:text[textLength] = (qwchar)0x3F/*? question mark*/; textLower[textLength] = (qwchar)0x3F/*? question mark*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = (qwchar)iChar; textLength++; textCountOtherOnKeyBoard++; break;
+					case 0x40/*@ commercial at*/:text[textLength] = (qwchar)0x40/*@ commercial at*/; textLower[textLength] = (qwchar)0x40/*@ commercial at*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = (qwchar)iChar; textLength++; textCountOtherOnKeyBoard++; break;
+					case 0x5B/*[ left square bracket*/:text[textLength] = (qwchar)0x5B/*[ left square bracket*/; textLower[textLength] = (qwchar)0x5B/*[ left square bracket*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = (qwchar)iChar; textLength++; textCountOtherOnKeyBoard++; break;
+					case 0x5C/*\ reverse solidus*/:text[textLength] = (qwchar)0x5C/*\ reverse solidus*/; textLower[textLength] = (qwchar)0x5C/*\ reverse solidus*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = (qwchar)iChar; textLength++; textCountOtherOnKeyBoard++; break;
+					case 0x5D/*] right square bracket*/:text[textLength] = (qwchar)0x5D/*] right square bracket*/; textLower[textLength] = (qwchar)0x5D/*] right square bracket*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = (qwchar)iChar; textLength++; textCountOtherOnKeyBoard++; break;
+					case 0x5E/*^ circumflex accent*/:text[textLength] = (qwchar)0x5E/*^ circumflex accent*/; textLower[textLength] = (qwchar)0x5E/*^ circumflex accent*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = (qwchar)iChar; textLength++; textCountOtherOnKeyBoard++; break;
+					case 0x5F/*_ low line*/:text[textLength] = (qwchar)0x5F/*_ low line*/; textLower[textLength] = (qwchar)0x5F/*_ low line*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = (qwchar)iChar; textLength++; textCountOtherOnKeyBoard++; break;
+					case 0x60/*` grave accent*/:text[textLength] = (qwchar)0x60/*` grave accent*/; textLower[textLength] = (qwchar)0x60/*` grave accent*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = (qwchar)iChar; textLength++; textCountOtherOnKeyBoard++; break;
+					case 0x7B/*{ left curly bracket*/:text[textLength] = (qwchar)0x7B/*{ left curly bracket*/; textLower[textLength] = (qwchar)0x7B/*{ left curly bracket*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = (qwchar)iChar; textLength++; textCountOtherOnKeyBoard++; break;
+					case 0x7C/*| vertical line*/:text[textLength] = (qwchar)0x7C/*| vertical line*/; textLower[textLength] = (qwchar)0x7C/*| vertical line*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = (qwchar)iChar; textLength++; textCountOtherOnKeyBoard++; break;
+					case 0x7D/*} right curly bracket*/:text[textLength] = (qwchar)0x7D/*} right curly bracket*/; textLower[textLength] = (qwchar)0x7D/*} right curly bracket*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = (qwchar)iChar; textLength++; textCountOtherOnKeyBoard++; break;
+					case 0x7E/*~ tilde*/:text[textLength] = (qwchar)0x7E/*~ tilde*/; textLower[textLength] = (qwchar)0x7E/*~ tilde*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = (qwchar)iChar; textLength++; textCountOtherOnKeyBoard++; break;
 						/************************************************************************/
 						/* Nhóm các kí tự dấu đặc biệt                                          */
 						/************************************************************************/
@@ -2907,30 +2955,30 @@ void				VietnameseTextNormalizer::Normalize(void)
 							int lastIndexOfOutput = textLength - 1;
 							switch (text[lastIndexOfOutput])
 							{
-							case 0x61/*af*/:text[lastIndexOfOutput] = 0xE0/*af*/; textLower[lastIndexOfOutput] = 0xE0/*af*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x41/*AF*/:text[lastIndexOfOutput] = 0xC0/*AF*/; textLower[lastIndexOfOutput] = 0xE0/*af*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x103/*awf*/:text[lastIndexOfOutput] = 0x1EB1/*awf*/; textLower[lastIndexOfOutput] = 0x1EB1/*awf*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x102/*AWF*/:text[lastIndexOfOutput] = 0x1EB0/*AWF*/; textLower[lastIndexOfOutput] = 0x1EB1/*awf*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0xE2/*aaf*/:text[lastIndexOfOutput] = 0x1EA7/*aaf*/; textLower[lastIndexOfOutput] = 0x1EA7/*aaf*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0xC2/*AAF*/:text[lastIndexOfOutput] = 0x1EA6/*AAF*/; textLower[lastIndexOfOutput] = 0x1EA7/*aaf*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x65/*ef*/:text[lastIndexOfOutput] = 0xE8/*ef*/; textLower[lastIndexOfOutput] = 0xE8/*ef*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x45/*EF*/:text[lastIndexOfOutput] = 0xC8/*EF*/; textLower[lastIndexOfOutput] = 0xE8/*ef*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0xEA/*eef*/:text[lastIndexOfOutput] = 0x1EC1/*eef*/; textLower[lastIndexOfOutput] = 0x1EC1/*eef*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0xCA/*EEF*/:text[lastIndexOfOutput] = 0x1EC0/*EEF*/; textLower[lastIndexOfOutput] = 0x1EC1/*eef*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x69/*if*/:text[lastIndexOfOutput] = 0xEC/*if*/; textLower[lastIndexOfOutput] = 0xEC/*if*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x49/*IF*/:text[lastIndexOfOutput] = 0xCC/*IF*/; textLower[lastIndexOfOutput] = 0xEC/*if*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x6F/*of*/:text[lastIndexOfOutput] = 0xF2/*of*/; textLower[lastIndexOfOutput] = 0xF2/*of*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x4F/*OF*/:text[lastIndexOfOutput] = 0xD2/*OF*/; textLower[lastIndexOfOutput] = 0xF2/*of*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0xF4/*oof*/:text[lastIndexOfOutput] = 0x1ED3/*oof*/; textLower[lastIndexOfOutput] = 0x1ED3/*oof*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0xD4/*OOF*/:text[lastIndexOfOutput] = 0x1ED2/*OOF*/; textLower[lastIndexOfOutput] = 0x1ED3/*oof*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x1A1/*owf*/:text[lastIndexOfOutput] = 0x1EDD/*owf*/; textLower[lastIndexOfOutput] = 0x1EDD/*owf*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x1A0/*OWF*/:text[lastIndexOfOutput] = 0x1EDC/*OWF*/; textLower[lastIndexOfOutput] = 0x1EDD/*owf*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x75/*uf*/:text[lastIndexOfOutput] = 0xF9/*uf*/; textLower[lastIndexOfOutput] = 0xF9/*uf*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x55/*UF*/:text[lastIndexOfOutput] = 0xD9/*UF*/; textLower[lastIndexOfOutput] = 0xF9/*uf*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x1B0/*uwf*/:text[lastIndexOfOutput] = 0x1EEB/*uwf*/; textLower[lastIndexOfOutput] = 0x1EEB/*uwf*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x1AF/*UWF*/:text[lastIndexOfOutput] = 0x1EEA/*UWF*/; textLower[lastIndexOfOutput] = 0x1EEB/*uwf*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x79/*yf*/:text[lastIndexOfOutput] = 0x1EF3/*yf*/; textLower[lastIndexOfOutput] = 0x1EF3/*yf*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x59/*YF*/:text[lastIndexOfOutput] = 0x1EF2/*YF*/; textLower[lastIndexOfOutput] = 0x1EF3/*yf*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x61/*af*/:text[lastIndexOfOutput] = (qwchar)0xE0/*af*/; textLower[lastIndexOfOutput] = (qwchar)0xE0/*af*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x41/*AF*/:text[lastIndexOfOutput] = (qwchar)0xC0/*AF*/; textLower[lastIndexOfOutput] = (qwchar)0xE0/*af*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x103/*awf*/:text[lastIndexOfOutput] = (qwchar)0x1EB1/*awf*/; textLower[lastIndexOfOutput] = (qwchar)0x1EB1/*awf*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x102/*AWF*/:text[lastIndexOfOutput] = (qwchar)0x1EB0/*AWF*/; textLower[lastIndexOfOutput] = (qwchar)0x1EB1/*awf*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0xE2/*aaf*/:text[lastIndexOfOutput] = (qwchar)0x1EA7/*aaf*/; textLower[lastIndexOfOutput] = (qwchar)0x1EA7/*aaf*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0xC2/*AAF*/:text[lastIndexOfOutput] = (qwchar)0x1EA6/*AAF*/; textLower[lastIndexOfOutput] = (qwchar)0x1EA7/*aaf*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x65/*ef*/:text[lastIndexOfOutput] = (qwchar)0xE8/*ef*/; textLower[lastIndexOfOutput] = (qwchar)0xE8/*ef*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x45/*EF*/:text[lastIndexOfOutput] = (qwchar)0xC8/*EF*/; textLower[lastIndexOfOutput] = (qwchar)0xE8/*ef*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0xEA/*eef*/:text[lastIndexOfOutput] = (qwchar)0x1EC1/*eef*/; textLower[lastIndexOfOutput] = (qwchar)0x1EC1/*eef*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0xCA/*EEF*/:text[lastIndexOfOutput] = (qwchar)0x1EC0/*EEF*/; textLower[lastIndexOfOutput] = (qwchar)0x1EC1/*eef*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x69/*if*/:text[lastIndexOfOutput] = (qwchar)0xEC/*if*/; textLower[lastIndexOfOutput] = (qwchar)0xEC/*if*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x49/*IF*/:text[lastIndexOfOutput] = (qwchar)0xCC/*IF*/; textLower[lastIndexOfOutput] = (qwchar)0xEC/*if*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x6F/*of*/:text[lastIndexOfOutput] = (qwchar)0xF2/*of*/; textLower[lastIndexOfOutput] = (qwchar)0xF2/*of*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x4F/*OF*/:text[lastIndexOfOutput] = (qwchar)0xD2/*OF*/; textLower[lastIndexOfOutput] = (qwchar)0xF2/*of*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0xF4/*oof*/:text[lastIndexOfOutput] = (qwchar)0x1ED3/*oof*/; textLower[lastIndexOfOutput] = (qwchar)0x1ED3/*oof*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0xD4/*OOF*/:text[lastIndexOfOutput] = (qwchar)0x1ED2/*OOF*/; textLower[lastIndexOfOutput] = (qwchar)0x1ED3/*oof*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x1A1/*owf*/:text[lastIndexOfOutput] = (qwchar)0x1EDD/*owf*/; textLower[lastIndexOfOutput] = (qwchar)0x1EDD/*owf*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x1A0/*OWF*/:text[lastIndexOfOutput] = (qwchar)0x1EDC/*OWF*/; textLower[lastIndexOfOutput] = (qwchar)0x1EDD/*owf*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x75/*uf*/:text[lastIndexOfOutput] = (qwchar)0xF9/*uf*/; textLower[lastIndexOfOutput] = (qwchar)0xF9/*uf*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x55/*UF*/:text[lastIndexOfOutput] = (qwchar)0xD9/*UF*/; textLower[lastIndexOfOutput] = (qwchar)0xF9/*uf*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x1B0/*uwf*/:text[lastIndexOfOutput] = (qwchar)0x1EEB/*uwf*/; textLower[lastIndexOfOutput] = (qwchar)0x1EEB/*uwf*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x1AF/*UWF*/:text[lastIndexOfOutput] = (qwchar)0x1EEA/*UWF*/; textLower[lastIndexOfOutput] = (qwchar)0x1EEB/*uwf*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x79/*yf*/:text[lastIndexOfOutput] = (qwchar)0x1EF3/*yf*/; textLower[lastIndexOfOutput] = (qwchar)0x1EF3/*yf*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x59/*YF*/:text[lastIndexOfOutput] = (qwchar)0x1EF2/*YF*/; textLower[lastIndexOfOutput] = (qwchar)0x1EF3/*yf*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
 							default:textErrorCombiningTone = 1/*` VIETNAMESE_TONE_HUYEN*/; textCountTotalChange++; break;
 							}
 						}
@@ -2942,30 +2990,30 @@ void				VietnameseTextNormalizer::Normalize(void)
 							int lastIndexOfOutput = textLength - 1;
 							switch (text[lastIndexOfOutput])
 							{
-							case 0x61/*ax*/:text[lastIndexOfOutput] = 0xE3/*ax*/; textLower[lastIndexOfOutput] = 0xE3/*ax*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x41/*AX*/:text[lastIndexOfOutput] = 0xC3/*AX*/; textLower[lastIndexOfOutput] = 0xE3/*ax*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x103/*awx*/:text[lastIndexOfOutput] = 0x1EB5/*awx*/; textLower[lastIndexOfOutput] = 0x1EB5/*awx*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x102/*AWX*/:text[lastIndexOfOutput] = 0x1EB4/*AWX*/; textLower[lastIndexOfOutput] = 0x1EB5/*awx*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0xE2/*aax*/:text[lastIndexOfOutput] = 0x1EAB/*aax*/; textLower[lastIndexOfOutput] = 0x1EAB/*aax*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0xC2/*AAX*/:text[lastIndexOfOutput] = 0x1EAA/*AAX*/; textLower[lastIndexOfOutput] = 0x1EAB/*aax*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x65/*ex*/:text[lastIndexOfOutput] = 0x1EBD/*ex*/; textLower[lastIndexOfOutput] = 0x1EBD/*ex*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x45/*EX*/:text[lastIndexOfOutput] = 0x1EBC/*EX*/; textLower[lastIndexOfOutput] = 0x1EBD/*ex*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0xEA/*eex*/:text[lastIndexOfOutput] = 0x1EC5/*eex*/; textLower[lastIndexOfOutput] = 0x1EC5/*eex*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0xCA/*EEX*/:text[lastIndexOfOutput] = 0x1EC4/*EEX*/; textLower[lastIndexOfOutput] = 0x1EC5/*eex*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x69/*ix*/:text[lastIndexOfOutput] = 0x129/*ix*/; textLower[lastIndexOfOutput] = 0x129/*ix*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x49/*IX*/:text[lastIndexOfOutput] = 0x128/*IX*/; textLower[lastIndexOfOutput] = 0x129/*ix*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x6F/*ox*/:text[lastIndexOfOutput] = 0xF5/*ox*/; textLower[lastIndexOfOutput] = 0xF5/*ox*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x4F/*OX*/:text[lastIndexOfOutput] = 0xD5/*OX*/; textLower[lastIndexOfOutput] = 0xF5/*ox*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0xF4/*oox*/:text[lastIndexOfOutput] = 0x1ED7/*oox*/; textLower[lastIndexOfOutput] = 0x1ED7/*oox*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0xD4/*OOX*/:text[lastIndexOfOutput] = 0x1ED6/*OOX*/; textLower[lastIndexOfOutput] = 0x1ED7/*oox*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x1A1/*owx*/:text[lastIndexOfOutput] = 0x1EE1/*owx*/; textLower[lastIndexOfOutput] = 0x1EE1/*owx*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x1A0/*OWX*/:text[lastIndexOfOutput] = 0x1EE0/*OWX*/; textLower[lastIndexOfOutput] = 0x1EE1/*owx*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x75/*ux*/:text[lastIndexOfOutput] = 0x169/*ux*/; textLower[lastIndexOfOutput] = 0x169/*ux*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x55/*UX*/:text[lastIndexOfOutput] = 0x168/*UX*/; textLower[lastIndexOfOutput] = 0x169/*ux*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x1B0/*uwx*/:text[lastIndexOfOutput] = 0x1EEF/*uwx*/; textLower[lastIndexOfOutput] = 0x1EEF/*uwx*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x1AF/*UWX*/:text[lastIndexOfOutput] = 0x1EEE/*UWX*/; textLower[lastIndexOfOutput] = 0x1EEF/*uwx*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x79/*yx*/:text[lastIndexOfOutput] = 0x1EF9/*yx*/; textLower[lastIndexOfOutput] = 0x1EF9/*yx*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x59/*YX*/:text[lastIndexOfOutput] = 0x1EF8/*YX*/; textLower[lastIndexOfOutput] = 0x1EF9/*yx*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x61/*ax*/:text[lastIndexOfOutput] = (qwchar)0xE3/*ax*/; textLower[lastIndexOfOutput] = (qwchar)0xE3/*ax*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x41/*AX*/:text[lastIndexOfOutput] = (qwchar)0xC3/*AX*/; textLower[lastIndexOfOutput] = (qwchar)0xE3/*ax*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x103/*awx*/:text[lastIndexOfOutput] = (qwchar)0x1EB5/*awx*/; textLower[lastIndexOfOutput] = (qwchar)0x1EB5/*awx*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x102/*AWX*/:text[lastIndexOfOutput] = (qwchar)0x1EB4/*AWX*/; textLower[lastIndexOfOutput] = (qwchar)0x1EB5/*awx*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0xE2/*aax*/:text[lastIndexOfOutput] = (qwchar)0x1EAB/*aax*/; textLower[lastIndexOfOutput] = (qwchar)0x1EAB/*aax*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0xC2/*AAX*/:text[lastIndexOfOutput] = (qwchar)0x1EAA/*AAX*/; textLower[lastIndexOfOutput] = (qwchar)0x1EAB/*aax*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x65/*ex*/:text[lastIndexOfOutput] = (qwchar)0x1EBD/*ex*/; textLower[lastIndexOfOutput] = (qwchar)0x1EBD/*ex*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x45/*EX*/:text[lastIndexOfOutput] = (qwchar)0x1EBC/*EX*/; textLower[lastIndexOfOutput] = (qwchar)0x1EBD/*ex*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0xEA/*eex*/:text[lastIndexOfOutput] = (qwchar)0x1EC5/*eex*/; textLower[lastIndexOfOutput] = (qwchar)0x1EC5/*eex*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0xCA/*EEX*/:text[lastIndexOfOutput] = (qwchar)0x1EC4/*EEX*/; textLower[lastIndexOfOutput] = (qwchar)0x1EC5/*eex*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x69/*ix*/:text[lastIndexOfOutput] = (qwchar)0x129/*ix*/; textLower[lastIndexOfOutput] = (qwchar)0x129/*ix*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x49/*IX*/:text[lastIndexOfOutput] = (qwchar)0x128/*IX*/; textLower[lastIndexOfOutput] = (qwchar)0x129/*ix*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x6F/*ox*/:text[lastIndexOfOutput] = (qwchar)0xF5/*ox*/; textLower[lastIndexOfOutput] = (qwchar)0xF5/*ox*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x4F/*OX*/:text[lastIndexOfOutput] = (qwchar)0xD5/*OX*/; textLower[lastIndexOfOutput] = (qwchar)0xF5/*ox*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0xF4/*oox*/:text[lastIndexOfOutput] = (qwchar)0x1ED7/*oox*/; textLower[lastIndexOfOutput] = (qwchar)0x1ED7/*oox*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0xD4/*OOX*/:text[lastIndexOfOutput] = (qwchar)0x1ED6/*OOX*/; textLower[lastIndexOfOutput] = (qwchar)0x1ED7/*oox*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x1A1/*owx*/:text[lastIndexOfOutput] = (qwchar)0x1EE1/*owx*/; textLower[lastIndexOfOutput] = (qwchar)0x1EE1/*owx*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x1A0/*OWX*/:text[lastIndexOfOutput] = (qwchar)0x1EE0/*OWX*/; textLower[lastIndexOfOutput] = (qwchar)0x1EE1/*owx*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x75/*ux*/:text[lastIndexOfOutput] = (qwchar)0x169/*ux*/; textLower[lastIndexOfOutput] = (qwchar)0x169/*ux*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x55/*UX*/:text[lastIndexOfOutput] = (qwchar)0x168/*UX*/; textLower[lastIndexOfOutput] = (qwchar)0x169/*ux*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x1B0/*uwx*/:text[lastIndexOfOutput] = (qwchar)0x1EEF/*uwx*/; textLower[lastIndexOfOutput] = (qwchar)0x1EEF/*uwx*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x1AF/*UWX*/:text[lastIndexOfOutput] = (qwchar)0x1EEE/*UWX*/; textLower[lastIndexOfOutput] = (qwchar)0x1EEF/*uwx*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x79/*yx*/:text[lastIndexOfOutput] = (qwchar)0x1EF9/*yx*/; textLower[lastIndexOfOutput] = (qwchar)0x1EF9/*yx*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x59/*YX*/:text[lastIndexOfOutput] = (qwchar)0x1EF8/*YX*/; textLower[lastIndexOfOutput] = (qwchar)0x1EF9/*yx*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
 							default:textErrorCombiningTone = 2/*~ VIETNAMESE_TONE_NGA*/; textCountTotalChange++; break;
 							}
 						}
@@ -2977,30 +3025,30 @@ void				VietnameseTextNormalizer::Normalize(void)
 							int lastIndexOfOutput = textLength - 1;
 							switch (text[lastIndexOfOutput])
 							{
-							case 0x61/*ar*/:text[lastIndexOfOutput] = 0x1EA3/*ar*/; textLower[lastIndexOfOutput] = 0x1EA3/*ar*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x41/*AR*/:text[lastIndexOfOutput] = 0x1EA2/*AR*/; textLower[lastIndexOfOutput] = 0x1EA3/*ar*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x103/*awr*/:text[lastIndexOfOutput] = 0x1EB3/*awr*/; textLower[lastIndexOfOutput] = 0x1EB3/*awr*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x102/*AWR*/:text[lastIndexOfOutput] = 0x1EB2/*AWR*/; textLower[lastIndexOfOutput] = 0x1EB3/*awr*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0xE2/*aar*/:text[lastIndexOfOutput] = 0x1EA9/*aar*/; textLower[lastIndexOfOutput] = 0x1EA9/*aar*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0xC2/*AAR*/:text[lastIndexOfOutput] = 0x1EA8/*AAR*/; textLower[lastIndexOfOutput] = 0x1EA9/*aar*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x65/*er*/:text[lastIndexOfOutput] = 0x1EBB/*er*/; textLower[lastIndexOfOutput] = 0x1EBB/*er*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x45/*ER*/:text[lastIndexOfOutput] = 0x1EBA/*ER*/; textLower[lastIndexOfOutput] = 0x1EBB/*er*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0xEA/*eer*/:text[lastIndexOfOutput] = 0x1EC3/*eer*/; textLower[lastIndexOfOutput] = 0x1EC3/*eer*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0xCA/*EER*/:text[lastIndexOfOutput] = 0x1EC2/*EER*/; textLower[lastIndexOfOutput] = 0x1EC3/*eer*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x69/*ir*/:text[lastIndexOfOutput] = 0x1EC9/*ir*/; textLower[lastIndexOfOutput] = 0x1EC9/*ir*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x49/*IR*/:text[lastIndexOfOutput] = 0x1EC8/*IR*/; textLower[lastIndexOfOutput] = 0x1EC9/*ir*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x6F/*or*/:text[lastIndexOfOutput] = 0x1ECF/*or*/; textLower[lastIndexOfOutput] = 0x1ECF/*or*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x4F/*OR*/:text[lastIndexOfOutput] = 0x1ECE/*OR*/; textLower[lastIndexOfOutput] = 0x1ECF/*or*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0xF4/*oor*/:text[lastIndexOfOutput] = 0x1ED5/*oor*/; textLower[lastIndexOfOutput] = 0x1ED5/*oor*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0xD4/*OOR*/:text[lastIndexOfOutput] = 0x1ED4/*OOR*/; textLower[lastIndexOfOutput] = 0x1ED5/*oor*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x1A1/*owr*/:text[lastIndexOfOutput] = 0x1EDF/*owr*/; textLower[lastIndexOfOutput] = 0x1EDF/*owr*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x1A0/*OWR*/:text[lastIndexOfOutput] = 0x1EDE/*OWR*/; textLower[lastIndexOfOutput] = 0x1EDF/*owr*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x75/*ur*/:text[lastIndexOfOutput] = 0x1EE7/*ur*/; textLower[lastIndexOfOutput] = 0x1EE7/*ur*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x55/*UR*/:text[lastIndexOfOutput] = 0x1EE6/*UR*/; textLower[lastIndexOfOutput] = 0x1EE7/*ur*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x1B0/*uwr*/:text[lastIndexOfOutput] = 0x1EED/*uwr*/; textLower[lastIndexOfOutput] = 0x1EED/*uwr*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x1AF/*UWR*/:text[lastIndexOfOutput] = 0x1EEC/*UWR*/; textLower[lastIndexOfOutput] = 0x1EED/*uwr*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x79/*yr*/:text[lastIndexOfOutput] = 0x1EF7/*yr*/; textLower[lastIndexOfOutput] = 0x1EF7/*yr*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x59/*YR*/:text[lastIndexOfOutput] = 0x1EF6/*YR*/; textLower[lastIndexOfOutput] = 0x1EF7/*yr*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x61/*ar*/:text[lastIndexOfOutput] = (qwchar)0x1EA3/*ar*/; textLower[lastIndexOfOutput] = (qwchar)0x1EA3/*ar*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x41/*AR*/:text[lastIndexOfOutput] = (qwchar)0x1EA2/*AR*/; textLower[lastIndexOfOutput] = (qwchar)0x1EA3/*ar*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x103/*awr*/:text[lastIndexOfOutput] = (qwchar)0x1EB3/*awr*/; textLower[lastIndexOfOutput] = (qwchar)0x1EB3/*awr*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x102/*AWR*/:text[lastIndexOfOutput] = (qwchar)0x1EB2/*AWR*/; textLower[lastIndexOfOutput] = (qwchar)0x1EB3/*awr*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0xE2/*aar*/:text[lastIndexOfOutput] = (qwchar)0x1EA9/*aar*/; textLower[lastIndexOfOutput] = (qwchar)0x1EA9/*aar*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0xC2/*AAR*/:text[lastIndexOfOutput] = (qwchar)0x1EA8/*AAR*/; textLower[lastIndexOfOutput] = (qwchar)0x1EA9/*aar*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x65/*er*/:text[lastIndexOfOutput] = (qwchar)0x1EBB/*er*/; textLower[lastIndexOfOutput] = (qwchar)0x1EBB/*er*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x45/*ER*/:text[lastIndexOfOutput] = (qwchar)0x1EBA/*ER*/; textLower[lastIndexOfOutput] = (qwchar)0x1EBB/*er*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0xEA/*eer*/:text[lastIndexOfOutput] = (qwchar)0x1EC3/*eer*/; textLower[lastIndexOfOutput] = (qwchar)0x1EC3/*eer*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0xCA/*EER*/:text[lastIndexOfOutput] = (qwchar)0x1EC2/*EER*/; textLower[lastIndexOfOutput] = (qwchar)0x1EC3/*eer*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x69/*ir*/:text[lastIndexOfOutput] = (qwchar)0x1EC9/*ir*/; textLower[lastIndexOfOutput] = (qwchar)0x1EC9/*ir*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x49/*IR*/:text[lastIndexOfOutput] = (qwchar)0x1EC8/*IR*/; textLower[lastIndexOfOutput] = (qwchar)0x1EC9/*ir*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x6F/*or*/:text[lastIndexOfOutput] = (qwchar)0x1ECF/*or*/; textLower[lastIndexOfOutput] = (qwchar)0x1ECF/*or*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x4F/*OR*/:text[lastIndexOfOutput] = (qwchar)0x1ECE/*OR*/; textLower[lastIndexOfOutput] = (qwchar)0x1ECF/*or*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0xF4/*oor*/:text[lastIndexOfOutput] = (qwchar)0x1ED5/*oor*/; textLower[lastIndexOfOutput] = (qwchar)0x1ED5/*oor*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0xD4/*OOR*/:text[lastIndexOfOutput] = (qwchar)0x1ED4/*OOR*/; textLower[lastIndexOfOutput] = (qwchar)0x1ED5/*oor*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x1A1/*owr*/:text[lastIndexOfOutput] = (qwchar)0x1EDF/*owr*/; textLower[lastIndexOfOutput] = (qwchar)0x1EDF/*owr*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x1A0/*OWR*/:text[lastIndexOfOutput] = (qwchar)0x1EDE/*OWR*/; textLower[lastIndexOfOutput] = (qwchar)0x1EDF/*owr*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x75/*ur*/:text[lastIndexOfOutput] = (qwchar)0x1EE7/*ur*/; textLower[lastIndexOfOutput] = (qwchar)0x1EE7/*ur*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x55/*UR*/:text[lastIndexOfOutput] = (qwchar)0x1EE6/*UR*/; textLower[lastIndexOfOutput] = (qwchar)0x1EE7/*ur*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x1B0/*uwr*/:text[lastIndexOfOutput] = (qwchar)0x1EED/*uwr*/; textLower[lastIndexOfOutput] = (qwchar)0x1EED/*uwr*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x1AF/*UWR*/:text[lastIndexOfOutput] = (qwchar)0x1EEC/*UWR*/; textLower[lastIndexOfOutput] = (qwchar)0x1EED/*uwr*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x79/*yr*/:text[lastIndexOfOutput] = (qwchar)0x1EF7/*yr*/; textLower[lastIndexOfOutput] = (qwchar)0x1EF7/*yr*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x59/*YR*/:text[lastIndexOfOutput] = (qwchar)0x1EF6/*YR*/; textLower[lastIndexOfOutput] = (qwchar)0x1EF7/*yr*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
 							default:textErrorCombiningTone = 3/*? VIETNAMESE_TONE_HOI*/; textCountTotalChange++; break;
 							}
 						}
@@ -3016,30 +3064,30 @@ void				VietnameseTextNormalizer::Normalize(void)
 							int lastIndexOfOutput = textLength - 1;
 							switch (text[lastIndexOfOutput])
 							{
-							case 0x61/*as*/:text[lastIndexOfOutput] = 0xE1/*as*/; textLower[lastIndexOfOutput] = 0xE1/*as*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x41/*AS*/:text[lastIndexOfOutput] = 0xC1/*AS*/; textLower[lastIndexOfOutput] = 0xE1/*as*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x103/*aws*/:text[lastIndexOfOutput] = 0x1EAF/*aws*/; textLower[lastIndexOfOutput] = 0x1EAF/*aws*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x102/*AWS*/:text[lastIndexOfOutput] = 0x1EAE/*AWS*/; textLower[lastIndexOfOutput] = 0x1EAF/*aws*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0xE2/*aas*/:text[lastIndexOfOutput] = 0x1EA5/*aas*/; textLower[lastIndexOfOutput] = 0x1EA5/*aas*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0xC2/*AAS*/:text[lastIndexOfOutput] = 0x1EA4/*AAS*/; textLower[lastIndexOfOutput] = 0x1EA5/*aas*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x65/*es*/:text[lastIndexOfOutput] = 0xE9/*es*/; textLower[lastIndexOfOutput] = 0xE9/*es*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x45/*ES*/:text[lastIndexOfOutput] = 0xC9/*ES*/; textLower[lastIndexOfOutput] = 0xE9/*es*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0xEA/*ees*/:text[lastIndexOfOutput] = 0x1EBF/*ees*/; textLower[lastIndexOfOutput] = 0x1EBF/*ees*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0xCA/*EES*/:text[lastIndexOfOutput] = 0x1EBE/*EES*/; textLower[lastIndexOfOutput] = 0x1EBF/*ees*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x69/*is*/:text[lastIndexOfOutput] = 0xED/*is*/; textLower[lastIndexOfOutput] = 0xED/*is*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x49/*IS*/:text[lastIndexOfOutput] = 0xCD/*IS*/; textLower[lastIndexOfOutput] = 0xED/*is*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x6F/*os*/:text[lastIndexOfOutput] = 0xF3/*os*/; textLower[lastIndexOfOutput] = 0xF3/*os*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x4F/*OS*/:text[lastIndexOfOutput] = 0xD3/*OS*/; textLower[lastIndexOfOutput] = 0xF3/*os*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0xF4/*oos*/:text[lastIndexOfOutput] = 0x1ED1/*oos*/; textLower[lastIndexOfOutput] = 0x1ED1/*oos*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0xD4/*OOS*/:text[lastIndexOfOutput] = 0x1ED0/*OOS*/; textLower[lastIndexOfOutput] = 0x1ED1/*oos*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x1A1/*ows*/:text[lastIndexOfOutput] = 0x1EDB/*ows*/; textLower[lastIndexOfOutput] = 0x1EDB/*ows*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x1A0/*OWS*/:text[lastIndexOfOutput] = 0x1EDA/*OWS*/; textLower[lastIndexOfOutput] = 0x1EDB/*ows*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x75/*us*/:text[lastIndexOfOutput] = 0xFA/*us*/; textLower[lastIndexOfOutput] = 0xFA/*us*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x55/*US*/:text[lastIndexOfOutput] = 0xDA/*US*/; textLower[lastIndexOfOutput] = 0xFA/*us*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x1B0/*uws*/:text[lastIndexOfOutput] = 0x1EE9/*uws*/; textLower[lastIndexOfOutput] = 0x1EE9/*uws*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x1AF/*UWS*/:text[lastIndexOfOutput] = 0x1EE8/*UWS*/; textLower[lastIndexOfOutput] = 0x1EE9/*uws*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x79/*ys*/:text[lastIndexOfOutput] = 0xFD/*ys*/; textLower[lastIndexOfOutput] = 0xFD/*ys*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x59/*YS*/:text[lastIndexOfOutput] = 0xDD/*YS*/; textLower[lastIndexOfOutput] = 0xFD/*ys*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x61/*as*/:text[lastIndexOfOutput] = (qwchar)0xE1/*as*/; textLower[lastIndexOfOutput] = (qwchar)0xE1/*as*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x41/*AS*/:text[lastIndexOfOutput] = (qwchar)0xC1/*AS*/; textLower[lastIndexOfOutput] = (qwchar)0xE1/*as*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x103/*aws*/:text[lastIndexOfOutput] = (qwchar)0x1EAF/*aws*/; textLower[lastIndexOfOutput] = (qwchar)0x1EAF/*aws*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x102/*AWS*/:text[lastIndexOfOutput] = (qwchar)0x1EAE/*AWS*/; textLower[lastIndexOfOutput] = (qwchar)0x1EAF/*aws*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0xE2/*aas*/:text[lastIndexOfOutput] = (qwchar)0x1EA5/*aas*/; textLower[lastIndexOfOutput] = (qwchar)0x1EA5/*aas*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0xC2/*AAS*/:text[lastIndexOfOutput] = (qwchar)0x1EA4/*AAS*/; textLower[lastIndexOfOutput] = (qwchar)0x1EA5/*aas*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x65/*es*/:text[lastIndexOfOutput] = (qwchar)0xE9/*es*/; textLower[lastIndexOfOutput] = (qwchar)0xE9/*es*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x45/*ES*/:text[lastIndexOfOutput] = (qwchar)0xC9/*ES*/; textLower[lastIndexOfOutput] = (qwchar)0xE9/*es*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0xEA/*ees*/:text[lastIndexOfOutput] = (qwchar)0x1EBF/*ees*/; textLower[lastIndexOfOutput] = (qwchar)0x1EBF/*ees*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0xCA/*EES*/:text[lastIndexOfOutput] = (qwchar)0x1EBE/*EES*/; textLower[lastIndexOfOutput] = (qwchar)0x1EBF/*ees*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x69/*is*/:text[lastIndexOfOutput] = (qwchar)0xED/*is*/; textLower[lastIndexOfOutput] = (qwchar)0xED/*is*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x49/*IS*/:text[lastIndexOfOutput] = (qwchar)0xCD/*IS*/; textLower[lastIndexOfOutput] = (qwchar)0xED/*is*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x6F/*os*/:text[lastIndexOfOutput] = (qwchar)0xF3/*os*/; textLower[lastIndexOfOutput] = (qwchar)0xF3/*os*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x4F/*OS*/:text[lastIndexOfOutput] = (qwchar)0xD3/*OS*/; textLower[lastIndexOfOutput] = (qwchar)0xF3/*os*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0xF4/*oos*/:text[lastIndexOfOutput] = (qwchar)0x1ED1/*oos*/; textLower[lastIndexOfOutput] = (qwchar)0x1ED1/*oos*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0xD4/*OOS*/:text[lastIndexOfOutput] = (qwchar)0x1ED0/*OOS*/; textLower[lastIndexOfOutput] = (qwchar)0x1ED1/*oos*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x1A1/*ows*/:text[lastIndexOfOutput] = (qwchar)0x1EDB/*ows*/; textLower[lastIndexOfOutput] = (qwchar)0x1EDB/*ows*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x1A0/*OWS*/:text[lastIndexOfOutput] = (qwchar)0x1EDA/*OWS*/; textLower[lastIndexOfOutput] = (qwchar)0x1EDB/*ows*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x75/*us*/:text[lastIndexOfOutput] = (qwchar)0xFA/*us*/; textLower[lastIndexOfOutput] = (qwchar)0xFA/*us*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x55/*US*/:text[lastIndexOfOutput] = (qwchar)0xDA/*US*/; textLower[lastIndexOfOutput] = (qwchar)0xFA/*us*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x1B0/*uws*/:text[lastIndexOfOutput] = (qwchar)0x1EE9/*uws*/; textLower[lastIndexOfOutput] = (qwchar)0x1EE9/*uws*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x1AF/*UWS*/:text[lastIndexOfOutput] = (qwchar)0x1EE8/*UWS*/; textLower[lastIndexOfOutput] = (qwchar)0x1EE9/*uws*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x79/*ys*/:text[lastIndexOfOutput] = (qwchar)0xFD/*ys*/; textLower[lastIndexOfOutput] = (qwchar)0xFD/*ys*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x59/*YS*/:text[lastIndexOfOutput] = (qwchar)0xDD/*YS*/; textLower[lastIndexOfOutput] = (qwchar)0xFD/*ys*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
 							default:textErrorCombiningTone = 4/*' VIETNAMESE_TONE_SAC*/; textCountTotalChange++; break;
 							}
 						}
@@ -3051,30 +3099,30 @@ void				VietnameseTextNormalizer::Normalize(void)
 							int lastIndexOfOutput = textLength - 1;
 							switch (text[lastIndexOfOutput])
 							{
-							case 0x61/*aj*/:text[lastIndexOfOutput] = 0x1EA1/*aj*/; textLower[lastIndexOfOutput] = 0x1EA1/*aj*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x41/*AJ*/:text[lastIndexOfOutput] = 0x1EA0/*AJ*/; textLower[lastIndexOfOutput] = 0x1EA1/*aj*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x103/*awj*/:text[lastIndexOfOutput] = 0x1EB7/*awj*/; textLower[lastIndexOfOutput] = 0x1EB7/*awj*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x102/*AWJ*/:text[lastIndexOfOutput] = 0x1EB6/*AWJ*/; textLower[lastIndexOfOutput] = 0x1EB7/*awj*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0xE2/*aaj*/:text[lastIndexOfOutput] = 0x1EAD/*aaj*/; textLower[lastIndexOfOutput] = 0x1EAD/*aaj*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0xC2/*AAJ*/:text[lastIndexOfOutput] = 0x1EAC/*AAJ*/; textLower[lastIndexOfOutput] = 0x1EAD/*aaj*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x65/*ej*/:text[lastIndexOfOutput] = 0x1EB9/*ej*/; textLower[lastIndexOfOutput] = 0x1EB9/*ej*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x45/*EJ*/:text[lastIndexOfOutput] = 0x1EB8/*EJ*/; textLower[lastIndexOfOutput] = 0x1EB9/*ej*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0xEA/*eej*/:text[lastIndexOfOutput] = 0x1EC7/*eej*/; textLower[lastIndexOfOutput] = 0x1EC7/*eej*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0xCA/*EEJ*/:text[lastIndexOfOutput] = 0x1EC6/*EEJ*/; textLower[lastIndexOfOutput] = 0x1EC7/*eej*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x69/*ij*/:text[lastIndexOfOutput] = 0x1ECB/*ij*/; textLower[lastIndexOfOutput] = 0x1ECB/*ij*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x49/*IJ*/:text[lastIndexOfOutput] = 0x1ECA/*IJ*/; textLower[lastIndexOfOutput] = 0x1ECB/*ij*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x6F/*oj*/:text[lastIndexOfOutput] = 0x1ECD/*oj*/; textLower[lastIndexOfOutput] = 0x1ECD/*oj*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x4F/*OJ*/:text[lastIndexOfOutput] = 0x1ECC/*OJ*/; textLower[lastIndexOfOutput] = 0x1ECD/*oj*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0xF4/*ooj*/:text[lastIndexOfOutput] = 0x1ED9/*ooj*/; textLower[lastIndexOfOutput] = 0x1ED9/*ooj*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0xD4/*OOJ*/:text[lastIndexOfOutput] = 0x1ED8/*OOJ*/; textLower[lastIndexOfOutput] = 0x1ED9/*ooj*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x1A1/*owj*/:text[lastIndexOfOutput] = 0x1EE3/*owj*/; textLower[lastIndexOfOutput] = 0x1EE3/*owj*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x1A0/*OWJ*/:text[lastIndexOfOutput] = 0x1EE2/*OWJ*/; textLower[lastIndexOfOutput] = 0x1EE3/*owj*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x75/*uj*/:text[lastIndexOfOutput] = 0x1EE5/*uj*/; textLower[lastIndexOfOutput] = 0x1EE5/*uj*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x55/*UJ*/:text[lastIndexOfOutput] = 0x1EE4/*UJ*/; textLower[lastIndexOfOutput] = 0x1EE5/*uj*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x1B0/*uwj*/:text[lastIndexOfOutput] = 0x1EF1/*uwj*/; textLower[lastIndexOfOutput] = 0x1EF1/*uwj*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x1AF/*UWJ*/:text[lastIndexOfOutput] = 0x1EF0/*UWJ*/; textLower[lastIndexOfOutput] = 0x1EF1/*uwj*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x79/*yj*/:text[lastIndexOfOutput] = 0x1EF5/*yj*/; textLower[lastIndexOfOutput] = 0x1EF5/*yj*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x59/*YJ*/:text[lastIndexOfOutput] = 0x1EF4/*YJ*/; textLower[lastIndexOfOutput] = 0x1EF5/*yj*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x61/*aj*/:text[lastIndexOfOutput] = (qwchar)0x1EA1/*aj*/; textLower[lastIndexOfOutput] = (qwchar)0x1EA1/*aj*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x41/*AJ*/:text[lastIndexOfOutput] = (qwchar)0x1EA0/*AJ*/; textLower[lastIndexOfOutput] = (qwchar)0x1EA1/*aj*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x103/*awj*/:text[lastIndexOfOutput] = (qwchar)0x1EB7/*awj*/; textLower[lastIndexOfOutput] = (qwchar)0x1EB7/*awj*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x102/*AWJ*/:text[lastIndexOfOutput] = (qwchar)0x1EB6/*AWJ*/; textLower[lastIndexOfOutput] = (qwchar)0x1EB7/*awj*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0xE2/*aaj*/:text[lastIndexOfOutput] = (qwchar)0x1EAD/*aaj*/; textLower[lastIndexOfOutput] = (qwchar)0x1EAD/*aaj*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0xC2/*AAJ*/:text[lastIndexOfOutput] = (qwchar)0x1EAC/*AAJ*/; textLower[lastIndexOfOutput] = (qwchar)0x1EAD/*aaj*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x65/*ej*/:text[lastIndexOfOutput] = (qwchar)0x1EB9/*ej*/; textLower[lastIndexOfOutput] = (qwchar)0x1EB9/*ej*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x45/*EJ*/:text[lastIndexOfOutput] = (qwchar)0x1EB8/*EJ*/; textLower[lastIndexOfOutput] = (qwchar)0x1EB9/*ej*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0xEA/*eej*/:text[lastIndexOfOutput] = (qwchar)0x1EC7/*eej*/; textLower[lastIndexOfOutput] = (qwchar)0x1EC7/*eej*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0xCA/*EEJ*/:text[lastIndexOfOutput] = (qwchar)0x1EC6/*EEJ*/; textLower[lastIndexOfOutput] = (qwchar)0x1EC7/*eej*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x69/*ij*/:text[lastIndexOfOutput] = (qwchar)0x1ECB/*ij*/; textLower[lastIndexOfOutput] = (qwchar)0x1ECB/*ij*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x49/*IJ*/:text[lastIndexOfOutput] = (qwchar)0x1ECA/*IJ*/; textLower[lastIndexOfOutput] = (qwchar)0x1ECB/*ij*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x6F/*oj*/:text[lastIndexOfOutput] = (qwchar)0x1ECD/*oj*/; textLower[lastIndexOfOutput] = (qwchar)0x1ECD/*oj*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x4F/*OJ*/:text[lastIndexOfOutput] = (qwchar)0x1ECC/*OJ*/; textLower[lastIndexOfOutput] = (qwchar)0x1ECD/*oj*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0xF4/*ooj*/:text[lastIndexOfOutput] = (qwchar)0x1ED9/*ooj*/; textLower[lastIndexOfOutput] = (qwchar)0x1ED9/*ooj*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0xD4/*OOJ*/:text[lastIndexOfOutput] = (qwchar)0x1ED8/*OOJ*/; textLower[lastIndexOfOutput] = (qwchar)0x1ED9/*ooj*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x1A1/*owj*/:text[lastIndexOfOutput] = (qwchar)0x1EE3/*owj*/; textLower[lastIndexOfOutput] = (qwchar)0x1EE3/*owj*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x1A0/*OWJ*/:text[lastIndexOfOutput] = (qwchar)0x1EE2/*OWJ*/; textLower[lastIndexOfOutput] = (qwchar)0x1EE3/*owj*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x75/*uj*/:text[lastIndexOfOutput] = (qwchar)0x1EE5/*uj*/; textLower[lastIndexOfOutput] = (qwchar)0x1EE5/*uj*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x55/*UJ*/:text[lastIndexOfOutput] = (qwchar)0x1EE4/*UJ*/; textLower[lastIndexOfOutput] = (qwchar)0x1EE5/*uj*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x1B0/*uwj*/:text[lastIndexOfOutput] = (qwchar)0x1EF1/*uwj*/; textLower[lastIndexOfOutput] = (qwchar)0x1EF1/*uwj*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x1AF/*UWJ*/:text[lastIndexOfOutput] = (qwchar)0x1EF0/*UWJ*/; textLower[lastIndexOfOutput] = (qwchar)0x1EF1/*uwj*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x79/*yj*/:text[lastIndexOfOutput] = (qwchar)0x1EF5/*yj*/; textLower[lastIndexOfOutput] = (qwchar)0x1EF5/*yj*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x59/*YJ*/:text[lastIndexOfOutput] = (qwchar)0x1EF4/*YJ*/; textLower[lastIndexOfOutput] = (qwchar)0x1EF5/*yj*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
 							default:textErrorCombiningTone = 5/*. VIETNAMESE_TONE_NANG*/; textCountTotalChange++; break;
 							}
 						}
@@ -3086,42 +3134,42 @@ void				VietnameseTextNormalizer::Normalize(void)
 							int lastIndexOfOutput = textLength - 1;
 							switch (text[lastIndexOfOutput])
 							{
-							case 0x41/*A*/:text[lastIndexOfOutput] = 0xC2/*Â*/; textLower[lastIndexOfOutput] = 0xE2/*â*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x61/*a*/:text[lastIndexOfOutput] = 0xE2/*â*/; textLower[lastIndexOfOutput] = 0xE2/*â*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0xC0/*À*/:text[lastIndexOfOutput] = 0x1EA6/*Ầ*/; textLower[lastIndexOfOutput] = 0x1EA7/*ầ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0xE0/*à*/:text[lastIndexOfOutput] = 0x1EA7/*ầ*/; textLower[lastIndexOfOutput] = 0x1EA7/*ầ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0xC1/*Á*/:text[lastIndexOfOutput] = 0x1EA4/*Ấ*/; textLower[lastIndexOfOutput] = 0x1EA5/*ấ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0xE1/*á*/:text[lastIndexOfOutput] = 0x1EA5/*ấ*/; textLower[lastIndexOfOutput] = 0x1EA5/*ấ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0x1EA2/*Ả*/:text[lastIndexOfOutput] = 0x1EA8/*Ẩ*/; textLower[lastIndexOfOutput] = 0x1EA9/*ẩ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0x1EA3/*ả*/:text[lastIndexOfOutput] = 0x1EA9/*ẩ*/; textLower[lastIndexOfOutput] = 0x1EA9/*ẩ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0xC3/*Ã*/:text[lastIndexOfOutput] = 0x1EAA/*Ẫ*/; textLower[lastIndexOfOutput] = 0x1EAB/*ẫ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0xE3/*ã*/:text[lastIndexOfOutput] = 0x1EAB/*ẫ*/; textLower[lastIndexOfOutput] = 0x1EAB/*ẫ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0x1EA0/*Ạ*/:text[lastIndexOfOutput] = 0x1EAC/*Ậ*/; textLower[lastIndexOfOutput] = 0x1EAD/*ậ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0x1EA1/*ạ*/:text[lastIndexOfOutput] = 0x1EAD/*ậ*/; textLower[lastIndexOfOutput] = 0x1EAD/*ậ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0x45/*E*/:text[lastIndexOfOutput] = 0xCA/*Ê*/; textLower[lastIndexOfOutput] = 0xEA/*ê*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x65/*e*/:text[lastIndexOfOutput] = 0xEA/*ê*/; textLower[lastIndexOfOutput] = 0xEA/*ê*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0xC8/*È*/:text[lastIndexOfOutput] = 0x1EC0/*Ề*/; textLower[lastIndexOfOutput] = 0x1EC1/*ề*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0xE8/*è*/:text[lastIndexOfOutput] = 0x1EC1/*ề*/; textLower[lastIndexOfOutput] = 0x1EC1/*ề*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0xC9/*É*/:text[lastIndexOfOutput] = 0x1EBE/*Ế*/; textLower[lastIndexOfOutput] = 0x1EBF/*ế*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0xE9/*é*/:text[lastIndexOfOutput] = 0x1EBF/*ế*/; textLower[lastIndexOfOutput] = 0x1EBF/*ế*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0x1EBA/*Ẻ*/:text[lastIndexOfOutput] = 0x1EC2/*Ể*/; textLower[lastIndexOfOutput] = 0x1EC3/*ể*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0x1EBB/*ẻ*/:text[lastIndexOfOutput] = 0x1EC3/*ể*/; textLower[lastIndexOfOutput] = 0x1EC3/*ể*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0x1EBC/*Ẽ*/:text[lastIndexOfOutput] = 0x1EC4/*Ễ*/; textLower[lastIndexOfOutput] = 0x1EC5/*ễ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0x1EBD/*ẽ*/:text[lastIndexOfOutput] = 0x1EC5/*ễ*/; textLower[lastIndexOfOutput] = 0x1EC5/*ễ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0x1EB8/*Ẹ*/:text[lastIndexOfOutput] = 0x1EC6/*Ệ*/; textLower[lastIndexOfOutput] = 0x1EC7/*ệ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0x1EB9/*ẹ*/:text[lastIndexOfOutput] = 0x1EC7/*ệ*/; textLower[lastIndexOfOutput] = 0x1EC7/*ệ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0x4F/*O*/:text[lastIndexOfOutput] = 0xD4/*Ô*/; textLower[lastIndexOfOutput] = 0xF4/*ô*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x6F/*o*/:text[lastIndexOfOutput] = 0xF4/*ô*/; textLower[lastIndexOfOutput] = 0xF4/*ô*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0xD2/*Ò*/:text[lastIndexOfOutput] = 0x1ED2/*Ồ*/; textLower[lastIndexOfOutput] = 0x1ED3/*ồ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0xF2/*ò*/:text[lastIndexOfOutput] = 0x1ED3/*ồ*/; textLower[lastIndexOfOutput] = 0x1ED3/*ồ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0xD3/*Ó*/:text[lastIndexOfOutput] = 0x1ED0/*Ố*/; textLower[lastIndexOfOutput] = 0x1ED1/*ố*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0xF3/*ó*/:text[lastIndexOfOutput] = 0x1ED1/*ố*/; textLower[lastIndexOfOutput] = 0x1ED1/*ố*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0x1ECE/*Ỏ*/:text[lastIndexOfOutput] = 0x1ED4/*Ổ*/; textLower[lastIndexOfOutput] = 0x1ED5/*ổ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0x1ECF/*ỏ*/:text[lastIndexOfOutput] = 0x1ED5/*ổ*/; textLower[lastIndexOfOutput] = 0x1ED5/*ổ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0xD5/*Õ*/:text[lastIndexOfOutput] = 0x1ED6/*Ỗ*/; textLower[lastIndexOfOutput] = 0x1ED7/*ỗ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0xF5/*õ*/:text[lastIndexOfOutput] = 0x1ED7/*ỗ*/; textLower[lastIndexOfOutput] = 0x1ED7/*ỗ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0x1ECC/*Ọ*/:text[lastIndexOfOutput] = 0x1ED8/*Ộ*/; textLower[lastIndexOfOutput] = 0x1ED9/*ộ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0x1ECD/*ọ*/:text[lastIndexOfOutput] = 0x1ED9/*ộ*/; textLower[lastIndexOfOutput] = 0x1ED9/*ộ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountTotalChange++; break;
+							case 0x41/*A*/:text[lastIndexOfOutput] = (qwchar)0xC2/*Â*/; textLower[lastIndexOfOutput] = (qwchar)0xE2/*â*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x61/*a*/:text[lastIndexOfOutput] = (qwchar)0xE2/*â*/; textLower[lastIndexOfOutput] = (qwchar)0xE2/*â*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0xC0/*À*/:text[lastIndexOfOutput] = (qwchar)0x1EA6/*Ầ*/; textLower[lastIndexOfOutput] = (qwchar)0x1EA7/*ầ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0xE0/*à*/:text[lastIndexOfOutput] = (qwchar)0x1EA7/*ầ*/; textLower[lastIndexOfOutput] = (qwchar)0x1EA7/*ầ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0xC1/*Á*/:text[lastIndexOfOutput] = (qwchar)0x1EA4/*Ấ*/; textLower[lastIndexOfOutput] = (qwchar)0x1EA5/*ấ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0xE1/*á*/:text[lastIndexOfOutput] = (qwchar)0x1EA5/*ấ*/; textLower[lastIndexOfOutput] = (qwchar)0x1EA5/*ấ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0x1EA2/*Ả*/:text[lastIndexOfOutput] = (qwchar)0x1EA8/*Ẩ*/; textLower[lastIndexOfOutput] = (qwchar)0x1EA9/*ẩ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0x1EA3/*ả*/:text[lastIndexOfOutput] = (qwchar)0x1EA9/*ẩ*/; textLower[lastIndexOfOutput] = (qwchar)0x1EA9/*ẩ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0xC3/*Ã*/:text[lastIndexOfOutput] = (qwchar)0x1EAA/*Ẫ*/; textLower[lastIndexOfOutput] = (qwchar)0x1EAB/*ẫ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0xE3/*ã*/:text[lastIndexOfOutput] = (qwchar)0x1EAB/*ẫ*/; textLower[lastIndexOfOutput] = (qwchar)0x1EAB/*ẫ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0x1EA0/*Ạ*/:text[lastIndexOfOutput] = (qwchar)0x1EAC/*Ậ*/; textLower[lastIndexOfOutput] = (qwchar)0x1EAD/*ậ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0x1EA1/*ạ*/:text[lastIndexOfOutput] = (qwchar)0x1EAD/*ậ*/; textLower[lastIndexOfOutput] = (qwchar)0x1EAD/*ậ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0x45/*E*/:text[lastIndexOfOutput] = (qwchar)0xCA/*Ê*/; textLower[lastIndexOfOutput] = (qwchar)0xEA/*ê*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x65/*e*/:text[lastIndexOfOutput] = (qwchar)0xEA/*ê*/; textLower[lastIndexOfOutput] = (qwchar)0xEA/*ê*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0xC8/*È*/:text[lastIndexOfOutput] = (qwchar)0x1EC0/*Ề*/; textLower[lastIndexOfOutput] = (qwchar)0x1EC1/*ề*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0xE8/*è*/:text[lastIndexOfOutput] = (qwchar)0x1EC1/*ề*/; textLower[lastIndexOfOutput] = (qwchar)0x1EC1/*ề*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0xC9/*É*/:text[lastIndexOfOutput] = (qwchar)0x1EBE/*Ế*/; textLower[lastIndexOfOutput] = (qwchar)0x1EBF/*ế*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0xE9/*é*/:text[lastIndexOfOutput] = (qwchar)0x1EBF/*ế*/; textLower[lastIndexOfOutput] = (qwchar)0x1EBF/*ế*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0x1EBA/*Ẻ*/:text[lastIndexOfOutput] = (qwchar)0x1EC2/*Ể*/; textLower[lastIndexOfOutput] = (qwchar)0x1EC3/*ể*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0x1EBB/*ẻ*/:text[lastIndexOfOutput] = (qwchar)0x1EC3/*ể*/; textLower[lastIndexOfOutput] = (qwchar)0x1EC3/*ể*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0x1EBC/*Ẽ*/:text[lastIndexOfOutput] = (qwchar)0x1EC4/*Ễ*/; textLower[lastIndexOfOutput] = (qwchar)0x1EC5/*ễ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0x1EBD/*ẽ*/:text[lastIndexOfOutput] = (qwchar)0x1EC5/*ễ*/; textLower[lastIndexOfOutput] = (qwchar)0x1EC5/*ễ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0x1EB8/*Ẹ*/:text[lastIndexOfOutput] = (qwchar)0x1EC6/*Ệ*/; textLower[lastIndexOfOutput] = (qwchar)0x1EC7/*ệ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0x1EB9/*ẹ*/:text[lastIndexOfOutput] = (qwchar)0x1EC7/*ệ*/; textLower[lastIndexOfOutput] = (qwchar)0x1EC7/*ệ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0x4F/*O*/:text[lastIndexOfOutput] = (qwchar)0xD4/*Ô*/; textLower[lastIndexOfOutput] = (qwchar)0xF4/*ô*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x6F/*o*/:text[lastIndexOfOutput] = (qwchar)0xF4/*ô*/; textLower[lastIndexOfOutput] = (qwchar)0xF4/*ô*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0xD2/*Ò*/:text[lastIndexOfOutput] = (qwchar)0x1ED2/*Ồ*/; textLower[lastIndexOfOutput] = (qwchar)0x1ED3/*ồ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0xF2/*ò*/:text[lastIndexOfOutput] = (qwchar)0x1ED3/*ồ*/; textLower[lastIndexOfOutput] = (qwchar)0x1ED3/*ồ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0xD3/*Ó*/:text[lastIndexOfOutput] = (qwchar)0x1ED0/*Ố*/; textLower[lastIndexOfOutput] = (qwchar)0x1ED1/*ố*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0xF3/*ó*/:text[lastIndexOfOutput] = (qwchar)0x1ED1/*ố*/; textLower[lastIndexOfOutput] = (qwchar)0x1ED1/*ố*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0x1ECE/*Ỏ*/:text[lastIndexOfOutput] = (qwchar)0x1ED4/*Ổ*/; textLower[lastIndexOfOutput] = (qwchar)0x1ED5/*ổ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0x1ECF/*ỏ*/:text[lastIndexOfOutput] = (qwchar)0x1ED5/*ổ*/; textLower[lastIndexOfOutput] = (qwchar)0x1ED5/*ổ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0xD5/*Õ*/:text[lastIndexOfOutput] = (qwchar)0x1ED6/*Ỗ*/; textLower[lastIndexOfOutput] = (qwchar)0x1ED7/*ỗ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0xF5/*õ*/:text[lastIndexOfOutput] = (qwchar)0x1ED7/*ỗ*/; textLower[lastIndexOfOutput] = (qwchar)0x1ED7/*ỗ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0x1ECC/*Ọ*/:text[lastIndexOfOutput] = (qwchar)0x1ED8/*Ộ*/; textLower[lastIndexOfOutput] = (qwchar)0x1ED9/*ộ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0x1ECD/*ọ*/:text[lastIndexOfOutput] = (qwchar)0x1ED9/*ộ*/; textLower[lastIndexOfOutput] = (qwchar)0x1ED9/*ộ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
 							default:textCountTotalChange++; break;
 							}
 						}
@@ -3133,18 +3181,18 @@ void				VietnameseTextNormalizer::Normalize(void)
 							int lastIndexOfOutput = textLength - 1;
 							switch (text[lastIndexOfOutput])
 							{
-							case 0x41/*A*/:text[lastIndexOfOutput] = 0x102/*Ă*/; textLower[lastIndexOfOutput] = 0x103/*ă*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x61/*a*/:text[lastIndexOfOutput] = 0x103/*ă*/; textLower[lastIndexOfOutput] = 0x103/*ă*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0xC0/*À*/:text[lastIndexOfOutput] = 0x1EB0/*Ằ*/; textLower[lastIndexOfOutput] = 0x1EB1/*ằ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0xE0/*à*/:text[lastIndexOfOutput] = 0x1EB1/*ằ*/; textLower[lastIndexOfOutput] = 0x1EB1/*ằ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0xC1/*Á*/:text[lastIndexOfOutput] = 0x1EAE/*Ắ*/; textLower[lastIndexOfOutput] = 0x1EAF/*ắ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0xE1/*á*/:text[lastIndexOfOutput] = 0x1EAF/*ắ*/; textLower[lastIndexOfOutput] = 0x1EAF/*ắ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0x1EA2/*Ả*/:text[lastIndexOfOutput] = 0x1EB2/*Ẳ*/; textLower[lastIndexOfOutput] = 0x1EB3/*ẳ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0x1EA3/*ả*/:text[lastIndexOfOutput] = 0x1EB3/*ẳ*/; textLower[lastIndexOfOutput] = 0x1EB3/*ẳ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0xC3/*Ã*/:text[lastIndexOfOutput] = 0x1EB4/*Ẵ*/; textLower[lastIndexOfOutput] = 0x1EB5/*ẵ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0xE3/*ã*/:text[lastIndexOfOutput] = 0x1EB5/*ẵ*/; textLower[lastIndexOfOutput] = 0x1EB5/*ẵ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0x1EA0/*Ạ*/:text[lastIndexOfOutput] = 0x1EB6/*Ặ*/; textLower[lastIndexOfOutput] = 0x1EB7/*ặ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0x1EA1/*ạ*/:text[lastIndexOfOutput] = 0x1EB7/*ặ*/; textLower[lastIndexOfOutput] = 0x1EB7/*ặ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountTotalChange++; break;
+							case 0x41/*A*/:text[lastIndexOfOutput] = (qwchar)0x102/*Ă*/; textLower[lastIndexOfOutput] = (qwchar)0x103/*ă*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x61/*a*/:text[lastIndexOfOutput] = (qwchar)0x103/*ă*/; textLower[lastIndexOfOutput] = (qwchar)0x103/*ă*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0xC0/*À*/:text[lastIndexOfOutput] = (qwchar)0x1EB0/*Ằ*/; textLower[lastIndexOfOutput] = (qwchar)0x1EB1/*ằ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0xE0/*à*/:text[lastIndexOfOutput] = (qwchar)0x1EB1/*ằ*/; textLower[lastIndexOfOutput] = (qwchar)0x1EB1/*ằ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0xC1/*Á*/:text[lastIndexOfOutput] = (qwchar)0x1EAE/*Ắ*/; textLower[lastIndexOfOutput] = (qwchar)0x1EAF/*ắ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0xE1/*á*/:text[lastIndexOfOutput] = (qwchar)0x1EAF/*ắ*/; textLower[lastIndexOfOutput] = (qwchar)0x1EAF/*ắ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0x1EA2/*Ả*/:text[lastIndexOfOutput] = (qwchar)0x1EB2/*Ẳ*/; textLower[lastIndexOfOutput] = (qwchar)0x1EB3/*ẳ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0x1EA3/*ả*/:text[lastIndexOfOutput] = (qwchar)0x1EB3/*ẳ*/; textLower[lastIndexOfOutput] = (qwchar)0x1EB3/*ẳ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0xC3/*Ã*/:text[lastIndexOfOutput] = (qwchar)0x1EB4/*Ẵ*/; textLower[lastIndexOfOutput] = (qwchar)0x1EB5/*ẵ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0xE3/*ã*/:text[lastIndexOfOutput] = (qwchar)0x1EB5/*ẵ*/; textLower[lastIndexOfOutput] = (qwchar)0x1EB5/*ẵ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0x1EA0/*Ạ*/:text[lastIndexOfOutput] = (qwchar)0x1EB6/*Ặ*/; textLower[lastIndexOfOutput] = (qwchar)0x1EB7/*ặ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0x1EA1/*ạ*/:text[lastIndexOfOutput] = (qwchar)0x1EB7/*ặ*/; textLower[lastIndexOfOutput] = (qwchar)0x1EB7/*ặ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
 							default:textCountTotalChange++; break;
 							}
 						}
@@ -3156,18 +3204,18 @@ void				VietnameseTextNormalizer::Normalize(void)
 							int lastIndexOfOutput = textLength - 1;
 							switch (text[lastIndexOfOutput])
 							{
-							case 0x4F/*O*/:text[lastIndexOfOutput] = 0x1A0/*Ơ*/; textLower[lastIndexOfOutput] = 0x1A1/*ơ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0x6F/*o*/:text[lastIndexOfOutput] = 0x1A1/*ơ*/; textLower[lastIndexOfOutput] = 0x1A1/*ơ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
-							case 0xD2/*Ò*/:text[lastIndexOfOutput] = 0x1EDC/*Ờ*/; textLower[lastIndexOfOutput] = 0x1EDD/*ờ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0xF2/*ò*/:text[lastIndexOfOutput] = 0x1EDD/*ờ*/; textLower[lastIndexOfOutput] = 0x1EDD/*ờ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0xD3/*Ó*/:text[lastIndexOfOutput] = 0x1EDA/*Ớ*/; textLower[lastIndexOfOutput] = 0x1EDB/*ớ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0xF3/*ó*/:text[lastIndexOfOutput] = 0x1EDB/*ớ*/; textLower[lastIndexOfOutput] = 0x1EDB/*ớ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0x1ECE/*Ỏ*/:text[lastIndexOfOutput] = 0x1EDE/*Ở*/; textLower[lastIndexOfOutput] = 0x1EDF/*ở*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0x1ECF/*ỏ*/:text[lastIndexOfOutput] = 0x1EDF/*ở*/; textLower[lastIndexOfOutput] = 0x1EDF/*ở*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0xD5/*Õ*/:text[lastIndexOfOutput] = 0x1EE0/*Ỡ*/; textLower[lastIndexOfOutput] = 0x1EE1/*ỡ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0xF5/*õ*/:text[lastIndexOfOutput] = 0x1EE1/*ỡ*/; textLower[lastIndexOfOutput] = 0x1EE1/*ỡ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0x1ECC/*Ọ*/:text[lastIndexOfOutput] = 0x1EE2/*Ợ*/; textLower[lastIndexOfOutput] = 0x1EE3/*ợ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = iChar; textCountTotalChange++; break;
-							case 0x1ECD/*ọ*/:text[lastIndexOfOutput] = 0x1EE3/*ợ*/; textLower[lastIndexOfOutput] = 0x1EE3/*ợ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = iChar; textCountTotalChange++; break;
+							case 0x4F/*O*/:text[lastIndexOfOutput] = (qwchar)0x1A0/*Ơ*/; textLower[lastIndexOfOutput] = (qwchar)0x1A1/*ơ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0x6F/*o*/:text[lastIndexOfOutput] = (qwchar)0x1A1/*ơ*/; textLower[lastIndexOfOutput] = (qwchar)0x1A1/*ơ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+							case 0xD2/*Ò*/:text[lastIndexOfOutput] = (qwchar)0x1EDC/*Ờ*/; textLower[lastIndexOfOutput] = (qwchar)0x1EDD/*ờ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0xF2/*ò*/:text[lastIndexOfOutput] = (qwchar)0x1EDD/*ờ*/; textLower[lastIndexOfOutput] = (qwchar)0x1EDD/*ờ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0xD3/*Ó*/:text[lastIndexOfOutput] = (qwchar)0x1EDA/*Ớ*/; textLower[lastIndexOfOutput] = (qwchar)0x1EDB/*ớ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0xF3/*ó*/:text[lastIndexOfOutput] = (qwchar)0x1EDB/*ớ*/; textLower[lastIndexOfOutput] = (qwchar)0x1EDB/*ớ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0x1ECE/*Ỏ*/:text[lastIndexOfOutput] = (qwchar)0x1EDE/*Ở*/; textLower[lastIndexOfOutput] = (qwchar)0x1EDF/*ở*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0x1ECF/*ỏ*/:text[lastIndexOfOutput] = (qwchar)0x1EDF/*ở*/; textLower[lastIndexOfOutput] = (qwchar)0x1EDF/*ở*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0xD5/*Õ*/:text[lastIndexOfOutput] = (qwchar)0x1EE0/*Ỡ*/; textLower[lastIndexOfOutput] = (qwchar)0x1EE1/*ỡ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0xF5/*õ*/:text[lastIndexOfOutput] = (qwchar)0x1EE1/*ỡ*/; textLower[lastIndexOfOutput] = (qwchar)0x1EE1/*ỡ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0x1ECC/*Ọ*/:text[lastIndexOfOutput] = (qwchar)0x1EE2/*Ợ*/; textLower[lastIndexOfOutput] = (qwchar)0x1EE3/*ợ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+							case 0x1ECD/*ọ*/:text[lastIndexOfOutput] = (qwchar)0x1EE3/*ợ*/; textLower[lastIndexOfOutput] = (qwchar)0x1EE3/*ợ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
 							default:textCountTotalChange++; break;
 							}
 						}
@@ -3176,7 +3224,7 @@ void				VietnameseTextNormalizer::Normalize(void)
 						/************************************************************************/
 						/* Các kí tự đặc biệt khác ngoài bảng mã                                */
 						/************************************************************************/
-					default:text[textLength] = currentCharacter; textLower[textLength] = currentCharacter; textType[textLength] = CHARACTER_TYPE_UNKNOWN; textIndex[textLength] = iChar; textLength++; textCountUnknownCharacter++; break;
+					default:text[textLength] = currentCharacter; textLower[textLength] = currentCharacter; textType[textLength] = CHARACTER_TYPE_UNKNOWN; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUnknownCharacter++; break;
 					}//kết thúc của switch
 				}//kết thúc của for duyệt từ đầu chuỗi originalText đến cuối
 				text[textLength] = 0x20/*space*/;
@@ -3902,7 +3950,7 @@ void				VietnameseTextNormalizer::Normalize(void)
 			qvsylidentifier		maxWayIdentifier = 0;
 			for (int iway = 0; iway < vnsyllables[textNode->vietnameseSyllableIdentifier].correctLength; iway++)
 			{
-				int currentVietnameseSyllableIdentifier = vnsyllables[textNode->vietnameseSyllableIdentifier].correct[iway];
+				qvsylidentifier currentVietnameseSyllableIdentifier = vnsyllables[textNode->vietnameseSyllableIdentifier].correct[iway];
 				double currentScore = SignificantScore(textNode, currentVietnameseSyllableIdentifier) + PerplexityScore(textNode, currentVietnameseSyllableIdentifier);
 				if (currentScore > 0)
 				{
@@ -3950,7 +3998,7 @@ void				VietnameseTextNormalizer::Normalize(void)
 			&& textNode->vietnameseMissingIndentifiler == 0
 			&& vnsyllables[textNode->vietnameseSyllableIdentifier].iyidentifier)
 		{
-			int otherWayIdentifier = vnsyllables[textNode->vietnameseSyllableIdentifier].iyidentifier;
+			qvsylidentifier otherWayIdentifier = vnsyllables[textNode->vietnameseSyllableIdentifier].iyidentifier;
 			double currentSure = SignificantScore(textNode, textNode->vietnameseSyllableIdentifier) + PerplexityScore(textNode, textNode->vietnameseSyllableIdentifier);
 			double otherSure = SignificantScore(textNode, otherWayIdentifier) + PerplexityScore(textNode, otherWayIdentifier);
 			if (currentSure == 0.0 && otherSure > 0.0)
@@ -4039,7 +4087,7 @@ void				VietnameseTextNormalizer::Normalize(void)
 			&& vnsyllables[textNode->vietnameseSyllableIdentifier].iyidentifier
 			&& vnsyllables[textNode->vietnameseSyllableIdentifier].otherisi)
 		{
-			int otherWayIdentifier = vnsyllables[textNode->vietnameseSyllableIdentifier].iyidentifier;
+			qvsylidentifier otherWayIdentifier = vnsyllables[textNode->vietnameseSyllableIdentifier].iyidentifier;
 			textNode->vietnameseSyllableIdentifier = otherWayIdentifier;
 			switch (textNode->capital)
 			{
@@ -4136,7 +4184,7 @@ void				VietnameseTextNormalizer::Normalize(void)
 				&& leftTextNodeOffset1->vietnameseSyllableIdentifier == VIETNAMESE_SYLLABLE_V_OO
 				)
 			{
-				int otherWayIdentifier = VIETNAMESE_SYLLABLE_T_R_U_N_G;
+				qvsylidentifier otherWayIdentifier = VIETNAMESE_SYLLABLE_T_R_U_N_G;
 				textNode->vietnameseSyllableIdentifier = otherWayIdentifier;
 				switch (textNode->capital)
 				{
@@ -4165,7 +4213,7 @@ void				VietnameseTextNormalizer::Normalize(void)
 				&& rightTextNodeOffset0->vietnameseSyllableIdentifier == VIETNAMESE_SYLLABLE_DD_O_AS_N
 				&& SignificantScore(textNode, VIETNAMESE_SYLLABLE_C_H_AAR_N) > 0)
 			{
-				int otherWayIdentifier = VIETNAMESE_SYLLABLE_C_H_AAR_N;
+				qvsylidentifier otherWayIdentifier = VIETNAMESE_SYLLABLE_C_H_AAR_N;
 				textNode->vietnameseSyllableIdentifier = otherWayIdentifier;
 				switch (textNode->capital)
 				{
@@ -4750,14 +4798,635 @@ void				VietnameseTextNormalizer::Refresh(void)
 #ifdef WIN32_NORMALIZER_TOOL
 #ifndef QBT_VALIDATE_TOOL
 #include <Windows.h>
-void main2(void)
+#include <iostream>
+#include <string>
+namespace std
 {
-	wchar_t testStr[] = L"Tôi làm việ ở ban công ngệ FPT, tôi là người viêt nam. hôm nay tôi ko thích ăn mì tôm. tôi làm đc 2 bài tập.";
-	VietnameseTextNormalizer vntObject;
-	vntObject.Input(testStr);
-	vntObject.Normalize();
-	vntObject.GenStandardText();
-	::MessageBoxW(0, vntObject.standardText, L"Output", MB_OK);
+
+	/************************************************************************/
+	/*                                                                      */
+	/************************************************************************/
+	void			GoToXY(int x, int y)
+	{
+#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) || defined(_MSC_VER)
+		HANDLE hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
+		COORD Cursor_an_Pos = { (short)x, (short)y };
+		SetConsoleCursorPosition(hConsoleOutput, Cursor_an_Pos);
+#else
+		printf("%c[%d;%df", 0x1B, y, x);
+#endif
+	}
+	void			ClearScreen(void)
+	{
+#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) || defined(_MSC_VER)
+		CONSOLE_SCREEN_BUFFER_INFO  csbiInfo;
+		HANDLE  hConsoleOut;
+		COORD   Home = { 0, 0 };
+		DWORD   dummy;
+		hConsoleOut = GetStdHandle(STD_OUTPUT_HANDLE);
+		GetConsoleScreenBufferInfo(hConsoleOut, &csbiInfo);
+		FillConsoleOutputCharacter(hConsoleOut, ' ', csbiInfo.dwSize.X * csbiInfo.dwSize.Y, Home, &dummy);
+		csbiInfo.dwCursorPosition.X = 0;
+		csbiInfo.dwCursorPosition.Y = 0;
+		SetConsoleCursorPosition(hConsoleOut, csbiInfo.dwCursorPosition);
+		GoToXY(0, 0);
+		for (int i = 0; i < 50; i++) printf("                                                                                 ");
+		GoToXY(0, 0);
+#else
+		system("clear");
+#endif
+	}
+	std::wstring		GetLower(const std::wstring &wstr);
+	void			Show(const std::wstring& title, const wchar_t * format, ...)
+	{
+		if (format)
+		{
+#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) || defined(_MSC_VER)
+			wchar_t 	buffer[10250] = { 0 };
+			va_list args;
+			va_start(args, format);
+			_vsnwprintf_s(buffer, 10240, format, args);
+			va_end(args);
+			int supportFlag = 0;
+
+			if (GetLower(title).find(L"lỗi") != std::wstring::npos) supportFlag = MB_ICONERROR;
+			else if (GetLower(title).find(L"cảnh báo") != std::wstring::npos) supportFlag = MB_ICONWARNING;
+			::MessageBoxW(0, buffer, title.c_str(), MB_OK | supportFlag);
+#else
+			wchar_t 	buffer[10250] = { 0 };
+			va_list args;
+			va_start(args, format);
+			vswprintf(buffer, 10240, format, args);
+			va_end(args);
+			gui::SetTextColor(CONSOLE_COLOR_BOLD);
+			printf("%s\n", GetString(title).c_str());
+			gui::SetTextColor(CONSOLE_COLOR_DISABLE_BOLD);
+			printf("%s\n", GetString(buffer).c_str());
+#endif
+		}
+	}
+
+	/************************************************************************/
+	/* w-string                                                             */
+	/************************************************************************/
+	class				wcslesscmp
+	{
+	public:
+		bool operator()(const std::wstring& lhs, const std::wstring& rhs)const
+		{
+			return lhs.compare(rhs) < 0;
+		}
+	};
+	typedef				std::set<std::wstring, std::wcslesscmp>						wstringset;
+	bool				operator !=(const std::wstring& a, const std::wstring& b)
+	{
+		return wcscmp(a.c_str(), b.c_str()) != 0;
+	}
+	bool				operator !=(const std::wstring& a, const wchar_t* b)
+	{
+		return wcscmp(a.c_str(), b) != 0;
+	}
+
+
+	wchar_t				GetLower(wchar_t wch)
+	{
+		switch (wch)
+		{
+		case 0xC0:/*AF*/
+			return 0xE0/*af*/;
+		case 0xC1:/*AS*/
+			return 0xE1/*as*/;
+		case 0x1EA2:/*AR*/
+			return 0x1EA3/*ar*/;
+		case 0xC3:/*AX*/
+			return 0xE3/*ax*/;
+		case 0x1EA0:/*AJ*/
+			return 0x1EA1/*aj*/;
+		case 0x102:/*AW*/
+			return 0x103/*aw*/;
+		case 0x1EB0:/*AWF*/
+			return 0x1EB1/*awf*/;
+		case 0x1EAE:/*AWS*/
+			return 0x1EAF/*aws*/;
+		case 0x1EB2:/*AWR*/
+			return 0x1EB3/*awr*/;
+		case 0x1EB4:/*AWX*/
+			return 0x1EB5/*awx*/;
+		case 0x1EB6:/*AWJ*/
+			return 0x1EB7/*awj*/;
+		case 0xC2:/*AA*/
+			return 0xE2/*aa*/;
+		case 0x1EA6:/*AAF*/
+			return 0x1EA7/*aaf*/;
+		case 0x1EA4:/*AAS*/
+			return 0x1EA5/*aas*/;
+		case 0x1EA8:/*AAR*/
+			return 0x1EA9/*aar*/;
+		case 0x1EAA:/*AAX*/
+			return 0x1EAB/*aax*/;
+		case 0x1EAC:/*AAJ*/
+			return 0x1EAD/*aaj*/;
+		case 0x110:/*DD*/
+			return 0x111/*dd*/;
+		case 0xC8:/*EF*/
+			return 0xE8/*ef*/;
+		case 0xC9:/*ES*/
+			return 0xE9/*es*/;
+		case 0x1EBA:/*ER*/
+			return 0x1EBB/*er*/;
+		case 0x1EBC:/*EX*/
+			return 0x1EBD/*ex*/;
+		case 0x1EB8:/*EJ*/
+			return 0x1EB9/*ej*/;
+		case 0xCA:/*EE*/
+			return 0xEA/*ee*/;
+		case 0x1EC0:/*EEF*/
+			return 0x1EC1/*eef*/;
+		case 0x1EBE:/*EES*/
+			return 0x1EBF/*ees*/;
+		case 0x1EC2:/*EER*/
+			return 0x1EC3/*eer*/;
+		case 0x1EC4:/*EEX*/
+			return 0x1EC5/*eex*/;
+		case 0x1EC6:/*EEJ*/
+			return 0x1EC7/*eej*/;
+		case 0xCC:/*IF*/
+			return 0xEC/*if*/;
+		case 0xCD:/*IS*/
+			return 0xED/*is*/;
+		case 0x1EC8:/*IR*/
+			return 0x1EC9/*ir*/;
+		case 0x128:/*IX*/
+			return 0x129/*ix*/;
+		case 0x1ECA:/*IJ*/
+			return 0x1ECB/*ij*/;
+		case 0xD2:/*OF*/
+			return 0xF2/*of*/;
+		case 0xD3:/*OS*/
+			return 0xF3/*os*/;
+		case 0x1ECE:/*OR*/
+			return 0x1ECF/*or*/;
+		case 0xD5:/*OX*/
+			return 0xF5/*ox*/;
+		case 0x1ECC:/*OJ*/
+			return 0x1ECD/*oj*/;
+		case 0xD4:/*OO*/
+			return 0xF4/*oo*/;
+		case 0x1ED2:/*OOF*/
+			return 0x1ED3/*oof*/;
+		case 0x1ED0:/*OOS*/
+			return 0x1ED1/*oos*/;
+		case 0x1ED4:/*OOR*/
+			return 0x1ED5/*oor*/;
+		case 0x1ED6:/*OOX*/
+			return 0x1ED7/*oox*/;
+		case 0x1ED8:/*OOJ*/
+			return 0x1ED9/*ooj*/;
+		case 0x1A0:/*OW*/
+			return 0x1A1/*ow*/;
+		case 0x1EDC:/*OWF*/
+			return 0x1EDD/*owf*/;
+		case 0x1EDA:/*OWS*/
+			return 0x1EDB/*ows*/;
+		case 0x1EDE:/*OWR*/
+			return 0x1EDF/*owr*/;
+		case 0x1EE0:/*OWX*/
+			return 0x1EE1/*owx*/;
+		case 0x1EE2:/*OWJ*/
+			return 0x1EE3/*owj*/;
+		case 0xD9:/*UF*/
+			return 0xF9/*uf*/;
+		case 0xDA:/*US*/
+			return 0xFA/*us*/;
+		case 0x1EE6:/*UR*/
+			return 0x1EE7/*ur*/;
+		case 0x168:/*UX*/
+			return 0x169/*ux*/;
+		case 0x1EE4:/*UJ*/
+			return 0x1EE5/*uj*/;
+		case 0x1AF:/*UW*/
+			return 0x1B0/*uw*/;
+		case 0x1EEA:/*UWF*/
+			return 0x1EEB/*uwf*/;
+		case 0x1EE8:/*UWS*/
+			return 0x1EE9/*uws*/;
+		case 0x1EEC:/*UWR*/
+			return 0x1EED/*uwr*/;
+		case 0x1EEE:/*UWX*/
+			return 0x1EEF/*uwx*/;
+		case 0x1EF0:/*UWJ*/
+			return 0x1EF1/*uwj*/;
+		case 0x1EF2:/*YF*/
+			return 0x1EF3/*yf*/;
+		case 0xDD:/*YS*/
+			return 0xFD/*ys*/;
+		case 0x1EF6:/*YR*/
+			return 0x1EF7/*yr*/;
+		case 0x1EF8:/*YX*/
+			return 0x1EF9/*yx*/;
+		case 0x1EF4:/*YJ*/
+			return 0x1EF5/*yj*/;
+		case 0xD0/*Kí tự đặc biệt Ð*/:
+			return 0x111/*đ*/;
+		}
+		if (wch >= 'A'&&wch <= 'Z') return wch + 'a' - 'A';
+		return wch;
+	}
+	std::wstring		GetLower(const std::wstring &wstr)
+	{
+		std::wstring bufferLower;
+		for (unsigned int i = 0; i < wstr.size(); i++)
+		{
+			bufferLower += GetLower(wstr[i]);
+		}
+		return bufferLower;
+	}
+	int					StartWith(const std::wstring& str, const std::wstring& subStr)
+	{
+		if (str.size() >= subStr.size() && subStr.size() > 0)
+		{
+			for (auto i = 0u; i < subStr.size(); i++)
+			{
+				if (str[i] != subStr[i]) return 0;
+			}
+			return 1;
+		}
+		return 0;
+	}
+	int					EndWith(const std::wstring& str, const std::wstring& subStr)
+	{
+		return (str.size() >= subStr.size() && subStr.size() > 0 && str.substr(str.size() - subStr.size()) == subStr);
+	}
+	std::wstring		GetWString(const std::string& str)
+	{
+#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) || defined(_MSC_VER)
+		//	std::wstring buffer;
+		//	int			bufferWideCharLength = str.size() + 10;
+		//	wchar_t *	bufferWideChar = (wchar_t*)calloc(bufferWideCharLength + 100/*safe*/, sizeof(wchar_t));
+		//	if (bufferWideChar)
+		//	{
+		//		MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, bufferWideChar, bufferWideCharLength);
+		//		buffer += bufferWideChar;
+		//		free(bufferWideChar);
+		//	}
+		//	return buffer;
+
+		std::wstring_convert<std::codecvt_utf8<wchar_t>> myconv;
+		return myconv.from_bytes(str);
+#else
+		std::wstring_convert<std::codecvt_utf8<wchar_t>> myconv;
+		return myconv.from_bytes(str);
+#endif
+	}
+	std::wstring		GetWString(const wchar_t * wstr, int length)
+	{
+		std::wstring buffer;
+		if (wstr)
+		{
+			for (int ichar = 0; ichar < length && wstr[ichar]; ichar++) buffer += wstr[ichar];
+		}
+		return buffer;
+	}
+	std::wstring		GetWString(const char * str, int length)
+	{
+		std::string bufferA;
+		//bufferA.reserve(length + 10);
+		for (int iChar = 0; iChar < length; iChar++)
+		{
+			if (str[iChar]) bufferA += str[iChar];
+		}
+		return GetWString(bufferA);
+	}
+	std::wstring		GetWString(const char * str, long long int length)
+	{
+		std::string bufferA;
+		//bufferA.reserve(length + 10);
+		for (int iChar = 0; iChar < length; iChar++)
+		{
+			if (str[iChar]) bufferA += str[iChar];
+		}
+		return GetWString(bufferA);
+	}
+	std::string			GetString(const std::wstring& wstr)
+	{
+#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) || defined(_MSC_VER)
+		std::string buffer;
+		int		bufferUtf8Length = int(wstr.size() * 4 + 10);
+		char *	bufferUtf8 = (char*)calloc(bufferUtf8Length, sizeof(char));
+		if (bufferUtf8)
+		{
+			WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), (int)wstr.size(), bufferUtf8, bufferUtf8Length, 0, 0);
+			buffer += bufferUtf8;
+			free(bufferUtf8);
+		}
+		return buffer;
+#else
+		std::wstring_convert<std::codecvt_utf8<wchar_t>> myconv;
+		return myconv.to_bytes(wstr);
+#endif
+	}
+	/************************************************************************/
+	/* file                                                                 */
+	/************************************************************************/
+	void				DeleteFile(const std::wstring &fileName)
+	{
+#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) 
+		::DeleteFileW(fileName.c_str());
+#else
+		remove(GetString(fileName).c_str());
+#endif
+	}
+	void				ScanFile(const std::wstring &path, const std::wstring &extension, std::wstringset &fileSet)
+	{
+#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) || defined(_MSC_VER)
+		std::wstring		wFolder = path;
+		if (wFolder.size() && wFolder[wFolder.size() - 1] != L'\\') wFolder += L'\\';
+		wFolder += extension;
+		WIN32_FIND_DATAW		fd;
+		HANDLE hFind = FindFirstFileW(wFolder.c_str(), &fd);
+		if (hFind == INVALID_HANDLE_VALUE) return;
+		do
+		{
+			if (fd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY)
+			{//là thư mục
+				if (wcscmp(fd.cFileName, L".") && wcscmp(fd.cFileName, L".."))
+				{//không phải là thư mục đặc biệt
+					std::wstring child = path;
+					if (child.size() && child[child.size() - 1] != L'\\') child += L'\\';
+					child += fd.cFileName;
+					ScanFile(child, extension, fileSet);
+				}
+			}
+			else
+			{//là file
+				std::wstring filePath = path;
+				if (filePath.size() && filePath[filePath.size() - 1] != L'\\') filePath += L'\\';
+				filePath += fd.cFileName;
+				fileSet.insert(filePath);
+			}
+		} while (FindNextFileW(hFind, &fd));
+		FindClose(hFind);
+#else
+
+
+		DIR *dir = opendir(GetString(path).c_str());
+		class dirent *ent;
+		class stat st;
+		while ((ent = readdir(dir)) != NULL)
+		{
+			const std::string file_name = ent->d_name;
+			const std::wstring full_file_name = path + L"/" + file_name;
+
+			if (file_name[0] == '.')
+			{
+				/*do nothing*/
+			}
+			else if (stat(GetString(full_file_name).c_str(), &st) == -1)
+			{
+				/*do nothing*/
+			}
+			else
+			{
+				const bool is_directory = (st.st_mode & S_IFDIR) != 0;
+				if (is_directory)
+				{
+					ScanFile(full_file_name, extension, fileSet);
+				}
+				else
+				{
+					fileSet.insert(full_file_name);
+				}
+			}
+		}
+		closedir(dir);
+#endif
+	}
+	void				GetRealFileName(const std::wstring &filePath, std::wstring &rFilename)
+	{
+		rFilename.clear();
+		for (auto i = 0u; i < filePath.size(); i++)
+		{
+			if (filePath[i] == L'\\' || filePath[i] == L'/') rFilename.clear();
+			else rFilename += filePath[i];
+		}
+		auto pos = rFilename.find(L'.');
+		if (pos != std::wstring::npos) rFilename.erase(pos, rFilename.size() - pos);
+	}
+	std::wstring		GetRealFileName(const std::wstring &filePath)
+	{
+		std::wstring rFilename;
+		GetRealFileName(filePath, rFilename);
+		return rFilename;
+	}
+	bool				ReadFile(const std::wstring &fileName, std::wstring &buffer)
+	{
+#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) || defined(_MSC_VER)
+		std::ifstream fileInputStream(fileName, std::ifstream::in | std::ifstream::binary);
+#else
+		std::ifstream fileInputStream(GetString(fileName), std::ifstream::in | std::ifstream::binary);
+#endif
+		if (fileInputStream.is_open())
+		{
+			fileInputStream.seekg(0, std::ios_base::end);
+			long long fileSize = fileInputStream.tellg();
+			fileInputStream.seekg(0, std::ios_base::beg);
+			if (fileSize <= 4)
+			{
+				char* utf8data = new char[fileSize + 10];
+				memset(utf8data, 0, fileSize + 10);
+				fileInputStream.seekg(0, std::ios_base::beg);
+				fileInputStream.read(utf8data, fileSize);
+				buffer += GetWString(utf8data, fileSize);
+				delete[] utf8data;
+				fileInputStream.close();
+				return true;
+			}
+			bool		flagValidateToRead = true;
+			char		byteOrderMark1 = 0;
+			char		byteOrderMark2 = 0;
+			char		byteOrderMark3 = 0;
+			char		byteOrderMark4 = 0;
+			fileInputStream.read(&byteOrderMark1, 1);
+			fileInputStream.read(&byteOrderMark2, 1);
+			fileInputStream.read(&byteOrderMark3, 1);
+			fileInputStream.read(&byteOrderMark4, 1);
+			fileInputStream.seekg(0, std::ios_base::beg);
+#pragma warning(push)
+#pragma warning(disable : 4310)
+			if (byteOrderMark1 == char(0xFE) && byteOrderMark2 == char(0xFF))
+			{//Unicode Big Endian
+				std::Show(std::wstring(L"Lỗi"), L"Error: Unsupported encode (Unicode Big Endian) with %ls \n", fileName.c_str());
+				flagValidateToRead = false;
+			}
+			else if (byteOrderMark1 == (char)0x00 && byteOrderMark2 == (char)0x00 && byteOrderMark3 == (char)0xFE && byteOrderMark4 == (char)0xFF)
+			{//UTF-32 Big Endian
+				std::Show(std::wstring(L"Lỗi"), L"Error: Unsupported encode (UTF-32 Big Endian) with %ls \n", fileName.c_str());
+				flagValidateToRead = false;
+			}
+			else if (byteOrderMark1 == (char)0xFF && byteOrderMark2 == (char)0xFE && byteOrderMark3 == (char)0x00 && byteOrderMark4 == (char)0x00)
+			{//UTF-32 Little Endian
+				std::Show(std::wstring(L"Lỗi"), L"Error: Unsupported encode (UTF-32 Little Endian) with %ls \n", fileName.c_str());
+				flagValidateToRead = false;
+			}
+			else if ((byteOrderMark1 == (char)0x2B && byteOrderMark2 == (char)0x2F && byteOrderMark3 == (char)0x76))
+			{//UTF-7
+				std::Show(std::wstring(L"Lỗi"), L"Error: Unsupported encode (UTF-7) with %ls \n", fileName.c_str());
+				flagValidateToRead = false;
+			}
+			else if (byteOrderMark1 == (char)0xFF && byteOrderMark2 == (char)0xFE)
+			{//Unicode Little Endian
+				wchar_t*	unicodeData = new wchar_t[fileSize * 2 + 10];
+				memset(unicodeData, 0, fileSize * 2 + 10);
+				fileInputStream.seekg(2, std::ios_base::beg);
+				fileInputStream.read((char*)unicodeData, fileSize);
+				buffer += unicodeData;
+				delete[] unicodeData;
+			}
+			else if (byteOrderMark1 == (char)0xEF && byteOrderMark2 == (char)0xBB && byteOrderMark3 == (char)0xBF)
+			{//utf8
+				char* utf8data = new char[fileSize + 10];
+				memset(utf8data, 0, fileSize + 10);
+				fileInputStream.seekg(3, std::ios_base::beg);
+				fileInputStream.read(utf8data, fileSize);
+				buffer += GetWString(utf8data, fileSize);
+				delete[] utf8data;
+			}
+			else
+			{//utf-8 without BOM
+				char* utf8data = (char*)calloc(fileSize + 10, sizeof(char));
+				if (utf8data)
+				{
+					fileInputStream.seekg(0, std::ios_base::beg);
+					fileInputStream.read(utf8data, fileSize);
+					buffer += GetWString(utf8data, fileSize);
+					free(utf8data);
+				}
+				else
+				{
+					std::Show(std::wstring(L"Lỗi"), L"Can not malloc to open file %ls \n", fileName.c_str());
+				}
+			}
+#pragma warning(pop)
+			fileInputStream.close();
+			return flagValidateToRead;
+		}
+		else
+		{
+			std::Show(std::wstring(L"Lỗi"), L"Error: Can not open file %ls \n", fileName.c_str());
+			return false;
+		}
+	}
+	std::wstring		ReadFile(const std::wstring &fileName)
+	{
+		std::wstring bufferContent;
+		ReadFile(fileName, bufferContent);
+		return bufferContent;
+	}
+	void				WriteFile(const std::wstring &fileName, const std::wstring &wstr, bool truncate)
+	{
+		for (auto i = 0u; i < fileName.size(); i++)
+		{
+#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) || defined(_MSC_VER)
+			if (fileName[i] == L'\\') ::CreateDirectoryW(fileName.substr(0, i).c_str(), 0);
+#else
+			int mkdir(const char *path, mode_t mode);
+			if (fileName[i] == L'/') mkdir(GetString(fileName.substr(0, i)).c_str(), 0777);
+#endif
+		}
+		if (truncate) DeleteFile(fileName);
+#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) || defined(_MSC_VER)
+		std::ofstream fileHandle(fileName, std::ios_base::out | std::ios_base::binary | (truncate ? std::ios_base::trunc : (std::ios_base::app | std::ios_base::ate)));
+#else
+		std::ofstream fileHandle(GetString(fileName), std::ios_base::out | std::ios_base::binary | (truncate ? std::ios_base::trunc : (std::ios_base::app | std::ios_base::ate)));
+#endif
+		if (fileHandle.is_open())
+		{
+#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) || defined(_MSC_VER)
+			int buffUtf8Size = int(wstr.size() * 2 + 10);
+			char* buffUtf8 = new char[buffUtf8Size];
+			memset(buffUtf8, 0, buffUtf8Size);
+			WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), (int)wstr.size(), buffUtf8, buffUtf8Size, 0, 0);
+			fileHandle.write(buffUtf8, strlen(buffUtf8));
+			fileHandle.close();
+			delete[] buffUtf8;
+#else
+			std::string		bufferToWrite = GetString(wstr);
+			int				writeSize = bufferToWrite.size();
+			unsigned int	beforeWriteOffset = fileHandle.tellp();
+			fileHandle.write(bufferToWrite.c_str(), writeSize);
+			unsigned int	affterWriteOffset = fileHandle.tellp();
+			unsigned int	writtenSize = affterWriteOffset - beforeWriteOffset;
+			fileHandle.close();
+			if (writtenSize != writeSize)
+			{
+				std::Show(std::wstring(L"Lỗi"), L"Error: write file %ls (utf8 size == %d bytes, write == %d bytes)\n", fileName.c_str(), writeSize, writtenSize);
+				//return false;
+			}
+			//else return true;
+#endif		
+		}
+		else
+		{
+			std::Show(std::wstring(L"Lỗi"), L"Error: Can not open to write file %ls \n", fileName.c_str());
+		}
+	}
+
+}
+void main(void)
+{
+	//	wchar_t testStr[] = L"Tôi làm việ ở ban công ngệ FPT, tôi là người viêt nam. hôm nay tôi ko thích ăn mì tôm. tôi làm đc 2 bài tập.";
+	//	VietnameseTextNormalizer vntObject;
+	//	vntObject.Input(testStr);
+	//	vntObject.Normalize();
+	//	vntObject.GenStandardText();
+	//	::MessageBoxW(0, vntObject.standardText, L"Output", MB_OK);
+
+	//gui g(L"VietnameseTextSegmenterTool");
+	std::ClearScreen();
+
+	wprintf(L"Huong dan su dung :\n");
+	wprintf(L"	Dat toan bo tap tin van ban  (*.txt) vao thu muc txt\n");
+	wprintf(L"	Dat tool nay ngang hang voi thu muc txt va chay tool\n");
+	wprintf(L"==>xem thu muc fix de lay ket qua\n\n");
+	wprintf(L"...An phim bat ki de bat dau...\n");
+	_getch();
+	std::wstringset textFileSet;
+	std::ScanFile(L"", L"*.*", textFileSet);
+	int countTotalChange = 0;
+	for (auto itxt = textFileSet.begin(); itxt != textFileSet.end(); itxt++)
+	{
+		if ((std::EndWith(std::GetLower(*itxt), L".txt")
+			|| std::EndWith(std::GetLower(*itxt), L".ftext")
+			|| std::EndWith(std::GetLower(*itxt), L".info")
+			|| std::EndWith(std::GetLower(*itxt), L".xml"))
+			&& std::GetRealFileName(*itxt) != L"info"
+			&& (!StartWith(*itxt, L"fix\\")))
+		{
+			std::GoToXY(0, 15);
+			wprintf(L"                                                                                         ");
+			std::GoToXY(0, 15);
+			wprintf(L"Read file %s..", itxt->c_str());
+			std::wstring fileContent = std::ReadFile(*itxt);
+			wprintf(L"fix..");
+
+			VietnameseTextNormalizer vntObject;
+			vntObject.Input(fileContent.c_str());
+			vntObject.Normalize();
+			vntObject.GenStandardText();
+			wprintf(L"save..");
+			if (vntObject.standardText && vntObject.standardTextChange > 0)
+			{
+				std::WriteFile(L"fix\\" + (*itxt), std::wstring(vntObject.standardText), true);
+				countTotalChange += vntObject.standardTextChange;
+			}
+			wprintf(L"done!");
+			std::GoToXY(0, 16);
+			wprintf(L"Fix %s : %d change                    \r\n", itxt->c_str(), vntObject.standardTextChange);
+			wprintf(L"Count total %d change                    \r\n", countTotalChange);
+		}
+	}
+	wprintf(L"Done");
+	_getch();
 }
 #endif
 #else
