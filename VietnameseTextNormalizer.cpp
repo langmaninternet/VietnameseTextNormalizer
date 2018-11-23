@@ -1740,7 +1740,9 @@ TEXT_NODE *			VietnameseTextNormalizer::InsertUnknownNodeToTail(qwchar const * n
 }
 void				VietnameseTextNormalizer::Input(const qwchar *text)
 {
+	FILE * backupLogFile = logFile;
 	Refresh();
+	logFile = backupLogFile;
 	/************************************************************************/
 	/*                                                                      */
 	/* Bước 1 : Tách sơ bộ dựa theo cách, table , null và xuống dòng:       */
