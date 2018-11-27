@@ -135,17 +135,17 @@ void				VietnameseTextNormalizer::Log(const qwchar * wstr, int wstrlen)
 							continue;
 						}
 						/*2 bytes UTF-8 Character.*/
-						*bufferUtf8Iterator = ((unsigned char)(temp_ucs2str_value >> 6)) | 0xc0;
-						*(bufferUtf8Iterator + 1) = ((unsigned char)(temp_ucs2str_value & 0x003F)) | 0x80;
+						*bufferUtf8Iterator = (unsigned char)(((unsigned char)(temp_ucs2str_value >> 6)) | 0xc0);
+						*(bufferUtf8Iterator + 1) = (unsigned char)(((unsigned char)(temp_ucs2str_value & 0x003F)) | 0x80);
 						length += 2;
 						bufferUtf8Iterator += 2;
 					}
 					else
 					{
 						/* 3 bytes UTF-8 Character .*/
-						*bufferUtf8Iterator = ((unsigned char)(temp_ucs2str_value >> 12)) | 0xE0;
-						*(bufferUtf8Iterator + 1) = ((unsigned char)((temp_ucs2str_value & 0x0FC0) >> 6)) | 0x80;
-						*(bufferUtf8Iterator + 2) = ((unsigned char)(temp_ucs2str_value & 0x003F)) | 0x80;
+						*bufferUtf8Iterator = (unsigned char)(((unsigned char)(temp_ucs2str_value >> 12)) | 0xE0);
+						*(bufferUtf8Iterator + 1) = (unsigned char)(((unsigned char)((temp_ucs2str_value & 0x0FC0) >> 6)) | 0x80);
+						*(bufferUtf8Iterator + 2) = (unsigned char)(((unsigned char)(temp_ucs2str_value & 0x003F)) | 0x80);
 						length += 3;
 						bufferUtf8Iterator += 3;
 					}
@@ -477,11 +477,11 @@ void				VietnameseTextNormalizer::UpdateVietnameseTextNodeContext(TEXT_NODE * te
 	leftTextNodeOffset0->rightVietnameseSyllableSure = vnsyllables[leftTextNodeOffset0->vietnameseSyllableIdentifier].RightSure(vietnameseSyllableIdentifier, 0);
 	leftTextNodeOffset1->rightVietnameseSyllableSure = vnsyllables[leftTextNodeOffset1->vietnameseSyllableIdentifier].RightSure(leftTextNodeOffset0->vietnameseSyllableIdentifier, vietnameseSyllableIdentifier);
 	leftTextNodeOffset0->rightVietnameseAbbreviationSure = vnabbreviations[leftTextNodeOffset0->vietnameseAbbreviationIndentifier].RightSure(vietnameseSyllableIdentifier, 0, 0, 0, 0)
-		+ vnabbreviations[leftTextNodeOffset0->vietnameseAbbreviationIndentifier].RightAbbreviationSure(textNode->vietnameseAbbreviationIndentifier, 0, 0, 0, 0);;
+		+ vnabbreviations[leftTextNodeOffset0->vietnameseAbbreviationIndentifier].RightAbbreviationSure(textNode->vietnameseAbbreviationIndentifier, 0, 0, 0, 0);
 	leftTextNodeOffset1->rightVietnameseAbbreviationSure = vnabbreviations[leftTextNodeOffset1->vietnameseAbbreviationIndentifier].RightSure(leftTextNodeOffset0->vietnameseSyllableIdentifier, vietnameseSyllableIdentifier, 0, 0, 0)
-		+ vnabbreviations[leftTextNodeOffset1->vietnameseAbbreviationIndentifier].RightAbbreviationSure(leftTextNodeOffset0->vietnameseAbbreviationIndentifier, textNode->vietnameseAbbreviationIndentifier, 0, 0, 0);;
+		+ vnabbreviations[leftTextNodeOffset1->vietnameseAbbreviationIndentifier].RightAbbreviationSure(leftTextNodeOffset0->vietnameseAbbreviationIndentifier, textNode->vietnameseAbbreviationIndentifier, 0, 0, 0);
 	leftTextNodeOffset2->rightVietnameseAbbreviationSure = vnabbreviations[leftTextNodeOffset2->vietnameseAbbreviationIndentifier].RightSure(leftTextNodeOffset1->vietnameseSyllableIdentifier, leftTextNodeOffset0->vietnameseSyllableIdentifier, vietnameseSyllableIdentifier, 0, 0)
-		+ vnabbreviations[leftTextNodeOffset2->vietnameseAbbreviationIndentifier].RightAbbreviationSure(leftTextNodeOffset1->vietnameseAbbreviationIndentifier, leftTextNodeOffset0->vietnameseAbbreviationIndentifier, textNode->vietnameseAbbreviationIndentifier, 0, 0);;
+		+ vnabbreviations[leftTextNodeOffset2->vietnameseAbbreviationIndentifier].RightAbbreviationSure(leftTextNodeOffset1->vietnameseAbbreviationIndentifier, leftTextNodeOffset0->vietnameseAbbreviationIndentifier, textNode->vietnameseAbbreviationIndentifier, 0, 0);
 	leftTextNodeOffset3->rightVietnameseAbbreviationSure = vnabbreviations[leftTextNodeOffset3->vietnameseAbbreviationIndentifier].RightSure(leftTextNodeOffset2->vietnameseSyllableIdentifier, leftTextNodeOffset1->vietnameseSyllableIdentifier, leftTextNodeOffset0->vietnameseSyllableIdentifier, vietnameseSyllableIdentifier, 0)
 		+ vnabbreviations[leftTextNodeOffset3->vietnameseAbbreviationIndentifier].RightAbbreviationSure(leftTextNodeOffset2->vietnameseAbbreviationIndentifier, leftTextNodeOffset1->vietnameseAbbreviationIndentifier, leftTextNodeOffset0->vietnameseAbbreviationIndentifier, textNode->vietnameseAbbreviationIndentifier, 0);
 	leftTextNodeOffset4->rightVietnameseAbbreviationSure = vnabbreviations[leftTextNodeOffset4->vietnameseAbbreviationIndentifier].RightSure(leftTextNodeOffset3->vietnameseSyllableIdentifier, leftTextNodeOffset2->vietnameseSyllableIdentifier, leftTextNodeOffset1->vietnameseSyllableIdentifier, leftTextNodeOffset0->vietnameseSyllableIdentifier, vietnameseSyllableIdentifier)
@@ -2065,7 +2065,7 @@ void				VietnameseTextNormalizer::Input(const qwchar *text)
 					qwchar characterNextFormLeftMatching = text[leftMatchingVietnameseLength];
 					if ((characterNextFormLeftMatching & 0xFF00) == 0xFF00 && (characterNextFormLeftMatching & 0x00FF) <= 0x60)
 					{
-						characterNextFormLeftMatching = (characterNextFormLeftMatching & 0x00FF) + 0x20;
+						characterNextFormLeftMatching = (qwchar)((characterNextFormLeftMatching & 0x00FF) + 0x20);
 					}
 					switch (characterNextFormLeftMatching)
 					{
@@ -2175,7 +2175,7 @@ void				VietnameseTextNormalizer::Input(const qwchar *text)
 					qwchar characterNextFormLeftMatching = text[leftMatchingEnglishWordLength];
 					if ((characterNextFormLeftMatching & 0xFF00) == 0xFF00 && (characterNextFormLeftMatching & 0x00FF) <= 0x60)
 					{
-						characterNextFormLeftMatching = (characterNextFormLeftMatching & 0x00FF) + 0x20;
+						characterNextFormLeftMatching = (qwchar)((characterNextFormLeftMatching & 0x00FF) + 0x20);
 					}
 					switch (text[leftMatchingEnglishWordLength])
 					{
@@ -2273,7 +2273,7 @@ void				VietnameseTextNormalizer::Input(const qwchar *text)
 					qwchar currentCharacter = *text;
 					if ((currentCharacter & 0xFF00) == 0xFF00 && (currentCharacter & 0x00FF) <= 0x60)
 					{
-						currentCharacter = (currentCharacter & 0x00FF) + 0x20;
+						currentCharacter = (qwchar)((currentCharacter & 0x00FF) + 0x20);
 					}
 					switch (currentCharacter)
 					{
@@ -2396,7 +2396,7 @@ void				VietnameseTextNormalizer::Input(const qwchar *text)
 					currentOriginalSyllableLength += leftMatchingVietnameseLength;
 					char needInsertCurrentCharacter = 0;
 					qwchar currentCharacter = *text;
-					if ((currentCharacter & 0xFF00) == 0xFF00 && (currentCharacter & 0x00FF) <= 0x60) currentCharacter = (currentCharacter & 0x00FF) + 0x20;
+					if ((currentCharacter & 0xFF00) == 0xFF00 && (currentCharacter & 0x00FF) <= 0x60) currentCharacter = (qwchar)((currentCharacter & 0x00FF) + 0x20);
 					switch (currentCharacter)
 					{
 					case 0xA0/*Non-breaking space*/:
@@ -2692,7 +2692,7 @@ void				VietnameseTextNormalizer::Normalize(void)
 					qwchar currentCharacter = *backupOriginalText;
 					if ((currentCharacter & 0xFF00) == 0xFF00 && (currentCharacter & 0x00FF) <= 0x60)
 					{
-						currentCharacter = (currentCharacter & 0x00FF) + 0x20;
+						currentCharacter = (qwchar)((currentCharacter & 0x00FF) + 0x20);
 						textCountTotalChange++;
 					}
 					switch (currentCharacter)
@@ -4128,7 +4128,7 @@ void				VietnameseTextNormalizer::Normalize(void)
 			TEXT_NODE *				leftTextNodeOffset1 = &nullTextNodeForStep2Normalize;
 			TEXT_NODE *				leftTextNodeOffset2 = &nullTextNodeForStep2Normalize;
 			TEXT_NODE *				leftTextNodeOffset3 = &nullTextNodeForStep2Normalize;
-			TEXT_NODE *				leftTextNodeOffset4 = &nullTextNodeForStep2Normalize;
+			//TEXT_NODE *				leftTextNodeOffset4 = &nullTextNodeForStep2Normalize;
 			if (textNode->back)
 			{
 				leftTextNodeOffset0 = textNode->back;
@@ -4141,10 +4141,10 @@ void				VietnameseTextNormalizer::Normalize(void)
 						if (leftTextNodeOffset2->back)
 						{
 							leftTextNodeOffset3 = leftTextNodeOffset2->back;
-							if (leftTextNodeOffset3->back)
-							{
-								leftTextNodeOffset4 = leftTextNodeOffset3->back;
-							}
+							//if (leftTextNodeOffset3->back)
+							//{
+							//	leftTextNodeOffset4 = leftTextNodeOffset3->back;
+							//}
 						}
 					}
 				}
@@ -5447,11 +5447,11 @@ static PyObject *	VietnameseTextNormalizerStandard(PyObject *self, PyObject *arg
 		{
 			std::wstring_convert<std::codecvt_utf8<wchar_t>> myconv;
 			std::wstring inputUcs2 = myconv.from_bytes(utf8input);
-			int nChar = inputUcs2.size();
+			size_t nChar = inputUcs2.size();
 			qwchar * ucs2buffer = (qwchar*)qcalloc(nChar + 10/*safe*/, sizeof(qwchar));
 			if (ucs2buffer)
 			{
-				for (int iChar = 0; iChar < nChar; iChar++)
+				for (size_t iChar = 0; iChar < nChar; iChar++)
 				{
 					ucs2buffer[iChar] = (qwchar)inputUcs2[iChar];
 				}
@@ -5478,11 +5478,11 @@ static PyObject *	VietnameseTextNormalizerStandard(PyObject *self, PyObject *arg
 	else if (PyArg_ParseTuple(args, "u", &unicodeInput) && unicodeInput != NULL && unicodeInput != nullUnicodeString)
 	{
 		std::wstring		unicodeResult = unicodeInput;
-		int					unicodeLength = unicodeResult.size();
+		size_t				unicodeLength = unicodeResult.size();
 		qwchar *			ucs2buffer = (qwchar*)qcalloc(unicodeLength + 10/*safe*/, sizeof(qwchar));
 		if (ucs2buffer)
 		{
-			for (int iChar = 0; iChar < unicodeLength; iChar++)
+			for (size_t iChar = 0; iChar < unicodeLength; iChar++)
 			{
 				ucs2buffer[iChar] = (qwchar)unicodeInput[iChar];
 			}
@@ -5520,11 +5520,11 @@ static PyObject *	VietnameseTextNormalizerForASR(PyObject *self, PyObject *args)
 		{
 			std::wstring_convert<std::codecvt_utf8<wchar_t>> myconv;
 			std::wstring inputUcs2 = myconv.from_bytes(utf8input);
-			int nChar = inputUcs2.size();
+			size_t nChar = inputUcs2.size();
 			qwchar * ucs2buffer = (qwchar*)qcalloc(nChar + 10/*safe*/, sizeof(qwchar));
 			if (ucs2buffer)
 			{
-				for (int iChar = 0; iChar < nChar; iChar++)
+				for (size_t iChar = 0; iChar < nChar; iChar++)
 				{
 					ucs2buffer[iChar] = (qwchar)inputUcs2[iChar];
 				}
@@ -5553,11 +5553,11 @@ static PyObject *	VietnameseTextNormalizerForASR(PyObject *self, PyObject *args)
 	else if (PyArg_ParseTuple(args, "u", &unicodeInput) && unicodeInput != NULL && unicodeInput != nullUnicodeString)
 	{
 		std::wstring		unicodeResult = unicodeInput;
-		int					unicodeLength = unicodeResult.size();
+		size_t					unicodeLength = unicodeResult.size();
 		qwchar *			ucs2buffer = (qwchar*)qcalloc(unicodeLength + 10/*safe*/, sizeof(qwchar));
 		if (ucs2buffer)
 		{
-			for (int iChar = 0; iChar < unicodeLength; iChar++)
+			for (size_t iChar = 0; iChar < unicodeLength; iChar++)
 			{
 				ucs2buffer[iChar] = (qwchar)unicodeInput[iChar];
 			}
@@ -5597,11 +5597,11 @@ static PyObject *	VietnameseTextNormalizerForIToY(PyObject *self, PyObject *args
 		{
 			std::wstring_convert<std::codecvt_utf8<wchar_t>> myconv;
 			std::wstring inputUcs2 = myconv.from_bytes(utf8input);
-			int nChar = inputUcs2.size();
+			size_t nChar = inputUcs2.size();
 			qwchar * ucs2buffer = (qwchar*)qcalloc(nChar + 10/*safe*/, sizeof(qwchar));
 			if (ucs2buffer)
 			{
-				for (int iChar = 0; iChar < nChar; iChar++)
+				for (size_t iChar = 0; iChar < nChar; iChar++)
 				{
 					ucs2buffer[iChar] = (qwchar)inputUcs2[iChar];
 				}
@@ -5631,13 +5631,13 @@ static PyObject *	VietnameseTextNormalizerForIToY(PyObject *self, PyObject *args
 	else if (PyArg_ParseTuple(args, "u", &unicodeInput) && unicodeInput != NULL && unicodeInput != nullUnicodeString)
 	{
 		std::wstring		unicodeResult = unicodeInput;
-		int					unicodeLength = unicodeResult.size();
+		size_t				unicodeLength = unicodeResult.size();
 		qwchar *			ucs2buffer = (qwchar*)qcalloc(unicodeLength + 10/*safe*/, sizeof(qwchar));
 		if (ucs2buffer)
 		{
-			for (int iChar = 0; iChar < unicodeLength; iChar++)
+			for (size_t iChar = 0; iChar < unicodeLength; iChar++)
 			{
-				ucs2buffer[iChar] = (qwchar)unicodeInput[iChar];
+				ucs2buffer[iChar] = (qwchar)(unicodeInput[iChar]);
 			}
 			VietnameseTextNormalizer vntObject;
 			vntObject.flagStandardTextForNLP = true;
