@@ -440,8 +440,6 @@ double				VietnameseTextNormalizer::PerplexityScore(TEXT_NODE * textNode, qvsyli
 
 
 
-
-
 /************************************************************************/
 /* Update                                                               */
 /************************************************************************/
@@ -5432,6 +5430,7 @@ void main(void)
 }
 #endif
 #else
+#ifdef PY_MAJOR_VERSION
 /************************************************************************/
 /* Python wrapper                                                       */
 /************************************************************************/
@@ -5701,7 +5700,7 @@ PyMODINIT_FUNC initVietnameseTextNormalizer(void)
 	Py_InitModule("VietnameseTextNormalizer", VietnameseTextNormalizerMethods);
 }
 #endif // (PY_MAJOR_VERSION == 3)
-
+#endif
 #endif
 
 
