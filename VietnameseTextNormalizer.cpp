@@ -4816,6 +4816,12 @@ namespace std
 		printf("%c[%d;%df", 0x1B, y, x);
 #endif
 	}
+	void			SetTitle(const std::wstring& title)
+	{
+#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) 
+		SetConsoleTitleW(title.c_str());
+#endif
+	}
 	void			ClearScreen(void)
 	{
 #if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) || defined(_MSC_VER)
@@ -4836,7 +4842,18 @@ namespace std
 		system("clear");
 #endif
 	}
-	std::wstring		GetLower(const std::wstring &wstr);
+	void			HideCursor(void)
+	{
+#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) 
+		HANDLE hOut;
+		CONSOLE_CURSOR_INFO ConCurInf;
+		hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+		ConCurInf.dwSize = 10;
+		ConCurInf.bVisible = FALSE;
+		SetConsoleCursorInfo(hOut, &ConCurInf);
+#endif
+	}
+	std::wstring	GetLower(const std::wstring &wstr);
 	void			Show(const std::wstring& title, const wchar_t * format, ...)
 	{
 		if (format)
@@ -4858,14 +4875,116 @@ namespace std
 			va_start(args, format);
 			vswprintf(buffer, 10240, format, args);
 			va_end(args);
-			gui::SetTextColor(CONSOLE_COLOR_BOLD);
+			SetTextColor(CONSOLE_COLOR_BOLD);
 			printf("%s\n", GetString(title).c_str());
-			gui::SetTextColor(CONSOLE_COLOR_DISABLE_BOLD);
+			SetTextColor(CONSOLE_COLOR_DISABLE_BOLD);
 			printf("%s\n", GetString(buffer).c_str());
 #endif
 		}
 	}
-
+	void			SetTextColor(int color)
+	{
+#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) 
+		HANDLE hConsoleOutput;
+		hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
+		CONSOLE_SCREEN_BUFFER_INFO screen_buffer_info;
+		GetConsoleScreenBufferInfo(hConsoleOutput, &screen_buffer_info);
+		WORD wAttributes = screen_buffer_info.wAttributes;
+		DWORD dcolor = color;
+		dcolor &= 0x000f;
+		wAttributes &= 0xfff0;
+		wAttributes |= dcolor;
+		SetConsoleTextAttribute(hConsoleOutput, wAttributes);
+#else
+#ifndef ON_REMOTE_LINUX
+		std::cout << "\033[" << color << "m";
+#endif
+#endif
+	}
+	void			SetBackgroundColor(int color)
+	{
+#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) 
+		HANDLE hConsoleOutput;
+		hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
+		CONSOLE_SCREEN_BUFFER_INFO screen_buffer_info;
+		GetConsoleScreenBufferInfo(hConsoleOutput, &screen_buffer_info);
+		WORD wAttributes = screen_buffer_info.wAttributes;
+		DWORD dcolor = color;
+		dcolor &= 0x000f;
+		dcolor <<= 4;
+		wAttributes &= 0xff0f;
+		wAttributes |= dcolor;
+		SetConsoleTextAttribute(hConsoleOutput, wAttributes);
+#else
+		std::cout << "\033[" << color << "m";
+#endif
+	}
+	static void		guiWrite(int xsource, int ysource, int xdest, int ydest, const wchar_t *wstr/*=L"Quang"*/, int delay/*=15*/, int color/*=CONSOLE_COLOR_GREEN*/)
+	{
+#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) 
+		SetTextColor(color);
+		if (xsource == xdest && ysource > ydest)
+		{
+			for (; wstr[0]; wstr++)
+			{
+				if (wstr[0] != 32)
+				{
+					for (int i = ysource; i >= ydest; i--)
+					{
+						GoToXY(xsource, i);
+						wprintf(L"%c", wstr[0]);
+						GoToXY(xsource, i + 1);
+						wprintf(L" ");
+						Sleep(delay);
+					}
+				}
+				else
+				{
+					GoToXY(xsource, ydest);
+					wprintf(L" ");
+				}
+				xsource++;
+			}
+		}
+		if (ydest == ysource && xsource > xdest)
+		{
+			for (; wstr[0]; wstr++)
+			{
+				if (wstr[0] != 32)
+				{
+					for (int i = xsource; i >= xdest; i--)
+					{
+						GoToXY(i, ysource);
+						wprintf(L"%c ", wstr[0]);
+						Sleep(delay);
+					}
+				}
+				else
+				{
+					GoToXY(xsource, ydest);
+					wprintf(L" ");
+				}
+				xdest++;
+			}
+		}
+#endif
+	}
+	void			Copyright(void)
+	{
+		ClearScreen();
+		HideCursor();
+		int x = 13;
+		int y = 5;
+		GoToXY(x, y + 1);  printf(" / _` | | | |/ _` | '_ \\ / _` | \\ \\/ / _ \\ '_ \\ / _` |");
+		GoToXY(x, y + 2);  printf("| (_| | |_| | (_| | | | | (_| |  >  <  __/ | | | (_| |");
+		GoToXY(x, y + 3);  printf(" \\__, |\\__,_|\\__,_|_| |_|\\__, | /_/\\_\\___|_| |_|\\__, |");
+		GoToXY(x, y + 4);  printf("    | |                   __/ |                  __/ |");
+		GoToXY(x, y + 5);  printf("    |_|                  |___/                  |___/");
+		guiWrite(26, 15, 26, 13, L"Duoc viet boi Bui Tan Quang", 15, 2);
+#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) 
+		Sleep(2000);
+#endif
+	}
 	/************************************************************************/
 	/* w-string                                                             */
 	/************************************************************************/
@@ -5381,8 +5500,12 @@ void main(void)
 	//	vntObject.GenStandardText();
 	//	::MessageBoxW(0, vntObject.standardText, L"Output", MB_OK);
 
-	//gui g(L"VietnameseTextSegmenterTool");
+	std::SetTitle(L"VietnameseTextNormalizer Build 20181217");
+	std::HideCursor();
+	std::SetBackgroundColor(15);
+	std::SetTextColor(2);
 	std::ClearScreen();
+
 
 	wprintf(L"Huong dan su dung :\n");
 	wprintf(L"	Dat toan bo tap tin van ban  (*.txt) vao thu muc txt\n");
