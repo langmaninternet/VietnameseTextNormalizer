@@ -13,4 +13,7 @@
     <ClCompile Include="ContextSystem.cpp" />
     <ClCompile Include="VietnameseTextNormalizer.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="VietnameseTextNormalizer.rc" />
+  </ItemGroup>
 </Project>

@@ -31,6 +31,9 @@
     <ClCompile Include="VietnameseTextNormalizer.cpp" />
     <ClCompile Include="WordSystem.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="VietnameseTextNormalizer.rc" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{2A0936E6-4493-46BB-8B4D-D2D2EE8FBA3D}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
