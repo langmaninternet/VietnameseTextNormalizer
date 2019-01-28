@@ -1921,22 +1921,23 @@ void				VietnameseTextNormalizer::Input(const qwchar *text)
 				else if (leftMatchingVietnameseIdentifier > 0 || leftMatchingEnglishLength > 0) capital = TEXT_NODE_CAPITAL_LOWER;
 			}
 
-			/************************************************************************/
-			/* Debug                                                                */
-			/************************************************************************/
+			
 			if (preloadTagVi && vietnameseSyllableIdentifier == 0)
 			{
 				flagValidToStandard = false;
-#ifdef WIN32
-#ifdef _DEBUG
-				wchar_t bufferError[100] = { 0 };
-				for (int iChar = 0; iChar < currentOriginalSyllableLength + preloadSize && iChar < 99; iChar++)
-				{
-					bufferError[iChar] = currentOriginalSyllable[iChar];
-				}
-				MessageBoxW(0, currentOriginalSyllable, L"Dữ liệu input vào không chuẩn!!", MB_OK);
-#endif
-#endif
+//		#ifdef WIN32
+//		#ifdef _DEBUG
+//						/************************************************************************/
+//						/* Debug                                                                */
+//						/************************************************************************/
+//						wchar_t bufferError[100] = { 0 };
+//						for (int iChar = 0; iChar < currentOriginalSyllableLength + preloadSize && iChar < 99; iChar++)
+//						{
+//							bufferError[iChar] = currentOriginalSyllable[iChar];
+//						}
+//						MessageBoxW(0, currentOriginalSyllable, L"Dữ liệu input vào không chuẩn!!", MB_OK);
+//		#endif
+//		#endif
 			}
 
 
