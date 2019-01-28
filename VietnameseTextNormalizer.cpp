@@ -1750,11 +1750,11 @@ void				VietnameseTextNormalizer::Input(const qwchar *text)
 	{
 		qtime						step1StartTime = { 0 };
 		static TEXT_NODE			nullTextNode/*For Optimization Performance*/;
-		TEXT_NODE *				leftTextNodeOffset0 = &nullTextNode;
-		TEXT_NODE *				leftTextNodeOffset1 = &nullTextNode;
-		TEXT_NODE *				leftTextNodeOffset2 = &nullTextNode;
-		TEXT_NODE *				leftTextNodeOffset3 = &nullTextNode;
-		TEXT_NODE *				leftTextNodeOffset4 = &nullTextNode;
+		TEXT_NODE *					leftTextNodeOffset0 = &nullTextNode;
+		TEXT_NODE *					leftTextNodeOffset1 = &nullTextNode;
+		TEXT_NODE *					leftTextNodeOffset2 = &nullTextNode;
+		TEXT_NODE *					leftTextNodeOffset3 = &nullTextNode;
+		TEXT_NODE *					leftTextNodeOffset4 = &nullTextNode;
 		qwchar const *				currentOriginalSyllable = text;
 		int							currentOriginalSyllableLength = 0;
 		originalText = text;
@@ -1818,7 +1818,7 @@ void				VietnameseTextNormalizer::Input(const qwchar *text)
 								{
 								case 0x65/*e*/:/*text [<viendup>] cost 15*/if (text[4] == 0x6E/*n*/ && text[5] == 0x64/*d*/ && text[6] == 0x75/*u*/ && text[7] == 0x70/*p*/ && text[8] == 0x3E/*>*/) { text += 9; preloadSize += 9; preloadViEnDup = true; }break;
 								case 0x3E/*>*/:/*text [<vi>] cost 11*/text += 4; preloadSize += 4; preloadTagVi = true; break;
-								case 0x5F/*_*/:/*text [<vi_r>] cost 14*/if (text[4] == 0x72/*r*/ && text[5] == 0x3E/*>*/) { text += 6; preloadSize += 6; preloadRetroflex = true; }break;
+								case 0x5F/*_*/:/*text [<vi_r>] cost 14*/if (text[4] == 0x72/*r*/ && text[5] == 0x3E/*>*/) { text += 6; preloadSize += 6; preloadRetroflex = true; preloadTagVi = true; }break;
 								}//end of switch (text[3])/*start with [<vi..]*/
 
 							}/*end of if start with [<vi..] */
@@ -1918,6 +1918,23 @@ void				VietnameseTextNormalizer::Input(const qwchar *text)
 				else if (vietnameseAbbreviationIndentifier > 0) capital = TEXT_NODE_CAPITAL_CAPITAL;
 				else if (leftMatchingVietnameseIdentifier > 0 || leftMatchingEnglishLength > 0) capital = TEXT_NODE_CAPITAL_LOWER;
 			}
+
+			/************************************************************************/
+			/* Debug                                                                */
+			/************************************************************************/
+			if (preloadTagVi && vietnameseSyllableIdentifier == 0)
+			{
+#ifdef WIN32
+				wchar_t bufferError[100] = { 0 };
+				for (int iChar = 0; iChar < currentOriginalSyllableLength + preloadSize && iChar < 99; iChar++)
+				{
+					bufferError[iChar] = currentOriginalSyllable[iChar];
+				}
+				MessageBoxW(0, bufferError, L"Dữ liệu input vào không chuẩn!!", MB_OK);
+#endif
+			}
+
+
 			/************************************************************************/
 			/* Nếu là từ tiếng việt kết thúc bởi dấu cách                           */
 			/************************************************************************/
@@ -2017,7 +2034,7 @@ void				VietnameseTextNormalizer::Input(const qwchar *text)
 					+ vnwords[leftMatchingVietnameseWordIdentifier].LeftSure(leftTextNodeOffset0->vietnameseSyllableIdentifier, leftTextNodeOffset1->vietnameseSyllableIdentifier);
 				;
 
-				TEXT_NODE_CAPITAL 				rightCapital = TEXT_NODE_CAPITAL_UNKNOWN;
+				TEXT_NODE_CAPITAL 					rightCapital = TEXT_NODE_CAPITAL_UNKNOWN;
 				int									rightCombiningTone = 0;
 				qvsylidentifier						rightTempLeftMatchingVietnameseIdentifier = 0;
 				int									rightTempLeftMatchingCombiningTone = 0;
