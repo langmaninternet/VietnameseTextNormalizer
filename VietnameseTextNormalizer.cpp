@@ -34,6 +34,8 @@ void				VietnameseTextNormalizer::Init(void)
 	tail = 0;
 	uhead = 0;
 	utail = 0;
+
+	flagValidToStandard = true;
 	standardText = 0;
 	standardTextLength = 0;
 	standardTextChange = 0;
@@ -1924,13 +1926,16 @@ void				VietnameseTextNormalizer::Input(const qwchar *text)
 			/************************************************************************/
 			if (preloadTagVi && vietnameseSyllableIdentifier == 0)
 			{
+				flagValidToStandard = false;
 #ifdef WIN32
+#ifdef _DEBUG
 				wchar_t bufferError[100] = { 0 };
 				for (int iChar = 0; iChar < currentOriginalSyllableLength + preloadSize && iChar < 99; iChar++)
 				{
 					bufferError[iChar] = currentOriginalSyllable[iChar];
 				}
-				MessageBoxW(0, bufferError, L"Dữ liệu input vào không chuẩn!!", MB_OK);
+				MessageBoxW(0, currentOriginalSyllable, L"Dữ liệu input vào không chuẩn!!", MB_OK);
+#endif
 #endif
 			}
 
@@ -4547,209 +4552,212 @@ void				VietnameseTextNormalizer::Normalize(void)
 /************************************************************************/
 void				VietnameseTextNormalizer::GenStandardText(void)
 {
-	/************************************************************************/
-	/*                                                                      */
-	/* Tạo ra một chuỗi chuẩn hóa từ chuỗi ban đầu                          */
-	/*                                                                      */
-	/************************************************************************/
-	standardTextLength = originalTextLength;
-	for (TEXT_NODE *textNode = head; textNode != 0; textNode = textNode->next)
+	if (flagValidToStandard)
 	{
-		if (textNode->originalTextLength < textNode->textLength)
-		{
-			standardTextLength += textNode->textLength - textNode->originalTextLength;
-		}
-		else if (textNode->originalTextLength > textNode->textLength)
-		{
-			standardTextLength -= textNode->originalTextLength - textNode->textLength;
-		}
-		if (flagWordSegmentForNLP && textNode->joinWithNextNode == '1') standardTextLength++;
-		if (flagStandardTextForNLP
-			&& textNode->textLength == 1
-			&& (textNode->text[0] == 0x2E/*.*/ || textNode->text[0] == 0x2C/*,*/)
-			&& textNode->next /*!= NULL*/
-			&& textNode->originalText + 1 == textNode->next->originalText
-			)
-		{
-			if ((//
-				textNode->next->rightVietnameseSyllableSure != 0
-				|| textNode->next->rightVietnameseWordSure != 0
-				|| textNode->next->rightVietnameseAbbreviationSure != 0
-
-				|| (textNode->next->capital == TEXT_NODE_CAPITAL_UPPER && textNode->back/* != NULL*/
-					&& (
-						textNode->back->leftVietnameseSyllableSure != 0
-						|| textNode->back->leftVietnameseWordSure != 0
-						|| textNode->back->leftVietnameseAbbreviationSure != 0
-						))
-
-				) && (textNode->next->vietnameseSyllableIdentifier || textNode->next->vietnameseLoanWordIndentifier || textNode->next->englishWordIdentifier || textNode->vietnameseAbbreviationIndentifier)) textNode->needSpaceAfter = 1;
-			else if (textNode->next->vietnameseSyllableIdentifier && vnsyllables[textNode->next->vietnameseSyllableIdentifier].vietnamese)  textNode->needSpaceAfter = 1;
-			else if (textNode->next->capital == TEXT_NODE_CAPITAL_CAPITAL && textNode->vietnameseAbbreviationIndentifier) textNode->needSpaceAfter = 1;
-		}
-		if (textNode->needSpaceAfter) standardTextLength++;
-	}
-	Log("\tStep 5 : Gen Standard Text %d characters from original text %d characters\n", standardTextLength, originalTextLength);
-	standardText = (qwchar*)qcalloc(standardTextLength + 100/*safe*/, sizeof(qwchar));
-	if (standardText)
-	{
-		bool				validateStandardText = true;
-		int					countStandardTextSlot = standardTextLength;
-		int					countOriginalTextSlot = originalTextLength;
-		qwchar *			standardTextPtr = standardText;
-		const qwchar *		originalTextPtr = originalText;
 		/************************************************************************/
-		/* Chèn đoạn đầu                                                        */
+		/*                                                                      */
+		/* Tạo ra một chuỗi chuẩn hóa từ chuỗi ban đầu                          */
+		/*                                                                      */
 		/************************************************************************/
-		if (head)
+		standardTextLength = originalTextLength;
+		for (TEXT_NODE *textNode = head; textNode != 0; textNode = textNode->next)
 		{
-			int	preparationLength = int(head->originalText - originalTextPtr);
-			if (preparationLength >= 0 && preparationLength <= countStandardTextSlot && preparationLength <= countOriginalTextSlot)
+			if (textNode->originalTextLength < textNode->textLength)
 			{
-				for (int iCharacter = 0; iCharacter < preparationLength; iCharacter++)
-				{
-					*standardTextPtr = *originalTextPtr;
-					standardTextPtr++;
-					originalTextPtr++;
-				}
-				countStandardTextSlot -= preparationLength;
-				countOriginalTextSlot -= preparationLength;
+				standardTextLength += textNode->textLength - textNode->originalTextLength;
 			}
-			else if (preparationLength)
+			else if (textNode->originalTextLength > textNode->textLength)
 			{
-				validateStandardText = false;
+				standardTextLength -= textNode->originalTextLength - textNode->textLength;
 			}
-		}
-		/************************************************************************/
-		/* Chèn đoạn chính                                                      */
-		/************************************************************************/
-		if (validateStandardText)
-		{
-			for (TEXT_NODE *textNode = head; textNode != 0 && validateStandardText/* == true*/; textNode = textNode->next)
+			if (flagWordSegmentForNLP && textNode->joinWithNextNode == '1') standardTextLength++;
+			if (flagStandardTextForNLP
+				&& textNode->textLength == 1
+				&& (textNode->text[0] == 0x2E/*.*/ || textNode->text[0] == 0x2C/*,*/)
+				&& textNode->next /*!= NULL*/
+				&& textNode->originalText + 1 == textNode->next->originalText
+				)
 			{
-				if (textNode->originalText)
+				if ((//
+					textNode->next->rightVietnameseSyllableSure != 0
+					|| textNode->next->rightVietnameseWordSure != 0
+					|| textNode->next->rightVietnameseAbbreviationSure != 0
+
+					|| (textNode->next->capital == TEXT_NODE_CAPITAL_UPPER && textNode->back/* != NULL*/
+						&& (
+							textNode->back->leftVietnameseSyllableSure != 0
+							|| textNode->back->leftVietnameseWordSure != 0
+							|| textNode->back->leftVietnameseAbbreviationSure != 0
+							))
+
+					) && (textNode->next->vietnameseSyllableIdentifier || textNode->next->vietnameseLoanWordIndentifier || textNode->next->englishWordIdentifier || textNode->vietnameseAbbreviationIndentifier)) textNode->needSpaceAfter = 1;
+				else if (textNode->next->vietnameseSyllableIdentifier && vnsyllables[textNode->next->vietnameseSyllableIdentifier].vietnamese)  textNode->needSpaceAfter = 1;
+				else if (textNode->next->capital == TEXT_NODE_CAPITAL_CAPITAL && textNode->vietnameseAbbreviationIndentifier) textNode->needSpaceAfter = 1;
+			}
+			if (textNode->needSpaceAfter) standardTextLength++;
+		}
+		Log("\tStep 5 : Gen Standard Text %d characters from original text %d characters\n", standardTextLength, originalTextLength);
+		standardText = (qwchar*)qcalloc(standardTextLength + 100/*safe*/, sizeof(qwchar));
+		if (standardText)
+		{
+			bool				validateStandardText = true;
+			int					countStandardTextSlot = standardTextLength;
+			int					countOriginalTextSlot = originalTextLength;
+			qwchar *			standardTextPtr = standardText;
+			const qwchar *		originalTextPtr = originalText;
+			/************************************************************************/
+			/* Chèn đoạn đầu                                                        */
+			/************************************************************************/
+			if (head)
+			{
+				int	preparationLength = int(head->originalText - originalTextPtr);
+				if (preparationLength >= 0 && preparationLength <= countStandardTextSlot && preparationLength <= countOriginalTextSlot)
 				{
-					bool flagCurrentNodeIsChange = (textNode->textLength != textNode->originalTextLength);
-					if (flagCurrentNodeIsChange == false)
+					for (int iCharacter = 0; iCharacter < preparationLength; iCharacter++)
 					{
-						for (int ichar = 0; ichar < textNode->textLength; ichar++)
+						*standardTextPtr = *originalTextPtr;
+						standardTextPtr++;
+						originalTextPtr++;
+					}
+					countStandardTextSlot -= preparationLength;
+					countOriginalTextSlot -= preparationLength;
+				}
+				else if (preparationLength)
+				{
+					validateStandardText = false;
+				}
+			}
+			/************************************************************************/
+			/* Chèn đoạn chính                                                      */
+			/************************************************************************/
+			if (validateStandardText)
+			{
+				for (TEXT_NODE *textNode = head; textNode != 0 && validateStandardText/* == true*/; textNode = textNode->next)
+				{
+					if (textNode->originalText)
+					{
+						bool flagCurrentNodeIsChange = (textNode->textLength != textNode->originalTextLength);
+						if (flagCurrentNodeIsChange == false)
 						{
-							if (textNode->text[ichar] != textNode->originalText[ichar])
+							for (int ichar = 0; ichar < textNode->textLength; ichar++)
 							{
-								flagCurrentNodeIsChange = true;
-								ichar = textNode->textLength/*soft break*/;
+								if (textNode->text[ichar] != textNode->originalText[ichar])
+								{
+									flagCurrentNodeIsChange = true;
+									ichar = textNode->textLength/*soft break*/;
+								}
 							}
 						}
-					}
-					if (textNode->needSpaceAfter) standardTextChange++;
-					if (flagCurrentNodeIsChange)
-					{
-						Log("\t\t+Fix \"");
-						Log(textNode->originalText, textNode->originalTextLength);
-						Log("\" - %d character ----> \"", textNode->originalTextLength);
-						Log(textNode->text, textNode->textLength);
-						Log("\" - %d character\n", textNode->textLength);
-						standardTextChange++;
-					}
-					/************************************************************************/
-					/* Phần cắt                                                             */
-					/************************************************************************/
-					if (validateStandardText)
-					{
-						int seperationLength = int(textNode->originalText - originalTextPtr);
-						if (seperationLength >= 0 && seperationLength <= countStandardTextSlot && seperationLength <= countOriginalTextSlot)
+						if (textNode->needSpaceAfter) standardTextChange++;
+						if (flagCurrentNodeIsChange)
 						{
-							for (int ichar = 0; ichar < seperationLength; ichar++)
+							Log("\t\t+Fix \"");
+							Log(textNode->originalText, textNode->originalTextLength);
+							Log("\" - %d character ----> \"", textNode->originalTextLength);
+							Log(textNode->text, textNode->textLength);
+							Log("\" - %d character\n", textNode->textLength);
+							standardTextChange++;
+						}
+						/************************************************************************/
+						/* Phần cắt                                                             */
+						/************************************************************************/
+						if (validateStandardText)
+						{
+							int seperationLength = int(textNode->originalText - originalTextPtr);
+							if (seperationLength >= 0 && seperationLength <= countStandardTextSlot && seperationLength <= countOriginalTextSlot)
 							{
-								*standardTextPtr = *originalTextPtr;
+								for (int ichar = 0; ichar < seperationLength; ichar++)
+								{
+									*standardTextPtr = *originalTextPtr;
+									standardTextPtr++;
+									originalTextPtr++;
+								}
+								countStandardTextSlot -= seperationLength;
+								countOriginalTextSlot -= seperationLength;
+							}
+							//else if (seperationLength) validateStandardText = false;
+						}
+						/************************************************************************/
+						/* Phần node                                                            */
+						/************************************************************************/
+						int textLength = textNode->textLength;
+						if (textLength >= 0 && textLength <= countStandardTextSlot && textLength <= countOriginalTextSlot)
+						{
+							for (int ichar = 0; ichar < textLength; ichar++)
+							{
+								*standardTextPtr = textNode->text[ichar];
 								standardTextPtr++;
-								originalTextPtr++;
 							}
-							countStandardTextSlot -= seperationLength;
-							countOriginalTextSlot -= seperationLength;
+							if (flagWordSegmentForNLP && textNode->joinWithNextNode == '1')
+							{
+								*standardTextPtr = L'-';
+								standardTextPtr++;
+								countStandardTextSlot--;
+							}
+							countStandardTextSlot -= textLength;
+							countOriginalTextSlot -= textNode->originalTextLength;
+							originalTextPtr += textNode->originalTextLength;
+							if (textNode->needSpaceAfter)
+							{
+								*standardTextPtr = 0x20/*space*/;
+								standardTextPtr++;
+								countStandardTextSlot -= 1;
+							}
 						}
-						//else if (seperationLength) validateStandardText = false;
-					}
-					/************************************************************************/
-					/* Phần node                                                            */
-					/************************************************************************/
-					int textLength = textNode->textLength;
-					if (textLength >= 0 && textLength <= countStandardTextSlot && textLength <= countOriginalTextSlot)
-					{
-						for (int ichar = 0; ichar < textLength; ichar++)
+						else if (textLength)
 						{
-							*standardTextPtr = textNode->text[ichar];
-							standardTextPtr++;
+							validateStandardText = false;
 						}
-						if (flagWordSegmentForNLP && textNode->joinWithNextNode == '1')
-						{
-							*standardTextPtr = L'-';
-							standardTextPtr++;
-							countStandardTextSlot--;
-						}
-						countStandardTextSlot -= textLength;
-						countOriginalTextSlot -= textNode->originalTextLength;
-						originalTextPtr += textNode->originalTextLength;
-						if (textNode->needSpaceAfter)
-						{
-							*standardTextPtr = 0x20/*space*/;
-							standardTextPtr++;
-							countStandardTextSlot -= 1;
-						}
-					}
-					else if (textLength)
-					{
-						validateStandardText = false;
 					}
 				}
 			}
-		}
-		/************************************************************************/
-		/* Chèn đoạn cuối                                                       */
-		/************************************************************************/
-		if (validateStandardText && countOriginalTextSlot)
-		{
-			if (countOriginalTextSlot >= 0 && countOriginalTextSlot <= countStandardTextSlot)
+			/************************************************************************/
+			/* Chèn đoạn cuối                                                       */
+			/************************************************************************/
+			if (validateStandardText && countOriginalTextSlot)
 			{
-				for (int ichar = 0; ichar < countOriginalTextSlot; ichar++)
+				if (countOriginalTextSlot >= 0 && countOriginalTextSlot <= countStandardTextSlot)
 				{
-					*standardTextPtr = *originalTextPtr;
-					standardTextPtr++;
-					originalTextPtr++;
+					for (int ichar = 0; ichar < countOriginalTextSlot; ichar++)
+					{
+						*standardTextPtr = *originalTextPtr;
+						standardTextPtr++;
+						originalTextPtr++;
+					}
+					countStandardTextSlot -= countOriginalTextSlot;
+					countOriginalTextSlot -= countOriginalTextSlot;
 				}
-				countStandardTextSlot -= countOriginalTextSlot;
-				countOriginalTextSlot -= countOriginalTextSlot;
+				else if (countOriginalTextSlot)
+				{
+					validateStandardText = false;
+				}
 			}
-			else if (countOriginalTextSlot)
+			if (validateStandardText == false)
 			{
-				validateStandardText = false;
+				qfree(standardText);
+				standardText = 0;
+				standardTextLength = 0;
 			}
-		}
-		if (validateStandardText == false)
-		{
-			qfree(standardText);
-			standardText = 0;
-			standardTextLength = 0;
-		}
-		else
-		{
-			Log("\t=========> GenStandardText : %d change syllable\n", standardTextChange);
-			Log(standardText, standardTextLength);
-			Log("\n\n");
-		}
-		/************************************************************************/
-		/* Chuyển đổi các kí tự đặc biệt nằm ngoài âm tiết                      */
-		/************************************************************************/
-		for (int iChar = 0; iChar < standardTextLength; iChar++)
-		{
-			switch (standardText[iChar])
+			else
 			{
-			case 0x200B/*Zero width space*/:
-			case 0xFEFF/*Zero width no-break space*/:
-			case 0xA0/*Non-breaking space*/:
-				standardText[iChar] = L' ';
-				standardTextChange++;
-				break;
+				Log("\t=========> GenStandardText : %d change syllable\n", standardTextChange);
+				Log(standardText, standardTextLength);
+				Log("\n\n");
+			}
+			/************************************************************************/
+			/* Chuyển đổi các kí tự đặc biệt nằm ngoài âm tiết                      */
+			/************************************************************************/
+			for (int iChar = 0; iChar < standardTextLength; iChar++)
+			{
+				switch (standardText[iChar])
+				{
+				case 0x200B/*Zero width space*/:
+				case 0xFEFF/*Zero width no-break space*/:
+				case 0xA0/*Non-breaking space*/:
+					standardText[iChar] = L' ';
+					standardTextChange++;
+					break;
+				}
 			}
 		}
 	}

@@ -240,6 +240,7 @@ private:
 	TEXT_NODE *				InsertJapaneseWordToTheTail(qjwrdidentifier japaneseWordIdentifier, qwchar const * originalText, int originalTextLength, TEXT_NODE_CAPITAL capital, TEXT_NODE * leftTextNodeOffset0, TEXT_NODE * leftTextNodeOffset1, TEXT_NODE * leftTextNodeOffset2, TEXT_NODE * leftTextNodeOffset3, TEXT_NODE * leftTextNodeOffset4);
 	TEXT_NODE *				InsertUnknownNodeToTail(qwchar const * originalText, int originalTextLength, TEXT_NODE * leftTextNodeOffset0, TEXT_NODE * leftTextNodeOffset1, TEXT_NODE * leftTextNodeOffset2, TEXT_NODE * leftTextNodeOffset3, TEXT_NODE * leftTextNodeOffset4);
 public:
+	bool					flagValidToStandard;
 	qwchar *				standardText;
 	int						standardTextLength;
 	int						standardTextChange;
