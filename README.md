@@ -16,7 +16,7 @@ make -j
 
 
 - Trong thư viện có 3 hàm :
-	+ Normalize : hàm chuẩn hóa dữ liệu Tiếng Việt cơ bản, chỉ chuẩn hóa i ngắn y dài đối với tên địa danh trong nước dựa theo văn bản hành chính nhà nước
+	+ Normalize : hàm chuẩn hóa dữ liệu Tiếng Việt cơ bản, chuẩn hóa i ngắn y dài đối với tên địa danh trong nước dựa theo văn bản hành chính nhà nước
 	+ ASRNormalize : hàm chuẩn hóa dữ liệu cho ASR, khác với hàm cơ bản là chọn lựa i ngắn y dài rõ ràng theo độ phổ thông của từ. Ví dụ sẽ chọn [bệnh lý] thay cho [bệnh lí]
 	+ ASRYToI : hàm để xử lý dữ liệu cho ASR, thống nhất hết về i ngắn
 
