@@ -15,7 +15,7 @@ make -j
 	+ Chạy file UnitTestVietnameseTextNormalizer.py
 
 
-- Trong thư viện có 3 hàm :
+- Trong thư viện có 2 hàm :
 	+ Normalize : hàm chuẩn hóa dữ liệu Tiếng Việt cơ bản, chuẩn hóa i ngắn y dài đối với tên địa danh trong nước dựa theo văn bản hành chính nhà nước
 	+ ASRNormalize : hàm chuẩn hóa dữ liệu cho ASR, khác với hàm cơ bản là chọn lựa i ngắn y dài rõ ràng theo độ phổ thông của từ. Ví dụ sẽ chọn [bệnh lý] thay cho [bệnh lí]
 
