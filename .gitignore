@@ -34,6 +34,8 @@ ObjectPython2/
 ObjectPython3/
 ReleasePython2/
 ReleasePython3/
+fix/
+Fix/
 
 
 # Visual Studio 2015 cache/options directory
