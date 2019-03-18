@@ -15,6 +15,7 @@
 *.sp
 *.mgc
 log.txt
+quangbttest.txt
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

@@ -381,11 +381,225 @@ double				VietnameseTextNormalizer::SignificantScore(TEXT_NODE * textNode, qvsyl
 	}
 	return currentSyllableSure;
 }
+double				VietnameseTextNormalizer::SignificantScoreForMissingEndProblem(TEXT_NODE * textNode, qvsylidentifier vietnameseSyllableIdentifier)
+{
+	TEXT_NODE *				leftTextNodeOffset0 = &nullTextNodeForStep2Normalize;
+	TEXT_NODE *				leftTextNodeOffset1 = &nullTextNodeForStep2Normalize;
+	TEXT_NODE *				leftTextNodeOffset2 = &nullTextNodeForStep2Normalize;
+	TEXT_NODE *				leftTextNodeOffset3 = &nullTextNodeForStep2Normalize;
+	TEXT_NODE *				leftTextNodeOffset4 = &nullTextNodeForStep2Normalize;
+	TEXT_NODE *				leftTextNodeOffset5 = &nullTextNodeForStep2Normalize;
+	if (textNode->back)
+	{
+		leftTextNodeOffset0 = textNode->back;
+		if (leftTextNodeOffset0->back)
+		{
+			leftTextNodeOffset1 = leftTextNodeOffset0->back;
+			if (leftTextNodeOffset1->back)
+			{
+				leftTextNodeOffset2 = leftTextNodeOffset1->back;
+				if (leftTextNodeOffset2->back)
+				{
+					leftTextNodeOffset3 = leftTextNodeOffset2->back;
+					if (leftTextNodeOffset3->back)
+					{
+						leftTextNodeOffset4 = leftTextNodeOffset3->back;
+						if (leftTextNodeOffset4->back)
+						{
+							leftTextNodeOffset5 = leftTextNodeOffset4->back;
+						}
+					}
+				}
+			}
+		}
+	}
+	TEXT_NODE *				rightTextNodeOffset0 = &nullTextNodeForStep2Normalize;
+	TEXT_NODE *				rightTextNodeOffset1 = &nullTextNodeForStep2Normalize;
+	TEXT_NODE *				rightTextNodeOffset2 = &nullTextNodeForStep2Normalize;
+	TEXT_NODE *				rightTextNodeOffset3 = &nullTextNodeForStep2Normalize;
+	TEXT_NODE *				rightTextNodeOffset4 = &nullTextNodeForStep2Normalize;
+	TEXT_NODE *				rightTextNodeOffset5 = &nullTextNodeForStep2Normalize;
+	if (textNode->next)
+	{
+		rightTextNodeOffset0 = textNode->next;
+		if (rightTextNodeOffset0->next)
+		{
+			rightTextNodeOffset0 = textNode->next->next;
+		}
+		else rightTextNodeOffset0 = &nullTextNodeForStep2Normalize;
+		if (rightTextNodeOffset0->next)
+		{
+			rightTextNodeOffset1 = rightTextNodeOffset0->next;
+			if (rightTextNodeOffset1->next)
+			{
+				rightTextNodeOffset2 = rightTextNodeOffset1->next;
+				if (rightTextNodeOffset2->next)
+				{
+					rightTextNodeOffset3 = rightTextNodeOffset2->next;
+					if (rightTextNodeOffset3->next)
+					{
+						rightTextNodeOffset4 = rightTextNodeOffset3->next;
+						if (rightTextNodeOffset4->next)
+						{
+							rightTextNodeOffset5 = rightTextNodeOffset4->next;
+						}
+					}
+				}
+			}
+		}
+	}
+	qvsylidentifier leftTextNodeOffset0VietnameseSyllableIdentifier = leftTextNodeOffset0->vietnameseSyllableIdentifier;
+	qvsylidentifier leftTextNodeOffset1VietnameseSyllableIdentifier = leftTextNodeOffset1->vietnameseSyllableIdentifier;
+	qvsylidentifier leftTextNodeOffset2VietnameseSyllableIdentifier = leftTextNodeOffset2->vietnameseSyllableIdentifier;
+	qvsylidentifier leftTextNodeOffset3VietnameseSyllableIdentifier = leftTextNodeOffset3->vietnameseSyllableIdentifier;
+	qvsylidentifier leftTextNodeOffset4VietnameseSyllableIdentifier = leftTextNodeOffset4->vietnameseSyllableIdentifier;
+	qvsylidentifier leftTextNodeOffset5VietnameseSyllableIdentifier = leftTextNodeOffset5->vietnameseSyllableIdentifier;
+
+
+	if (textNode->capital == TEXT_NODE_CAPITAL_LOWER)
+	{
+		if (leftTextNodeOffset0->capital == TEXT_NODE_CAPITAL_CAPITAL) leftTextNodeOffset0VietnameseSyllableIdentifier = 0;
+		if (leftTextNodeOffset1->capital == TEXT_NODE_CAPITAL_CAPITAL) leftTextNodeOffset1VietnameseSyllableIdentifier = 0;
+		if (leftTextNodeOffset2->capital == TEXT_NODE_CAPITAL_CAPITAL) leftTextNodeOffset2VietnameseSyllableIdentifier = 0;
+		if (leftTextNodeOffset3->capital == TEXT_NODE_CAPITAL_CAPITAL) leftTextNodeOffset3VietnameseSyllableIdentifier = 0;
+		if (leftTextNodeOffset4->capital == TEXT_NODE_CAPITAL_CAPITAL) leftTextNodeOffset4VietnameseSyllableIdentifier = 0;
+		if (leftTextNodeOffset5->capital == TEXT_NODE_CAPITAL_CAPITAL) leftTextNodeOffset5VietnameseSyllableIdentifier = 0;
+	}
+	else if (textNode->capital == TEXT_NODE_CAPITAL_UPPER)
+	{
+		if (!(leftTextNodeOffset0->capital == TEXT_NODE_CAPITAL_UPPER || (leftTextNodeOffset0->capital == TEXT_NODE_CAPITAL_CAPITAL && leftTextNodeOffset0->textLength == 1)))  leftTextNodeOffset0VietnameseSyllableIdentifier = 0;
+		if (!(leftTextNodeOffset1->capital == TEXT_NODE_CAPITAL_UPPER || (leftTextNodeOffset1->capital == TEXT_NODE_CAPITAL_CAPITAL && leftTextNodeOffset1->textLength == 1)))  leftTextNodeOffset1VietnameseSyllableIdentifier = 0;
+		if (!(leftTextNodeOffset2->capital == TEXT_NODE_CAPITAL_UPPER || (leftTextNodeOffset2->capital == TEXT_NODE_CAPITAL_CAPITAL && leftTextNodeOffset2->textLength == 1)))  leftTextNodeOffset2VietnameseSyllableIdentifier = 0;
+		if (!(leftTextNodeOffset3->capital == TEXT_NODE_CAPITAL_UPPER || (leftTextNodeOffset3->capital == TEXT_NODE_CAPITAL_CAPITAL && leftTextNodeOffset3->textLength == 1)))  leftTextNodeOffset3VietnameseSyllableIdentifier = 0;
+		if (!(leftTextNodeOffset4->capital == TEXT_NODE_CAPITAL_UPPER || (leftTextNodeOffset4->capital == TEXT_NODE_CAPITAL_CAPITAL && leftTextNodeOffset4->textLength == 1)))  leftTextNodeOffset4VietnameseSyllableIdentifier = 0;
+		if (!(leftTextNodeOffset5->capital == TEXT_NODE_CAPITAL_UPPER || (leftTextNodeOffset5->capital == TEXT_NODE_CAPITAL_CAPITAL && leftTextNodeOffset5->textLength == 1)))  leftTextNodeOffset5VietnameseSyllableIdentifier = 0;
+
+	}
+	else if (textNode->capital == TEXT_NODE_CAPITAL_CAPITAL)
+	{
+		if (!(leftTextNodeOffset0->capital == TEXT_NODE_CAPITAL_CAPITAL || (leftTextNodeOffset0->capital == TEXT_NODE_CAPITAL_UPPER && leftTextNodeOffset0->textLength == 1)))  leftTextNodeOffset0VietnameseSyllableIdentifier = 0;
+		if (!(leftTextNodeOffset1->capital == TEXT_NODE_CAPITAL_CAPITAL || (leftTextNodeOffset1->capital == TEXT_NODE_CAPITAL_UPPER && leftTextNodeOffset1->textLength == 1)))  leftTextNodeOffset1VietnameseSyllableIdentifier = 0;
+		if (!(leftTextNodeOffset2->capital == TEXT_NODE_CAPITAL_CAPITAL || (leftTextNodeOffset2->capital == TEXT_NODE_CAPITAL_UPPER && leftTextNodeOffset2->textLength == 1)))  leftTextNodeOffset2VietnameseSyllableIdentifier = 0;
+		if (!(leftTextNodeOffset3->capital == TEXT_NODE_CAPITAL_CAPITAL || (leftTextNodeOffset3->capital == TEXT_NODE_CAPITAL_UPPER && leftTextNodeOffset3->textLength == 1)))  leftTextNodeOffset3VietnameseSyllableIdentifier = 0;
+		if (!(leftTextNodeOffset4->capital == TEXT_NODE_CAPITAL_CAPITAL || (leftTextNodeOffset4->capital == TEXT_NODE_CAPITAL_UPPER && leftTextNodeOffset4->textLength == 1)))  leftTextNodeOffset4VietnameseSyllableIdentifier = 0;
+		if (!(leftTextNodeOffset5->capital == TEXT_NODE_CAPITAL_CAPITAL || (leftTextNodeOffset5->capital == TEXT_NODE_CAPITAL_UPPER && leftTextNodeOffset5->textLength == 1)))  leftTextNodeOffset5VietnameseSyllableIdentifier = 0;
+	}
+
+
+
+	double currentSyllableSure =
+		/************************************************************************/
+		/* Right Sure                                                           */
+		/************************************************************************/
+		vnsyllables[vietnameseSyllableIdentifier].RightSure(rightTextNodeOffset0->vietnameseSyllableIdentifier, rightTextNodeOffset1->vietnameseSyllableIdentifier)
+		+ (vnsyllables[leftTextNodeOffset0VietnameseSyllableIdentifier].RightSure(vietnameseSyllableIdentifier, rightTextNodeOffset0->vietnameseSyllableIdentifier) > 1)
+		+ (vnabbreviations[leftTextNodeOffset0->vietnameseAbbreviationIndentifier].RightSure(vietnameseSyllableIdentifier, rightTextNodeOffset0->vietnameseSyllableIdentifier, rightTextNodeOffset1->vietnameseSyllableIdentifier, rightTextNodeOffset2->vietnameseSyllableIdentifier, rightTextNodeOffset3->vietnameseSyllableIdentifier) > 1)
+		+ (vnabbreviations[leftTextNodeOffset1->vietnameseAbbreviationIndentifier].RightSure(leftTextNodeOffset0VietnameseSyllableIdentifier, vietnameseSyllableIdentifier, rightTextNodeOffset0->vietnameseSyllableIdentifier, rightTextNodeOffset1->vietnameseSyllableIdentifier, rightTextNodeOffset2->vietnameseSyllableIdentifier) > 2)
+		+ (vnabbreviations[leftTextNodeOffset2->vietnameseAbbreviationIndentifier].RightSure(leftTextNodeOffset1VietnameseSyllableIdentifier, leftTextNodeOffset0VietnameseSyllableIdentifier, vietnameseSyllableIdentifier, rightTextNodeOffset0->vietnameseSyllableIdentifier, rightTextNodeOffset1->vietnameseSyllableIdentifier) > 3)
+		+ (vnabbreviations[leftTextNodeOffset3->vietnameseAbbreviationIndentifier].RightSure(leftTextNodeOffset2VietnameseSyllableIdentifier, leftTextNodeOffset1VietnameseSyllableIdentifier, leftTextNodeOffset0VietnameseSyllableIdentifier, vietnameseSyllableIdentifier, rightTextNodeOffset0->vietnameseSyllableIdentifier) > 4)
+		+ (vnabbreviations[leftTextNodeOffset4->vietnameseAbbreviationIndentifier].RightSure(leftTextNodeOffset3VietnameseSyllableIdentifier, leftTextNodeOffset2VietnameseSyllableIdentifier, leftTextNodeOffset1VietnameseSyllableIdentifier, leftTextNodeOffset0VietnameseSyllableIdentifier, vietnameseSyllableIdentifier) > 5)
+
+		+ (vnwords[leftTextNodeOffset1->vietnameseWordIdentifier].RightSure(leftTextNodeOffset0VietnameseSyllableIdentifier, vietnameseSyllableIdentifier) > 1)
+		+ vnwords[leftTextNodeOffset0->vietnameseWordIdentifier].RightSure(vietnameseSyllableIdentifier, rightTextNodeOffset0->vietnameseSyllableIdentifier)
+		/************************************************************************/
+		/* Left Sure                                                            */
+		/************************************************************************/
+		+vnsyllables[rightTextNodeOffset0->vietnameseSyllableIdentifier].LeftSure(vietnameseSyllableIdentifier, leftTextNodeOffset0VietnameseSyllableIdentifier)
+		+ (vnsyllables[rightTextNodeOffset1->vietnameseSyllableIdentifier].LeftSure(rightTextNodeOffset0->vietnameseSyllableIdentifier, vietnameseSyllableIdentifier) > 1)
+		+ vnabbreviations[rightTextNodeOffset0->vietnameseAbbreviationIndentifier].LeftSure(vietnameseSyllableIdentifier, leftTextNodeOffset0VietnameseSyllableIdentifier, leftTextNodeOffset1VietnameseSyllableIdentifier, leftTextNodeOffset2VietnameseSyllableIdentifier, leftTextNodeOffset3VietnameseSyllableIdentifier)
+		+ (vnabbreviations[rightTextNodeOffset1->vietnameseAbbreviationIndentifier].LeftSure(rightTextNodeOffset0->vietnameseSyllableIdentifier, vietnameseSyllableIdentifier, leftTextNodeOffset0VietnameseSyllableIdentifier, leftTextNodeOffset1VietnameseSyllableIdentifier, leftTextNodeOffset2VietnameseSyllableIdentifier) > 1)
+		+ (vnabbreviations[rightTextNodeOffset2->vietnameseAbbreviationIndentifier].LeftSure(rightTextNodeOffset1->vietnameseSyllableIdentifier, rightTextNodeOffset0->vietnameseSyllableIdentifier, vietnameseSyllableIdentifier, leftTextNodeOffset0VietnameseSyllableIdentifier, leftTextNodeOffset1VietnameseSyllableIdentifier) > 2)
+		+ (vnabbreviations[rightTextNodeOffset3->vietnameseAbbreviationIndentifier].LeftSure(rightTextNodeOffset2->vietnameseSyllableIdentifier, rightTextNodeOffset1->vietnameseSyllableIdentifier, rightTextNodeOffset0->vietnameseSyllableIdentifier, vietnameseSyllableIdentifier, leftTextNodeOffset0VietnameseSyllableIdentifier) > 3)
+		+ (vnabbreviations[rightTextNodeOffset4->vietnameseAbbreviationIndentifier].LeftSure(rightTextNodeOffset3->vietnameseSyllableIdentifier, rightTextNodeOffset2->vietnameseSyllableIdentifier, rightTextNodeOffset1->vietnameseSyllableIdentifier, rightTextNodeOffset0->vietnameseSyllableIdentifier, vietnameseSyllableIdentifier) > 4)
+		;
+
+	/************************************************************************/
+	/* Current node is word                                                 */
+	/************************************************************************/
+
+
+	int currentWordIdentifier = vnsyllables[vietnameseSyllableIdentifier].DetectWord(leftTextNodeOffset0VietnameseSyllableIdentifier, leftTextNodeOffset1VietnameseSyllableIdentifier, leftTextNodeOffset2VietnameseSyllableIdentifier);
+	if (vnwords[currentWordIdentifier].significant)
+	{
+		int currentWordLength = vnwords[currentWordIdentifier].length;
+		switch (currentWordLength)
+		{
+		case 2:  currentSyllableSure += currentWordLength + vnwords[currentWordIdentifier].LeftSure(leftTextNodeOffset1VietnameseSyllableIdentifier, leftTextNodeOffset2VietnameseSyllableIdentifier) + vnwords[currentWordIdentifier].RightSure(rightTextNodeOffset0->vietnameseSyllableIdentifier, rightTextNodeOffset1->vietnameseSyllableIdentifier) + vnwords[currentWordIdentifier].coefficient; break;
+		case 3:  currentSyllableSure += currentWordLength + vnwords[currentWordIdentifier].LeftSure(leftTextNodeOffset2VietnameseSyllableIdentifier, leftTextNodeOffset3VietnameseSyllableIdentifier) + vnwords[currentWordIdentifier].RightSure(rightTextNodeOffset0->vietnameseSyllableIdentifier, rightTextNodeOffset1->vietnameseSyllableIdentifier) + vnwords[currentWordIdentifier].coefficient; break;
+		case 4:  currentSyllableSure += currentWordLength + vnwords[currentWordIdentifier].LeftSure(leftTextNodeOffset3VietnameseSyllableIdentifier, leftTextNodeOffset4VietnameseSyllableIdentifier) + vnwords[currentWordIdentifier].RightSure(rightTextNodeOffset0->vietnameseSyllableIdentifier, rightTextNodeOffset1->vietnameseSyllableIdentifier) + vnwords[currentWordIdentifier].coefficient; break;
+		case 5:  currentSyllableSure += currentWordLength + vnwords[currentWordIdentifier].LeftSure(leftTextNodeOffset4VietnameseSyllableIdentifier, leftTextNodeOffset5VietnameseSyllableIdentifier) + vnwords[currentWordIdentifier].RightSure(rightTextNodeOffset0->vietnameseSyllableIdentifier, rightTextNodeOffset1->vietnameseSyllableIdentifier) + vnwords[currentWordIdentifier].coefficient; break;
+		}
+	}
+
+	/************************************************************************/
+	/* rightTextNodeOffset0 node is word                                  */
+	/************************************************************************/
+	int rightWordOffSet0Indentifier = vnsyllables[rightTextNodeOffset0->vietnameseSyllableIdentifier].DetectWord(vietnameseSyllableIdentifier, leftTextNodeOffset0VietnameseSyllableIdentifier, leftTextNodeOffset1VietnameseSyllableIdentifier);
+	if (vnwords[rightWordOffSet0Indentifier].significant)
+	{
+		int rightWordOffSet0Length = vnwords[rightWordOffSet0Indentifier].length;
+		switch (rightWordOffSet0Length)
+		{
+		case 2: currentSyllableSure += rightWordOffSet0Length + vnwords[rightWordOffSet0Indentifier].LeftSure(leftTextNodeOffset0VietnameseSyllableIdentifier, leftTextNodeOffset1VietnameseSyllableIdentifier) + vnwords[rightWordOffSet0Indentifier].RightSure(rightTextNodeOffset1->vietnameseSyllableIdentifier, rightTextNodeOffset2->vietnameseSyllableIdentifier) + vnwords[rightWordOffSet0Indentifier].coefficient; break;
+		case 3: currentSyllableSure += rightWordOffSet0Length + vnwords[rightWordOffSet0Indentifier].LeftSure(leftTextNodeOffset1VietnameseSyllableIdentifier, leftTextNodeOffset2VietnameseSyllableIdentifier) + vnwords[rightWordOffSet0Indentifier].RightSure(rightTextNodeOffset1->vietnameseSyllableIdentifier, rightTextNodeOffset2->vietnameseSyllableIdentifier) + vnwords[rightWordOffSet0Indentifier].coefficient; break;
+		case 4: currentSyllableSure += rightWordOffSet0Length + vnwords[rightWordOffSet0Indentifier].LeftSure(leftTextNodeOffset2VietnameseSyllableIdentifier, leftTextNodeOffset3VietnameseSyllableIdentifier) + vnwords[rightWordOffSet0Indentifier].RightSure(rightTextNodeOffset1->vietnameseSyllableIdentifier, rightTextNodeOffset2->vietnameseSyllableIdentifier) + vnwords[rightWordOffSet0Indentifier].coefficient; break;
+		case 5: currentSyllableSure += rightWordOffSet0Length + vnwords[rightWordOffSet0Indentifier].LeftSure(leftTextNodeOffset3VietnameseSyllableIdentifier, leftTextNodeOffset4VietnameseSyllableIdentifier) + vnwords[rightWordOffSet0Indentifier].RightSure(rightTextNodeOffset1->vietnameseSyllableIdentifier, rightTextNodeOffset2->vietnameseSyllableIdentifier) + vnwords[rightWordOffSet0Indentifier].coefficient; break;
+		}
+	}
+
+
+	/************************************************************************/
+	/* rightTextNodeOffset1 node is word                                  */
+	/************************************************************************/
+	int rightWordOffSet1Identifier = vnsyllables[rightTextNodeOffset1->vietnameseSyllableIdentifier].DetectWord(rightTextNodeOffset0->vietnameseSyllableIdentifier, vietnameseSyllableIdentifier, leftTextNodeOffset0VietnameseSyllableIdentifier);
+	if (vnwords[rightWordOffSet1Identifier].significant)
+	{
+		int rightWordOffSet1Length = vnwords[rightWordOffSet1Identifier].length;
+		switch (rightWordOffSet1Length)
+		{
+		case 2:  currentSyllableSure += vnwords[rightWordOffSet1Identifier].LeftSure(vietnameseSyllableIdentifier, leftTextNodeOffset0VietnameseSyllableIdentifier);		break;
+		case 3:  currentSyllableSure += rightWordOffSet1Length + vnwords[rightWordOffSet1Identifier].LeftSure(leftTextNodeOffset0VietnameseSyllableIdentifier, leftTextNodeOffset1VietnameseSyllableIdentifier) + vnwords[rightWordOffSet1Identifier].RightSure(rightTextNodeOffset2->vietnameseSyllableIdentifier, rightTextNodeOffset3->vietnameseSyllableIdentifier) + vnwords[rightWordOffSet1Identifier].coefficient; break;
+		case 4:  currentSyllableSure += rightWordOffSet1Length + vnwords[rightWordOffSet1Identifier].LeftSure(leftTextNodeOffset1VietnameseSyllableIdentifier, leftTextNodeOffset2VietnameseSyllableIdentifier) + vnwords[rightWordOffSet1Identifier].RightSure(rightTextNodeOffset2->vietnameseSyllableIdentifier, rightTextNodeOffset3->vietnameseSyllableIdentifier) + vnwords[rightWordOffSet1Identifier].coefficient; break;
+		case 5:  currentSyllableSure += rightWordOffSet1Length + vnwords[rightWordOffSet1Identifier].LeftSure(leftTextNodeOffset2VietnameseSyllableIdentifier, leftTextNodeOffset3VietnameseSyllableIdentifier) + vnwords[rightWordOffSet1Identifier].RightSure(rightTextNodeOffset2->vietnameseSyllableIdentifier, rightTextNodeOffset3->vietnameseSyllableIdentifier) + vnwords[rightWordOffSet1Identifier].coefficient; break;
+		}
+	}
+
+
+	/************************************************************************/
+	/* rightTextNodeOffset2 node is word                                  */
+	/************************************************************************/
+	int rightWordOffSet2Identifier = vnsyllables[rightTextNodeOffset2->vietnameseSyllableIdentifier].DetectWord(rightTextNodeOffset1->vietnameseSyllableIdentifier, rightTextNodeOffset0->vietnameseSyllableIdentifier, vietnameseSyllableIdentifier);
+	if (vnwords[rightWordOffSet2Identifier].significant)
+	{
+		int rightWordOffSet2Length = vnwords[rightWordOffSet2Identifier].length;
+		switch (rightWordOffSet2Length)
+		{
+		case 2:  currentSyllableSure += (vnwords[rightWordOffSet2Identifier].LeftSure(rightTextNodeOffset0->vietnameseSyllableIdentifier, vietnameseSyllableIdentifier) > 1);		break;
+		case 3:  currentSyllableSure += vnwords[rightWordOffSet2Identifier].LeftSure(vietnameseSyllableIdentifier, leftTextNodeOffset0VietnameseSyllableIdentifier);		break;
+		case 4:  currentSyllableSure += rightWordOffSet2Length + vnwords[rightWordOffSet2Identifier].LeftSure(leftTextNodeOffset0VietnameseSyllableIdentifier, leftTextNodeOffset1VietnameseSyllableIdentifier) + vnwords[rightWordOffSet2Identifier].RightSure(rightTextNodeOffset3->vietnameseSyllableIdentifier, rightTextNodeOffset4->vietnameseSyllableIdentifier) + vnwords[rightWordOffSet2Identifier].coefficient; break;
+		case 5:  currentSyllableSure += rightWordOffSet2Length + vnwords[rightWordOffSet2Identifier].LeftSure(leftTextNodeOffset1VietnameseSyllableIdentifier, leftTextNodeOffset2VietnameseSyllableIdentifier) + vnwords[rightWordOffSet2Identifier].RightSure(rightTextNodeOffset3->vietnameseSyllableIdentifier, rightTextNodeOffset4->vietnameseSyllableIdentifier) + vnwords[rightWordOffSet2Identifier].coefficient; break;
+		}
+	}
 
 
 
 
-
+	/************************************************************************/
+	/* rightTextNodeOffset3 node is word                                  */
+	/************************************************************************/
+	int rightWordOffSet3Identifier = vnsyllables[rightTextNodeOffset3->vietnameseSyllableIdentifier].DetectWord(rightTextNodeOffset2->vietnameseSyllableIdentifier, rightTextNodeOffset1->vietnameseSyllableIdentifier, rightTextNodeOffset0->vietnameseSyllableIdentifier);
+	if (vnwords[rightWordOffSet3Identifier].significant)
+	{
+		int rightWordOffSet3Length = vnwords[rightWordOffSet3Identifier].length;
+		switch (rightWordOffSet3Length)
+		{
+		case 3: currentSyllableSure += (vnwords[rightWordOffSet3Identifier].LeftSure(rightTextNodeOffset0->vietnameseSyllableIdentifier, vietnameseSyllableIdentifier) > 1); break;
+		case 4: currentSyllableSure += vnwords[rightWordOffSet3Identifier].LeftSure(leftTextNodeOffset0VietnameseSyllableIdentifier, leftTextNodeOffset1VietnameseSyllableIdentifier);		break;
+		case 5: currentSyllableSure += rightWordOffSet3Length + vnwords[rightWordOffSet3Identifier].LeftSure(leftTextNodeOffset1VietnameseSyllableIdentifier, leftTextNodeOffset2VietnameseSyllableIdentifier) + vnwords[rightWordOffSet3Identifier].RightSure(rightTextNodeOffset4->vietnameseSyllableIdentifier, rightTextNodeOffset5->vietnameseSyllableIdentifier) + vnwords[rightWordOffSet3Identifier].coefficient; break;
+		}
+	}
+	return currentSyllableSure;
+}
 
 #if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) 
 #pragma managed(push, off)
@@ -947,25 +1161,46 @@ void				VietnameseTextNormalizer::UpdateVietnameseTextNodeContext(TEXT_NODE * te
 	/************************************************************************/
 	if (textNode->vietnameseMissingIndentifiler != 0)
 	{
-		qvsylidentifier joinWithNextIndentifiler = ((textNode->next /*!= NULL*/ && textNode->text /*!= NULL*/) ? vnmissingends[textNode->vietnameseMissingIndentifiler].JoinWithToken(textNode->text) : 0);
+		qvsylidentifier joinWithNextIndentifiler = ((textNode->next /*!= NULL*/ && textNode->next->text /*!= NULL*/) ? vnmissingends[textNode->vietnameseMissingIndentifiler].JoinWithToken(textNode->next->text) : 0);
 		if (joinWithNextIndentifiler != 0)
 		{
-
-			// Nếu lấy luôn nextTextNode làm đuôi
-
-
-			//nếu ok để nối
-
-
-
-			//nếu không
+			if (SignificantScoreForMissingEndProblem(textNode, joinWithNextIndentifiler) > 0.0 && (textNode->capital == TEXT_NODE_CAPITAL_LOWER || textNode->capital == TEXT_NODE_CAPITAL_UPPER || textNode->capital == TEXT_NODE_CAPITAL_CAPITAL))
+			{
+				textNode->vietnameseMissingIndentifiler = joinWithNextIndentifiler;
+				textNode->originalTextLength = (textNode->next->originalText - textNode->originalText) + textNode->next->originalTextLength;
+				switch (textNode->capital)
+				{
+				case TEXT_NODE_CAPITAL_LOWER:
+					textNode->text = vnsyllables[joinWithNextIndentifiler].lower;
+					textNode->textLength = vnsyllables[joinWithNextIndentifiler].length;
+					break;
+				case TEXT_NODE_CAPITAL_UPPER:
+					textNode->text = vnsyllables[joinWithNextIndentifiler].upper;
+					textNode->textLength = vnsyllables[joinWithNextIndentifiler].length;
+					break;
+				case TEXT_NODE_CAPITAL_CAPITAL:
+					textNode->text = vnsyllables[joinWithNextIndentifiler].capital;
+					textNode->textLength = vnsyllables[joinWithNextIndentifiler].length;
+					break;
+				default:
+					/*do not change any-thing*/
+					break;
+				}
+				textNode->next->originalText = NULL;
+				textNode->next->originalTextLength = 0;
+				textNode->next->text = NULL;
+				textNode->next->textLength = 0;
+			}
+			else
+			{
+				textNode->vietnameseMissingIndentifiler = joinWithNextIndentifiler;
+			}
 			if (textNode->next->textNodeType == TEXT_NODE_TYPE_UNKNOWN)
 			{
 				if (countTotalUnknownNode > 0)  countTotalUnknownNode--;
 			}
 			countTotalUnknownNode--;
 			textNode->next->textNodeType = TEXT_NODE_TYPE_IGNORE_NODE;
-			textNode->vietnameseMissingIndentifiler = joinWithNextIndentifiler;
 		}
 		else
 		{
@@ -1921,23 +2156,23 @@ void				VietnameseTextNormalizer::Input(const qwchar *text)
 				else if (leftMatchingVietnameseIdentifier > 0 || leftMatchingEnglishLength > 0) capital = TEXT_NODE_CAPITAL_LOWER;
 			}
 
-			
+
 			if (preloadTagVi && vietnameseSyllableIdentifier == 0)
 			{
 				flagValidToStandard = false;
-//		#ifdef WIN32
-//		#ifdef _DEBUG
-//						/************************************************************************/
-//						/* Debug                                                                */
-//						/************************************************************************/
-//						wchar_t bufferError[100] = { 0 };
-//						for (int iChar = 0; iChar < currentOriginalSyllableLength + preloadSize && iChar < 99; iChar++)
-//						{
-//							bufferError[iChar] = currentOriginalSyllable[iChar];
-//						}
-//						MessageBoxW(0, currentOriginalSyllable, L"Dữ liệu input vào không chuẩn!!", MB_OK);
-//		#endif
-//		#endif
+				//		#ifdef WIN32
+				//		#ifdef _DEBUG
+				//						/************************************************************************/
+				//						/* Debug                                                                */
+				//						/************************************************************************/
+				//						wchar_t bufferError[100] = { 0 };
+				//						for (int iChar = 0; iChar < currentOriginalSyllableLength + preloadSize && iChar < 99; iChar++)
+				//						{
+				//							bufferError[iChar] = currentOriginalSyllable[iChar];
+				//						}
+				//						MessageBoxW(0, currentOriginalSyllable, L"Dữ liệu input vào không chuẩn!!", MB_OK);
+				//		#endif
+				//		#endif
 			}
 
 
@@ -5269,7 +5504,7 @@ namespace std
 		std::wstring_convert<std::codecvt_utf8<wchar_t>> myconv;
 		return myconv.to_bytes(wstr);
 #endif
-	}
+		}
 	/************************************************************************/
 	/* file                                                                 */
 	/************************************************************************/
@@ -5460,7 +5695,7 @@ namespace std
 			std::Show(std::wstring(L"Lỗi"), L"Error: Can not open file %ls \n", fileName.c_str());
 			return false;
 		}
-	}
+}
 	std::wstring		ReadFile(const std::wstring &fileName)
 	{
 		std::wstring bufferContent;
@@ -5477,7 +5712,7 @@ namespace std
 			int mkdir(const char *path, mode_t mode);
 			if (fileName[i] == L'/') mkdir(GetString(fileName.substr(0, i)).c_str(), 0777);
 #endif
-		}
+	}
 		if (truncate) DeleteFile(fileName);
 #if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) || defined(_MSC_VER)
 		std::ofstream fileHandle(fileName, std::ios_base::out | std::ios_base::binary | (truncate ? std::ios_base::trunc : (std::ios_base::app | std::ios_base::ate)));
@@ -5506,7 +5741,7 @@ namespace std
 			{
 				std::Show(std::wstring(L"Lỗi"), L"Error: write file %ls (utf8 size == %d bytes, write == %d bytes)\n", fileName.c_str(), writeSize, writtenSize);
 				//return false;
-			}
+		}
 			//else return true;
 #endif		
 		}
