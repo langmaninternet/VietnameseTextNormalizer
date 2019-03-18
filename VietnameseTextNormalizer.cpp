@@ -381,7 +381,7 @@ double				VietnameseTextNormalizer::SignificantScore(TEXT_NODE * textNode, qvsyl
 	}
 	return currentSyllableSure;
 }
-double				VietnameseTextNormalizer::SignificantScoreForMissingEndProblem(TEXT_NODE * textNode, qvsylidentifier vietnameseSyllableIdentifier)
+double				VietnameseTextNormalizer::SignificantScoreForMissingEndAndJoinProblem(TEXT_NODE * textNode, qvsylidentifier vietnameseSyllableIdentifier)
 {
 	TEXT_NODE *				leftTextNodeOffset0 = &nullTextNodeForStep2Normalize;
 	TEXT_NODE *				leftTextNodeOffset1 = &nullTextNodeForStep2Normalize;
@@ -1164,10 +1164,10 @@ void				VietnameseTextNormalizer::UpdateVietnameseTextNodeContext(TEXT_NODE * te
 		qvsylidentifier joinWithNextIndentifiler = ((textNode->next /*!= NULL*/ && textNode->next->text /*!= NULL*/) ? vnmissingends[textNode->vietnameseMissingIndentifiler].JoinWithToken(textNode->next->text) : 0);
 		if (joinWithNextIndentifiler != 0)
 		{
-			if (SignificantScoreForMissingEndProblem(textNode, joinWithNextIndentifiler) > 0.0 && (textNode->capital == TEXT_NODE_CAPITAL_LOWER || textNode->capital == TEXT_NODE_CAPITAL_UPPER || textNode->capital == TEXT_NODE_CAPITAL_CAPITAL))
+			if (SignificantScoreForMissingEndAndJoinProblem(textNode, joinWithNextIndentifiler) > 0.0 && (textNode->capital == TEXT_NODE_CAPITAL_LOWER || textNode->capital == TEXT_NODE_CAPITAL_UPPER || textNode->capital == TEXT_NODE_CAPITAL_CAPITAL))
 			{
 				textNode->vietnameseMissingIndentifiler = joinWithNextIndentifiler;
-				textNode->originalTextLength = (textNode->next->originalText - textNode->originalText) + textNode->next->originalTextLength;
+				textNode->originalTextLength = int((textNode->next->originalText - textNode->originalText) + textNode->next->originalTextLength);
 				switch (textNode->capital)
 				{
 				case TEXT_NODE_CAPITAL_LOWER:
@@ -5504,7 +5504,7 @@ namespace std
 		std::wstring_convert<std::codecvt_utf8<wchar_t>> myconv;
 		return myconv.to_bytes(wstr);
 #endif
-		}
+	}
 	/************************************************************************/
 	/* file                                                                 */
 	/************************************************************************/
@@ -5695,7 +5695,7 @@ namespace std
 			std::Show(std::wstring(L"Lỗi"), L"Error: Can not open file %ls \n", fileName.c_str());
 			return false;
 		}
-}
+	}
 	std::wstring		ReadFile(const std::wstring &fileName)
 	{
 		std::wstring bufferContent;
@@ -5712,7 +5712,7 @@ namespace std
 			int mkdir(const char *path, mode_t mode);
 			if (fileName[i] == L'/') mkdir(GetString(fileName.substr(0, i)).c_str(), 0777);
 #endif
-	}
+		}
 		if (truncate) DeleteFile(fileName);
 #if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) || defined(_MSC_VER)
 		std::ofstream fileHandle(fileName, std::ios_base::out | std::ios_base::binary | (truncate ? std::ios_base::trunc : (std::ios_base::app | std::ios_base::ate)));
@@ -5741,7 +5741,7 @@ namespace std
 			{
 				std::Show(std::wstring(L"Lỗi"), L"Error: write file %ls (utf8 size == %d bytes, write == %d bytes)\n", fileName.c_str(), writeSize, writtenSize);
 				//return false;
-		}
+			}
 			//else return true;
 #endif		
 		}

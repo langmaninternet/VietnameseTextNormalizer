@@ -6439,6 +6439,19 @@ qvmissingsylidentifier MissingEndDetection(qinput const qwchar * syllable/*must 
 
 
 
+/************************************************************************/
+/* The Vietnamese Error Syllable                                        */
+/************************************************************************/
+struct VIETNAMESE_ERROR_SYLLABLE
+{
+	char						length;
+	qvsylidentifier	const * 	destinations;
+};
+extern const struct VIETNAMESE_ERROR_SYLLABLE vnerror[];
+qvmissingsylidentifier VietnameseErrorSyllableDetection(qinput const qwchar * syllable/*must end with space*/);
+
+
+
 
 #if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) 
 #pragma managed(pop)

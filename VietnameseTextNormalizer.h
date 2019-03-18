@@ -234,7 +234,7 @@ private:
 	void					UpdateVietnameseTextNodeContext(TEXT_NODE * textNode, TEXT_NODE * leftTextNodeOffset0, TEXT_NODE * leftTextNodeOffset1, TEXT_NODE * leftTextNodeOffset2, TEXT_NODE * leftTextNodeOffset3, TEXT_NODE * leftTextNodeOffset4);
 	void					UpdateVietnameseTextNodeContext(TEXT_NODE * textNode);
 	double					SignificantScore(TEXT_NODE * textNode, qvsylidentifier vietnameseSyllableIdentifier);
-	double					SignificantScoreForMissingEndProblem(TEXT_NODE * textNode, qvsylidentifier vietnameseSyllableIdentifier);
+	double					SignificantScoreForMissingEndAndJoinProblem(TEXT_NODE * textNode, qvsylidentifier vietnameseSyllableIdentifier);
 	double					PerplexityScore(TEXT_NODE * textNode, qvsylidentifier vietnameseSyllableIdentifier);
 	TEXT_NODE *				InsertVietnameseSyllableToTheTail(qvsylidentifier vietnameseSyllableIdentifier, qwchar const * originalText, int originalTextLength, TEXT_NODE_CAPITAL capital, TEXT_NODE * leftTextNodeOffset0, TEXT_NODE * leftTextNodeOffset1, TEXT_NODE * leftTextNodeOffset2, TEXT_NODE * leftTextNodeOffset3, TEXT_NODE * leftTextNodeOffset4);
 	TEXT_NODE *				InsertEnglishWordToTheTail(qvwrdidentifier englishWordIdentifier, qwchar const * originalText, int originalTextLength, TEXT_NODE_CAPITAL capital, TEXT_NODE * leftTextNodeOffset0, TEXT_NODE * leftTextNodeOffset1, TEXT_NODE * leftTextNodeOffset2, TEXT_NODE * leftTextNodeOffset3, TEXT_NODE * leftTextNodeOffset4);
