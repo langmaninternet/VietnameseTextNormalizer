@@ -10,6 +10,8 @@
 #define WordSegmentConfuse /*no thing*/
 #endif
 
+//#define DEBUG
+
 
 struct TEXT_NODE_EXTRA
 {
@@ -227,6 +229,9 @@ public:
 protected:
 	void					Log(const char * format, ...);
 	void					Log(const qwchar * wstr, int wstrlen);
+#ifdef _DEBUG
+	friend void main(void);
+#endif
 private:
 	virtual void			Init(void);
 	virtual void			Refresh(void);

@@ -5784,8 +5784,10 @@ void main(void)
 			|| std::EndWith(std::GetLower(*itxt), L".info")
 			|| std::EndWith(std::GetLower(*itxt), L".xml"))
 			&& std::GetRealFileName(*itxt) != L"info"
+			&& std::GetRealFileName(*itxt) != L"log"
 			&& (!StartWith(*itxt, L"fix\\")))
 		{
+
 			std::GoToXY(0, 15);
 			wprintf(L"                                                                                         ");
 			std::GoToXY(0, 15);
@@ -5802,6 +5804,18 @@ void main(void)
 			{
 				std::WriteFile(L"fix\\" + (*itxt), std::wstring(vntObject.standardText), true);
 				countTotalChange += vntObject.standardTextChange;
+#ifdef _DEBUG
+				vntObject.logFile = fopen("log.txt", "a");
+				vntObject.Log("%ls :\n", std::GetRealFileName(*itxt).c_str());
+				for (auto textNode = vntObject.head; textNode != NULL; textNode = textNode->next)
+				{
+				}
+
+				vntObject.Log("\n");
+				fclose(vntObject.logFile);
+				vntObject.logFile = NULL;
+#endif
+
 			}
 			wprintf(L"done!");
 			std::GoToXY(0, 16);
