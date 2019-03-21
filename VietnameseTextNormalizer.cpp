@@ -5806,10 +5806,42 @@ void main(void)
 				countTotalChange += vntObject.standardTextChange;
 #ifdef _DEBUG
 				vntObject.logFile = fopen("log.txt", "a");
-				vntObject.Log("%ls :\n", std::GetRealFileName(*itxt).c_str());
+				fseek(vntObject.logFile, 0, SEEK_END);
+				vntObject.Log("\n%ls :\n", std::GetRealFileName(*itxt).c_str());
+
+				std::wstringset listedSet;
 				for (auto textNode = vntObject.head; textNode != NULL; textNode = textNode->next)
 				{
+					if (textNode->originalText)
+					{
+						bool flagCurrentNodeIsChange = (textNode->textLength != textNode->originalTextLength);
+						if (flagCurrentNodeIsChange == false)
+						{
+							for (int ichar = 0; ichar < textNode->textLength; ichar++)
+							{
+								if (textNode->text[ichar] != textNode->originalText[ichar])
+								{
+									flagCurrentNodeIsChange = true;
+									ichar = textNode->textLength/*soft break*/;
+								}
+							}
+						}
+						if (flagCurrentNodeIsChange)
+						{
+							std::wstring currentList = std::GetWString(textNode->originalText, textNode->originalTextLength) + L" " + std::GetWString(textNode->text, textNode->textLength);
+							if (listedSet.insert(currentList).second == true)
+							{
+								vntObject.Log("\t\t+Fix \"");
+								vntObject.Log(textNode->originalText, textNode->originalTextLength);
+								vntObject.Log("\" - %d character ----> \"", textNode->originalTextLength);
+								vntObject.Log(textNode->text, textNode->textLength);
+								vntObject.Log("\" - %d character\n", textNode->textLength);
+							}
+						}
+					}
 				}
+
+
 
 				vntObject.Log("\n");
 				fclose(vntObject.logFile);
