@@ -5267,7 +5267,59 @@ namespace std
 		return wcscmp(a.c_str(), b) != 0;
 	}
 
-
+	wchar_t				GetBase(wchar_t wch)
+	{
+		switch (wch)
+		{
+		case L'A':case L'à':case L'À':case L'á':case L'Á':case L'ả':case L'Ả':case L'ã':case L'Ã':case L'ạ':case L'Ạ':return L'a';
+		case L'E':case L'è':case L'È':case L'é':case L'É':case L'ẻ':case L'Ẻ':case L'ẽ':case L'Ẽ':case L'ẹ':case L'Ẹ':return L'e';
+		case L'I':case L'ì':case L'Ì':case L'í':case L'Í':case L'ỉ':case L'Ỉ':case L'ĩ':case L'Ĩ':case L'ị':case L'Ị':return L'i';
+		case L'O':case L'ò':case L'Ò':case L'ó':case L'Ó':case L'ỏ':case L'Ỏ':case L'õ':case L'Õ':case L'ọ':case L'Ọ':return L'o';
+		case L'U':case L'ù':case L'Ù':case L'ú':case L'Ú':case L'ủ':case L'Ủ':case L'ũ':case L'Ũ':case L'ụ':case L'Ụ':return L'u';
+		case L'Y':case L'ỳ':case L'Ỳ':case L'ý':case L'Ý':case L'ỷ':case L'Ỷ':case L'ỹ':case L'Ỹ':case L'ỵ':case L'Ỵ':return /*L'y'*/L'i';
+		case L'Â':case L'ầ':case L'Ầ':case L'ấ':case L'Ấ':case L'ẩ':case L'Ẩ':case L'ẫ':case L'Ẫ':case L'ậ':case L'Ậ':return L'â';
+		case L'Ê':case L'ề':case L'Ề':case L'ế':case L'Ế':case L'ể':case L'Ể':case L'ễ':case L'Ễ':case L'ệ':case L'Ệ':return L'ê';
+		case L'Ô':case L'ồ':case L'Ồ':case L'ố':case L'Ố':case L'ổ':case L'Ổ':case L'ỗ':case L'Ỗ':case L'ộ':case L'Ộ':return L'ô';
+		case L'Ă':case L'ằ':case L'Ằ':case L'ắ':case L'Ắ':case L'ẳ':case L'Ẳ':case L'ẵ':case L'Ẵ':case L'ặ':case L'Ặ':return L'ă';
+		case L'Ơ':case L'ờ':case L'Ờ':case L'ớ':case L'Ớ':case L'ở':case L'Ở':case L'ỡ':case L'Ỡ':case L'ợ':case L'Ợ':return L'ơ';
+		case L'Ư':case L'ừ':case L'Ừ':case L'ứ':case L'Ứ':case L'ử':case L'Ử':case L'ữ':case L'Ữ':case L'ự':case L'Ự':return L'ư';
+		case L'Đ':return L'đ';
+		case L'B':return L'b';
+		case L'C':return L'c';
+		case L'D':return L'd';
+		case L'F':return L'f';
+		case L'G':return L'g';
+		case L'H':return L'h';
+		case L'J':return L'j';
+		case L'K':return L'k';
+		case L'L':return L'l';
+		case L'M':return L'm';
+		case L'N':return L'n';
+		case L'P':return L'p';
+		case L'Q':return L'q';
+		case L'R':return L'r';
+		case L'S':return L's';
+		case L'T':return L't';
+		case L'V':return L'v';
+		case L'W':return L'w';
+		case L'X':return L'x';
+		case L'Z':return L'z';
+		}
+		if (wch >= 'a' && wch <= 'z') return wch;
+		if (wch >= 'A' && wch <= 'Z') return wch;
+		if (wch >= '0' && wch <= '9') return wch;
+		return L' ';
+	}
+	std::wstring		GetBase(const std::wstring& wstr)
+	{
+		std::wstring base;
+		for (unsigned i = 0; i < wstr.size(); i++)
+		{
+			wchar_t baseChar = GetBase(wstr[i]);
+			if (baseChar != L' ') base += baseChar;
+		}
+		return base;
+	}
 	wchar_t				GetLower(wchar_t wch)
 	{
 		switch (wch)
@@ -5504,7 +5556,7 @@ namespace std
 		std::wstring_convert<std::codecvt_utf8<wchar_t>> myconv;
 		return myconv.to_bytes(wstr);
 #endif
-	}
+		}
 	/************************************************************************/
 	/* file                                                                 */
 	/************************************************************************/
@@ -5575,12 +5627,12 @@ namespace std
 				else
 				{
 					fileSet.insert(full_file_name);
-				}
 			}
 		}
+	}
 		closedir(dir);
 #endif
-	}
+}
 	void				GetRealFileName(const std::wstring &filePath, std::wstring &rFilename)
 	{
 		rFilename.clear();
@@ -5741,10 +5793,10 @@ namespace std
 			{
 				std::Show(std::wstring(L"Lỗi"), L"Error: write file %ls (utf8 size == %d bytes, write == %d bytes)\n", fileName.c_str(), writeSize, writtenSize);
 				//return false;
-			}
+		}
 			//else return true;
 #endif		
-		}
+	}
 		else
 		{
 			std::Show(std::wstring(L"Lỗi"), L"Error: Can not open to write file %ls \n", fileName.c_str());
@@ -5767,13 +5819,20 @@ void main(void)
 	std::SetTextColor(2);
 	std::ClearScreen();
 
+#ifdef _DEBUG
+	std::DeleteFile(L"log.txt");
+#endif
 
 	wprintf(L"Huong dan su dung :\n");
 	wprintf(L"	Dat toan bo tap tin van ban  (*.txt) vao thu muc txt\n");
 	wprintf(L"	Dat tool nay ngang hang voi thu muc txt va chay tool\n");
 	wprintf(L"==>xem thu muc fix de lay ket qua\n\n");
 	wprintf(L"...An phim bat ki de bat dau...\n");
+#ifndef _DEBUG
 	_getch();
+#endif // !_DEBUG
+
+
 	std::wstringset textFileSet;
 	std::ScanFile(L"", L"*.*", textFileSet);
 	int countTotalChange = 0;
@@ -5831,11 +5890,18 @@ void main(void)
 							std::wstring currentList = std::GetWString(textNode->originalText, textNode->originalTextLength) + L" " + std::GetWString(textNode->text, textNode->textLength);
 							if (listedSet.insert(currentList).second == true)
 							{
-								vntObject.Log("\t\t+Fix \"");
-								vntObject.Log(textNode->originalText, textNode->originalTextLength);
-								vntObject.Log("\" - %d character ----> \"", textNode->originalTextLength);
-								vntObject.Log(textNode->text, textNode->textLength);
-								vntObject.Log("\" - %d character\n", textNode->textLength);
+								std::wstring originalSyllable = std::GetWString(textNode->originalText, textNode->originalTextLength);
+								std::wstring newSyllable = std::GetWString(textNode->text, textNode->textLength);
+								std::wstring originalBase = GetBase(originalSyllable);
+								std::wstring newBase = GetBase(newSyllable);
+								if (originalBase != newBase)
+								{
+									vntObject.Log("\t\t+Fix \"");
+									vntObject.Log(textNode->originalText, textNode->originalTextLength);
+									vntObject.Log("\" - %d character ----> \"", textNode->originalTextLength);
+									vntObject.Log(textNode->text, textNode->textLength);
+									vntObject.Log("\" - %d character\n", textNode->textLength);
+								}
 							}
 						}
 					}
