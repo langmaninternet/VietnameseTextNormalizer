@@ -1,4 +1,3 @@
-[![Build Status](https://travis-ci.com/langmaninternet/VietnameseTextNormalizer.svg?branch=master)](https://travis-ci.com/langmaninternet/VietnameseTextNormalizer)
 
 ## Thư viện chuẩn hóa văn bản Tiếng Việt (Có sẵn wrapper cho Python2 và Python3)
 
