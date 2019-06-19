@@ -207,5 +207,5 @@ void CVietnameseTextNormalizerGUIDlg::OnChangeTextinput()
 		qfree(ucs2buffer);
 	}
 
-	GetDlgItem(IDC_TEXTOUTPUT)->SetWindowText(inputText);
+	GetDlgItem(IDC_TEXTOUTPUT)->SetWindowText(outputText);
 }
