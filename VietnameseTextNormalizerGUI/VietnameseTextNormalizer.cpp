@@ -1,10 +1,12 @@
-﻿#include "VietnameseTextNormalizer.h"
+﻿#include "pch.h"
+#include "VietnameseTextNormalizer.h"
+
 //#undef WIN32_NORMALIZER_TOOL
 #ifndef WIN32_NORMALIZER_TOOL
-extern "C"
-{
-#include <Python.h>
-}
+// extern "C"
+// {
+// #include <Python.h>
+// }
 #endif
 #include <iostream>
 #include <fstream>
