@@ -72,11 +72,11 @@ void				VietnameseTextNormalizer::Init(void)
 /************************************************************************/
 /* Log function                                                         */
 /************************************************************************/
-void				VietnameseTextNormalizer::Log(const char * format, ...)
+void				VietnameseTextNormalizer::Log(const char* format, ...)
 {
 	if (logFile/*!=NULL*/)
 	{
-		char *buffLog = (char *)qcalloc(2000 + 10/*safe*/, sizeof(char));
+		char* buffLog = (char*)qcalloc(2000 + 10/*safe*/, sizeof(char));
 		if (buffLog)
 		{
 			va_list args;
@@ -104,7 +104,7 @@ void				VietnameseTextNormalizer::Log(const char * format, ...)
 		}
 	}
 }
-void				VietnameseTextNormalizer::Log(const qwchar * wstr, int wstrlen)
+void				VietnameseTextNormalizer::Log(const qwchar* wstr, int wstrlen)
 {
 	if (logFile/*!=NULL*/ && wstr/*!=NULL*/ && wstrlen > 0)
 	{
@@ -167,14 +167,14 @@ void				VietnameseTextNormalizer::Log(const qwchar * wstr, int wstrlen)
 /************************************************************************/
 /* Score                                                                */
 /************************************************************************/
-double				VietnameseTextNormalizer::SignificantScore(TEXT_NODE * textNode, qvsylidentifier vietnameseSyllableIdentifier)
+double				VietnameseTextNormalizer::SignificantScore(TEXT_NODE* textNode, qvsylidentifier vietnameseSyllableIdentifier)
 {
-	TEXT_NODE *				leftTextNodeOffset0 = &nullTextNodeForStep2Normalize;
-	TEXT_NODE *				leftTextNodeOffset1 = &nullTextNodeForStep2Normalize;
-	TEXT_NODE *				leftTextNodeOffset2 = &nullTextNodeForStep2Normalize;
-	TEXT_NODE *				leftTextNodeOffset3 = &nullTextNodeForStep2Normalize;
-	TEXT_NODE *				leftTextNodeOffset4 = &nullTextNodeForStep2Normalize;
-	TEXT_NODE *				leftTextNodeOffset5 = &nullTextNodeForStep2Normalize;
+	TEXT_NODE* leftTextNodeOffset0 = &nullTextNodeForStep2Normalize;
+	TEXT_NODE* leftTextNodeOffset1 = &nullTextNodeForStep2Normalize;
+	TEXT_NODE* leftTextNodeOffset2 = &nullTextNodeForStep2Normalize;
+	TEXT_NODE* leftTextNodeOffset3 = &nullTextNodeForStep2Normalize;
+	TEXT_NODE* leftTextNodeOffset4 = &nullTextNodeForStep2Normalize;
+	TEXT_NODE* leftTextNodeOffset5 = &nullTextNodeForStep2Normalize;
 	if (textNode->back)
 	{
 		leftTextNodeOffset0 = textNode->back;
@@ -199,12 +199,12 @@ double				VietnameseTextNormalizer::SignificantScore(TEXT_NODE * textNode, qvsyl
 			}
 		}
 	}
-	TEXT_NODE *				rightTextNodeOffset0 = &nullTextNodeForStep2Normalize;
-	TEXT_NODE *				rightTextNodeOffset1 = &nullTextNodeForStep2Normalize;
-	TEXT_NODE *				rightTextNodeOffset2 = &nullTextNodeForStep2Normalize;
-	TEXT_NODE *				rightTextNodeOffset3 = &nullTextNodeForStep2Normalize;
-	TEXT_NODE *				rightTextNodeOffset4 = &nullTextNodeForStep2Normalize;
-	TEXT_NODE *				rightTextNodeOffset5 = &nullTextNodeForStep2Normalize;
+	TEXT_NODE* rightTextNodeOffset0 = &nullTextNodeForStep2Normalize;
+	TEXT_NODE* rightTextNodeOffset1 = &nullTextNodeForStep2Normalize;
+	TEXT_NODE* rightTextNodeOffset2 = &nullTextNodeForStep2Normalize;
+	TEXT_NODE* rightTextNodeOffset3 = &nullTextNodeForStep2Normalize;
+	TEXT_NODE* rightTextNodeOffset4 = &nullTextNodeForStep2Normalize;
+	TEXT_NODE* rightTextNodeOffset5 = &nullTextNodeForStep2Normalize;
 	if (textNode->next)
 	{
 		rightTextNodeOffset0 = textNode->next;
@@ -381,14 +381,14 @@ double				VietnameseTextNormalizer::SignificantScore(TEXT_NODE * textNode, qvsyl
 	}
 	return currentSyllableSure;
 }
-double				VietnameseTextNormalizer::SignificantScoreForMissingEndAndJoinProblem(TEXT_NODE * textNode, qvsylidentifier vietnameseSyllableIdentifier)
+double				VietnameseTextNormalizer::SignificantScoreForMissingEndAndJoinProblem(TEXT_NODE* textNode, qvsylidentifier vietnameseSyllableIdentifier)
 {
-	TEXT_NODE *				leftTextNodeOffset0 = &nullTextNodeForStep2Normalize;
-	TEXT_NODE *				leftTextNodeOffset1 = &nullTextNodeForStep2Normalize;
-	TEXT_NODE *				leftTextNodeOffset2 = &nullTextNodeForStep2Normalize;
-	TEXT_NODE *				leftTextNodeOffset3 = &nullTextNodeForStep2Normalize;
-	TEXT_NODE *				leftTextNodeOffset4 = &nullTextNodeForStep2Normalize;
-	TEXT_NODE *				leftTextNodeOffset5 = &nullTextNodeForStep2Normalize;
+	TEXT_NODE* leftTextNodeOffset0 = &nullTextNodeForStep2Normalize;
+	TEXT_NODE* leftTextNodeOffset1 = &nullTextNodeForStep2Normalize;
+	TEXT_NODE* leftTextNodeOffset2 = &nullTextNodeForStep2Normalize;
+	TEXT_NODE* leftTextNodeOffset3 = &nullTextNodeForStep2Normalize;
+	TEXT_NODE* leftTextNodeOffset4 = &nullTextNodeForStep2Normalize;
+	TEXT_NODE* leftTextNodeOffset5 = &nullTextNodeForStep2Normalize;
 	if (textNode->back)
 	{
 		leftTextNodeOffset0 = textNode->back;
@@ -413,12 +413,12 @@ double				VietnameseTextNormalizer::SignificantScoreForMissingEndAndJoinProblem(
 			}
 		}
 	}
-	TEXT_NODE *				rightTextNodeOffset0 = &nullTextNodeForStep2Normalize;
-	TEXT_NODE *				rightTextNodeOffset1 = &nullTextNodeForStep2Normalize;
-	TEXT_NODE *				rightTextNodeOffset2 = &nullTextNodeForStep2Normalize;
-	TEXT_NODE *				rightTextNodeOffset3 = &nullTextNodeForStep2Normalize;
-	TEXT_NODE *				rightTextNodeOffset4 = &nullTextNodeForStep2Normalize;
-	TEXT_NODE *				rightTextNodeOffset5 = &nullTextNodeForStep2Normalize;
+	TEXT_NODE* rightTextNodeOffset0 = &nullTextNodeForStep2Normalize;
+	TEXT_NODE* rightTextNodeOffset1 = &nullTextNodeForStep2Normalize;
+	TEXT_NODE* rightTextNodeOffset2 = &nullTextNodeForStep2Normalize;
+	TEXT_NODE* rightTextNodeOffset3 = &nullTextNodeForStep2Normalize;
+	TEXT_NODE* rightTextNodeOffset4 = &nullTextNodeForStep2Normalize;
+	TEXT_NODE* rightTextNodeOffset5 = &nullTextNodeForStep2Normalize;
 	if (textNode->next)
 	{
 		rightTextNodeOffset0 = textNode->next;
@@ -617,17 +617,17 @@ double				VietnameseTextNormalizer::SignificantScoreForMissingEndAndJoinProblem(
 /* On going                                                             */
 /************************************************************************/
 
-double				VietnameseTextNormalizer::PerplexityScore(TEXT_NODE * textNode, qvsylidentifier vietnameseSyllableIdentifier)
+double				VietnameseTextNormalizer::PerplexityScore(TEXT_NODE* textNode, qvsylidentifier vietnameseSyllableIdentifier)
 {
 #ifdef FLAG_HAVE_NGRAM_ENGINE
 	int sentenceLength = 0;
 	std::list< globalidentifier> sens;
 	sens.insert(sens.begin(), vnsyllables[vietnameseSyllableIdentifier].identifier);
-	for (TEXT_NODE * inode = textNode->back; inode != NULL && inode->silenceTimeInSecond == 0.0 && inode->textNodeType != TEXT_NODE_TYPE_SILENCE; inode = inode->back)
+	for (TEXT_NODE* inode = textNode->back; inode != NULL && inode->silenceTimeInSecond == 0.0 && inode->textNodeType != TEXT_NODE_TYPE_SILENCE; inode = inode->back)
 	{
 		sens.insert(sens.begin(), inode->identifier);
 	}
-	for (TEXT_NODE * inode = textNode->next; inode != NULL && inode->silenceTimeInSecond == 0.0 && inode->textNodeType != TEXT_NODE_TYPE_SILENCE; inode = inode->next)
+	for (TEXT_NODE* inode = textNode->next; inode != NULL && inode->silenceTimeInSecond == 0.0 && inode->textNodeType != TEXT_NODE_TYPE_SILENCE; inode = inode->next)
 	{
 		sens.insert(sens.end(), inode->identifier);
 	}
@@ -659,7 +659,7 @@ double				VietnameseTextNormalizer::PerplexityScore(TEXT_NODE * textNode, qvsyli
 /************************************************************************/
 /* Update                                                               */
 /************************************************************************/
-void				VietnameseTextNormalizer::UpdateVietnameseTextNodeContext(TEXT_NODE * textNode, TEXT_NODE * leftTextNodeOffset0, TEXT_NODE * leftTextNodeOffset1, TEXT_NODE * leftTextNodeOffset2, TEXT_NODE * leftTextNodeOffset3, TEXT_NODE * leftTextNodeOffset4)
+void				VietnameseTextNormalizer::UpdateVietnameseTextNodeContext(TEXT_NODE* textNode, TEXT_NODE* leftTextNodeOffset0, TEXT_NODE* leftTextNodeOffset1, TEXT_NODE* leftTextNodeOffset2, TEXT_NODE* leftTextNodeOffset3, TEXT_NODE* leftTextNodeOffset4)
 {
 	qvsylidentifier					vietnameseSyllableIdentifier = textNode->vietnameseSyllableIdentifier;
 	/************************************************************************/
@@ -1110,11 +1110,11 @@ void				VietnameseTextNormalizer::UpdateVietnameseTextNodeContext(TEXT_NODE * te
 		{
 			textNode->leftVietnameseAbbreviationSure = vnabbreviations[nextAbbreviationIndentifier].LeftSure(leftTextNodeOffset0->vietnameseSyllableIdentifier, leftTextNodeOffset1->vietnameseSyllableIdentifier, leftTextNodeOffset2->vietnameseSyllableIdentifier, leftTextNodeOffset3->vietnameseSyllableIdentifier, leftTextNodeOffset4->vietnameseSyllableIdentifier);
 
-			TEXT_NODE *				rightTextNodeOffset0 = &nullTextNodeForStep1Input;
-			TEXT_NODE *				rightTextNodeOffset1 = &nullTextNodeForStep1Input;
-			TEXT_NODE *				rightTextNodeOffset2 = &nullTextNodeForStep1Input;
-			TEXT_NODE *				rightTextNodeOffset3 = &nullTextNodeForStep1Input;
-			TEXT_NODE *				rightTextNodeOffset4 = &nullTextNodeForStep1Input;
+			TEXT_NODE* rightTextNodeOffset0 = &nullTextNodeForStep1Input;
+			TEXT_NODE* rightTextNodeOffset1 = &nullTextNodeForStep1Input;
+			TEXT_NODE* rightTextNodeOffset2 = &nullTextNodeForStep1Input;
+			TEXT_NODE* rightTextNodeOffset3 = &nullTextNodeForStep1Input;
+			TEXT_NODE* rightTextNodeOffset4 = &nullTextNodeForStep1Input;
 			if (textNode->next)
 			{
 				rightTextNodeOffset0 = textNode->next;
@@ -1250,19 +1250,19 @@ void				VietnameseTextNormalizer::UpdateVietnameseTextNodeContext(TEXT_NODE * te
 				//			}
 				//		}
 
-				TEXT_NODE *				leftTextNodeOffset5 = &nullTextNodeForStep2Normalize;
+				TEXT_NODE* leftTextNodeOffset5 = &nullTextNodeForStep2Normalize;
 				if (leftTextNodeOffset4->back)
 				{
 					leftTextNodeOffset5 = leftTextNodeOffset4->back;
 				}
 
 
-				TEXT_NODE *				rightTextNodeOffset0 = &nullTextNodeForStep2Normalize;
-				TEXT_NODE *				rightTextNodeOffset1 = &nullTextNodeForStep2Normalize;
-				TEXT_NODE *				rightTextNodeOffset2 = &nullTextNodeForStep2Normalize;
-				TEXT_NODE *				rightTextNodeOffset3 = &nullTextNodeForStep2Normalize;
-				TEXT_NODE *				rightTextNodeOffset4 = &nullTextNodeForStep2Normalize;
-				TEXT_NODE *				rightTextNodeOffset5 = &nullTextNodeForStep2Normalize;
+				TEXT_NODE* rightTextNodeOffset0 = &nullTextNodeForStep2Normalize;
+				TEXT_NODE* rightTextNodeOffset1 = &nullTextNodeForStep2Normalize;
+				TEXT_NODE* rightTextNodeOffset2 = &nullTextNodeForStep2Normalize;
+				TEXT_NODE* rightTextNodeOffset3 = &nullTextNodeForStep2Normalize;
+				TEXT_NODE* rightTextNodeOffset4 = &nullTextNodeForStep2Normalize;
+				TEXT_NODE* rightTextNodeOffset5 = &nullTextNodeForStep2Normalize;
 				if (textNode->next)
 				{
 					rightTextNodeOffset0 = textNode->next;
@@ -1547,15 +1547,15 @@ void				VietnameseTextNormalizer::UpdateVietnameseTextNodeContext(TEXT_NODE * te
 	}
 	if (flagValidateToolMode && textNode->vietnameseSyllableIdentifier) textNode->textNodeType = TEXT_NODE_TYPE_VIETNAMESE_SYLLABLE;
 }
-void				VietnameseTextNormalizer::UpdateVietnameseTextNodeContext(TEXT_NODE * textNode)
+void				VietnameseTextNormalizer::UpdateVietnameseTextNodeContext(TEXT_NODE* textNode)
 {
 	for (int isyllable = 0, maxWordLength = 4/*word max length*/ + 2/*left sure max length*/; isyllable < maxWordLength && textNode; isyllable++, textNode = textNode->next)
 	{
-		TEXT_NODE *				leftTextNodeOffset0 = &nullTextNodeForStep2Normalize;
-		TEXT_NODE *				leftTextNodeOffset1 = &nullTextNodeForStep2Normalize;
-		TEXT_NODE *				leftTextNodeOffset2 = &nullTextNodeForStep2Normalize;
-		TEXT_NODE *				leftTextNodeOffset3 = &nullTextNodeForStep2Normalize;
-		TEXT_NODE *				leftTextNodeOffset4 = &nullTextNodeForStep2Normalize;
+		TEXT_NODE* leftTextNodeOffset0 = &nullTextNodeForStep2Normalize;
+		TEXT_NODE* leftTextNodeOffset1 = &nullTextNodeForStep2Normalize;
+		TEXT_NODE* leftTextNodeOffset2 = &nullTextNodeForStep2Normalize;
+		TEXT_NODE* leftTextNodeOffset3 = &nullTextNodeForStep2Normalize;
+		TEXT_NODE* leftTextNodeOffset4 = &nullTextNodeForStep2Normalize;
 		//TEXT_NODE *				leftTextNodeOffset5 = &nullTextNodeForStep2;
 		if (textNode->back)
 		{
@@ -1617,7 +1617,7 @@ void				VietnameseTextNormalizer::UpdateVietnameseTextNodeContext(TEXT_NODE * te
 /************************************************************************/
 /* Step 1 : Division                                                    */
 /************************************************************************/
-TEXT_NODE *			VietnameseTextNormalizer::InsertVietnameseSyllableToTheTail(qvsylidentifier vietnameseSyllableIdentifier, qwchar const * nodeOriginalText, int nodeOriginalTextLength, TEXT_NODE_CAPITAL capital, TEXT_NODE * leftTextNodeOffset0, TEXT_NODE * leftTextNodeOffset1, TEXT_NODE * leftTextNodeOffset2, TEXT_NODE * leftTextNodeOffset3, TEXT_NODE * leftTextNodeOffset4)
+TEXT_NODE* VietnameseTextNormalizer::InsertVietnameseSyllableToTheTail(qvsylidentifier vietnameseSyllableIdentifier, qwchar const* nodeOriginalText, int nodeOriginalTextLength, TEXT_NODE_CAPITAL capital, TEXT_NODE* leftTextNodeOffset0, TEXT_NODE* leftTextNodeOffset1, TEXT_NODE* leftTextNodeOffset2, TEXT_NODE* leftTextNodeOffset3, TEXT_NODE* leftTextNodeOffset4)
 {
 #ifdef _DEBUG
 	if (capital == TEXT_NODE_CAPITAL_UNKNOWN)
@@ -1628,10 +1628,10 @@ TEXT_NODE *			VietnameseTextNormalizer::InsertVietnameseSyllableToTheTail(qvsyli
 #endif
 	}
 #endif
-	TEXT_NODE * textNode = (TEXT_NODE *)qcalloc(1, sizeof(TEXT_NODE));
+	TEXT_NODE* textNode = (TEXT_NODE*)qcalloc(1, sizeof(TEXT_NODE));
 	if (textNode/*!=NULL*/)
 	{
-		VIETNAMESE_SYLLABLE const * vietnameseSyllableNode = vnsyllables + vietnameseSyllableIdentifier;
+		VIETNAMESE_SYLLABLE const* vietnameseSyllableNode = vnsyllables + vietnameseSyllableIdentifier;
 		textNode->vietnameseSyllableIdentifier = vietnameseSyllableIdentifier;
 		if (vietnameseSyllableNode->english) textNode->englishWordIdentifier = vietnameseSyllableNode->english;
 		textNode->originalText = nodeOriginalText;
@@ -1670,7 +1670,7 @@ TEXT_NODE *			VietnameseTextNormalizer::InsertVietnameseSyllableToTheTail(qvsyli
 	}
 	return textNode;
 }
-TEXT_NODE *			VietnameseTextNormalizer::InsertEnglishWordToTheTail(qvwrdidentifier englishWordIdentifier, qwchar const * nodeOriginalText, int nodeOriginalTextLength, TEXT_NODE_CAPITAL capital, TEXT_NODE * leftTextNodeOffset0, TEXT_NODE * leftTextNodeOffset1, TEXT_NODE * leftTextNodeOffset2, TEXT_NODE * leftTextNodeOffset3, TEXT_NODE * leftTextNodeOffset4)
+TEXT_NODE* VietnameseTextNormalizer::InsertEnglishWordToTheTail(qvwrdidentifier englishWordIdentifier, qwchar const* nodeOriginalText, int nodeOriginalTextLength, TEXT_NODE_CAPITAL capital, TEXT_NODE* leftTextNodeOffset0, TEXT_NODE* leftTextNodeOffset1, TEXT_NODE* leftTextNodeOffset2, TEXT_NODE* leftTextNodeOffset3, TEXT_NODE* leftTextNodeOffset4)
 {
 #ifdef _DEBUG
 	if (capital == TEXT_NODE_CAPITAL_UNKNOWN)
@@ -1681,10 +1681,10 @@ TEXT_NODE *			VietnameseTextNormalizer::InsertEnglishWordToTheTail(qvwrdidentifi
 #endif
 	}
 #endif
-	TEXT_NODE * textNode = (TEXT_NODE *)qcalloc(1, sizeof(TEXT_NODE));
+	TEXT_NODE* textNode = (TEXT_NODE*)qcalloc(1, sizeof(TEXT_NODE));
 	if (textNode/*!=NULL*/)
 	{
-		ENGLISH_WORD const * englishwordNode = enwords + englishWordIdentifier;
+		ENGLISH_WORD const* englishwordNode = enwords + englishWordIdentifier;
 		/* TextNode infomation */
 		textNode->originalText = nodeOriginalText;
 		textNode->originalTextLength = nodeOriginalTextLength;
@@ -1732,7 +1732,7 @@ TEXT_NODE *			VietnameseTextNormalizer::InsertEnglishWordToTheTail(qvwrdidentifi
 	}
 	return textNode;
 }
-TEXT_NODE *			VietnameseTextNormalizer::InsertJapaneseWordToTheTail(qjwrdidentifier japaneseWordIdentifier, qwchar const * nodeOriginalText, int nodeOriginalTextLength, TEXT_NODE_CAPITAL capital, TEXT_NODE * leftTextNodeOffset0, TEXT_NODE * leftTextNodeOffset1, TEXT_NODE * leftTextNodeOffset2, TEXT_NODE * leftTextNodeOffset3, TEXT_NODE * leftTextNodeOffset4)
+TEXT_NODE* VietnameseTextNormalizer::InsertJapaneseWordToTheTail(qjwrdidentifier japaneseWordIdentifier, qwchar const* nodeOriginalText, int nodeOriginalTextLength, TEXT_NODE_CAPITAL capital, TEXT_NODE* leftTextNodeOffset0, TEXT_NODE* leftTextNodeOffset1, TEXT_NODE* leftTextNodeOffset2, TEXT_NODE* leftTextNodeOffset3, TEXT_NODE* leftTextNodeOffset4)
 {
 #ifdef _DEBUG
 	if (capital == TEXT_NODE_CAPITAL_UNKNOWN)
@@ -1743,7 +1743,7 @@ TEXT_NODE *			VietnameseTextNormalizer::InsertJapaneseWordToTheTail(qjwrdidentif
 #endif
 	}
 #endif
-	TEXT_NODE * textNode = (TEXT_NODE *)qcalloc(1, sizeof(TEXT_NODE));
+	TEXT_NODE* textNode = (TEXT_NODE*)qcalloc(1, sizeof(TEXT_NODE));
 	if (textNode/*!=NULL*/)
 	{
 		/* TextNode infomation */
@@ -1777,9 +1777,9 @@ TEXT_NODE *			VietnameseTextNormalizer::InsertJapaneseWordToTheTail(qjwrdidentif
 	}
 	return textNode;
 }
-TEXT_NODE *			VietnameseTextNormalizer::InsertUnknownNodeToTail(qwchar const * nodeOriginalText, int nodeOriginalTextLength, TEXT_NODE * leftTextNodeOffset0, TEXT_NODE * leftTextNodeOffset1, TEXT_NODE * leftTextNodeOffset2, TEXT_NODE * leftTextNodeOffset3, TEXT_NODE * leftTextNodeOffset4)
+TEXT_NODE* VietnameseTextNormalizer::InsertUnknownNodeToTail(qwchar const* nodeOriginalText, int nodeOriginalTextLength, TEXT_NODE* leftTextNodeOffset0, TEXT_NODE* leftTextNodeOffset1, TEXT_NODE* leftTextNodeOffset2, TEXT_NODE* leftTextNodeOffset3, TEXT_NODE* leftTextNodeOffset4)
 {
-	TEXT_NODE * textNode = (TEXT_NODE *)qcalloc(1, sizeof(TEXT_NODE));
+	TEXT_NODE* textNode = (TEXT_NODE*)qcalloc(1, sizeof(TEXT_NODE));
 	if (textNode/*!=NULL*/)
 	{
 		/* TextNode infomation */
@@ -1973,9 +1973,9 @@ TEXT_NODE *			VietnameseTextNormalizer::InsertUnknownNodeToTail(qwchar const * n
 	}
 	return textNode;
 }
-void				VietnameseTextNormalizer::Input(const qwchar *text)
+void				VietnameseTextNormalizer::Input(const qwchar* text)
 {
-	FILE * backupLogFile = logFile;
+	FILE* backupLogFile = logFile;
 	Refresh();
 	logFile = backupLogFile;
 	/************************************************************************/
@@ -1987,12 +1987,12 @@ void				VietnameseTextNormalizer::Input(const qwchar *text)
 	{
 		qtime						step1StartTime = { 0 };
 		static TEXT_NODE			nullTextNode/*For Optimization Performance*/;
-		TEXT_NODE *					leftTextNodeOffset0 = &nullTextNode;
-		TEXT_NODE *					leftTextNodeOffset1 = &nullTextNode;
-		TEXT_NODE *					leftTextNodeOffset2 = &nullTextNode;
-		TEXT_NODE *					leftTextNodeOffset3 = &nullTextNode;
-		TEXT_NODE *					leftTextNodeOffset4 = &nullTextNode;
-		qwchar const *				currentOriginalSyllable = text;
+		TEXT_NODE* leftTextNodeOffset0 = &nullTextNode;
+		TEXT_NODE* leftTextNodeOffset1 = &nullTextNode;
+		TEXT_NODE* leftTextNodeOffset2 = &nullTextNode;
+		TEXT_NODE* leftTextNodeOffset3 = &nullTextNode;
+		TEXT_NODE* leftTextNodeOffset4 = &nullTextNode;
+		qwchar const* currentOriginalSyllable = text;
 		int							currentOriginalSyllableLength = 0;
 		originalText = text;
 		if (logFile) qGetTime(&step1StartTime);
@@ -2019,7 +2019,7 @@ void				VietnameseTextNormalizer::Input(const qwchar *text)
 			bool						preloadViEnDup = false;
 			if (startOfNewNode && text[0] == 0x3C/*<*/)
 			{
-				qwchar const *backupText = text;
+				qwchar const* backupText = text;
 				bool flagNeedMoreLoopForCheckPreloadTag = true;
 				while (flagNeedMoreLoopForCheckPreloadTag)
 				{
@@ -2181,7 +2181,7 @@ void				VietnameseTextNormalizer::Input(const qwchar *text)
 			/************************************************************************/
 			if (vietnameseSyllableIdentifier)
 			{
-				TEXT_NODE * backupTextNode = InsertVietnameseSyllableToTheTail(vietnameseSyllableIdentifier, currentOriginalSyllable + preloadSize, currentOriginalSyllableLength, capital, leftTextNodeOffset0, leftTextNodeOffset1, leftTextNodeOffset2, leftTextNodeOffset3, leftTextNodeOffset4);
+				TEXT_NODE* backupTextNode = InsertVietnameseSyllableToTheTail(vietnameseSyllableIdentifier, currentOriginalSyllable + preloadSize, currentOriginalSyllableLength, capital, leftTextNodeOffset0, leftTextNodeOffset1, leftTextNodeOffset2, leftTextNodeOffset3, leftTextNodeOffset4);
 				leftTextNodeOffset4 = leftTextNodeOffset3;
 				leftTextNodeOffset3 = leftTextNodeOffset2;
 				leftTextNodeOffset2 = leftTextNodeOffset1;
@@ -2203,7 +2203,7 @@ void				VietnameseTextNormalizer::Input(const qwchar *text)
 			/************************************************************************/
 			else if (englishWordIdentifier)
 			{
-				TEXT_NODE * backupTextNode = InsertEnglishWordToTheTail(englishWordIdentifier, currentOriginalSyllable + preloadSize, currentOriginalSyllableLength, capital, leftTextNodeOffset0, leftTextNodeOffset1, leftTextNodeOffset2, leftTextNodeOffset3, leftTextNodeOffset4);
+				TEXT_NODE* backupTextNode = InsertEnglishWordToTheTail(englishWordIdentifier, currentOriginalSyllable + preloadSize, currentOriginalSyllableLength, capital, leftTextNodeOffset0, leftTextNodeOffset1, leftTextNodeOffset2, leftTextNodeOffset3, leftTextNodeOffset4);
 				leftTextNodeOffset4 = leftTextNodeOffset3;
 				leftTextNodeOffset3 = leftTextNodeOffset2;
 				leftTextNodeOffset2 = leftTextNodeOffset1;
@@ -2218,7 +2218,7 @@ void				VietnameseTextNormalizer::Input(const qwchar *text)
 			/************************************************************************/
 			else if (vietnameseAbbreviationIndentifier)
 			{
-				TEXT_NODE * backupTextNode = InsertUnknownNodeToTail(text, vnabbreviations[vietnameseAbbreviationIndentifier].textLength, leftTextNodeOffset0, leftTextNodeOffset1, leftTextNodeOffset2, leftTextNodeOffset3, leftTextNodeOffset4);
+				TEXT_NODE* backupTextNode = InsertUnknownNodeToTail(text, vnabbreviations[vietnameseAbbreviationIndentifier].textLength, leftTextNodeOffset0, leftTextNodeOffset1, leftTextNodeOffset2, leftTextNodeOffset3, leftTextNodeOffset4);
 				leftTextNodeOffset4 = leftTextNodeOffset3;
 				leftTextNodeOffset3 = leftTextNodeOffset2;
 				leftTextNodeOffset2 = leftTextNodeOffset1;
@@ -2233,7 +2233,7 @@ void				VietnameseTextNormalizer::Input(const qwchar *text)
 			/************************************************************************/
 			else if (vietnameseLoanWordIndentifier)
 			{
-				TEXT_NODE * backupTextNode = InsertUnknownNodeToTail(text, vnloans[vietnameseLoanWordIndentifier].textLength, leftTextNodeOffset0, leftTextNodeOffset1, leftTextNodeOffset2, leftTextNodeOffset3, leftTextNodeOffset4);
+				TEXT_NODE* backupTextNode = InsertUnknownNodeToTail(text, vnloans[vietnameseLoanWordIndentifier].textLength, leftTextNodeOffset0, leftTextNodeOffset1, leftTextNodeOffset2, leftTextNodeOffset3, leftTextNodeOffset4);
 				leftTextNodeOffset4 = leftTextNodeOffset3;
 				leftTextNodeOffset3 = leftTextNodeOffset2;
 				leftTextNodeOffset2 = leftTextNodeOffset1;
@@ -2248,7 +2248,7 @@ void				VietnameseTextNormalizer::Input(const qwchar *text)
 			/************************************************************************/
 			else if (japaneseWordIdentifier)
 			{
-				TEXT_NODE * backupTextNode = InsertJapaneseWordToTheTail(japaneseWordIdentifier, currentOriginalSyllable + preloadSize, currentOriginalSyllableLength, capital, leftTextNodeOffset0, leftTextNodeOffset1, leftTextNodeOffset2, leftTextNodeOffset3, leftTextNodeOffset4);
+				TEXT_NODE* backupTextNode = InsertJapaneseWordToTheTail(japaneseWordIdentifier, currentOriginalSyllable + preloadSize, currentOriginalSyllableLength, capital, leftTextNodeOffset0, leftTextNodeOffset1, leftTextNodeOffset2, leftTextNodeOffset3, leftTextNodeOffset4);
 				leftTextNodeOffset4 = leftTextNodeOffset3;
 				leftTextNodeOffset3 = leftTextNodeOffset2;
 				leftTextNodeOffset2 = leftTextNodeOffset1;
@@ -2269,7 +2269,7 @@ void				VietnameseTextNormalizer::Input(const qwchar *text)
 				bool								needIgnoreLeftCharacter = false;
 				char								needIgnoreSeparateCharacter = false;
 				int									leftMatchingEnglishWordLength = enwords[leftMatchingEnglishIdentifier].textLength;
-				struct VIETNAMESE_SYLLABLE const *	leftMatchingVietnameseSyllableNode = vnsyllables + leftMatchingVietnameseIdentifier;
+				struct VIETNAMESE_SYLLABLE const* leftMatchingVietnameseSyllableNode = vnsyllables + leftMatchingVietnameseIdentifier;
 				int									leftMatchingVietnameseWordIdentifier = leftMatchingVietnameseSyllableNode->DetectWord(leftTextNodeOffset0->vietnameseSyllableIdentifier, leftTextNodeOffset1->vietnameseSyllableIdentifier, leftTextNodeOffset2->vietnameseSyllableIdentifier);
 				int									leftMatchingVietnameseSyllableSure = leftMatchingVietnameseSyllableNode->LeftSure(leftTextNodeOffset0->vietnameseSyllableIdentifier, leftTextNodeOffset1->vietnameseSyllableIdentifier)
 					+ vnwords[leftMatchingVietnameseWordIdentifier].LeftSure(leftTextNodeOffset0->vietnameseSyllableIdentifier, leftTextNodeOffset1->vietnameseSyllableIdentifier);
@@ -2280,7 +2280,7 @@ void				VietnameseTextNormalizer::Input(const qwchar *text)
 				qvsylidentifier						rightTempLeftMatchingVietnameseIdentifier = 0;
 				int									rightTempLeftMatchingCombiningTone = 0;
 				qvsylidentifier						rightMathchingVietnameseIdentifier = VietnameseSyllableDetection(currentOriginalSyllable + leftMatchingVietnameseLength, &rightCapital, &rightCombiningTone, &rightTempLeftMatchingVietnameseIdentifier, &rightTempLeftMatchingCombiningTone);
-				struct VIETNAMESE_SYLLABLE const *	rightMatchingVietnameseSyllableNode = vnsyllables + rightMathchingVietnameseIdentifier;
+				struct VIETNAMESE_SYLLABLE const* rightMatchingVietnameseSyllableNode = vnsyllables + rightMathchingVietnameseIdentifier;
 
 				int									rightMatchingVietnameseWordIdentifier = rightMatchingVietnameseSyllableNode->DetectWord(leftMatchingVietnameseIdentifier, leftTextNodeOffset0->vietnameseSyllableIdentifier, leftTextNodeOffset1->vietnameseSyllableIdentifier);
 				int									rightMatchingVietnameseSyllableSure = rightMatchingVietnameseSyllableNode->LeftSure(leftMatchingVietnameseIdentifier, leftTextNodeOffset0->vietnameseSyllableIdentifier)
@@ -2595,7 +2595,7 @@ void				VietnameseTextNormalizer::Input(const qwchar *text)
 				}
 				if (needSplitLeftMatchingVietnameseSyllable)
 				{
-					TEXT_NODE * backupTextNode = InsertVietnameseSyllableToTheTail(leftMatchingVietnameseIdentifier, currentOriginalSyllable, leftMatchingVietnameseLength, capital, leftTextNodeOffset0, leftTextNodeOffset1, leftTextNodeOffset2, leftTextNodeOffset3, leftTextNodeOffset4);
+					TEXT_NODE* backupTextNode = InsertVietnameseSyllableToTheTail(leftMatchingVietnameseIdentifier, currentOriginalSyllable, leftMatchingVietnameseLength, capital, leftTextNodeOffset0, leftTextNodeOffset1, leftTextNodeOffset2, leftTextNodeOffset3, leftTextNodeOffset4);
 					leftTextNodeOffset4 = leftTextNodeOffset3;
 					leftTextNodeOffset3 = leftTextNodeOffset2;
 					leftTextNodeOffset2 = leftTextNodeOffset1;
@@ -2618,7 +2618,7 @@ void				VietnameseTextNormalizer::Input(const qwchar *text)
 				}
 				else if (needSplitLeftMatchingEnglishWord)
 				{
-					TEXT_NODE * backupTextNode = InsertEnglishWordToTheTail(leftMatchingEnglishIdentifier, currentOriginalSyllable, leftMatchingEnglishLength, capital, leftTextNodeOffset0, leftTextNodeOffset1, leftTextNodeOffset2, leftTextNodeOffset3, leftTextNodeOffset4);
+					TEXT_NODE* backupTextNode = InsertEnglishWordToTheTail(leftMatchingEnglishIdentifier, currentOriginalSyllable, leftMatchingEnglishLength, capital, leftTextNodeOffset0, leftTextNodeOffset1, leftTextNodeOffset2, leftTextNodeOffset3, leftTextNodeOffset4);
 					leftTextNodeOffset4 = leftTextNodeOffset3;
 					leftTextNodeOffset3 = leftTextNodeOffset2;
 					leftTextNodeOffset2 = leftTextNodeOffset1;
@@ -2630,7 +2630,7 @@ void				VietnameseTextNormalizer::Input(const qwchar *text)
 				}
 				else if (needSplitLeftCharacter)
 				{
-					TEXT_NODE * backupTextNode = InsertUnknownNodeToTail(text, 1, leftTextNodeOffset0, leftTextNodeOffset1, leftTextNodeOffset2, leftTextNodeOffset3, leftTextNodeOffset4);
+					TEXT_NODE* backupTextNode = InsertUnknownNodeToTail(text, 1, leftTextNodeOffset0, leftTextNodeOffset1, leftTextNodeOffset2, leftTextNodeOffset3, leftTextNodeOffset4);
 					leftTextNodeOffset4 = leftTextNodeOffset3;
 					leftTextNodeOffset3 = leftTextNodeOffset2;
 					leftTextNodeOffset2 = leftTextNodeOffset1;
@@ -2773,7 +2773,7 @@ void				VietnameseTextNormalizer::Input(const qwchar *text)
 					{
 						if (currentOriginalSyllableLength/* != 0*/)
 						{
-							TEXT_NODE * backupTextNode = InsertUnknownNodeToTail(currentOriginalSyllable + preloadSize, currentOriginalSyllableLength, leftTextNodeOffset0, leftTextNodeOffset1, leftTextNodeOffset2, leftTextNodeOffset3, leftTextNodeOffset4);
+							TEXT_NODE* backupTextNode = InsertUnknownNodeToTail(currentOriginalSyllable + preloadSize, currentOriginalSyllableLength, leftTextNodeOffset0, leftTextNodeOffset1, leftTextNodeOffset2, leftTextNodeOffset3, leftTextNodeOffset4);
 							leftTextNodeOffset4 = leftTextNodeOffset3;
 							leftTextNodeOffset3 = leftTextNodeOffset2;
 							leftTextNodeOffset2 = leftTextNodeOffset1;
@@ -2783,7 +2783,7 @@ void				VietnameseTextNormalizer::Input(const qwchar *text)
 
 						if (needInsertCurrentCharacter)
 						{
-							TEXT_NODE * backupTextNode = InsertUnknownNodeToTail(text, 1, leftTextNodeOffset0, leftTextNodeOffset1, leftTextNodeOffset2, leftTextNodeOffset3, leftTextNodeOffset4);
+							TEXT_NODE* backupTextNode = InsertUnknownNodeToTail(text, 1, leftTextNodeOffset0, leftTextNodeOffset1, leftTextNodeOffset2, leftTextNodeOffset3, leftTextNodeOffset4);
 							leftTextNodeOffset4 = leftTextNodeOffset3;
 							leftTextNodeOffset3 = leftTextNodeOffset2;
 							leftTextNodeOffset2 = leftTextNodeOffset1;
@@ -2809,7 +2809,7 @@ void				VietnameseTextNormalizer::Input(const qwchar *text)
 			Log("\n\n\n\\****************************************Start****************************************/\n");
 			Log("Process input text\n");
 			Log("Labeling:\n\tStep 1 : Divide to %d text node by Space, New line, Null (Process %.2lf%%, exist %.2lf%%, time %lfs, %d unknown): \n", countTotalNode, 100.0 - processLeft, processLeft, step1Time, countTotalUnknownNode);
-			for (TEXT_NODE * textNode = head; textNode/*!=NULL*/; textNode = textNode->next)
+			for (TEXT_NODE* textNode = head; textNode/*!=NULL*/; textNode = textNode->next)
 			{
 				if (textNode->vietnameseSyllableIdentifier
 					|| textNode->englishWordIdentifier
@@ -2880,7 +2880,7 @@ void				VietnameseTextNormalizer::Normalize(void)
 	/************************************************************************/
 	/* Normalization loop                                                   */
 	/************************************************************************/
-	for (TEXT_NODE * textNode = uhead; textNode/*!=NULL*/; )
+	for (TEXT_NODE* textNode = uhead; textNode/*!=NULL*/; )
 	{
 		//Normalization
 		if ((textNode->textNodeType == TEXT_NODE_TYPE_UNKNOWN || textNode->textNodeType == TEXT_NODE_TYPE_URL)
@@ -2891,23 +2891,23 @@ void				VietnameseTextNormalizer::Normalize(void)
 			&& textNode->silenceTimeInSecond == 0.0
 			&& textNode->originalTextLength < limitCharacterLength)
 		{//nếu cần chuẩn hóa ở bước này
-			qwchar *	textMemory = (qwchar *)qcalloc(textNode->originalTextLength + 10/*for safe*/, sizeof(qwchar));
-			qwchar *	textLowerMemory = (qwchar *)qcalloc(textNode->originalTextLength + 10/*for safe*/, sizeof(qwchar));
-			qwchar *	textTypeMemory = (qwchar *)qcalloc(textNode->originalTextLength + 10/*for safe*/, sizeof(qwchar));
-			qwchar *	textIndexMemory = (qwchar *)qcalloc(textNode->originalTextLength + 10/*for safe*/, sizeof(qwchar));
+			qwchar* textMemory = (qwchar*)qcalloc(textNode->originalTextLength + 10/*for safe*/, sizeof(qwchar));
+			qwchar* textLowerMemory = (qwchar*)qcalloc(textNode->originalTextLength + 10/*for safe*/, sizeof(qwchar));
+			qwchar* textTypeMemory = (qwchar*)qcalloc(textNode->originalTextLength + 10/*for safe*/, sizeof(qwchar));
+			qwchar* textIndexMemory = (qwchar*)qcalloc(textNode->originalTextLength + 10/*for safe*/, sizeof(qwchar));
 
 
 
-			qwchar *	text = textMemory;
-			qwchar *	textLower = textLowerMemory;
-			qwchar *	textType = textTypeMemory;
-			qwchar *	textIndex = textIndexMemory;
+			qwchar* text = textMemory;
+			qwchar* textLower = textLowerMemory;
+			qwchar* textType = textTypeMemory;
+			qwchar* textIndex = textIndexMemory;
 			if (textMemory /*!= NULL*/ && textLowerMemory /*!= NULL*/ && textTypeMemory /*!= NULL*/ && textIndex /*!= NULL*/)
 			{
 				/************************************************************************/
 				/* Text Properties                                                      */
 				/************************************************************************/
-				const qwchar *					backupOriginalText = textNode->originalText;
+				const qwchar* backupOriginalText = textNode->originalText;
 				int								textLength = 0;
 				int								textErrorCombiningTone = 0;
 				int								textCountTotalChange = 0;
@@ -3474,6 +3474,23 @@ void				VietnameseTextNormalizer::Normalize(void)
 							case 0xF5/*õ*/:text[lastIndexOfOutput] = (qwchar)0x1EE1/*ỡ*/; textLower[lastIndexOfOutput] = (qwchar)0x1EE1/*ỡ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
 							case 0x1ECC/*Ọ*/:text[lastIndexOfOutput] = (qwchar)0x1EE2/*Ợ*/; textLower[lastIndexOfOutput] = (qwchar)0x1EE3/*ợ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
 							case 0x1ECD/*ọ*/:text[lastIndexOfOutput] = (qwchar)0x1EE3/*ợ*/; textLower[lastIndexOfOutput] = (qwchar)0x1EE3/*ợ*/; textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER; textIndex[textLength] = (qwchar)iChar; textCountTotalChange++; break;
+
+
+							case 0x55/*U*/:text[lastIndexOfOutput] = (qwchar)0x1AF/*Ư*/;
+								textLower[lastIndexOfOutput] = (qwchar)0x1B0/*ư*/;
+								textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_UPPER;
+								textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++;
+								textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+
+
+
+							case 0x75/*u*/:text[lastIndexOfOutput] = (qwchar)0x1B0/*ư*/;
+								textLower[lastIndexOfOutput] = (qwchar)0x1B0/*ư*/;
+								textType[lastIndexOfOutput] = CHARACTER_TYPE_VIETNAMESE_ONLY_LOWER;
+								textIndex[textLength] = (qwchar)iChar; textCountVietnameseOnlyCharacter++; textCountEnglishVowelCharacter--; textCountTotalChange++; break;
+
+
+
 							default:textCountTotalChange++; break;
 							}
 						}
@@ -3510,10 +3527,10 @@ void				VietnameseTextNormalizer::Normalize(void)
 					textLower[textLength] = 0x20/*space*/;
 					if (textLength > 0 && textType[textLength] == CHARACTER_TYPE_OTHER_ON_KEYBOARD)
 					{
-						TEXT_NODE * insertTextNode = (TEXT_NODE*)qcalloc(1, sizeof(TEXT_NODE));
+						TEXT_NODE* insertTextNode = (TEXT_NODE*)qcalloc(1, sizeof(TEXT_NODE));
 						if (insertTextNode)
 						{
-							qwchar const * insertText = textNode->originalText + textIndex[textLength];
+							qwchar const* insertText = textNode->originalText + textIndex[textLength];
 							insertTextNode->originalText = insertText;
 							insertTextNode->originalTextLength = 1;
 							insertTextNode->text = insertText;
@@ -3635,7 +3652,7 @@ void				VietnameseTextNormalizer::Normalize(void)
 					qewrdidentifier						leftMatchingEnglishIdentifier = 0;
 					int									leftMatchingCombiningTone = 0;
 					qvsylidentifier						vietnameseSyllableIdentifier = VietnameseSyllableDetection(textLower, &tempCapital, &combiningTone, &leftMatchingVietnameseIdentifier, &leftMatchingCombiningTone);
-					struct VIETNAMESE_SYLLABLE const *	vietnameseSyllableNode = vnsyllables + vietnameseSyllableIdentifier;
+					struct VIETNAMESE_SYLLABLE const* vietnameseSyllableNode = vnsyllables + vietnameseSyllableIdentifier;
 					qvwrdidentifier						englishWordIdentifier = (vietnameseSyllableIdentifier == 0 ? EnglishWordDetection(textLower, &tempCapital, &leftMatchingEnglishIdentifier) : vietnameseSyllableNode->english);
 					textNode->vietnameseLoanWordIndentifier = LoanWordDetection(textLower, &tempCapital);
 					textNode->vietnameseAbbreviationIndentifier = LowerAbbreviationDetection(textLower);
@@ -3698,12 +3715,12 @@ void				VietnameseTextNormalizer::Normalize(void)
 						int					countSureWay = 0;
 						for (int iway = 0; iway < vnmissingends[vietnameseMissingIndentifiler].length; iway++)
 						{
-							TEXT_NODE *				leftTextNodeOffset0 = &nullTextNodeForStep2Normalize;
-							TEXT_NODE *				leftTextNodeOffset1 = &nullTextNodeForStep2Normalize;
-							TEXT_NODE *				leftTextNodeOffset2 = &nullTextNodeForStep2Normalize;
-							TEXT_NODE *				leftTextNodeOffset3 = &nullTextNodeForStep2Normalize;
-							TEXT_NODE *				leftTextNodeOffset4 = &nullTextNodeForStep2Normalize;
-							TEXT_NODE *				leftTextNodeOffset5 = &nullTextNodeForStep2Normalize;
+							TEXT_NODE* leftTextNodeOffset0 = &nullTextNodeForStep2Normalize;
+							TEXT_NODE* leftTextNodeOffset1 = &nullTextNodeForStep2Normalize;
+							TEXT_NODE* leftTextNodeOffset2 = &nullTextNodeForStep2Normalize;
+							TEXT_NODE* leftTextNodeOffset3 = &nullTextNodeForStep2Normalize;
+							TEXT_NODE* leftTextNodeOffset4 = &nullTextNodeForStep2Normalize;
+							TEXT_NODE* leftTextNodeOffset5 = &nullTextNodeForStep2Normalize;
 							if (textNode->back)
 							{
 								leftTextNodeOffset0 = textNode->back;
@@ -3728,12 +3745,12 @@ void				VietnameseTextNormalizer::Normalize(void)
 									}
 								}
 							}
-							TEXT_NODE *				rightTextNodeOffset0 = &nullTextNodeForStep2Normalize;
-							TEXT_NODE *				rightTextNodeOffset1 = &nullTextNodeForStep2Normalize;
-							TEXT_NODE *				rightTextNodeOffset2 = &nullTextNodeForStep2Normalize;
-							TEXT_NODE *				rightTextNodeOffset3 = &nullTextNodeForStep2Normalize;
-							TEXT_NODE *				rightTextNodeOffset4 = &nullTextNodeForStep2Normalize;
-							TEXT_NODE *				rightTextNodeOffset5 = &nullTextNodeForStep2Normalize;
+							TEXT_NODE* rightTextNodeOffset0 = &nullTextNodeForStep2Normalize;
+							TEXT_NODE* rightTextNodeOffset1 = &nullTextNodeForStep2Normalize;
+							TEXT_NODE* rightTextNodeOffset2 = &nullTextNodeForStep2Normalize;
+							TEXT_NODE* rightTextNodeOffset3 = &nullTextNodeForStep2Normalize;
+							TEXT_NODE* rightTextNodeOffset4 = &nullTextNodeForStep2Normalize;
+							TEXT_NODE* rightTextNodeOffset5 = &nullTextNodeForStep2Normalize;
 							if (textNode->next)
 							{
 								rightTextNodeOffset0 = textNode->next;
@@ -4089,7 +4106,7 @@ void				VietnameseTextNormalizer::Normalize(void)
 		{//remove if null or very long
 			if (textNode == head)
 			{
-				TEXT_NODE * nextTextNode = textNode->next;
+				TEXT_NODE* nextTextNode = textNode->next;
 				if (uhead == textNode)  uhead = nextTextNode;
 				if (utail == textNode)  utail = nextTextNode;
 				/*if ( head == textNode)*/  head = nextTextNode;
@@ -4108,7 +4125,7 @@ void				VietnameseTextNormalizer::Normalize(void)
 			}
 			else if (textNode == tail)
 			{
-				TEXT_NODE * lastTextNode = textNode->back;
+				TEXT_NODE* lastTextNode = textNode->back;
 				if (uhead == textNode)  uhead = lastTextNode;
 				if (utail == textNode)  utail = lastTextNode;
 				if (head == textNode)  head = lastTextNode;
@@ -4127,8 +4144,8 @@ void				VietnameseTextNormalizer::Normalize(void)
 			}
 			else
 			{
-				TEXT_NODE * nextTextNode = textNode->next;
-				TEXT_NODE * lastTextNode = textNode->back;
+				TEXT_NODE* nextTextNode = textNode->next;
+				TEXT_NODE* lastTextNode = textNode->back;
 				if (uhead == textNode)  uhead = lastTextNode;
 				if (utail == textNode)  utail = nextTextNode;
 				lastTextNode->next = nextTextNode;
@@ -4158,13 +4175,13 @@ void				VietnameseTextNormalizer::Normalize(void)
 	/************************************************************************/
 	/* Update Node                                                           */
 	/************************************************************************/
-	for (TEXT_NODE * textNode = head; textNode/*!=NULL*/; textNode = textNode->next)
+	for (TEXT_NODE* textNode = head; textNode/*!=NULL*/; textNode = textNode->next)
 	{
-		TEXT_NODE *				leftTextNodeOffset0 = &nullTextNodeForStep2Normalize;
-		TEXT_NODE *				leftTextNodeOffset1 = &nullTextNodeForStep2Normalize;
-		TEXT_NODE *				leftTextNodeOffset2 = &nullTextNodeForStep2Normalize;
-		TEXT_NODE *				leftTextNodeOffset3 = &nullTextNodeForStep2Normalize;
-		TEXT_NODE *				leftTextNodeOffset4 = &nullTextNodeForStep2Normalize;
+		TEXT_NODE* leftTextNodeOffset0 = &nullTextNodeForStep2Normalize;
+		TEXT_NODE* leftTextNodeOffset1 = &nullTextNodeForStep2Normalize;
+		TEXT_NODE* leftTextNodeOffset2 = &nullTextNodeForStep2Normalize;
+		TEXT_NODE* leftTextNodeOffset3 = &nullTextNodeForStep2Normalize;
+		TEXT_NODE* leftTextNodeOffset4 = &nullTextNodeForStep2Normalize;
 		if (textNode->back)
 		{
 			leftTextNodeOffset0 = textNode->back;
@@ -4191,7 +4208,7 @@ void				VietnameseTextNormalizer::Normalize(void)
 	/************************************************************************/
 	/* Correct                                                              */
 	/************************************************************************/
-	for (TEXT_NODE * textNode = head; textNode/*!=NULL*/; textNode = textNode->next)
+	for (TEXT_NODE* textNode = head; textNode/*!=NULL*/; textNode = textNode->next)
 	{
 		if (flagValidateToolMode == false && textNode->changeable != TEXT_NODE_CAN_NOT_CHANGE && ((textNode->vietnameseSyllableIdentifier > 0
 			&& textNode->englishWordIdentifier == 0
@@ -4382,10 +4399,10 @@ void				VietnameseTextNormalizer::Normalize(void)
 			&& SignificantScore(textNode, textNode->vietnameseSyllableIdentifier) == 0
 			)
 		{
-			TEXT_NODE *				leftTextNodeOffset0 = &nullTextNodeForStep2Normalize;
-			TEXT_NODE *				leftTextNodeOffset1 = &nullTextNodeForStep2Normalize;
-			TEXT_NODE *				leftTextNodeOffset2 = &nullTextNodeForStep2Normalize;
-			TEXT_NODE *				leftTextNodeOffset3 = &nullTextNodeForStep2Normalize;
+			TEXT_NODE* leftTextNodeOffset0 = &nullTextNodeForStep2Normalize;
+			TEXT_NODE* leftTextNodeOffset1 = &nullTextNodeForStep2Normalize;
+			TEXT_NODE* leftTextNodeOffset2 = &nullTextNodeForStep2Normalize;
+			TEXT_NODE* leftTextNodeOffset3 = &nullTextNodeForStep2Normalize;
 			//TEXT_NODE *				leftTextNodeOffset4 = &nullTextNodeForStep2Normalize;
 			if (textNode->back)
 			{
@@ -4407,11 +4424,11 @@ void				VietnameseTextNormalizer::Normalize(void)
 					}
 				}
 			}
-			TEXT_NODE *				rightTextNodeOffset0 = &nullTextNodeForStep2Normalize;
-			TEXT_NODE *				rightTextNodeOffset1 = &nullTextNodeForStep2Normalize;
-			TEXT_NODE *				rightTextNodeOffset2 = &nullTextNodeForStep2Normalize;
-			TEXT_NODE *				rightTextNodeOffset3 = &nullTextNodeForStep2Normalize;
-			TEXT_NODE *				rightTextNodeOffset4 = &nullTextNodeForStep2Normalize;
+			TEXT_NODE* rightTextNodeOffset0 = &nullTextNodeForStep2Normalize;
+			TEXT_NODE* rightTextNodeOffset1 = &nullTextNodeForStep2Normalize;
+			TEXT_NODE* rightTextNodeOffset2 = &nullTextNodeForStep2Normalize;
+			TEXT_NODE* rightTextNodeOffset3 = &nullTextNodeForStep2Normalize;
+			TEXT_NODE* rightTextNodeOffset4 = &nullTextNodeForStep2Normalize;
 			if (textNode->next)
 			{
 				rightTextNodeOffset0 = textNode->next;
@@ -4510,15 +4527,15 @@ void				VietnameseTextNormalizer::Normalize(void)
 	/* Word segment                                                         */
 	/************************************************************************/
 #ifndef ON_SCAN_WORD_FREQUENCY
-	for (TEXT_NODE * textNode = head; textNode/*!=NULL*/; textNode = textNode->next)
+	for (TEXT_NODE* textNode = head; textNode/*!=NULL*/; textNode = textNode->next)
 	{
 		if (textNode->vietnameseWordIdentifier)
 		{
-			TEXT_NODE *				rightTextNodeOffset0 = &nullTextNodeForStep2Normalize;
-			TEXT_NODE *				rightTextNodeOffset1 = &nullTextNodeForStep2Normalize;
-			TEXT_NODE *				rightTextNodeOffset2 = &nullTextNodeForStep2Normalize;
-			TEXT_NODE *				rightTextNodeOffset3 = &nullTextNodeForStep2Normalize;
-			TEXT_NODE *				rightTextNodeOffset4 = &nullTextNodeForStep2Normalize;
+			TEXT_NODE* rightTextNodeOffset0 = &nullTextNodeForStep2Normalize;
+			TEXT_NODE* rightTextNodeOffset1 = &nullTextNodeForStep2Normalize;
+			TEXT_NODE* rightTextNodeOffset2 = &nullTextNodeForStep2Normalize;
+			TEXT_NODE* rightTextNodeOffset3 = &nullTextNodeForStep2Normalize;
+			TEXT_NODE* rightTextNodeOffset4 = &nullTextNodeForStep2Normalize;
 			if (textNode->next)
 			{
 				rightTextNodeOffset0 = textNode->next;
@@ -4540,11 +4557,11 @@ void				VietnameseTextNormalizer::Normalize(void)
 				}
 			}
 			double currentWordPoint = (textNode->leftVietnameseWordSure + textNode->rightVietnameseWordSure + 1) * vnwords[textNode->vietnameseWordIdentifier].coefficient;
-			double rightO0WordPoint = (vnwords[rightTextNodeOffset0->vietnameseWordIdentifier].length > 1)*((rightTextNodeOffset0->leftVietnameseWordSure + rightTextNodeOffset0->rightVietnameseWordSure + 1) * vnwords[rightTextNodeOffset0->vietnameseWordIdentifier].coefficient);
-			double rightO1WordPoint = (vnwords[rightTextNodeOffset1->vietnameseWordIdentifier].length > 2)*((rightTextNodeOffset1->leftVietnameseWordSure + rightTextNodeOffset1->rightVietnameseWordSure + 1) * vnwords[rightTextNodeOffset1->vietnameseWordIdentifier].coefficient);
-			double rightO2WordPoint = (vnwords[rightTextNodeOffset2->vietnameseWordIdentifier].length > 3)*((rightTextNodeOffset2->leftVietnameseWordSure + rightTextNodeOffset2->rightVietnameseWordSure + 1) * vnwords[rightTextNodeOffset2->vietnameseWordIdentifier].coefficient);
-			double rightO3WordPoint = (vnwords[rightTextNodeOffset3->vietnameseWordIdentifier].length > 4)*((rightTextNodeOffset3->leftVietnameseWordSure + rightTextNodeOffset3->rightVietnameseWordSure + 1) * vnwords[rightTextNodeOffset3->vietnameseWordIdentifier].coefficient);
-			double rightO4WordPoint = (vnwords[rightTextNodeOffset4->vietnameseWordIdentifier].length > 5)*((rightTextNodeOffset4->leftVietnameseWordSure + rightTextNodeOffset4->rightVietnameseWordSure + 1) * vnwords[rightTextNodeOffset4->vietnameseWordIdentifier].coefficient);
+			double rightO0WordPoint = (vnwords[rightTextNodeOffset0->vietnameseWordIdentifier].length > 1) * ((rightTextNodeOffset0->leftVietnameseWordSure + rightTextNodeOffset0->rightVietnameseWordSure + 1) * vnwords[rightTextNodeOffset0->vietnameseWordIdentifier].coefficient);
+			double rightO1WordPoint = (vnwords[rightTextNodeOffset1->vietnameseWordIdentifier].length > 2) * ((rightTextNodeOffset1->leftVietnameseWordSure + rightTextNodeOffset1->rightVietnameseWordSure + 1) * vnwords[rightTextNodeOffset1->vietnameseWordIdentifier].coefficient);
+			double rightO2WordPoint = (vnwords[rightTextNodeOffset2->vietnameseWordIdentifier].length > 3) * ((rightTextNodeOffset2->leftVietnameseWordSure + rightTextNodeOffset2->rightVietnameseWordSure + 1) * vnwords[rightTextNodeOffset2->vietnameseWordIdentifier].coefficient);
+			double rightO3WordPoint = (vnwords[rightTextNodeOffset3->vietnameseWordIdentifier].length > 4) * ((rightTextNodeOffset3->leftVietnameseWordSure + rightTextNodeOffset3->rightVietnameseWordSure + 1) * vnwords[rightTextNodeOffset3->vietnameseWordIdentifier].coefficient);
+			double rightO4WordPoint = (vnwords[rightTextNodeOffset4->vietnameseWordIdentifier].length > 5) * ((rightTextNodeOffset4->leftVietnameseWordSure + rightTextNodeOffset4->rightVietnameseWordSure + 1) * vnwords[rightTextNodeOffset4->vietnameseWordIdentifier].coefficient);
 
 
 			if (rightTextNodeOffset0->vietnameseWordIdentifier && vnwords[rightTextNodeOffset0->vietnameseWordIdentifier].length > 1)
@@ -4589,9 +4606,9 @@ void				VietnameseTextNormalizer::Normalize(void)
 			if (textNode->vietnameseWordIdentifier)
 			{
 
-				TEXT_NODE *				leftTextNodeOffset0 = &nullTextNodeForStep2Normalize;
-				TEXT_NODE *				leftTextNodeOffset1 = &nullTextNodeForStep2Normalize;
-				TEXT_NODE *				leftTextNodeOffset2 = &nullTextNodeForStep2Normalize;
+				TEXT_NODE* leftTextNodeOffset0 = &nullTextNodeForStep2Normalize;
+				TEXT_NODE* leftTextNodeOffset1 = &nullTextNodeForStep2Normalize;
+				TEXT_NODE* leftTextNodeOffset2 = &nullTextNodeForStep2Normalize;
 				//TEXT_NODE *				leftTextNodeOffset3 = &nullTextNodeForStep2;
 				//TEXT_NODE *				leftTextNodeOffset4 = &nullTextNodeForStep2;
 				if (textNode->back)
@@ -4722,7 +4739,7 @@ void				VietnameseTextNormalizer::Normalize(void)
 	logTime += step2Time;
 	if (logFile)
 	{
-		for (TEXT_NODE * textNode = uhead; textNode/*!=NULL*/; )
+		for (TEXT_NODE* textNode = uhead; textNode/*!=NULL*/; )
 		{
 			if (textNode->step != 1)
 			{
@@ -4796,7 +4813,7 @@ void				VietnameseTextNormalizer::GenStandardText(void)
 		/*                                                                      */
 		/************************************************************************/
 		standardTextLength = originalTextLength;
-		for (TEXT_NODE *textNode = head; textNode != 0; textNode = textNode->next)
+		for (TEXT_NODE* textNode = head; textNode != 0; textNode = textNode->next)
 		{
 			if (textNode->originalTextLength < textNode->textLength)
 			{
@@ -4839,8 +4856,8 @@ void				VietnameseTextNormalizer::GenStandardText(void)
 			bool				validateStandardText = true;
 			int					countStandardTextSlot = standardTextLength;
 			int					countOriginalTextSlot = originalTextLength;
-			qwchar *			standardTextPtr = standardText;
-			const qwchar *		originalTextPtr = originalText;
+			qwchar* standardTextPtr = standardText;
+			const qwchar* originalTextPtr = originalText;
 			/************************************************************************/
 			/* Chèn đoạn đầu                                                        */
 			/************************************************************************/
@@ -4868,7 +4885,7 @@ void				VietnameseTextNormalizer::GenStandardText(void)
 			/************************************************************************/
 			if (validateStandardText)
 			{
-				for (TEXT_NODE *textNode = head; textNode != 0 && validateStandardText/* == true*/; textNode = textNode->next)
+				for (TEXT_NODE* textNode = head; textNode != 0 && validateStandardText/* == true*/; textNode = textNode->next)
 				{
 					if (textNode->originalText)
 					{
@@ -5006,7 +5023,7 @@ void				VietnameseTextNormalizer::Refresh(void)
 	/************************************************************************/
 	/* Free all text node                                                 */
 	/************************************************************************/
-	for (TEXT_NODE *textNode = head; textNode /*!= NULL*/;)
+	for (TEXT_NODE* textNode = head; textNode /*!= NULL*/;)
 	{
 		if (textNode->extra /*!= NULL*/)
 		{
@@ -5016,10 +5033,10 @@ void				VietnameseTextNormalizer::Refresh(void)
 			if (textNode->extra->vsyllables) qfree(textNode->extra->vsyllables);
 			qfree(textNode->extra);
 		}
-		TEXT_NODE *backupTextNode = textNode;
-		for (PHONEME_NODE *phonemeNode = textNode->phonemeStart; phonemeNode/*!=0*/;)
+		TEXT_NODE* backupTextNode = textNode;
+		for (PHONEME_NODE* phonemeNode = textNode->phonemeStart; phonemeNode/*!=0*/;)
 		{
-			PHONEME_NODE * backupPhonemeNode = phonemeNode;
+			PHONEME_NODE* backupPhonemeNode = phonemeNode;
 			phonemeNode = phonemeNode->next;
 			qfree(backupPhonemeNode);
 		}
@@ -5114,8 +5131,8 @@ namespace std
 		SetConsoleCursorInfo(hOut, &ConCurInf);
 #endif
 	}
-	std::wstring	GetLower(const std::wstring &wstr);
-	void			Show(const std::wstring& title, const wchar_t * format, ...)
+	std::wstring	GetLower(const std::wstring& wstr);
+	void			Show(const std::wstring& title, const wchar_t* format, ...)
 	{
 		if (format)
 		{
@@ -5180,7 +5197,7 @@ namespace std
 		std::cout << "\033[" << color << "m";
 #endif
 	}
-	static void		guiWrite(int xsource, int ysource, int xdest, int ydest, const wchar_t *wstr/*=L"Quang"*/, int delay/*=15*/, int color/*=CONSOLE_COLOR_GREEN*/)
+	static void		guiWrite(int xsource, int ysource, int xdest, int ydest, const wchar_t* wstr/*=L"Quang"*/, int delay/*=15*/, int color/*=CONSOLE_COLOR_GREEN*/)
 	{
 #if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) 
 		SetTextColor(color);
@@ -5461,10 +5478,10 @@ namespace std
 		case 0xD0/*Kí tự đặc biệt Ð*/:
 			return 0x111/*đ*/;
 		}
-		if (wch >= 'A'&&wch <= 'Z') return wch + 'a' - 'A';
+		if (wch >= 'A' && wch <= 'Z') return wch + 'a' - 'A';
 		return wch;
 	}
-	std::wstring		GetLower(const std::wstring &wstr)
+	std::wstring		GetLower(const std::wstring& wstr)
 	{
 		std::wstring bufferLower;
 		for (unsigned int i = 0; i < wstr.size(); i++)
@@ -5510,7 +5527,7 @@ namespace std
 		return myconv.from_bytes(str);
 #endif
 	}
-	std::wstring		GetWString(const wchar_t * wstr, int length)
+	std::wstring		GetWString(const wchar_t* wstr, int length)
 	{
 		std::wstring buffer;
 		if (wstr)
@@ -5519,7 +5536,7 @@ namespace std
 		}
 		return buffer;
 	}
-	std::wstring		GetWString(const char * str, int length)
+	std::wstring		GetWString(const char* str, int length)
 	{
 		std::string bufferA;
 		//bufferA.reserve(length + 10);
@@ -5529,7 +5546,7 @@ namespace std
 		}
 		return GetWString(bufferA);
 	}
-	std::wstring		GetWString(const char * str, long long int length)
+	std::wstring		GetWString(const char* str, long long int length)
 	{
 		std::string bufferA;
 		//bufferA.reserve(length + 10);
@@ -5544,7 +5561,7 @@ namespace std
 #if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) || defined(_MSC_VER)
 		std::string buffer;
 		int		bufferUtf8Length = int(wstr.size() * 4 + 10);
-		char *	bufferUtf8 = (char*)calloc(bufferUtf8Length, sizeof(char));
+		char* bufferUtf8 = (char*)calloc(bufferUtf8Length, sizeof(char));
 		if (bufferUtf8)
 		{
 			WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), (int)wstr.size(), bufferUtf8, bufferUtf8Length, 0, 0);
@@ -5556,11 +5573,11 @@ namespace std
 		std::wstring_convert<std::codecvt_utf8<wchar_t>> myconv;
 		return myconv.to_bytes(wstr);
 #endif
-		}
+	}
 	/************************************************************************/
 	/* file                                                                 */
 	/************************************************************************/
-	void				DeleteFile(const std::wstring &fileName)
+	void				DeleteFile(const std::wstring& fileName)
 	{
 #if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) 
 		::DeleteFileW(fileName.c_str());
@@ -5568,7 +5585,7 @@ namespace std
 		remove(GetString(fileName).c_str());
 #endif
 	}
-	void				ScanFile(const std::wstring &path, const std::wstring &extension, std::wstringset &fileSet)
+	void				ScanFile(const std::wstring& path, const std::wstring& extension, std::wstringset& fileSet)
 	{
 #if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) || defined(_MSC_VER)
 		std::wstring		wFolder = path;
@@ -5579,7 +5596,7 @@ namespace std
 		if (hFind == INVALID_HANDLE_VALUE) return;
 		do
 		{
-			if (fd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY)
+			if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 			{//là thư mục
 				if (wcscmp(fd.cFileName, L".") && wcscmp(fd.cFileName, L".."))
 				{//không phải là thư mục đặc biệt
@@ -5601,8 +5618,8 @@ namespace std
 #else
 
 
-		DIR *dir = opendir(GetString(path).c_str());
-		class dirent *ent;
+		DIR* dir = opendir(GetString(path).c_str());
+		class dirent* ent;
 		class stat st;
 		while ((ent = readdir(dir)) != NULL)
 		{
@@ -5627,13 +5644,13 @@ namespace std
 				else
 				{
 					fileSet.insert(full_file_name);
+				}
 			}
 		}
-	}
 		closedir(dir);
 #endif
-}
-	void				GetRealFileName(const std::wstring &filePath, std::wstring &rFilename)
+	}
+	void				GetRealFileName(const std::wstring& filePath, std::wstring& rFilename)
 	{
 		rFilename.clear();
 		for (auto i = 0u; i < filePath.size(); i++)
@@ -5644,13 +5661,13 @@ namespace std
 		auto pos = rFilename.find(L'.');
 		if (pos != std::wstring::npos) rFilename.erase(pos, rFilename.size() - pos);
 	}
-	std::wstring		GetRealFileName(const std::wstring &filePath)
+	std::wstring		GetRealFileName(const std::wstring& filePath)
 	{
 		std::wstring rFilename;
 		GetRealFileName(filePath, rFilename);
 		return rFilename;
 	}
-	bool				ReadFile(const std::wstring &fileName, std::wstring &buffer)
+	bool				ReadFile(const std::wstring& fileName, std::wstring& buffer)
 	{
 #if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) || defined(_MSC_VER)
 		std::ifstream fileInputStream(fileName, std::ifstream::in | std::ifstream::binary);
@@ -5707,7 +5724,7 @@ namespace std
 			}
 			else if (byteOrderMark1 == (char)0xFF && byteOrderMark2 == (char)0xFE)
 			{//Unicode Little Endian
-				wchar_t*	unicodeData = new wchar_t[fileSize * 2 + 10];
+				wchar_t* unicodeData = new wchar_t[fileSize * 2 + 10];
 				memset(unicodeData, 0, fileSize * 2 + 10);
 				fileInputStream.seekg(2, std::ios_base::beg);
 				fileInputStream.read((char*)unicodeData, fileSize);
@@ -5748,20 +5765,20 @@ namespace std
 			return false;
 		}
 	}
-	std::wstring		ReadFile(const std::wstring &fileName)
+	std::wstring		ReadFile(const std::wstring& fileName)
 	{
 		std::wstring bufferContent;
 		ReadFile(fileName, bufferContent);
 		return bufferContent;
 	}
-	void				WriteFile(const std::wstring &fileName, const std::wstring &wstr, bool truncate)
+	void				WriteFile(const std::wstring& fileName, const std::wstring& wstr, bool truncate)
 	{
 		for (auto i = 0u; i < fileName.size(); i++)
 		{
 #if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) || defined(_MSC_VER)
 			if (fileName[i] == L'\\') ::CreateDirectoryW(fileName.substr(0, i).c_str(), 0);
 #else
-			int mkdir(const char *path, mode_t mode);
+			int mkdir(const char* path, mode_t mode);
 			if (fileName[i] == L'/') mkdir(GetString(fileName.substr(0, i)).c_str(), 0777);
 #endif
 		}
@@ -5793,10 +5810,10 @@ namespace std
 			{
 				std::Show(std::wstring(L"Lỗi"), L"Error: write file %ls (utf8 size == %d bytes, write == %d bytes)\n", fileName.c_str(), writeSize, writtenSize);
 				//return false;
-		}
+			}
 			//else return true;
 #endif		
-	}
+		}
 		else
 		{
 			std::Show(std::wstring(L"Lỗi"), L"Error: Can not open to write file %ls \n", fileName.c_str());
@@ -5930,12 +5947,12 @@ void main(void)
 /************************************************************************/
 /* Python wrapper                                                       */
 /************************************************************************/
-static PyObject *	VietnameseTextNormalizerStandard(PyObject *self, PyObject *args)
+static PyObject* VietnameseTextNormalizerStandard(PyObject* self, PyObject* args)
 {
 	char				nullUtf8String[10] = { 0 };
 	wchar_t				nullUnicodeString[10] = { 0 };
-	char * 				utf8input = nullUtf8String;
-	wchar_t *			unicodeInput = nullUnicodeString;
+	char* utf8input = nullUtf8String;
+	wchar_t* unicodeInput = nullUnicodeString;
 	if (PyArg_ParseTuple(args, "s", &utf8input) && utf8input != NULL && utf8input != nullUtf8String)
 	{
 		std::string	utf8Result = utf8input;
@@ -5944,7 +5961,7 @@ static PyObject *	VietnameseTextNormalizerStandard(PyObject *self, PyObject *arg
 			std::wstring_convert<std::codecvt_utf8<wchar_t>> myconv;
 			std::wstring inputUcs2 = myconv.from_bytes(utf8input);
 			size_t nChar = inputUcs2.size();
-			qwchar * ucs2buffer = (qwchar*)qcalloc(nChar + 10/*safe*/, sizeof(qwchar));
+			qwchar* ucs2buffer = (qwchar*)qcalloc(nChar + 10/*safe*/, sizeof(qwchar));
 			if (ucs2buffer)
 			{
 				for (size_t iChar = 0; iChar < nChar; iChar++)
@@ -5975,7 +5992,7 @@ static PyObject *	VietnameseTextNormalizerStandard(PyObject *self, PyObject *arg
 	{
 		std::wstring		unicodeResult = unicodeInput;
 		size_t				unicodeLength = unicodeResult.size();
-		qwchar *			ucs2buffer = (qwchar*)qcalloc(unicodeLength + 10/*safe*/, sizeof(qwchar));
+		qwchar* ucs2buffer = (qwchar*)qcalloc(unicodeLength + 10/*safe*/, sizeof(qwchar));
 		if (ucs2buffer)
 		{
 			for (size_t iChar = 0; iChar < unicodeLength; iChar++)
@@ -5999,16 +6016,16 @@ static PyObject *	VietnameseTextNormalizerStandard(PyObject *self, PyObject *arg
 		}
 		return  Py_BuildValue("u", (Py_UNICODE*)(unicodeResult.c_str()));
 	}
-	PyObject * argsObject = NULL;
+	PyObject* argsObject = NULL;
 	PyArg_ParseTuple(args, "O", &argsObject);
 	return argsObject;
 }
-static PyObject *	VietnameseTextNormalizerForASR(PyObject *self, PyObject *args)
+static PyObject* VietnameseTextNormalizerForASR(PyObject* self, PyObject* args)
 {
 	char				nullUtf8String[10] = { 0 };
 	wchar_t				nullUnicodeString[10] = { 0 };
-	char * 				utf8input = nullUtf8String;
-	wchar_t *			unicodeInput = nullUnicodeString;
+	char* utf8input = nullUtf8String;
+	wchar_t* unicodeInput = nullUnicodeString;
 	if (PyArg_ParseTuple(args, "s", &utf8input) && utf8input != NULL && utf8input != nullUtf8String)
 	{
 		std::string	utf8Result = utf8input;
@@ -6017,7 +6034,7 @@ static PyObject *	VietnameseTextNormalizerForASR(PyObject *self, PyObject *args)
 			std::wstring_convert<std::codecvt_utf8<wchar_t>> myconv;
 			std::wstring inputUcs2 = myconv.from_bytes(utf8input);
 			size_t nChar = inputUcs2.size();
-			qwchar * ucs2buffer = (qwchar*)qcalloc(nChar + 10/*safe*/, sizeof(qwchar));
+			qwchar* ucs2buffer = (qwchar*)qcalloc(nChar + 10/*safe*/, sizeof(qwchar));
 			if (ucs2buffer)
 			{
 				for (size_t iChar = 0; iChar < nChar; iChar++)
@@ -6050,7 +6067,7 @@ static PyObject *	VietnameseTextNormalizerForASR(PyObject *self, PyObject *args)
 	{
 		std::wstring		unicodeResult = unicodeInput;
 		size_t					unicodeLength = unicodeResult.size();
-		qwchar *			ucs2buffer = (qwchar*)qcalloc(unicodeLength + 10/*safe*/, sizeof(qwchar));
+		qwchar* ucs2buffer = (qwchar*)qcalloc(unicodeLength + 10/*safe*/, sizeof(qwchar));
 		if (ucs2buffer)
 		{
 			for (size_t iChar = 0; iChar < unicodeLength; iChar++)
@@ -6076,16 +6093,16 @@ static PyObject *	VietnameseTextNormalizerForASR(PyObject *self, PyObject *args)
 		}
 		return  Py_BuildValue("u", (Py_UNICODE*)(unicodeResult.c_str()));
 	}
-	PyObject * argsObject = NULL;
+	PyObject* argsObject = NULL;
 	PyArg_ParseTuple(args, "O", &argsObject);
 	return argsObject;
 }
-static PyObject *	VietnameseTextNormalizerForIToY(PyObject *self, PyObject *args)
+static PyObject* VietnameseTextNormalizerForIToY(PyObject* self, PyObject* args)
 {
 	char				nullUtf8String[10] = { 0 };
 	wchar_t				nullUnicodeString[10] = { 0 };
-	char * 				utf8input = nullUtf8String;
-	wchar_t *			unicodeInput = nullUnicodeString;
+	char* utf8input = nullUtf8String;
+	wchar_t* unicodeInput = nullUnicodeString;
 	if (PyArg_ParseTuple(args, "s", &utf8input) && utf8input != NULL && utf8input != nullUtf8String)
 	{
 		std::string	utf8Result = utf8input;
@@ -6094,7 +6111,7 @@ static PyObject *	VietnameseTextNormalizerForIToY(PyObject *self, PyObject *args
 			std::wstring_convert<std::codecvt_utf8<wchar_t>> myconv;
 			std::wstring inputUcs2 = myconv.from_bytes(utf8input);
 			size_t nChar = inputUcs2.size();
-			qwchar * ucs2buffer = (qwchar*)qcalloc(nChar + 10/*safe*/, sizeof(qwchar));
+			qwchar* ucs2buffer = (qwchar*)qcalloc(nChar + 10/*safe*/, sizeof(qwchar));
 			if (ucs2buffer)
 			{
 				for (size_t iChar = 0; iChar < nChar; iChar++)
@@ -6128,7 +6145,7 @@ static PyObject *	VietnameseTextNormalizerForIToY(PyObject *self, PyObject *args
 	{
 		std::wstring		unicodeResult = unicodeInput;
 		size_t				unicodeLength = unicodeResult.size();
-		qwchar *			ucs2buffer = (qwchar*)qcalloc(unicodeLength + 10/*safe*/, sizeof(qwchar));
+		qwchar* ucs2buffer = (qwchar*)qcalloc(unicodeLength + 10/*safe*/, sizeof(qwchar));
 		if (ucs2buffer)
 		{
 			for (size_t iChar = 0; iChar < unicodeLength; iChar++)
@@ -6155,7 +6172,7 @@ static PyObject *	VietnameseTextNormalizerForIToY(PyObject *self, PyObject *args
 		}
 		return  Py_BuildValue("u", (Py_UNICODE*)(unicodeResult.c_str()));
 	}
-	PyObject * argsObject = NULL;
+	PyObject* argsObject = NULL;
 	PyArg_ParseTuple(args, "O", &argsObject);
 	return argsObject;
 }
