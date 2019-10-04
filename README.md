@@ -9,7 +9,7 @@ Installation
 
 - Build
 ```sh
-#Require python2-dev or python3-dev
+#Require
 #apt install python2-dev
 #apt install python3-dev
 
