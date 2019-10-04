@@ -13,14 +13,14 @@ Installation
 #apt install python2-dev
 #apt install python3-dev
 
-rm Makefile
-cp MakefilePython2 Makefile
+
+cp -f MakefilePython2 Makefile
 make -j
 
 #or
 
-rm Makefile
-cp MakefilePython3 Makefile
+
+cp -f MakefilePython3 Makefile
 make -j
 ```
 
