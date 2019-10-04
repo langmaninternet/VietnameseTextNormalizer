@@ -19,9 +19,9 @@ apt install python3-dev
 rm Makefile
 cp MakefilePython2 Makefile
 make -j
-```
-or
-```sh
+
+#or
+
 rm Makefile
 cp MakefilePython3 Makefile
 make -j
