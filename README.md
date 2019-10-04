@@ -3,11 +3,30 @@
 
 
 
+
+Require Python3
+------------
+```sh
+apt install python2-dev
+```
+
+```sh
+apt install python3-dev
+```
+
 Installation
 ------------
 
 - Build
 ```sh
+rm Makefile
+cp MakefilePython2 Makefile
+make -j
+```
+or
+```sh
+rm Makefile
+cp MakefilePython3 Makefile
 make -j
 ```
 
