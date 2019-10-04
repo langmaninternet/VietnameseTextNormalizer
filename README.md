@@ -13,13 +13,11 @@ Installation
 #apt install python2-dev
 #apt install python3-dev
 
-
+#or Python2
 cp -f MakefilePython2 Makefile
 make -j
 
-#or
-
-
+#or Python3
 cp -f MakefilePython3 Makefile
 make -j
 ```
