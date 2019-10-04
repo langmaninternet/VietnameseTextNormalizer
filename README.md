@@ -39,6 +39,22 @@ make -j
 	+ Nếu bạn truyền vào chuỗi/object unicode thì hàm sẽ trả về unicode
 	+ Nếu bạn truyền vào 1 số nguyên hoặc loại object khác thì sẽ trả về luôn đối tượng bạn truyền vào
 
+
+Sử dụng
+------------
+
+```python
+# -*- coding: utf-8 -*-
+import VietnameseTextNormalizer
+a=VietnameseTextNormalizer.Normalize(u"UCS2 : Tôi làm việ ở ban công ngệ FPT, tôi là người viêt nam. hôm nay tôi ko thích ăn mì tôm. tôi làm đc 2 bài tập.");
+print (a)
+
+
+a=VietnameseTextNormalizer.Normalize(" UTF8 : Tôi làm việ ở ban công ngệ FPT, tôi là người viêt nam. hôm nay tôi ko thích ăn mì tôm. tôi làm đc 2 bài tập.");
+print (a)
+
+```
+
 Tính năng
 ------------
 Thư viện chuẩn hóa text Tiếng Việt cho python, có 1 số tính năng sau :
