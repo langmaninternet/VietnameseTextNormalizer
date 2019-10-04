@@ -4,18 +4,15 @@
 
 
 
-Require Python3
+Installation
 ------------
+
+Note :  Require python2-dev or python3-dev
 ```sh
 apt install python2-dev
-```
-
-```sh
 apt install python3-dev
 ```
 
-Installation
-------------
 
 - Build
 ```sh
