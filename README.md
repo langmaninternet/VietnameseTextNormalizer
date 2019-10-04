@@ -1,5 +1,5 @@
 
-## Thư viện chuẩn hóa văn bản Tiếng Việt (Có sẵn wrapper cho Python2 và Python3)
+## Thư viện chuẩn hóa văn bản Tiếng Việt (Có sẵn wrapper cho Python)
 
 
 
