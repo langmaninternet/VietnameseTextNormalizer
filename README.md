@@ -7,15 +7,12 @@
 Installation
 ------------
 
-Note :  Require python2-dev or python3-dev
-```sh
-apt install python2-dev
-apt install python3-dev
-```
-
-
 - Build
 ```sh
+#Require python2-dev or python3-dev
+#apt install python2-dev
+#apt install python3-dev
+
 rm Makefile
 cp MakefilePython2 Makefile
 make -j
