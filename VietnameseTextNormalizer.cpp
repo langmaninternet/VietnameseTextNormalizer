@@ -3709,7 +3709,7 @@ void				VietnameseTextNormalizer::Normalize(void)
 						UpdateVietnameseTextNodeContext(textNode);
 						flagNeedMoreChecking = false;
 					}
-					else if (vietnameseMissingIndentifiler && flagUseAutoCorrect)
+					else if (vietnameseMissingIndentifiler)
 					{ // bắt buộc chỉ chọn cái có kết nối với đằng sau, nếu ko phải sang bước tiếp
 						double				maxCoefficient = 0.0;
 						qvsylidentifier		maxCoefficientIdentifier = 0;
