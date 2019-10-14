@@ -44,6 +44,7 @@ void				VietnameseTextNormalizer::Init(void)
 	countTotalNode = 0;
 	countTotalUnknownNode = 0;
 
+	flagUseAutoCorrect = true;
 	flagWordSegmentForNLP = false;
 	flagStandardTextForNLP = false;
 	flagStandardTextForASR = false;
@@ -68,6 +69,8 @@ void				VietnameseTextNormalizer::Init(void)
 	/* log */
 	logFile = 0;
 	logTime = 0.0;
+
+
 }
 /************************************************************************/
 /* Log function                                                         */
@@ -4205,10 +4208,13 @@ void				VietnameseTextNormalizer::Normalize(void)
 		UpdateVietnameseTextNodeContext(textNode, leftTextNodeOffset0, leftTextNodeOffset1, leftTextNodeOffset2, leftTextNodeOffset3, leftTextNodeOffset4);
 	}
 
+
+
+
 	/************************************************************************/
 	/* Correct                                                              */
 	/************************************************************************/
-	for (TEXT_NODE* textNode = head; textNode/*!=NULL*/; textNode = textNode->next)
+	for (TEXT_NODE* textNode = head; flagUseAutoCorrect && textNode/*!=NULL*/; textNode = textNode->next)
 	{
 		if (flagValidateToolMode == false && textNode->changeable != TEXT_NODE_CAN_NOT_CHANGE && ((textNode->vietnameseSyllableIdentifier > 0
 			&& textNode->englishWordIdentifier == 0
@@ -4557,11 +4563,11 @@ void				VietnameseTextNormalizer::Normalize(void)
 				}
 			}
 			double currentWordPoint = (textNode->leftVietnameseWordSure + textNode->rightVietnameseWordSure + 1) * vnwords[textNode->vietnameseWordIdentifier].coefficient;
-			double rightO0WordPoint = (vnwords[rightTextNodeOffset0->vietnameseWordIdentifier].length > 1) * ((rightTextNodeOffset0->leftVietnameseWordSure + rightTextNodeOffset0->rightVietnameseWordSure + 1) * vnwords[rightTextNodeOffset0->vietnameseWordIdentifier].coefficient);
-			double rightO1WordPoint = (vnwords[rightTextNodeOffset1->vietnameseWordIdentifier].length > 2) * ((rightTextNodeOffset1->leftVietnameseWordSure + rightTextNodeOffset1->rightVietnameseWordSure + 1) * vnwords[rightTextNodeOffset1->vietnameseWordIdentifier].coefficient);
-			double rightO2WordPoint = (vnwords[rightTextNodeOffset2->vietnameseWordIdentifier].length > 3) * ((rightTextNodeOffset2->leftVietnameseWordSure + rightTextNodeOffset2->rightVietnameseWordSure + 1) * vnwords[rightTextNodeOffset2->vietnameseWordIdentifier].coefficient);
-			double rightO3WordPoint = (vnwords[rightTextNodeOffset3->vietnameseWordIdentifier].length > 4) * ((rightTextNodeOffset3->leftVietnameseWordSure + rightTextNodeOffset3->rightVietnameseWordSure + 1) * vnwords[rightTextNodeOffset3->vietnameseWordIdentifier].coefficient);
-			double rightO4WordPoint = (vnwords[rightTextNodeOffset4->vietnameseWordIdentifier].length > 5) * ((rightTextNodeOffset4->leftVietnameseWordSure + rightTextNodeOffset4->rightVietnameseWordSure + 1) * vnwords[rightTextNodeOffset4->vietnameseWordIdentifier].coefficient);
+			double rightO0WordPoint = (vnwords[rightTextNodeOffset0->vietnameseWordIdentifier].length > 1)* ((rightTextNodeOffset0->leftVietnameseWordSure + rightTextNodeOffset0->rightVietnameseWordSure + 1) * vnwords[rightTextNodeOffset0->vietnameseWordIdentifier].coefficient);
+			double rightO1WordPoint = (vnwords[rightTextNodeOffset1->vietnameseWordIdentifier].length > 2)* ((rightTextNodeOffset1->leftVietnameseWordSure + rightTextNodeOffset1->rightVietnameseWordSure + 1) * vnwords[rightTextNodeOffset1->vietnameseWordIdentifier].coefficient);
+			double rightO2WordPoint = (vnwords[rightTextNodeOffset2->vietnameseWordIdentifier].length > 3)* ((rightTextNodeOffset2->leftVietnameseWordSure + rightTextNodeOffset2->rightVietnameseWordSure + 1) * vnwords[rightTextNodeOffset2->vietnameseWordIdentifier].coefficient);
+			double rightO3WordPoint = (vnwords[rightTextNodeOffset3->vietnameseWordIdentifier].length > 4)* ((rightTextNodeOffset3->leftVietnameseWordSure + rightTextNodeOffset3->rightVietnameseWordSure + 1) * vnwords[rightTextNodeOffset3->vietnameseWordIdentifier].coefficient);
+			double rightO4WordPoint = (vnwords[rightTextNodeOffset4->vietnameseWordIdentifier].length > 5)* ((rightTextNodeOffset4->leftVietnameseWordSure + rightTextNodeOffset4->rightVietnameseWordSure + 1) * vnwords[rightTextNodeOffset4->vietnameseWordIdentifier].coefficient);
 
 
 			if (rightTextNodeOffset0->vietnameseWordIdentifier && vnwords[rightTextNodeOffset0->vietnameseWordIdentifier].length > 1)
@@ -6020,6 +6026,81 @@ static PyObject* VietnameseTextNormalizerStandard(PyObject* self, PyObject* args
 	PyArg_ParseTuple(args, "O", &argsObject);
 	return argsObject;
 }
+static PyObject* VietnameseTextNormalizerWithoutAutoCorrect(PyObject* self, PyObject* args)
+{
+	char				nullUtf8String[10] = { 0 };
+	wchar_t				nullUnicodeString[10] = { 0 };
+	char* utf8input = nullUtf8String;
+	wchar_t* unicodeInput = nullUnicodeString;
+	if (PyArg_ParseTuple(args, "s", &utf8input) && utf8input != NULL && utf8input != nullUtf8String)
+	{
+		std::string	utf8Result = utf8input;
+		if (utf8input)
+		{
+			std::wstring_convert<std::codecvt_utf8<wchar_t>> myconv;
+			std::wstring inputUcs2 = myconv.from_bytes(utf8input);
+			size_t nChar = inputUcs2.size();
+			qwchar* ucs2buffer = (qwchar*)qcalloc(nChar + 10/*safe*/, sizeof(qwchar));
+			if (ucs2buffer)
+			{
+				for (size_t iChar = 0; iChar < nChar; iChar++)
+				{
+					ucs2buffer[iChar] = (qwchar)inputUcs2[iChar];
+				}
+				VietnameseTextNormalizer vntObject;
+				vntObject.flagUseAutoCorrect = false;
+				vntObject.Input(ucs2buffer);
+				vntObject.Normalize();
+				vntObject.GenStandardText();
+				if (vntObject.standardText && vntObject.standardTextChange > 0)
+				{
+					printf("Normalization : %d change(s) - Utf8 mode\n", vntObject.standardTextChange);
+					std::wstring outputUcs2;
+					outputUcs2.reserve(vntObject.standardTextLength + 10/*safe*/);
+					for (int iChar = 0; iChar < vntObject.standardTextLength; iChar++)
+					{
+						outputUcs2 += (wchar_t)(vntObject.standardText[iChar]);
+					}
+					utf8Result = myconv.to_bytes(outputUcs2);
+				}
+				qfree(ucs2buffer);
+			}
+		}
+		return Py_BuildValue("s", utf8Result.c_str());
+	}
+	else if (PyArg_ParseTuple(args, "u", &unicodeInput) && unicodeInput != NULL && unicodeInput != nullUnicodeString)
+	{
+		std::wstring		unicodeResult = unicodeInput;
+		size_t				unicodeLength = unicodeResult.size();
+		qwchar* ucs2buffer = (qwchar*)qcalloc(unicodeLength + 10/*safe*/, sizeof(qwchar));
+		if (ucs2buffer)
+		{
+			for (size_t iChar = 0; iChar < unicodeLength; iChar++)
+			{
+				ucs2buffer[iChar] = (qwchar)unicodeInput[iChar];
+			}
+			VietnameseTextNormalizer vntObject;
+			vntObject.flagUseAutoCorrect = false;
+			vntObject.Input(ucs2buffer);
+			vntObject.Normalize();
+			vntObject.GenStandardText();
+			qfree(ucs2buffer);
+			if (vntObject.standardText && vntObject.standardTextChange > 0)
+			{
+				printf("Normalization : %d change(s) - Ucs2 mode\n", vntObject.standardTextChange);
+				unicodeResult.reserve(vntObject.standardTextLength + 10/*safe*/);
+				for (int iChar = 0; iChar < vntObject.standardTextChange; iChar++)
+				{
+					unicodeResult += (wchar_t)(vntObject.standardText[iChar]);
+				}
+			}
+		}
+		return  Py_BuildValue("u", (Py_UNICODE*)(unicodeResult.c_str()));
+	}
+	PyObject* argsObject = NULL;
+	PyArg_ParseTuple(args, "O", &argsObject);
+	return argsObject;
+}
 static PyObject* VietnameseTextNormalizerForASR(PyObject* self, PyObject* args)
 {
 	char				nullUtf8String[10] = { 0 };
@@ -6184,7 +6265,7 @@ static PyMethodDef	VietnameseTextNormalizerMethods[] = {
 	{ "Normalize", VietnameseTextNormalizerStandard, METH_VARARGS, "OutputString Normalize(String)" },
 	{ "ASRNormalize", VietnameseTextNormalizerForASR, METH_VARARGS, "OutputString ASRNormalize(String)" },
 	{ "ASRYtoI", VietnameseTextNormalizerForIToY, METH_VARARGS, "OutputString ASRYtoI(String)" },
-
+	{ "NormalizeWithoutAutoCorrect", VietnameseTextNormalizerWithoutAutoCorrect, METH_VARARGS, "OutputString NormalizeWithoutAutoCorrect(String)" },
 	{ NULL, NULL, 0, NULL }
 };
 #if (PY_MAJOR_VERSION == 3)

@@ -197,6 +197,7 @@ public:
 	/************************************************************************/
 	/* Configure                                                            */
 	/************************************************************************/
+	bool					flagUseAutoCorrect;
 	bool					flagStandardTextForNLP;
 	bool					flagStandardTextForASR;
 	bool					flagWordSegmentForNLP;
