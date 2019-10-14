@@ -1162,7 +1162,7 @@ void				VietnameseTextNormalizer::UpdateVietnameseTextNodeContext(TEXT_NODE* tex
 	/************************************************************************/
 	/* Missing End                                                          */
 	/************************************************************************/
-	if (textNode->vietnameseMissingIndentifiler != 0)
+	if (flagUseAutoCorrect && textNode->vietnameseMissingIndentifiler != 0)
 	{
 		qvsylidentifier joinWithNextIndentifiler = ((textNode->next /*!= NULL*/ && textNode->next->text /*!= NULL*/) ? vnmissingends[textNode->vietnameseMissingIndentifiler].JoinWithToken(textNode->next->text) : 0);
 		if (joinWithNextIndentifiler != 0)
