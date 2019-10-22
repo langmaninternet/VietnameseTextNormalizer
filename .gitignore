@@ -17,6 +17,7 @@
 log.txt
 quangbttest.txt
 TestData/
+*.exe
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
