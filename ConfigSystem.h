@@ -59,7 +59,7 @@
 //#define QUANGBT_SPEECH_SYNTHESIS_TRACE_MEMORY_ALLOCATION
 
 
-#define MAX_SYLLABLE_IN_PHRASE	20
+#define MAX_SYLLABLE_IN_PHRASE	40
 
 /************************************************************************/
 /* Base Data Type                                                       */
