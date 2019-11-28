@@ -12,6 +12,7 @@ Installation
 #Require
 #apt install python2-dev
 #apt install python3-dev
+#apt install g++-5
 
 #or Python2
 cp -f MakefilePython2 Makefile
