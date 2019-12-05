@@ -41243,6 +41243,7 @@ struct VIETNAMESE_WORD
 	char			viCountNumberSyllable[4];
 };
 extern const struct VIETNAMESE_WORD vnwords[];
+void ValidateWordData(void);
 
 
 
@@ -41359,7 +41360,7 @@ qjwrdidentifier	JapaneseRomanjiWordDetection(qinput const qwchar * romanji, qout
 
 
 #ifdef _DEBUG
-extern const int vnwordSize;
+extern const int vnwordsSize;
 extern const int enwordSize;
 extern const int wordSystemSizeInBytes;
 #endif

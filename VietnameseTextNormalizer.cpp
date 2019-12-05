@@ -21,6 +21,7 @@ bool					std::wstringslesscmp::operator()(const std::wstring& lhs, const std::ws
 /*constructor*/		VietnameseTextNormalizer::VietnameseTextNormalizer()
 {
 	ValidateSyllableData();
+	ValidateWordData();
 	Init();
 	/************************************************************************/
 	/* Performance Optimization and Safe Return                             */
@@ -807,6 +808,37 @@ void				VietnameseTextNormalizer::UpdateVietnameseTextNodeContext(TEXT_NODE* tex
 #ifndef ON_SCAN_WORD_FREQUENCY
 		if (vnwords[vietnameseWordIdentifier].significant) /*safe break*/iwordCheckTurn = 99;
 #endif
+
+
+		//self - validate
+		switch (vnwords[vietnameseWordIdentifier].length)
+		{
+		case 4:
+			if (leftTextNodeOffset2VietnameseSyllableIdentifier == 0)
+			{
+				printf("?");
+				vietnameseWordIdentifier = 0;
+			}
+			break;
+		case 3:
+			if (leftTextNodeOffset1VietnameseSyllableIdentifier == 0)
+			{
+				printf("?");
+				vietnameseWordIdentifier = 0;				
+			}
+			break;
+		case 2:
+			if (leftTextNodeOffset0VietnameseSyllableIdentifier == 0)
+			{
+				printf("?");
+				vietnameseWordIdentifier = 0;
+			}
+			break;
+		}
+
+
+
+
 		if (vietnameseWordIdentifier)
 		{
 			switch (vnwords[vietnameseWordIdentifier].length)
