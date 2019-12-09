@@ -2239,6 +2239,7 @@ void				VietnameseTextNormalizer::Input(const qwchar* text)
 			else if (englishWordIdentifier)
 			{
 				TEXT_NODE* backupTextNode = InsertEnglishWordToTheTail(englishWordIdentifier, currentOriginalSyllable + preloadSize, currentOriginalSyllableLength, capital, leftTextNodeOffset0, leftTextNodeOffset1, leftTextNodeOffset2, leftTextNodeOffset3, leftTextNodeOffset4);
+				if (preloadTagEn) backupTextNode->vietnameseLoanWordIndentifier = 0;
 				leftTextNodeOffset4 = leftTextNodeOffset3;
 				leftTextNodeOffset3 = leftTextNodeOffset2;
 				leftTextNodeOffset2 = leftTextNodeOffset1;
@@ -2654,6 +2655,7 @@ void				VietnameseTextNormalizer::Input(const qwchar* text)
 				else if (needSplitLeftMatchingEnglishWord)
 				{
 					TEXT_NODE* backupTextNode = InsertEnglishWordToTheTail(leftMatchingEnglishIdentifier, currentOriginalSyllable, leftMatchingEnglishLength, capital, leftTextNodeOffset0, leftTextNodeOffset1, leftTextNodeOffset2, leftTextNodeOffset3, leftTextNodeOffset4);
+					if (preloadTagEn) backupTextNode->vietnameseLoanWordIndentifier = 0;
 					leftTextNodeOffset4 = leftTextNodeOffset3;
 					leftTextNodeOffset3 = leftTextNodeOffset2;
 					leftTextNodeOffset2 = leftTextNodeOffset1;
