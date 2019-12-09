@@ -2050,7 +2050,7 @@ void				VietnameseTextNormalizer::Input(const qwchar* text)
 			bool						preloadTagL = false;
 			bool						preloadTagQ = false;
 			//bool						preloadTagE = false;
-			bool						preloadRetroflex = false;
+			bool						preloadTagRetroflex = false;
 			bool						preloadViEnDup = false;
 			if (startOfNewNode && text[0] == 0x3C/*<*/)
 			{
@@ -2090,7 +2090,7 @@ void				VietnameseTextNormalizer::Input(const qwchar* text)
 								{
 								case 0x65/*e*/:/*text [<viendup>] cost 15*/if (text[4] == 0x6E/*n*/ && text[5] == 0x64/*d*/ && text[6] == 0x75/*u*/ && text[7] == 0x70/*p*/ && text[8] == 0x3E/*>*/) { text += 9; preloadSize += 9; preloadViEnDup = true; }break;
 								case 0x3E/*>*/:/*text [<vi>] cost 11*/text += 4; preloadSize += 4; preloadTagVi = true; break;
-								case 0x5F/*_*/:/*text [<vi_r>] cost 14*/if (text[4] == 0x72/*r*/ && text[5] == 0x3E/*>*/) { text += 6; preloadSize += 6; preloadRetroflex = true; preloadTagVi = true; }break;
+								case 0x5F/*_*/:/*text [<vi_r>] cost 14*/if (text[4] == 0x72/*r*/ && text[5] == 0x3E/*>*/) { text += 6; preloadSize += 6; preloadTagRetroflex = true; preloadTagVi = true; }break;
 								}//end of switch (text[3])/*start with [<vi..]*/
 
 							}/*end of if start with [<vi..] */
@@ -2180,7 +2180,7 @@ void				VietnameseTextNormalizer::Input(const qwchar* text)
 			}
 			if (englishWordIdentifier && pronoucingIndex && pronoucingIndex <= enwords[englishWordIdentifier].pronoucing) englishWordIdentifier += pronoucingIndex;
 			if (englishWordIdentifier == 0 && leftMatchingEnglishIdentifier && pronoucingIndex && pronoucingIndex <= enwords[leftMatchingEnglishIdentifier].pronoucing) leftMatchingEnglishIdentifier += pronoucingIndex;
-			if (vietnameseSyllableIdentifier != 0 && (preloadTagB || preloadTagL || preloadTagQ || preloadRetroflex)) englishWordIdentifier = 0;
+			if (vietnameseSyllableIdentifier != 0 && (preloadTagB || preloadTagL || preloadTagQ || preloadTagRetroflex)) englishWordIdentifier = 0;
 			/************************************************************************/
 			/*                                                                      */
 			/************************************************************************/
@@ -2218,6 +2218,11 @@ void				VietnameseTextNormalizer::Input(const qwchar* text)
 			{
 				TEXT_NODE* backupTextNode = InsertVietnameseSyllableToTheTail(vietnameseSyllableIdentifier, currentOriginalSyllable + preloadSize, currentOriginalSyllableLength, capital, leftTextNodeOffset0, leftTextNodeOffset1, leftTextNodeOffset2, leftTextNodeOffset3, leftTextNodeOffset4);
 				if (preloadTagVi) backupTextNode->englishWordIdentifier = 0;
+				if (preloadTagRetroflex)
+				{
+					backupTextNode->englishWordIdentifier = 0;
+					backupTextNode->vietnameseLoanWordIndentifier = 0;
+				}
 				leftTextNodeOffset4 = leftTextNodeOffset3;
 				leftTextNodeOffset3 = leftTextNodeOffset2;
 				leftTextNodeOffset2 = leftTextNodeOffset1;
@@ -2231,7 +2236,7 @@ void				VietnameseTextNormalizer::Input(const qwchar* text)
 				if (preloadTagL) backupTextNode->prosodyL = 0x31/*1*/;
 				if (preloadTagQ) backupTextNode->prosodyQ = 0x31/*1*/;
 				if (preloadTagVi) backupTextNode->englishWordIdentifier = 0;
-				if (preloadRetroflex) backupTextNode->retroflex = true;
+				if (preloadTagRetroflex) backupTextNode->retroflex = true;
 				if (preloadViEnDup) backupTextNode->viendup = true;
 			}
 			/************************************************************************/
@@ -2634,6 +2639,11 @@ void				VietnameseTextNormalizer::Input(const qwchar* text)
 				{
 					TEXT_NODE* backupTextNode = InsertVietnameseSyllableToTheTail(leftMatchingVietnameseIdentifier, currentOriginalSyllable, leftMatchingVietnameseLength, capital, leftTextNodeOffset0, leftTextNodeOffset1, leftTextNodeOffset2, leftTextNodeOffset3, leftTextNodeOffset4);
 					if (preloadTagVi) backupTextNode->englishWordIdentifier = 0;
+					if (preloadTagRetroflex)
+					{
+						backupTextNode->englishWordIdentifier = 0;
+						backupTextNode->vietnameseLoanWordIndentifier = 0;
+					}
 					leftTextNodeOffset4 = leftTextNodeOffset3;
 					leftTextNodeOffset3 = leftTextNodeOffset2;
 					leftTextNodeOffset2 = leftTextNodeOffset1;
@@ -2651,7 +2661,7 @@ void				VietnameseTextNormalizer::Input(const qwchar* text)
 						if (backupTextNode->back /*!= NULL*/ && backupTextNode->back->silenceTimeInSecond == 0.0) backupTextNode->back->prosodyQ = 0x32/*2*/;
 					}
 					if (flagNeedSpace) backupTextNode->needSpaceAfter = 1;
-					if (preloadRetroflex) backupTextNode->retroflex = true;
+					if (preloadTagRetroflex) backupTextNode->retroflex = true;
 					if (preloadViEnDup) backupTextNode->viendup = true;
 				}
 				else if (needSplitLeftMatchingEnglishWord)
