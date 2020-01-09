@@ -1,9 +1,9 @@
 
 CPP_FILES = $(wildcard *.cpp)
-OBJECT_PYTHON2_FILES  = $(patsubst %.cpp, ObjectPython2/%.o, $(CPP_FILES))
+OBJECT_PYTHON2_FILES = $(patsubst %.cpp, ObjectPython2/%.o, $(CPP_FILES))
 GPP = g++-5
 
-all:  $(OBJECT_PYTHON3_FILES)
+all: $(OBJECT_PYTHON2_FILES)
 	$(GPP) -std=c++17 -shared -o ReleasePython2/VietnameseTextNormalizer.so $(OBJECT_PYTHON2_FILES) -L. ; \
 	cp -f UnitTestVietnameseTextNormalizer.py ReleasePython2/ ; \
 	cd ReleasePython2 ; \
@@ -14,14 +14,14 @@ all:  $(OBJECT_PYTHON3_FILES)
 
 
 release-dirs:
-	@ ( mkdir -p ObjectPython2  ReleasePython2  ; )
+	@ ( mkdir -p ObjectPython2 ReleasePython2 ; )
 	
 ObjectPython2/%.o : %.cpp | release-dirs
-	$(GPP) -std=c++17 -c -fPIC -O3 -Wall $*.cpp -I/usr/include/python2.7 -o ObjectPython2/$*.o  ;
+	$(GPP) -std=c++17 -c -fPIC -O3 -Wall $*.cpp -I/usr/include/python2.7 -o ObjectPython2/$*.o ;
 
 
-clean: 
-	rm -rf ObjectPython2  ReleasePython2  ; 
+clean:
+	rm -rf ObjectPython2 ReleasePython2 ;
 	clear ;
 
 
