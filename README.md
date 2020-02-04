@@ -10,19 +10,24 @@ Installation
 - Build
 ```sh
 
-#Require
-#apt install python2-dev
-#apt install python3-dev
-#apt install g++-5
+#Require python_dev and g++ (version 5.0 or higher)
 
-# For Python2.7  Need setup path to python3_dev include, it's up to you
-#apt install python2.7-dev
+
+# For Python2  Need setup path to python2_dev include and g++ (version 5.0 or higher)
+#apt install python2-dev
+#apt install g++
+export PYTHON2_DEV_INCULE=/usr/include/python2.7
+export GPP_COMPILER=g++
 cp -f MakefilePython2.7 Makefile
 make -j
 
-# For Python3  : Need setup path to python3_dev include and GPP (version 5.0 or higher)
+
+
+# For Python3  : Need setup path to python3_dev include and g++ (version 5.0 or higher)
+#apt install python3-dev
+#apt install g++
 export PYTHON3_DEV_INCULE=/usr/include/python3.6
-export GPP_COMPILER g++-5 
+export GPP_COMPILER=g++
 cp -f MakefilePython3 Makefile
 make -j
 

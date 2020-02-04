@@ -1,10 +1,10 @@
 
 CPP_FILES = $(wildcard *.cpp)
 OBJECT_PYTHON2_FILES = $(patsubst %.cpp, ObjectPython2/%.o, $(CPP_FILES))
-GPP = g++-5
+
 
 all: $(OBJECT_PYTHON2_FILES)
-	$(GPP) -std=c++17 -shared -o ReleasePython2/VietnameseTextNormalizer.so $(OBJECT_PYTHON2_FILES) -L. ; \
+	$$GPP_COMPILER -shared -o ReleasePython2/VietnameseTextNormalizer.so $(OBJECT_PYTHON2_FILES) -L. ; \
 	cp -f UnitTestVietnameseTextNormalizer.py ReleasePython2/ ; \
 	cd ReleasePython2 ; \
 	echo "Build Release Python2 Done" ; \
@@ -17,7 +17,7 @@ release-dirs:
 	@ ( mkdir -p ObjectPython2 ReleasePython2 ; )
 	
 ObjectPython2/%.o : %.cpp | release-dirs
-	$(GPP) -std=c++17 -c -fPIC -O3 -Wall $*.cpp -I/usr/include/python2.7 -o ObjectPython2/$*.o ;
+	$$GPP_COMPILER -c -fPIC -O3 -Wall $*.cpp -I$$PYTHON2_DEV_INCULE -o ObjectPython2/$*.o ;
 
 
 clean:
