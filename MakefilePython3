@@ -1,10 +1,9 @@
 
 CPP_FILES = $(wildcard *.cpp)
 OBJECT_PYTHON3_FILES  = $(patsubst %.cpp, ObjectPython3/%.o, $(CPP_FILES))
-GPP = g++-5
 
 all: $(OBJECT_PYTHON3_FILES)
-	$(GPP)  -std=c++17 -shared -o ReleasePython3/VietnameseTextNormalizer.so $(OBJECT_PYTHON3_FILES) -L. ; \
+	$$GPP_COMPILER -shared -o ReleasePython3/VietnameseTextNormalizer.so $(OBJECT_PYTHON3_FILES) -L. ; \
 	cp -f UnitTestVietnameseTextNormalizer.py ReleasePython3/ ; \
 	cd ReleasePython3 ; \
 	echo "Build Release Python3 Done" ; \
@@ -17,7 +16,7 @@ release-dirs:
 	@ ( mkdir -p ObjectPython3 ReleasePython3 ; )
 
 ObjectPython3/%.o : %.cpp | release-dirs
-	$(GPP) -std=c++17 -c -fPIC -O3 -Wall $*.cpp -I/usr/include/python3.5 -o ObjectPython3/$*.o  ;
+	$$GPP_COMPILER -c -fPIC -O3 -Wall $*.cpp -I$$PYTHON3_DEV_INCULE -o ObjectPython3/$*.o  ;
 	
 clean: 
 	rm -rf ObjectPython3 ReleasePython3 ; 

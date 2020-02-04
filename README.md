@@ -15,18 +15,17 @@ Installation
 #apt install python3-dev
 #apt install g++-5
 
-# for Python2.7
+# For Python2.7  Need setup path to python3_dev include, it's up to you
 #apt install python2.7-dev
 cp -f MakefilePython2.7 Makefile
 make -j
 
-# for Python3 with python-dev version 3.5
-cp -f MakefilePython3.5 Makefile
+# For Python3  : Need setup path to python3_dev include and GPP (version 5.0 or higher)
+export PYTHON3_DEV_INCULE=/usr/include/python3.6
+export GPP_COMPILER g++-5 
+cp -f MakefilePython3 Makefile
 make -j
 
-# for Python3 with python-dev version 3.6
-cp -f MakefilePython3.6 Makefile
-make -j
 
 
 ```
