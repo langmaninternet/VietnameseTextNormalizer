@@ -15,16 +15,16 @@ Installation
 #apt install python3-dev
 #apt install g++-5
 
-#or Python2.7
+# for Python2.7
 #apt install python2.7-dev
 cp -f MakefilePython2.7 Makefile
 make -j
 
-#or Python3 with python-dev version 3.5
+# for Python3 with python-dev version 3.5
 cp -f MakefilePython3.5 Makefile
 make -j
 
-#or Python3 with python-dev version 3.6
+# for Python3 with python-dev version 3.6
 cp -f MakefilePython3.6 Makefile
 make -j
 
