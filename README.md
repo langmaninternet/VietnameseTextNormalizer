@@ -18,7 +18,7 @@ Installation
 #apt install g++
 export PYTHON2_DEV_INCULE=/usr/include/python2.7
 export GPP_COMPILER=g++
-cp -f MakefilePython2.7 Makefile
+cp -f MakefilePython2 Makefile
 make -j
 
 
