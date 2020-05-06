@@ -12,6 +12,7 @@
     <ClCompile Include="WordSystem.cpp" />
     <ClCompile Include="ContextSystem.cpp" />
     <ClCompile Include="VietnameseTextNormalizer.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="VietnameseTextNormalizer.rc" />

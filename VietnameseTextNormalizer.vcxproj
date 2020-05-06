@@ -26,6 +26,7 @@
     <ClInclude Include="WordSystem.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="SyllableSystem.cpp" />
     <ClCompile Include="ContextSystem.cpp" />
     <ClCompile Include="VietnameseTextNormalizer.cpp" />
