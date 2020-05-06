@@ -1,4 +1,10 @@
-#include "VietnameseTextNormalizer.h"
+﻿#include "VietnameseTextNormalizer.h"
+#include <iostream>
+#include <fstream>
+#include <locale>
+#include <codecvt>
+#include <list>
+
 //#undef WIN32_NORMALIZER_TOOL
 #ifndef WIN32_NORMALIZER_TOOL
 extern "C"
