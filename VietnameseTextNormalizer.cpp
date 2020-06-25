@@ -2697,7 +2697,7 @@ void				VietnameseTextNormalizer::Input(const qwchar* text)
 					leftTextNodeOffset2 = leftTextNodeOffset1;
 					leftTextNodeOffset1 = leftTextNodeOffset0;
 					leftTextNodeOffset0 = backupTextNode;
-					if (flagStandardTextForNLP && text[1] != 0x20/*space*/ && (text[0] == 0x201D/*”*/ || text[0] == 0x201D/*’*/)) backupTextNode->needSpaceAfter = 1;
+					if (flagStandardTextForNLP && text[1] != 0x20/*space*/ && (text[0] == 0x201D/*”*/ || text[0] == 0x2019/*’*/)) backupTextNode->needSpaceAfter = 1;
 
 					text++;
 					currentOriginalSyllable = text;
