@@ -775,7 +775,7 @@ void main(void)
 	//	vntObject.GenStandardText();
 	//	::MessageBoxW(0, vntObject.standardText, L"Output", MB_OK);
 
-	std::SetTitle(L"VietnameseTextNormalizer Build 20181217");
+	std::SetTitle(L"VietnameseTextNormalizer Build 2020.09.23");
 	std::HideCursor();
 	std::SetBackgroundColor(15);
 	std::SetTextColor(2);

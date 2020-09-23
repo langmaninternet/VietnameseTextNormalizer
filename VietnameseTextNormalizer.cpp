@@ -2069,7 +2069,7 @@ void				VietnameseTextNormalizer::Input(const qwchar* text)
 							}//end of switch (text[2])/*start with [<e..]*/
 							break;
 						case 0x6C/*l*/:/*text [<l>] cost 6*/if (text[2] == 0x3E/*>*/) { text += 3; preloadSize += 3; preloadTagL = true; }break;
-						case 0x71/*q*/:/*text [<q>] cost 7*/if (text[2] == 0x3E/*>*/) { text += 3; preloadSize += 3; preloadTagQ = true; }break;
+						//case 0x71/*q*/:/*text [<q>] cost 7*/if (text[2] == 0x3E/*>*/) { text += 3; preloadSize += 3; preloadTagQ = true; }break;
 						case 0x73/*s*/:/*text [<s>] cost 8*/if (text[2] == 0x3E/*>*/) { text += 3; preloadSize += 3;/* preloadTagS = true;*/ }break;
 						case 0x76/*v*/:
 							if (text[2] == 0x69/*i*/)/*start with [<vi..] */
