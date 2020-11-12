@@ -1117,7 +1117,7 @@ static PyObject* VietnameseTextNormalizerForASR(PyObject* self, PyObject* args)
 	PyArg_ParseTuple(args, "O", &argsObject);
 	return argsObject;
 }
-static PyObject* VietnameseTextNormalizerForIToY(PyObject* self, PyObject* args)
+static PyObject* VietnameseTextNormalizerForTTS(PyObject* self, PyObject* args)
 {
 	char				nullUtf8String[10] = { 0 };
 	wchar_t				nullUnicodeString[10] = { 0 };
@@ -1141,7 +1141,6 @@ static PyObject* VietnameseTextNormalizerForIToY(PyObject* self, PyObject* args)
 				VietnameseTextNormalizer vntObject;
 				vntObject.flagStandardTextForNLP = true;
 				vntObject.flagStandardTextForASR = true;
-				vntObject.flagConvertYToI = true;
 				vntObject.Input(ucs2buffer);
 				vntObject.Normalize();
 				vntObject.GenStandardText();
@@ -1164,18 +1163,17 @@ static PyObject* VietnameseTextNormalizerForIToY(PyObject* self, PyObject* args)
 	else if (PyArg_ParseTuple(args, "u", &unicodeInput) && unicodeInput != NULL && unicodeInput != nullUnicodeString)
 	{
 		std::wstring		unicodeResult = unicodeInput;
-		size_t				unicodeLength = unicodeResult.size();
+		size_t					unicodeLength = unicodeResult.size();
 		qwchar* ucs2buffer = (qwchar*)qcalloc(unicodeLength + 10/*safe*/, sizeof(qwchar));
 		if (ucs2buffer)
 		{
 			for (size_t iChar = 0; iChar < unicodeLength; iChar++)
 			{
-				ucs2buffer[iChar] = (qwchar)(unicodeInput[iChar]);
+				ucs2buffer[iChar] = (qwchar)unicodeInput[iChar];
 			}
 			VietnameseTextNormalizer vntObject;
 			vntObject.flagStandardTextForNLP = true;
-			vntObject.flagStandardTextForASR = true;
-			vntObject.flagConvertYToI = true;
+			vntObject.flagStandardTextForTTS = true;
 			vntObject.Input(ucs2buffer);
 			vntObject.Normalize();
 			vntObject.GenStandardText();
@@ -1203,7 +1201,7 @@ static PyMethodDef	VietnameseTextNormalizerMethods[] = {
 	{ "VietnameseTextNormalizer", VietnameseTextNormalizerStandard, METH_VARARGS, "OutputString VietnameseTextNormalizer(String)" },
 	{ "Normalize", VietnameseTextNormalizerStandard, METH_VARARGS, "OutputString Normalize(String)" },
 	{ "ASRNormalize", VietnameseTextNormalizerForASR, METH_VARARGS, "OutputString ASRNormalize(String)" },
-	{ "ASRYtoI", VietnameseTextNormalizerForIToY, METH_VARARGS, "OutputString ASRYtoI(String)" },
+	{ "TTSNormalize", VietnameseTextNormalizerForTTS, METH_VARARGS, "OutputString TTSNormalize(String)" },
 	{ "NormalizeWithoutAutoCorrect", VietnameseTextNormalizerWithoutAutoCorrect, METH_VARARGS, "OutputString NormalizeWithoutAutoCorrect(String)" },
 	{ NULL, NULL, 0, NULL }
 };

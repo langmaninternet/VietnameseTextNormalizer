@@ -38,7 +38,7 @@ void				VietnameseTextNormalizer::Init(void)
 	flagWordSegmentForNLP = false;
 	flagStandardTextForNLP = false;
 	flagStandardTextForASR = false;
-	flagConvertYToI = false;
+	flagStandardTextForTTS = false;
 
 
 	silenceOtherTime = 0.0;
@@ -810,9 +810,9 @@ void				VietnameseTextNormalizer::UpdateVietnameseTextNodeContext(TEXT_NODE* tex
 			break;
 		case 3:
 			if (leftTextNodeOffset1VietnameseSyllableIdentifier == 0)
-			{																																																									   
+			{
 				printf("?");
-				vietnameseWordIdentifier = 0;				
+				vietnameseWordIdentifier = 0;
 			}
 			break;
 		case 2:
@@ -1640,7 +1640,7 @@ void				VietnameseTextNormalizer::UpdateVietnameseTextNodeContext(TEXT_NODE* tex
 /************************************************************************/
 /* Step 1 : Division                                                    */
 /************************************************************************/
-TEXT_NODE* VietnameseTextNormalizer::InsertVietnameseSyllableToTheTail(qvsylidentifier vietnameseSyllableIdentifier, qwchar const* nodeOriginalText, int nodeOriginalTextLength, TEXT_NODE_CAPITAL capital, TEXT_NODE* leftTextNodeOffset0, TEXT_NODE* leftTextNodeOffset1, TEXT_NODE* leftTextNodeOffset2, TEXT_NODE* leftTextNodeOffset3, TEXT_NODE* leftTextNodeOffset4)
+TEXT_NODE*			VietnameseTextNormalizer::InsertVietnameseSyllableToTheTail(qvsylidentifier vietnameseSyllableIdentifier, qwchar const* nodeOriginalText, int nodeOriginalTextLength, TEXT_NODE_CAPITAL capital, TEXT_NODE* leftTextNodeOffset0, TEXT_NODE* leftTextNodeOffset1, TEXT_NODE* leftTextNodeOffset2, TEXT_NODE* leftTextNodeOffset3, TEXT_NODE* leftTextNodeOffset4)
 {
 #ifdef _DEBUG
 	if (capital == TEXT_NODE_CAPITAL_UNKNOWN)
@@ -1693,7 +1693,7 @@ TEXT_NODE* VietnameseTextNormalizer::InsertVietnameseSyllableToTheTail(qvsyliden
 	}
 	return textNode;
 }
-TEXT_NODE* VietnameseTextNormalizer::InsertEnglishWordToTheTail(qvwrdidentifier englishWordIdentifier, qwchar const* nodeOriginalText, int nodeOriginalTextLength, TEXT_NODE_CAPITAL capital, TEXT_NODE* leftTextNodeOffset0, TEXT_NODE* leftTextNodeOffset1, TEXT_NODE* leftTextNodeOffset2, TEXT_NODE* leftTextNodeOffset3, TEXT_NODE* leftTextNodeOffset4)
+TEXT_NODE*			VietnameseTextNormalizer::InsertEnglishWordToTheTail(qvwrdidentifier englishWordIdentifier, qwchar const* nodeOriginalText, int nodeOriginalTextLength, TEXT_NODE_CAPITAL capital, TEXT_NODE* leftTextNodeOffset0, TEXT_NODE* leftTextNodeOffset1, TEXT_NODE* leftTextNodeOffset2, TEXT_NODE* leftTextNodeOffset3, TEXT_NODE* leftTextNodeOffset4)
 {
 #ifdef _DEBUG
 	if (capital == TEXT_NODE_CAPITAL_UNKNOWN)
@@ -1755,7 +1755,7 @@ TEXT_NODE* VietnameseTextNormalizer::InsertEnglishWordToTheTail(qvwrdidentifier 
 	}
 	return textNode;
 }
-TEXT_NODE* VietnameseTextNormalizer::InsertJapaneseWordToTheTail(qjwrdidentifier japaneseWordIdentifier, qwchar const* nodeOriginalText, int nodeOriginalTextLength, TEXT_NODE_CAPITAL capital, TEXT_NODE* leftTextNodeOffset0, TEXT_NODE* leftTextNodeOffset1, TEXT_NODE* leftTextNodeOffset2, TEXT_NODE* leftTextNodeOffset3, TEXT_NODE* leftTextNodeOffset4)
+TEXT_NODE*			VietnameseTextNormalizer::InsertJapaneseWordToTheTail(qjwrdidentifier japaneseWordIdentifier, qwchar const* nodeOriginalText, int nodeOriginalTextLength, TEXT_NODE_CAPITAL capital, TEXT_NODE* leftTextNodeOffset0, TEXT_NODE* leftTextNodeOffset1, TEXT_NODE* leftTextNodeOffset2, TEXT_NODE* leftTextNodeOffset3, TEXT_NODE* leftTextNodeOffset4)
 {
 #ifdef _DEBUG
 	if (capital == TEXT_NODE_CAPITAL_UNKNOWN)
@@ -1800,7 +1800,7 @@ TEXT_NODE* VietnameseTextNormalizer::InsertJapaneseWordToTheTail(qjwrdidentifier
 	}
 	return textNode;
 }
-TEXT_NODE* VietnameseTextNormalizer::InsertUnknownNodeToTail(qwchar const* nodeOriginalText, int nodeOriginalTextLength, TEXT_NODE* leftTextNodeOffset0, TEXT_NODE* leftTextNodeOffset1, TEXT_NODE* leftTextNodeOffset2, TEXT_NODE* leftTextNodeOffset3, TEXT_NODE* leftTextNodeOffset4)
+TEXT_NODE*			VietnameseTextNormalizer::InsertUnknownNodeToTail(qwchar const* nodeOriginalText, int nodeOriginalTextLength, TEXT_NODE* leftTextNodeOffset0, TEXT_NODE* leftTextNodeOffset1, TEXT_NODE* leftTextNodeOffset2, TEXT_NODE* leftTextNodeOffset3, TEXT_NODE* leftTextNodeOffset4)
 {
 	TEXT_NODE* textNode = (TEXT_NODE*)qcalloc(1, sizeof(TEXT_NODE));
 	if (textNode/*!=NULL*/)
@@ -2069,7 +2069,7 @@ void				VietnameseTextNormalizer::Input(const qwchar* text)
 							}//end of switch (text[2])/*start with [<e..]*/
 							break;
 						case 0x6C/*l*/:/*text [<l>] cost 6*/if (text[2] == 0x3E/*>*/) { text += 3; preloadSize += 3; preloadTagL = true; }break;
-						//case 0x71/*q*/:/*text [<q>] cost 7*/if (text[2] == 0x3E/*>*/) { text += 3; preloadSize += 3; preloadTagQ = true; }break;
+							//case 0x71/*q*/:/*text [<q>] cost 7*/if (text[2] == 0x3E/*>*/) { text += 3; preloadSize += 3; preloadTagQ = true; }break;
 						case 0x73/*s*/:/*text [<s>] cost 8*/if (text[2] == 0x3E/*>*/) { text += 3; preloadSize += 3;/* preloadTagS = true;*/ }break;
 						case 0x76/*v*/:
 							if (text[2] == 0x69/*i*/)/*start with [<vi..] */
@@ -2334,7 +2334,7 @@ void				VietnameseTextNormalizer::Input(const qwchar* text)
 					&& capital != TEXT_NODE_CAPITAL_CAPITAL
 					&& rightCapital == TEXT_NODE_CAPITAL_UPPER
 					&& (
-					(leftMatchingVietnameseWordIdentifier && vnwords[leftMatchingVietnameseWordIdentifier].significant)
+						(leftMatchingVietnameseWordIdentifier && vnwords[leftMatchingVietnameseWordIdentifier].significant)
 						|| leftMatchingVietnameseSyllableSure
 						|| rightMatchingVietnameseSyllableSure
 						|| (rightMatchingVietnameseWordIdentifier && vnwords[rightMatchingVietnameseWordIdentifier].significant)
@@ -3560,7 +3560,19 @@ void				VietnameseTextNormalizer::Normalize(void)
 						/************************************************************************/
 						/* Các kí tự đặc biệt khác ngoài bảng mã                                */
 						/************************************************************************/
-					default:text[textLength] = currentCharacter; textLower[textLength] = currentCharacter; textType[textLength] = CHARACTER_TYPE_UNKNOWN; textIndex[textLength] = (qwchar)iChar; textLength++; textCountUnknownCharacter++; break;
+					default:
+						text[textLength] = currentCharacter;
+						textLower[textLength] = currentCharacter;
+						textType[textLength] = CHARACTER_TYPE_UNKNOWN;
+						textIndex[textLength] = (qwchar)iChar;
+						textLength++;
+						textCountUnknownCharacter++;
+						if (flagStandardTextForTTS)
+						{
+							text[textLength] = 0x20/*space*/;
+							textLower[textLength] = 0x20/*space*/;
+						}
+						break;
 					}//kết thúc của switch
 				}//kết thúc của for duyệt từ đầu chuỗi originalText đến cuối
 				text[textLength] = 0x20/*space*/;
@@ -4363,7 +4375,7 @@ void				VietnameseTextNormalizer::Normalize(void)
 				}
 				UpdateVietnameseTextNodeContext(textNode);
 			}
-			else if (flagStandardTextForASR)
+			else if (flagStandardTextForASR || flagStandardTextForTTS)
 			{
 				if (currentSure > 0.0 && otherSure > 0.0 && currentSure < otherSure)
 				{
@@ -4416,9 +4428,10 @@ void				VietnameseTextNormalizer::Normalize(void)
 		}
 
 
-
-		if (flagConvertYToI
-			&& textNode->vietnameseSyllableIdentifier > 0
+		/************************************************************************/
+		/* Convert Y - I                                                        */
+		/************************************************************************/
+		if (textNode->vietnameseSyllableIdentifier > 0
 			&& textNode->englishWordIdentifier == 0
 			&& textNode->vietnameseAbbreviationIndentifier == 0
 			&& textNode->vietnameseLoanWordIndentifier == 0
@@ -4621,11 +4634,11 @@ void				VietnameseTextNormalizer::Normalize(void)
 				}
 			}
 			double currentWordPoint = (textNode->leftVietnameseWordSure + textNode->rightVietnameseWordSure + 1) * vnwords[textNode->vietnameseWordIdentifier].coefficient;
-			double rightO0WordPoint = (vnwords[rightTextNodeOffset0->vietnameseWordIdentifier].length > 1)* ((rightTextNodeOffset0->leftVietnameseWordSure + rightTextNodeOffset0->rightVietnameseWordSure + 1) * vnwords[rightTextNodeOffset0->vietnameseWordIdentifier].coefficient);
-			double rightO1WordPoint = (vnwords[rightTextNodeOffset1->vietnameseWordIdentifier].length > 2)* ((rightTextNodeOffset1->leftVietnameseWordSure + rightTextNodeOffset1->rightVietnameseWordSure + 1) * vnwords[rightTextNodeOffset1->vietnameseWordIdentifier].coefficient);
-			double rightO2WordPoint = (vnwords[rightTextNodeOffset2->vietnameseWordIdentifier].length > 3)* ((rightTextNodeOffset2->leftVietnameseWordSure + rightTextNodeOffset2->rightVietnameseWordSure + 1) * vnwords[rightTextNodeOffset2->vietnameseWordIdentifier].coefficient);
-			double rightO3WordPoint = (vnwords[rightTextNodeOffset3->vietnameseWordIdentifier].length > 4)* ((rightTextNodeOffset3->leftVietnameseWordSure + rightTextNodeOffset3->rightVietnameseWordSure + 1) * vnwords[rightTextNodeOffset3->vietnameseWordIdentifier].coefficient);
-			double rightO4WordPoint = (vnwords[rightTextNodeOffset4->vietnameseWordIdentifier].length > 5)* ((rightTextNodeOffset4->leftVietnameseWordSure + rightTextNodeOffset4->rightVietnameseWordSure + 1) * vnwords[rightTextNodeOffset4->vietnameseWordIdentifier].coefficient);
+			double rightO0WordPoint = (vnwords[rightTextNodeOffset0->vietnameseWordIdentifier].length > 1) * ((rightTextNodeOffset0->leftVietnameseWordSure + rightTextNodeOffset0->rightVietnameseWordSure + 1) * vnwords[rightTextNodeOffset0->vietnameseWordIdentifier].coefficient);
+			double rightO1WordPoint = (vnwords[rightTextNodeOffset1->vietnameseWordIdentifier].length > 2) * ((rightTextNodeOffset1->leftVietnameseWordSure + rightTextNodeOffset1->rightVietnameseWordSure + 1) * vnwords[rightTextNodeOffset1->vietnameseWordIdentifier].coefficient);
+			double rightO2WordPoint = (vnwords[rightTextNodeOffset2->vietnameseWordIdentifier].length > 3) * ((rightTextNodeOffset2->leftVietnameseWordSure + rightTextNodeOffset2->rightVietnameseWordSure + 1) * vnwords[rightTextNodeOffset2->vietnameseWordIdentifier].coefficient);
+			double rightO3WordPoint = (vnwords[rightTextNodeOffset3->vietnameseWordIdentifier].length > 4) * ((rightTextNodeOffset3->leftVietnameseWordSure + rightTextNodeOffset3->rightVietnameseWordSure + 1) * vnwords[rightTextNodeOffset3->vietnameseWordIdentifier].coefficient);
+			double rightO4WordPoint = (vnwords[rightTextNodeOffset4->vietnameseWordIdentifier].length > 5) * ((rightTextNodeOffset4->leftVietnameseWordSure + rightTextNodeOffset4->rightVietnameseWordSure + 1) * vnwords[rightTextNodeOffset4->vietnameseWordIdentifier].coefficient);
 
 
 			if (rightTextNodeOffset0->vietnameseWordIdentifier && vnwords[rightTextNodeOffset0->vietnameseWordIdentifier].length > 1)

@@ -200,8 +200,8 @@ public:
 	bool					flagUseAutoCorrect;
 	bool					flagStandardTextForNLP;
 	bool					flagStandardTextForASR;
+	bool					flagStandardTextForTTS;
 	bool					flagWordSegmentForNLP;
-	bool					flagConvertYToI;
 	bool					flagValidateToolMode;
 	/************************************************************************/
 	/* Log                                                                  */

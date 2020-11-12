@@ -18,6 +18,7 @@ Installation
 #apt install g++
 export PYTHON2_DEV_INCULE=/usr/include/python2.7
 export GPP_COMPILER=g++
+export CPP_SUPPORT_VERION=-std=c++11
 cp -f MakefilePython2 Makefile
 make -j
 
@@ -28,6 +29,7 @@ make -j
 #apt install g++
 export PYTHON3_DEV_INCULE=/usr/include/python3.6
 export GPP_COMPILER=g++
+export CPP_SUPPORT_VERION=-std=c++11
 cp -f MakefilePython3 Makefile
 make -j
 

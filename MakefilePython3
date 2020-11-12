@@ -16,7 +16,7 @@ release-dirs:
 	@ ( mkdir -p ObjectPython3 ReleasePython3 ; )
 
 ObjectPython3/%.o : %.cpp | release-dirs
-	$$GPP_COMPILER -c -fPIC -O3 -Wall $*.cpp -I$$PYTHON3_DEV_INCULE -o ObjectPython3/$*.o  ;
+	$$GPP_COMPILER -c -fPIC -O3 -Wall $$CPP_SUPPORT_VERION $*.cpp -I$$PYTHON3_DEV_INCULE -o ObjectPython3/$*.o  ;
 	
 clean: 
 	rm -rf ObjectPython3 ReleasePython3 ; 
