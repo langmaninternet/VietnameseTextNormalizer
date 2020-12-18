@@ -3,6 +3,11 @@
 #include <fstream>
 #include <locale>
 #include <list>
+//const qwchar		insertPauseText[4] = { 0x20,0x7C,0x20,0x0 }; // dấu |
+const qwchar		insertPauseText[4] = { 0x20,0x2C,0x20,0x0 }; // dấu ,
+const int 			insertPauseLength = 3;
+
+
 /************************************************************************/
 /* Initial                                                              */
 /************************************************************************/
@@ -1639,7 +1644,12 @@ void				VietnameseTextNormalizer::UpdateVietnameseTextNodeContext(TEXT_NODE* tex
 /************************************************************************/
 /* Step 1 : Division                                                    */
 /************************************************************************/
-TEXT_NODE* VietnameseTextNormalizer::InsertVietnameseSyllableToTheTail(qvsylidentifier vietnameseSyllableIdentifier, qwchar const* nodeOriginalText, int nodeOriginalTextLength, TEXT_NODE_CAPITAL capital, TEXT_NODE* leftTextNodeOffset0, TEXT_NODE* leftTextNodeOffset1, TEXT_NODE* leftTextNodeOffset2, TEXT_NODE* leftTextNodeOffset3, TEXT_NODE* leftTextNodeOffset4)
+bool				VietnameseTextNormalizer::IsValidDate(int day, int month, int year)
+{
+	const int songaytrongthang[12] = { 31,28,31,30,31,30,31,31,30,31,30,31 };
+	return (day > 0 && month > 0 && year > 0 && month < 13 && (day <= songaytrongthang[month - 1] + (month == 2) * ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0)));
+}
+TEXT_NODE *			VietnameseTextNormalizer::InsertVietnameseSyllableToTheTail(qvsylidentifier vietnameseSyllableIdentifier, qwchar const* nodeOriginalText, int nodeOriginalTextLength, TEXT_NODE_CAPITAL capital, TEXT_NODE* leftTextNodeOffset0, TEXT_NODE* leftTextNodeOffset1, TEXT_NODE* leftTextNodeOffset2, TEXT_NODE* leftTextNodeOffset3, TEXT_NODE* leftTextNodeOffset4)
 {
 #ifdef _DEBUG
 	if (capital == TEXT_NODE_CAPITAL_UNKNOWN)
@@ -1692,7 +1702,7 @@ TEXT_NODE* VietnameseTextNormalizer::InsertVietnameseSyllableToTheTail(qvsyliden
 	}
 	return textNode;
 }
-TEXT_NODE* VietnameseTextNormalizer::InsertEnglishWordToTheTail(qvwrdidentifier englishWordIdentifier, qwchar const* nodeOriginalText, int nodeOriginalTextLength, TEXT_NODE_CAPITAL capital, TEXT_NODE* leftTextNodeOffset0, TEXT_NODE* leftTextNodeOffset1, TEXT_NODE* leftTextNodeOffset2, TEXT_NODE* leftTextNodeOffset3, TEXT_NODE* leftTextNodeOffset4)
+TEXT_NODE *			VietnameseTextNormalizer::InsertEnglishWordToTheTail(qvwrdidentifier englishWordIdentifier, qwchar const* nodeOriginalText, int nodeOriginalTextLength, TEXT_NODE_CAPITAL capital, TEXT_NODE* leftTextNodeOffset0, TEXT_NODE* leftTextNodeOffset1, TEXT_NODE* leftTextNodeOffset2, TEXT_NODE* leftTextNodeOffset3, TEXT_NODE* leftTextNodeOffset4)
 {
 #ifdef _DEBUG
 	if (capital == TEXT_NODE_CAPITAL_UNKNOWN)
@@ -1754,7 +1764,7 @@ TEXT_NODE* VietnameseTextNormalizer::InsertEnglishWordToTheTail(qvwrdidentifier 
 	}
 	return textNode;
 }
-TEXT_NODE* VietnameseTextNormalizer::InsertJapaneseWordToTheTail(qjwrdidentifier japaneseWordIdentifier, qwchar const* nodeOriginalText, int nodeOriginalTextLength, TEXT_NODE_CAPITAL capital, TEXT_NODE* leftTextNodeOffset0, TEXT_NODE* leftTextNodeOffset1, TEXT_NODE* leftTextNodeOffset2, TEXT_NODE* leftTextNodeOffset3, TEXT_NODE* leftTextNodeOffset4)
+TEXT_NODE *			VietnameseTextNormalizer::InsertJapaneseWordToTheTail(qjwrdidentifier japaneseWordIdentifier, qwchar const* nodeOriginalText, int nodeOriginalTextLength, TEXT_NODE_CAPITAL capital, TEXT_NODE* leftTextNodeOffset0, TEXT_NODE* leftTextNodeOffset1, TEXT_NODE* leftTextNodeOffset2, TEXT_NODE* leftTextNodeOffset3, TEXT_NODE* leftTextNodeOffset4)
 {
 #ifdef _DEBUG
 	if (capital == TEXT_NODE_CAPITAL_UNKNOWN)
@@ -1799,7 +1809,7 @@ TEXT_NODE* VietnameseTextNormalizer::InsertJapaneseWordToTheTail(qjwrdidentifier
 	}
 	return textNode;
 }
-TEXT_NODE* VietnameseTextNormalizer::InsertUnknownNodeToTail(qwchar const* nodeOriginalText, int nodeOriginalTextLength, TEXT_NODE* leftTextNodeOffset0, TEXT_NODE* leftTextNodeOffset1, TEXT_NODE* leftTextNodeOffset2, TEXT_NODE* leftTextNodeOffset3, TEXT_NODE* leftTextNodeOffset4)
+TEXT_NODE *			VietnameseTextNormalizer::InsertUnknownNodeToTail(qwchar const* nodeOriginalText, int nodeOriginalTextLength, TEXT_NODE* leftTextNodeOffset0, TEXT_NODE* leftTextNodeOffset1, TEXT_NODE* leftTextNodeOffset2, TEXT_NODE* leftTextNodeOffset3, TEXT_NODE* leftTextNodeOffset4)
 {
 	TEXT_NODE* textNode = (TEXT_NODE*)qcalloc(1, sizeof(TEXT_NODE));
 	if (textNode/*!=NULL*/)
@@ -1995,6 +2005,41 @@ TEXT_NODE* VietnameseTextNormalizer::InsertUnknownNodeToTail(qwchar const* nodeO
 	}
 	return textNode;
 }
+TEXT_NODE *			VietnameseTextNormalizer::InsertShortPauseNode(TEXT_NODE* textNode)
+{
+	TEXT_NODE* insertNode = (TEXT_NODE*)qcalloc(1, sizeof(TEXT_NODE));
+	if (insertNode)
+	{
+		insertNode->text = insertPauseText;
+		insertNode->textLength = insertPauseLength;
+		insertNode->originalText = textNode->originalText + textNode->originalTextLength;
+		insertNode->originalTextLength = 0;
+		insertNode->silenceTimeInSecond = silenceShortTime;
+		insertNode->textNodeType = TEXT_NODE_TYPE_SILENCE;
+		//insert
+		if (textNode/*!=NULL*/)
+		{
+			insertNode->next = textNode->next;
+			insertNode->back = textNode;
+			if (textNode->next) textNode->next->back = insertNode;
+			textNode->next = insertNode;
+			if (tail == textNode) tail = insertNode;
+		}
+		else /*if(head==NULL)*/
+		{
+			head = insertNode;
+			tail = insertNode;
+		}
+		return insertNode;
+	}
+	else
+	{
+		printf("\nVietnameseTextNormalizer : Calloc fail!");
+		DungManHinh;
+	}
+	return textNode;
+}
+
 void				VietnameseTextNormalizer::Input(const qwchar* text)
 {
 	FILE* backupLogFile = logFile;

@@ -235,6 +235,7 @@ private:
 	virtual void			Init(void);
 	virtual void			Refresh(void);
 private:
+	bool					IsValidDate(int day, int month, int year);
 	void					UpdateVietnameseTextNodeContext(TEXT_NODE * textNode, TEXT_NODE * leftTextNodeOffset0, TEXT_NODE * leftTextNodeOffset1, TEXT_NODE * leftTextNodeOffset2, TEXT_NODE * leftTextNodeOffset3, TEXT_NODE * leftTextNodeOffset4);
 	void					UpdateVietnameseTextNodeContext(TEXT_NODE * textNode);
 	double					SignificantScore(TEXT_NODE * textNode, qvsylidentifier vietnameseSyllableIdentifier);
@@ -244,6 +245,7 @@ private:
 	TEXT_NODE *				InsertEnglishWordToTheTail(qvwrdidentifier englishWordIdentifier, qwchar const * originalText, int originalTextLength, TEXT_NODE_CAPITAL capital, TEXT_NODE * leftTextNodeOffset0, TEXT_NODE * leftTextNodeOffset1, TEXT_NODE * leftTextNodeOffset2, TEXT_NODE * leftTextNodeOffset3, TEXT_NODE * leftTextNodeOffset4);
 	TEXT_NODE *				InsertJapaneseWordToTheTail(qjwrdidentifier japaneseWordIdentifier, qwchar const * originalText, int originalTextLength, TEXT_NODE_CAPITAL capital, TEXT_NODE * leftTextNodeOffset0, TEXT_NODE * leftTextNodeOffset1, TEXT_NODE * leftTextNodeOffset2, TEXT_NODE * leftTextNodeOffset3, TEXT_NODE * leftTextNodeOffset4);
 	TEXT_NODE *				InsertUnknownNodeToTail(qwchar const * originalText, int originalTextLength, TEXT_NODE * leftTextNodeOffset0, TEXT_NODE * leftTextNodeOffset1, TEXT_NODE * leftTextNodeOffset2, TEXT_NODE * leftTextNodeOffset3, TEXT_NODE * leftTextNodeOffset4);
+	TEXT_NODE*				InsertShortPauseNode(TEXT_NODE* textNode);
 public:
 	bool					flagValidToStandard;
 	qwchar *				standardText;
