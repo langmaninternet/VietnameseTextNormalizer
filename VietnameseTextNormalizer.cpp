@@ -3,9 +3,7 @@
 #include <fstream>
 #include <locale>
 #include <list>
-//const qwchar		insertPauseText[4] = { 0x20,0x7C,0x20,0x0 }; // dấu |
-const qwchar		insertPauseText[4] = { 0x20,0x2C,0x20,0x0 }; // dấu ,
-const int 			insertPauseLength = 3;
+
 
 
 /************************************************************************/
@@ -2007,6 +2005,9 @@ TEXT_NODE *			VietnameseTextNormalizer::InsertUnknownNodeToTail(qwchar const* no
 }
 TEXT_NODE *			VietnameseTextNormalizer::InsertShortPauseNode(TEXT_NODE* textNode)
 {
+	//const qwchar		insertPauseText[4] = { 0x20,0x7C,0x20,0x0 }; // dấu |
+	const qwchar		insertPauseText[4] = { 0x20,0x2C,0x20,0x0 }; // dấu ,
+	const int 			insertPauseLength = 3;
 	TEXT_NODE* insertNode = (TEXT_NODE*)qcalloc(1, sizeof(TEXT_NODE));
 	if (insertNode)
 	{
