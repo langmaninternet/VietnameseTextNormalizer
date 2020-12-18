@@ -17,7 +17,7 @@ release-dirs:
 	@ ( mkdir -p ObjectPython2 ReleasePython2 ; )
 	
 ObjectPython2/%.o : %.cpp | release-dirs
-	$$GPP_COMPILER   -static -static-libgcc -static-libstdc++   -c -fPIC -O3 -Wall $$CPP_SUPPORT_VERION $*.cpp -I$$PYTHON2_DEV_INCULE -o ObjectPython2/$*.o ;
+	$$GPP_COMPILER -static -c -fPIC -O3 -Wall $*.cpp -I$$PYTHON2_DEV_INCULE -o ObjectPython2/$*.o ;
 
 
 clean:
