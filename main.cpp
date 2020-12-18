@@ -1097,7 +1097,7 @@ static PyObject* VietnameseTextNormalizerForTTS(PyObject* self, PyObject* args)
 		std::string	utf8Result = utf8input;
 		if (utf8input)
 		{
-			qwchar* ucs2buffer = (qwchar*)qcalloc(utf8Result.size() * 3 + 10/*safe*/, sizeof(qwchar));
+			qwchar* ucs2buffer = (qwchar*)qcalloc(utf8Result.size() + 100/*safe*/, sizeof(qwchar));
 			if (ucs2buffer)
 			{
 				ConvertUtf8toUnicode((const unsigned char*)(utf8Result.c_str()), utf8Result.size(), ucs2buffer);
