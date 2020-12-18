@@ -2,7 +2,6 @@
 #include <iostream>
 #include <fstream>
 #include <locale>
-#include <codecvt>
 #include <list>
 /************************************************************************/
 /* Initial                                                              */
