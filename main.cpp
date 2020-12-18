@@ -942,7 +942,6 @@ void main(void)
 			wprintf(L"fix..");
 
 			VietnameseTextNormalizer vntObject;
-			//vntObject.flagStandardTextForNLP = true;
 			//vntObject.flagStandardTextForTTS = true;
 
 			vntObject.Input(fileContent.c_str());
@@ -1103,7 +1102,6 @@ static PyObject* VietnameseTextNormalizerForTTS(PyObject* self, PyObject* args)
 			{
 				ConvertUtf8toUnicode((const unsigned char*)(utf8Result.c_str()), utf8Result.size(), ucs2buffer);
 				VietnameseTextNormalizer vntObject;
-				vntObject.flagStandardTextForNLP = true;
 				vntObject.flagStandardTextForTTS = true;
 				vntObject.Input(ucs2buffer);
 				vntObject.Normalize();
@@ -1136,7 +1134,6 @@ static PyObject* VietnameseTextNormalizerForTTS(PyObject* self, PyObject* args)
 				ucs2buffer[iChar] = (qwchar)unicodeInput[iChar];
 			}
 			VietnameseTextNormalizer vntObject;
-			vntObject.flagStandardTextForNLP = true;
 			vntObject.flagStandardTextForTTS = true;
 			vntObject.Input(ucs2buffer);
 			vntObject.Normalize();

@@ -13,8 +13,6 @@
 {
 	ValidateSyllableData();
 	ValidateWordData();
-	flagUseAutoCorrect = true;
-	flagStandardTextForNLP = false;
 	flagStandardTextForTTS = false;
 	flagValidateToolMode = false;
 	Init();
@@ -1184,7 +1182,7 @@ void				VietnameseTextNormalizer::UpdateVietnameseTextNodeContext(TEXT_NODE* tex
 	/************************************************************************/
 	/* Missing End                                                          */
 	/************************************************************************/
-	if (flagUseAutoCorrect && textNode->vietnameseMissingIndentifiler != 0)
+	if (textNode->vietnameseMissingIndentifiler != 0)
 	{
 		qvsylidentifier joinWithNextIndentifiler = ((textNode->next /*!= NULL*/ && textNode->next->text /*!= NULL*/) ? vnmissingends[textNode->vietnameseMissingIndentifiler].JoinWithToken(textNode->next->text) : 0);
 		if (joinWithNextIndentifiler != 0)
@@ -1647,7 +1645,7 @@ bool				VietnameseTextNormalizer::IsValidDate(int day, int month, int year)
 	const int songaytrongthang[12] = { 31,28,31,30,31,30,31,31,30,31,30,31 };
 	return (day > 0 && month > 0 && year > 0 && month < 13 && (day <= songaytrongthang[month - 1] + (month == 2) * ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0)));
 }
-TEXT_NODE *			VietnameseTextNormalizer::InsertVietnameseSyllableToTheTail(qvsylidentifier vietnameseSyllableIdentifier, qwchar const* nodeOriginalText, int nodeOriginalTextLength, TEXT_NODE_CAPITAL capital, TEXT_NODE* leftTextNodeOffset0, TEXT_NODE* leftTextNodeOffset1, TEXT_NODE* leftTextNodeOffset2, TEXT_NODE* leftTextNodeOffset3, TEXT_NODE* leftTextNodeOffset4)
+TEXT_NODE* VietnameseTextNormalizer::InsertVietnameseSyllableToTheTail(qvsylidentifier vietnameseSyllableIdentifier, qwchar const* nodeOriginalText, int nodeOriginalTextLength, TEXT_NODE_CAPITAL capital, TEXT_NODE* leftTextNodeOffset0, TEXT_NODE* leftTextNodeOffset1, TEXT_NODE* leftTextNodeOffset2, TEXT_NODE* leftTextNodeOffset3, TEXT_NODE* leftTextNodeOffset4)
 {
 #ifdef _DEBUG
 	if (capital == TEXT_NODE_CAPITAL_UNKNOWN)
@@ -1700,7 +1698,7 @@ TEXT_NODE *			VietnameseTextNormalizer::InsertVietnameseSyllableToTheTail(qvsyli
 	}
 	return textNode;
 }
-TEXT_NODE *			VietnameseTextNormalizer::InsertEnglishWordToTheTail(qvwrdidentifier englishWordIdentifier, qwchar const* nodeOriginalText, int nodeOriginalTextLength, TEXT_NODE_CAPITAL capital, TEXT_NODE* leftTextNodeOffset0, TEXT_NODE* leftTextNodeOffset1, TEXT_NODE* leftTextNodeOffset2, TEXT_NODE* leftTextNodeOffset3, TEXT_NODE* leftTextNodeOffset4)
+TEXT_NODE* VietnameseTextNormalizer::InsertEnglishWordToTheTail(qvwrdidentifier englishWordIdentifier, qwchar const* nodeOriginalText, int nodeOriginalTextLength, TEXT_NODE_CAPITAL capital, TEXT_NODE* leftTextNodeOffset0, TEXT_NODE* leftTextNodeOffset1, TEXT_NODE* leftTextNodeOffset2, TEXT_NODE* leftTextNodeOffset3, TEXT_NODE* leftTextNodeOffset4)
 {
 #ifdef _DEBUG
 	if (capital == TEXT_NODE_CAPITAL_UNKNOWN)
@@ -1762,7 +1760,7 @@ TEXT_NODE *			VietnameseTextNormalizer::InsertEnglishWordToTheTail(qvwrdidentifi
 	}
 	return textNode;
 }
-TEXT_NODE *			VietnameseTextNormalizer::InsertJapaneseWordToTheTail(qjwrdidentifier japaneseWordIdentifier, qwchar const* nodeOriginalText, int nodeOriginalTextLength, TEXT_NODE_CAPITAL capital, TEXT_NODE* leftTextNodeOffset0, TEXT_NODE* leftTextNodeOffset1, TEXT_NODE* leftTextNodeOffset2, TEXT_NODE* leftTextNodeOffset3, TEXT_NODE* leftTextNodeOffset4)
+TEXT_NODE* VietnameseTextNormalizer::InsertJapaneseWordToTheTail(qjwrdidentifier japaneseWordIdentifier, qwchar const* nodeOriginalText, int nodeOriginalTextLength, TEXT_NODE_CAPITAL capital, TEXT_NODE* leftTextNodeOffset0, TEXT_NODE* leftTextNodeOffset1, TEXT_NODE* leftTextNodeOffset2, TEXT_NODE* leftTextNodeOffset3, TEXT_NODE* leftTextNodeOffset4)
 {
 #ifdef _DEBUG
 	if (capital == TEXT_NODE_CAPITAL_UNKNOWN)
@@ -1807,7 +1805,7 @@ TEXT_NODE *			VietnameseTextNormalizer::InsertJapaneseWordToTheTail(qjwrdidentif
 	}
 	return textNode;
 }
-TEXT_NODE *			VietnameseTextNormalizer::InsertUnknownNodeToTail(qwchar const* nodeOriginalText, int nodeOriginalTextLength, TEXT_NODE* leftTextNodeOffset0, TEXT_NODE* leftTextNodeOffset1, TEXT_NODE* leftTextNodeOffset2, TEXT_NODE* leftTextNodeOffset3, TEXT_NODE* leftTextNodeOffset4)
+TEXT_NODE* VietnameseTextNormalizer::InsertUnknownNodeToTail(qwchar const* nodeOriginalText, int nodeOriginalTextLength, TEXT_NODE* leftTextNodeOffset0, TEXT_NODE* leftTextNodeOffset1, TEXT_NODE* leftTextNodeOffset2, TEXT_NODE* leftTextNodeOffset3, TEXT_NODE* leftTextNodeOffset4)
 {
 	TEXT_NODE* textNode = (TEXT_NODE*)qcalloc(1, sizeof(TEXT_NODE));
 	if (textNode/*!=NULL*/)
@@ -2003,7 +2001,7 @@ TEXT_NODE *			VietnameseTextNormalizer::InsertUnknownNodeToTail(qwchar const* no
 	}
 	return textNode;
 }
-TEXT_NODE *			VietnameseTextNormalizer::InsertShortPauseNode(TEXT_NODE* textNode)
+TEXT_NODE* VietnameseTextNormalizer::InsertShortPauseNode(TEXT_NODE* textNode)
 {
 	//const qwchar		insertPauseText[4] = { 0x20,0x7C,0x20,0x0 }; // dấu |
 	const qwchar		insertPauseText[4] = { 0x20,0x2C,0x20,0x0 }; // dấu ,
@@ -2040,7 +2038,6 @@ TEXT_NODE *			VietnameseTextNormalizer::InsertShortPauseNode(TEXT_NODE* textNode
 	}
 	return textNode;
 }
-
 void				VietnameseTextNormalizer::Input(const qwchar* text)
 {
 	FILE* backupLogFile = logFile;
@@ -2742,7 +2739,7 @@ void				VietnameseTextNormalizer::Input(const qwchar* text)
 					leftTextNodeOffset2 = leftTextNodeOffset1;
 					leftTextNodeOffset1 = leftTextNodeOffset0;
 					leftTextNodeOffset0 = backupTextNode;
-					if (flagStandardTextForNLP && text[1] != 0x20/*space*/ && (text[0] == 0x201D/*”*/ || text[0] == 0x2019/*’*/)) backupTextNode->needSpaceAfter = 1;
+					if (text[1] != 0x20/*space*/ && (text[0] == 0x201D/*”*/ || text[0] == 0x2019/*’*/)) backupTextNode->needSpaceAfter = 1;
 
 					text++;
 					currentOriginalSyllable = text;
@@ -4329,93 +4326,53 @@ void				VietnameseTextNormalizer::Normalize(void)
 	/************************************************************************/
 	/* Correct                                                              */
 	/************************************************************************/
-	if (flagUseAutoCorrect)
+	for (TEXT_NODE* textNode = head; textNode/*!=NULL*/; textNode = textNode->next)
 	{
-		for (TEXT_NODE* textNode = head; textNode/*!=NULL*/; textNode = textNode->next)
+		if (flagValidateToolMode == false && textNode->changeable != TEXT_NODE_CAN_NOT_CHANGE && ((textNode->vietnameseSyllableIdentifier > 0
+			&& textNode->englishWordIdentifier == 0
+			&& textNode->vietnameseAbbreviationIndentifier == 0
+			&& textNode->vietnameseLoanWordIndentifier == 0
+			&& textNode->vietnameseMissingIndentifiler == 0
+			&& (vnsyllables[textNode->vietnameseSyllableIdentifier].significant == 0)
+			&& vnsyllables[textNode->vietnameseSyllableIdentifier].correctLength > 0
+			)
+			|| (textNode->vietnameseSyllableIdentifier == VIETNAMESE_SYLLABLE_K_O)))
 		{
-			if (flagValidateToolMode == false && textNode->changeable != TEXT_NODE_CAN_NOT_CHANGE && ((textNode->vietnameseSyllableIdentifier > 0
-				&& textNode->englishWordIdentifier == 0
-				&& textNode->vietnameseAbbreviationIndentifier == 0
-				&& textNode->vietnameseLoanWordIndentifier == 0
-				&& textNode->vietnameseMissingIndentifiler == 0
-				&& (vnsyllables[textNode->vietnameseSyllableIdentifier].significant == 0)
-				&& vnsyllables[textNode->vietnameseSyllableIdentifier].correctLength > 0
-				)
-				|| (textNode->vietnameseSyllableIdentifier == VIETNAMESE_SYLLABLE_K_O)))
+			int					countTotalSureWay = 0;
+			double				maxWayScore = 0.0;
+			qvsylidentifier		maxWayIdentifier = 0;
+			for (int iway = 0; iway < vnsyllables[textNode->vietnameseSyllableIdentifier].correctLength; iway++)
 			{
-				int					countTotalSureWay = 0;
-				double				maxWayScore = 0.0;
-				qvsylidentifier		maxWayIdentifier = 0;
-				for (int iway = 0; iway < vnsyllables[textNode->vietnameseSyllableIdentifier].correctLength; iway++)
+				qvsylidentifier currentVietnameseSyllableIdentifier = vnsyllables[textNode->vietnameseSyllableIdentifier].correct[iway];
+				double currentScore = SignificantScore(textNode, currentVietnameseSyllableIdentifier) + PerplexityScore(textNode, currentVietnameseSyllableIdentifier);
+				if (currentScore > 0)
 				{
-					qvsylidentifier currentVietnameseSyllableIdentifier = vnsyllables[textNode->vietnameseSyllableIdentifier].correct[iway];
-					double currentScore = SignificantScore(textNode, currentVietnameseSyllableIdentifier) + PerplexityScore(textNode, currentVietnameseSyllableIdentifier);
-					if (currentScore > 0)
+					countTotalSureWay++;
+					if (maxWayScore < currentScore)
 					{
-						countTotalSureWay++;
-						if (maxWayScore < currentScore)
-						{
-							maxWayScore = currentScore;
-							maxWayIdentifier = currentVietnameseSyllableIdentifier;
-						}
-					}
-				}
-				if (maxWayScore > 0 && maxWayIdentifier > 0)
-				{
-					textNode->vietnameseSyllableIdentifier = maxWayIdentifier;
-					if (countTotalSureWay == 1)
-					{
-						switch (textNode->capital)
-						{
-						case TEXT_NODE_CAPITAL_LOWER:
-							textNode->text = vnsyllables[maxWayIdentifier].lower;
-							textNode->textLength = vnsyllables[maxWayIdentifier].length;
-							break;
-						case TEXT_NODE_CAPITAL_UPPER:
-							textNode->text = vnsyllables[maxWayIdentifier].upper;
-							textNode->textLength = vnsyllables[maxWayIdentifier].length;
-							break;
-						case TEXT_NODE_CAPITAL_CAPITAL:
-							textNode->text = vnsyllables[maxWayIdentifier].capital;
-							textNode->textLength = vnsyllables[maxWayIdentifier].length;
-							break;
-						default:
-							/*do not change any-thing*/
-							break;
-						}
-						UpdateVietnameseTextNodeContext(textNode);
+						maxWayScore = currentScore;
+						maxWayIdentifier = currentVietnameseSyllableIdentifier;
 					}
 				}
 			}
-
-
-			if (textNode->vietnameseSyllableIdentifier > 0
-				&& textNode->englishWordIdentifier == 0
-				&& textNode->vietnameseAbbreviationIndentifier == 0
-				&& textNode->vietnameseLoanWordIndentifier == 0
-				&& textNode->vietnameseMissingIndentifiler == 0
-				&& vnsyllables[textNode->vietnameseSyllableIdentifier].iyidentifier
-				&& vnsyllables[vnsyllables[textNode->vietnameseSyllableIdentifier].iyidentifier].significant)
+			if (maxWayScore > 0 && maxWayIdentifier > 0)
 			{
-				qvsylidentifier otherWayIdentifier = vnsyllables[textNode->vietnameseSyllableIdentifier].iyidentifier;
-				double currentSure = SignificantScore(textNode, textNode->vietnameseSyllableIdentifier) + PerplexityScore(textNode, textNode->vietnameseSyllableIdentifier);
-				double otherSure = SignificantScore(textNode, otherWayIdentifier) + PerplexityScore(textNode, otherWayIdentifier);
-				if (currentSure == 0.0 && otherSure > 0.0)
+				textNode->vietnameseSyllableIdentifier = maxWayIdentifier;
+				if (countTotalSureWay == 1)
 				{
-					textNode->vietnameseSyllableIdentifier = otherWayIdentifier;
 					switch (textNode->capital)
 					{
 					case TEXT_NODE_CAPITAL_LOWER:
-						textNode->text = vnsyllables[otherWayIdentifier].lower;
-						textNode->textLength = vnsyllables[otherWayIdentifier].length;
+						textNode->text = vnsyllables[maxWayIdentifier].lower;
+						textNode->textLength = vnsyllables[maxWayIdentifier].length;
 						break;
 					case TEXT_NODE_CAPITAL_UPPER:
-						textNode->text = vnsyllables[otherWayIdentifier].upper;
-						textNode->textLength = vnsyllables[otherWayIdentifier].length;
+						textNode->text = vnsyllables[maxWayIdentifier].upper;
+						textNode->textLength = vnsyllables[maxWayIdentifier].length;
 						break;
 					case TEXT_NODE_CAPITAL_CAPITAL:
-						textNode->text = vnsyllables[otherWayIdentifier].capital;
-						textNode->textLength = vnsyllables[otherWayIdentifier].length;
+						textNode->text = vnsyllables[maxWayIdentifier].capital;
+						textNode->textLength = vnsyllables[maxWayIdentifier].length;
 						break;
 					default:
 						/*do not change any-thing*/
@@ -4423,171 +4380,48 @@ void				VietnameseTextNormalizer::Normalize(void)
 					}
 					UpdateVietnameseTextNodeContext(textNode);
 				}
-				else if (flagStandardTextForTTS)
-				{
-					if (currentSure > 0.0 && otherSure > 0.0 && currentSure < otherSure)
-					{
-						textNode->vietnameseSyllableIdentifier = otherWayIdentifier;
-						switch (textNode->capital)
-						{
-						case TEXT_NODE_CAPITAL_LOWER:
-							textNode->text = vnsyllables[otherWayIdentifier].lower;
-							textNode->textLength = vnsyllables[otherWayIdentifier].length;
-							break;
-						case TEXT_NODE_CAPITAL_UPPER:
-							textNode->text = vnsyllables[otherWayIdentifier].upper;
-							textNode->textLength = vnsyllables[otherWayIdentifier].length;
-							break;
-						case TEXT_NODE_CAPITAL_CAPITAL:
-							textNode->text = vnsyllables[otherWayIdentifier].capital;
-							textNode->textLength = vnsyllables[otherWayIdentifier].length;
-							break;
-						default:
-							/*do not change any-thing*/
-							break;
-						}
-						UpdateVietnameseTextNodeContext(textNode);
-					}
-					else if (currentSure == otherSure && vnsyllables[textNode->vietnameseSyllableIdentifier].coefficient < vnsyllables[otherWayIdentifier].coefficient)
-					{
-						textNode->vietnameseSyllableIdentifier = otherWayIdentifier;
-						switch (textNode->capital)
-						{
-						case TEXT_NODE_CAPITAL_LOWER:
-							textNode->text = vnsyllables[otherWayIdentifier].lower;
-							textNode->textLength = vnsyllables[otherWayIdentifier].length;
-							break;
-						case TEXT_NODE_CAPITAL_UPPER:
-							textNode->text = vnsyllables[otherWayIdentifier].upper;
-							textNode->textLength = vnsyllables[otherWayIdentifier].length;
-							break;
-						case TEXT_NODE_CAPITAL_CAPITAL:
-							textNode->text = vnsyllables[otherWayIdentifier].capital;
-							textNode->textLength = vnsyllables[otherWayIdentifier].length;
-							break;
-						default:
-							/*do not change any-thing*/
-							break;
-						}
-						UpdateVietnameseTextNodeContext(textNode);
-					}
-				}
-
 			}
+		}
 
 
-			/************************************************************************/
-			/* Convert Y - I                                                        */
-			/************************************************************************/
-			//			if (textNode->vietnameseSyllableIdentifier > 0
-			//				&& textNode->englishWordIdentifier == 0
-			//				&& textNode->vietnameseAbbreviationIndentifier == 0
-			//				&& textNode->vietnameseLoanWordIndentifier == 0
-			//				&& textNode->vietnameseMissingIndentifiler == 0
-			//				&& vnsyllables[textNode->vietnameseSyllableIdentifier].iyidentifier
-			//				&& vnsyllables[vnsyllables[textNode->vietnameseSyllableIdentifier].iyidentifier].significant
-			//				&& vnsyllables[textNode->vietnameseSyllableIdentifier].significant
-			//				&& vnsyllables[textNode->vietnameseSyllableIdentifier].length > 1
-			//				&& vnsyllables[textNode->vietnameseSyllableIdentifier].otherisi)
-			//			{
-			//				qvsylidentifier otherWayIdentifier = vnsyllables[textNode->vietnameseSyllableIdentifier].iyidentifier;
-			//				textNode->vietnameseSyllableIdentifier = otherWayIdentifier;
-			//				switch (textNode->capital)
-			//				{
-			//				case TEXT_NODE_CAPITAL_LOWER:
-			//					textNode->text = vnsyllables[otherWayIdentifier].lower;
-			//					textNode->textLength = vnsyllables[otherWayIdentifier].length;
-			//					break;
-			//				case TEXT_NODE_CAPITAL_UPPER:
-			//					textNode->text = vnsyllables[otherWayIdentifier].upper;
-			//					textNode->textLength = vnsyllables[otherWayIdentifier].length;
-			//					break;
-			//				case TEXT_NODE_CAPITAL_CAPITAL:
-			//					textNode->text = vnsyllables[otherWayIdentifier].capital;
-			//					textNode->textLength = vnsyllables[otherWayIdentifier].length;
-			//					break;
-			//				default:
-			//					/*do not change any-thing*/
-			//					break;
-			//				}
-			//				UpdateVietnameseTextNodeContext(textNode);
-			//			}
-
-
-			/************************************************************************/
-			/* Một vài case đặc biệt                                                */
-			/************************************************************************/
-			if (flagValidateToolMode == false
-				&& textNode->changeable != TEXT_NODE_CAN_NOT_CHANGE
-				&& textNode->vietnameseSyllableIdentifier > 0
-				&& textNode->englishWordIdentifier == 0
-				&& textNode->vietnameseAbbreviationIndentifier == 0
-				&& textNode->vietnameseLoanWordIndentifier == 0
-				&& textNode->vietnameseMissingIndentifiler == 0
-				&& SignificantScore(textNode, textNode->vietnameseSyllableIdentifier) == 0
-				)
+		if (textNode->vietnameseSyllableIdentifier > 0
+			&& textNode->englishWordIdentifier == 0
+			&& textNode->vietnameseAbbreviationIndentifier == 0
+			&& textNode->vietnameseLoanWordIndentifier == 0
+			&& textNode->vietnameseMissingIndentifiler == 0
+			&& vnsyllables[textNode->vietnameseSyllableIdentifier].iyidentifier
+			&& vnsyllables[vnsyllables[textNode->vietnameseSyllableIdentifier].iyidentifier].significant)
+		{
+			qvsylidentifier otherWayIdentifier = vnsyllables[textNode->vietnameseSyllableIdentifier].iyidentifier;
+			double currentSure = SignificantScore(textNode, textNode->vietnameseSyllableIdentifier) + PerplexityScore(textNode, textNode->vietnameseSyllableIdentifier);
+			double otherSure = SignificantScore(textNode, otherWayIdentifier) + PerplexityScore(textNode, otherWayIdentifier);
+			if (currentSure == 0.0 && otherSure > 0.0)
 			{
-				TEXT_NODE* leftTextNodeOffset0 = &nullTextNodeForStep2Normalize;
-				TEXT_NODE* leftTextNodeOffset1 = &nullTextNodeForStep2Normalize;
-				TEXT_NODE* leftTextNodeOffset2 = &nullTextNodeForStep2Normalize;
-				TEXT_NODE* leftTextNodeOffset3 = &nullTextNodeForStep2Normalize;
-				//TEXT_NODE *				leftTextNodeOffset4 = &nullTextNodeForStep2Normalize;
-				if (textNode->back)
+				textNode->vietnameseSyllableIdentifier = otherWayIdentifier;
+				switch (textNode->capital)
 				{
-					leftTextNodeOffset0 = textNode->back;
-					if (leftTextNodeOffset0->back)
-					{
-						leftTextNodeOffset1 = leftTextNodeOffset0->back;
-						if (leftTextNodeOffset1->back)
-						{
-							leftTextNodeOffset2 = leftTextNodeOffset1->back;
-							if (leftTextNodeOffset2->back)
-							{
-								leftTextNodeOffset3 = leftTextNodeOffset2->back;
-								//if (leftTextNodeOffset3->back)
-								//{
-								//	leftTextNodeOffset4 = leftTextNodeOffset3->back;
-								//}
-							}
-						}
-					}
+				case TEXT_NODE_CAPITAL_LOWER:
+					textNode->text = vnsyllables[otherWayIdentifier].lower;
+					textNode->textLength = vnsyllables[otherWayIdentifier].length;
+					break;
+				case TEXT_NODE_CAPITAL_UPPER:
+					textNode->text = vnsyllables[otherWayIdentifier].upper;
+					textNode->textLength = vnsyllables[otherWayIdentifier].length;
+					break;
+				case TEXT_NODE_CAPITAL_CAPITAL:
+					textNode->text = vnsyllables[otherWayIdentifier].capital;
+					textNode->textLength = vnsyllables[otherWayIdentifier].length;
+					break;
+				default:
+					/*do not change any-thing*/
+					break;
 				}
-				TEXT_NODE* rightTextNodeOffset0 = &nullTextNodeForStep2Normalize;
-				TEXT_NODE* rightTextNodeOffset1 = &nullTextNodeForStep2Normalize;
-				TEXT_NODE* rightTextNodeOffset2 = &nullTextNodeForStep2Normalize;
-				TEXT_NODE* rightTextNodeOffset3 = &nullTextNodeForStep2Normalize;
-				TEXT_NODE* rightTextNodeOffset4 = &nullTextNodeForStep2Normalize;
-				if (textNode->next)
+				UpdateVietnameseTextNodeContext(textNode);
+			}
+			else if (flagStandardTextForTTS)
+			{
+				if (currentSure > 0.0 && otherSure > 0.0 && currentSure < otherSure)
 				{
-					rightTextNodeOffset0 = textNode->next;
-					if (rightTextNodeOffset0->next)
-					{
-						rightTextNodeOffset1 = rightTextNodeOffset0->next;
-						if (rightTextNodeOffset1->next)
-						{
-							rightTextNodeOffset2 = rightTextNodeOffset1->next;
-							if (rightTextNodeOffset2->next)
-							{
-								rightTextNodeOffset3 = rightTextNodeOffset2->next;
-								if (rightTextNodeOffset3->next)
-								{
-									rightTextNodeOffset4 = rightTextNodeOffset3->next;
-								}
-							}
-						}
-					}
-				}
-
-
-
-
-				/* .. vô hình chung .. -> .. vô hình trung .. */
-				if (textNode->vietnameseSyllableIdentifier == VIETNAMESE_SYLLABLE_C_H_U_N_G
-					&& leftTextNodeOffset0->vietnameseSyllableIdentifier == VIETNAMESE_SYLLABLE_H_IF_N_H
-					&& leftTextNodeOffset1->vietnameseSyllableIdentifier == VIETNAMESE_SYLLABLE_V_OO
-					)
-				{
-					qvsylidentifier otherWayIdentifier = VIETNAMESE_SYLLABLE_T_R_U_N_G;
 					textNode->vietnameseSyllableIdentifier = otherWayIdentifier;
 					switch (textNode->capital)
 					{
@@ -4609,14 +4443,8 @@ void				VietnameseTextNormalizer::Normalize(void)
 					}
 					UpdateVietnameseTextNodeContext(textNode);
 				}
-
-
-				/* .. chuẩn đoán {bệnh, mắc,  bị bệnh, ung thư, phát hiện bệnh, phát hiện ung thư} .. -> .. chẩn đoán .. */
-				if (textNode->vietnameseSyllableIdentifier == VIETNAMESE_SYLLABLE_C_H_U_AAR_N
-					&& rightTextNodeOffset0->vietnameseSyllableIdentifier == VIETNAMESE_SYLLABLE_DD_O_AS_N
-					&& SignificantScore(textNode, VIETNAMESE_SYLLABLE_C_H_AAR_N) > 0)
+				else if (currentSure == otherSure && vnsyllables[textNode->vietnameseSyllableIdentifier].coefficient < vnsyllables[otherWayIdentifier].coefficient)
 				{
-					qvsylidentifier otherWayIdentifier = VIETNAMESE_SYLLABLE_C_H_AAR_N;
 					textNode->vietnameseSyllableIdentifier = otherWayIdentifier;
 					switch (textNode->capital)
 					{
@@ -4638,14 +4466,180 @@ void				VietnameseTextNormalizer::Normalize(void)
 					}
 					UpdateVietnameseTextNodeContext(textNode);
 				}
-
-
-
-
-
 			}
 
 		}
+
+
+		/************************************************************************/
+		/* Convert Y - I                                                        */
+		/************************************************************************/
+		//			if (textNode->vietnameseSyllableIdentifier > 0
+		//				&& textNode->englishWordIdentifier == 0
+		//				&& textNode->vietnameseAbbreviationIndentifier == 0
+		//				&& textNode->vietnameseLoanWordIndentifier == 0
+		//				&& textNode->vietnameseMissingIndentifiler == 0
+		//				&& vnsyllables[textNode->vietnameseSyllableIdentifier].iyidentifier
+		//				&& vnsyllables[vnsyllables[textNode->vietnameseSyllableIdentifier].iyidentifier].significant
+		//				&& vnsyllables[textNode->vietnameseSyllableIdentifier].significant
+		//				&& vnsyllables[textNode->vietnameseSyllableIdentifier].length > 1
+		//				&& vnsyllables[textNode->vietnameseSyllableIdentifier].otherisi)
+		//			{
+		//				qvsylidentifier otherWayIdentifier = vnsyllables[textNode->vietnameseSyllableIdentifier].iyidentifier;
+		//				textNode->vietnameseSyllableIdentifier = otherWayIdentifier;
+		//				switch (textNode->capital)
+		//				{
+		//				case TEXT_NODE_CAPITAL_LOWER:
+		//					textNode->text = vnsyllables[otherWayIdentifier].lower;
+		//					textNode->textLength = vnsyllables[otherWayIdentifier].length;
+		//					break;
+		//				case TEXT_NODE_CAPITAL_UPPER:
+		//					textNode->text = vnsyllables[otherWayIdentifier].upper;
+		//					textNode->textLength = vnsyllables[otherWayIdentifier].length;
+		//					break;
+		//				case TEXT_NODE_CAPITAL_CAPITAL:
+		//					textNode->text = vnsyllables[otherWayIdentifier].capital;
+		//					textNode->textLength = vnsyllables[otherWayIdentifier].length;
+		//					break;
+		//				default:
+		//					/*do not change any-thing*/
+		//					break;
+		//				}
+		//				UpdateVietnameseTextNodeContext(textNode);
+		//			}
+
+
+		/************************************************************************/
+		/* Một vài case đặc biệt                                                */
+		/************************************************************************/
+		if (flagValidateToolMode == false
+			&& textNode->changeable != TEXT_NODE_CAN_NOT_CHANGE
+			&& textNode->vietnameseSyllableIdentifier > 0
+			&& textNode->englishWordIdentifier == 0
+			&& textNode->vietnameseAbbreviationIndentifier == 0
+			&& textNode->vietnameseLoanWordIndentifier == 0
+			&& textNode->vietnameseMissingIndentifiler == 0
+			&& SignificantScore(textNode, textNode->vietnameseSyllableIdentifier) == 0
+			)
+		{
+			TEXT_NODE* leftTextNodeOffset0 = &nullTextNodeForStep2Normalize;
+			TEXT_NODE* leftTextNodeOffset1 = &nullTextNodeForStep2Normalize;
+			TEXT_NODE* leftTextNodeOffset2 = &nullTextNodeForStep2Normalize;
+			TEXT_NODE* leftTextNodeOffset3 = &nullTextNodeForStep2Normalize;
+			//TEXT_NODE *				leftTextNodeOffset4 = &nullTextNodeForStep2Normalize;
+			if (textNode->back)
+			{
+				leftTextNodeOffset0 = textNode->back;
+				if (leftTextNodeOffset0->back)
+				{
+					leftTextNodeOffset1 = leftTextNodeOffset0->back;
+					if (leftTextNodeOffset1->back)
+					{
+						leftTextNodeOffset2 = leftTextNodeOffset1->back;
+						if (leftTextNodeOffset2->back)
+						{
+							leftTextNodeOffset3 = leftTextNodeOffset2->back;
+							//if (leftTextNodeOffset3->back)
+							//{
+							//	leftTextNodeOffset4 = leftTextNodeOffset3->back;
+							//}
+						}
+					}
+				}
+			}
+			TEXT_NODE* rightTextNodeOffset0 = &nullTextNodeForStep2Normalize;
+			TEXT_NODE* rightTextNodeOffset1 = &nullTextNodeForStep2Normalize;
+			TEXT_NODE* rightTextNodeOffset2 = &nullTextNodeForStep2Normalize;
+			TEXT_NODE* rightTextNodeOffset3 = &nullTextNodeForStep2Normalize;
+			TEXT_NODE* rightTextNodeOffset4 = &nullTextNodeForStep2Normalize;
+			if (textNode->next)
+			{
+				rightTextNodeOffset0 = textNode->next;
+				if (rightTextNodeOffset0->next)
+				{
+					rightTextNodeOffset1 = rightTextNodeOffset0->next;
+					if (rightTextNodeOffset1->next)
+					{
+						rightTextNodeOffset2 = rightTextNodeOffset1->next;
+						if (rightTextNodeOffset2->next)
+						{
+							rightTextNodeOffset3 = rightTextNodeOffset2->next;
+							if (rightTextNodeOffset3->next)
+							{
+								rightTextNodeOffset4 = rightTextNodeOffset3->next;
+							}
+						}
+					}
+				}
+			}
+
+
+
+
+			/* .. vô hình chung .. -> .. vô hình trung .. */
+			if (textNode->vietnameseSyllableIdentifier == VIETNAMESE_SYLLABLE_C_H_U_N_G
+				&& leftTextNodeOffset0->vietnameseSyllableIdentifier == VIETNAMESE_SYLLABLE_H_IF_N_H
+				&& leftTextNodeOffset1->vietnameseSyllableIdentifier == VIETNAMESE_SYLLABLE_V_OO
+				)
+			{
+				qvsylidentifier otherWayIdentifier = VIETNAMESE_SYLLABLE_T_R_U_N_G;
+				textNode->vietnameseSyllableIdentifier = otherWayIdentifier;
+				switch (textNode->capital)
+				{
+				case TEXT_NODE_CAPITAL_LOWER:
+					textNode->text = vnsyllables[otherWayIdentifier].lower;
+					textNode->textLength = vnsyllables[otherWayIdentifier].length;
+					break;
+				case TEXT_NODE_CAPITAL_UPPER:
+					textNode->text = vnsyllables[otherWayIdentifier].upper;
+					textNode->textLength = vnsyllables[otherWayIdentifier].length;
+					break;
+				case TEXT_NODE_CAPITAL_CAPITAL:
+					textNode->text = vnsyllables[otherWayIdentifier].capital;
+					textNode->textLength = vnsyllables[otherWayIdentifier].length;
+					break;
+				default:
+					/*do not change any-thing*/
+					break;
+				}
+				UpdateVietnameseTextNodeContext(textNode);
+			}
+
+
+			/* .. chuẩn đoán {bệnh, mắc,  bị bệnh, ung thư, phát hiện bệnh, phát hiện ung thư} .. -> .. chẩn đoán .. */
+			if (textNode->vietnameseSyllableIdentifier == VIETNAMESE_SYLLABLE_C_H_U_AAR_N
+				&& rightTextNodeOffset0->vietnameseSyllableIdentifier == VIETNAMESE_SYLLABLE_DD_O_AS_N
+				&& SignificantScore(textNode, VIETNAMESE_SYLLABLE_C_H_AAR_N) > 0)
+			{
+				qvsylidentifier otherWayIdentifier = VIETNAMESE_SYLLABLE_C_H_AAR_N;
+				textNode->vietnameseSyllableIdentifier = otherWayIdentifier;
+				switch (textNode->capital)
+				{
+				case TEXT_NODE_CAPITAL_LOWER:
+					textNode->text = vnsyllables[otherWayIdentifier].lower;
+					textNode->textLength = vnsyllables[otherWayIdentifier].length;
+					break;
+				case TEXT_NODE_CAPITAL_UPPER:
+					textNode->text = vnsyllables[otherWayIdentifier].upper;
+					textNode->textLength = vnsyllables[otherWayIdentifier].length;
+					break;
+				case TEXT_NODE_CAPITAL_CAPITAL:
+					textNode->text = vnsyllables[otherWayIdentifier].capital;
+					textNode->textLength = vnsyllables[otherWayIdentifier].length;
+					break;
+				default:
+					/*do not change any-thing*/
+					break;
+				}
+				UpdateVietnameseTextNodeContext(textNode);
+			}
+
+
+
+
+
+		}
+
 	}
 
 
@@ -4950,8 +4944,7 @@ void				VietnameseTextNormalizer::GenStandardText(void)
 			{
 				standardTextLength -= textNode->originalTextLength - textNode->textLength;
 			}
-			if (flagStandardTextForNLP
-				&& textNode->textLength == 1
+			if (textNode->textLength == 1
 				&& (textNode->text[0] == 0x2E/*.*/ || textNode->text[0] == 0x2C/*,*/)
 				&& textNode->next /*!= NULL*/
 				&& textNode->originalText + 1 == textNode->next->originalText
