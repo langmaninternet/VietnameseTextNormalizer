@@ -1,8 +1,6 @@
 ﻿#include "VietnameseTextNormalizer.h"
 #include <iostream>
 #include <fstream>
-#include <locale>
-#include <codecvt>
 #include <list>
 
 //#undef WIN32_NORMALIZER_TOOL
@@ -12,6 +10,48 @@ extern "C"
 #include <Python.h>
 }
 #endif
+static void	ConvertUtf8toUnicode(const unsigned char* utf8str, int utf8strlength, qwchar* ucs2buffer)
+{
+	if (utf8str != NULL && ucs2buffer != NULL)
+	{
+		for (int ichar = 0; ichar < utf8strlength && utf8str[0] != NULL; ichar++)
+		{
+			if ((utf8str[0] & 0xE0) == 0xC0 && (utf8str[1] & 0xC0) == 0x80)
+			{
+				/* 2 bytes UTF-8 Character.*/
+				*ucs2buffer = (((qwchar)(utf8str[0] & 0x001F)) << 6) | (utf8str[1] & 0x3F);
+				ucs2buffer++;
+				utf8str += 2;
+				ichar++;
+			}
+			else if ((utf8str[0] & 0xF0) == 0xE0 && (utf8str[1] & 0xC0) == 0x80 && (utf8str[2] & 0xC0) == 0x80)
+			{
+				/* 3bytes UTF-8 Character.*/
+				*ucs2buffer = (((qwchar)(utf8str[0] & 0x000F)) << 12) | (((qwchar)(utf8str[1] & 0x3F)) << 6) | ((qwchar)(utf8str[2] & 0x3F));
+				ucs2buffer++;
+				utf8str += 3;
+				ichar += 2;
+			}
+			else
+			{
+				/* 1 byte UTF-8 Character.*/
+				*ucs2buffer = *utf8str;
+				ucs2buffer++;
+				utf8str++;
+			}
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -21,8 +61,9 @@ extern "C"
 #ifdef WIN32_NORMALIZER_TOOL
 #ifndef QBT_VALIDATE_TOOL
 #include <Windows.h>
-#include <iostream>
 #include <string>
+#include <locale>
+#include <codecvt>
 namespace std
 {
 
@@ -465,13 +506,21 @@ namespace std
 		//	}
 		//	return buffer;
 
-		std::wstring_convert<std::codecvt_utf8<wchar_t>> myconv;
-		return myconv.from_bytes(str);
+
+		qwchar* ucs2buffer = (qwchar*)qcalloc(str.size() * 3 + 10/*safe*/, sizeof(qwchar));
+		if (ucs2buffer)
+		{
+			ConvertUtf8toUnicode((const unsigned char*)(str.c_str()), str.size(), ucs2buffer);
+			return ucs2buffer;
+		}
+
+		//std::wstring_convert<std::codecvt_utf8<wchar_t>> myconv;
+		//return myconv.from_bytes(str);
 #else
 		std::wstring_convert<std::codecvt_utf8<wchar_t>> myconv;
 		return myconv.from_bytes(str);
 #endif
-	}
+}
 	std::wstring		GetWString(const wchar_t* wstr, int length)
 	{
 		std::wstring buffer;
@@ -484,22 +533,22 @@ namespace std
 	std::wstring		GetWString(const char* str, int length)
 	{
 		std::string bufferA;
-		//bufferA.reserve(length + 10);
-		for (int iChar = 0; iChar < length; iChar++)
+		qwchar* ucs2buffer = (qwchar*)qcalloc(bufferA.size() * 3 + 10/*safe*/, sizeof(qwchar));
+		if (ucs2buffer)
 		{
-			if (str[iChar]) bufferA += str[iChar];
+			ConvertUtf8toUnicode((const unsigned char*)(bufferA.c_str()), bufferA.size(), ucs2buffer);
+			return ucs2buffer;
 		}
-		return GetWString(bufferA);
 	}
 	std::wstring		GetWString(const char* str, long long int length)
 	{
 		std::string bufferA;
-		//bufferA.reserve(length + 10);
-		for (int iChar = 0; iChar < length; iChar++)
+		qwchar* ucs2buffer = (qwchar*)qcalloc(bufferA.size() * 3 + 10/*safe*/, sizeof(qwchar));
+		if (ucs2buffer)
 		{
-			if (str[iChar]) bufferA += str[iChar];
+			ConvertUtf8toUnicode((const unsigned char*)(bufferA.c_str()), bufferA.size(), ucs2buffer);
+			return ucs2buffer;
 		}
-		return GetWString(bufferA);
 	}
 	std::string			GetString(const std::wstring& wstr)
 	{
@@ -590,11 +639,11 @@ namespace std
 				{
 					fileSet.insert(full_file_name);
 				}
+				}
 			}
-		}
 		closedir(dir);
 #endif
-	}
+		}
 	void				GetRealFileName(const std::wstring& filePath, std::wstring& rFilename)
 	{
 		rFilename.clear();
@@ -726,7 +775,7 @@ namespace std
 			int mkdir(const char* path, mode_t mode);
 			if (fileName[i] == L'/') mkdir(GetString(fileName.substr(0, i)).c_str(), 0777);
 #endif
-		}
+	}
 		if (truncate) DeleteFile(fileName);
 #if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) || defined(_MSC_VER)
 		std::ofstream fileHandle(fileName, std::ios_base::out | std::ios_base::binary | (truncate ? std::ios_base::trunc : (std::ios_base::app | std::ios_base::ate)));
@@ -758,7 +807,7 @@ namespace std
 			}
 			//else return true;
 #endif		
-		}
+	}
 		else
 		{
 			std::Show(std::wstring(L"Lỗi"), L"Error: Can not open to write file %ls \n", fileName.c_str());
@@ -895,6 +944,10 @@ void main(void)
 /************************************************************************/
 /* Python wrapper                                                       */
 /************************************************************************/
+
+
+
+
 static PyObject* VietnameseTextNormalizerStandard(PyObject* self, PyObject* args)
 {
 	char				nullUtf8String[10] = { 0 };
@@ -906,16 +959,10 @@ static PyObject* VietnameseTextNormalizerStandard(PyObject* self, PyObject* args
 		std::string	utf8Result = utf8input;
 		if (utf8input)
 		{
-			std::wstring_convert<std::codecvt_utf8<wchar_t>> myconv;
-			std::wstring inputUcs2 = myconv.from_bytes(utf8input);
-			size_t nChar = inputUcs2.size();
-			qwchar* ucs2buffer = (qwchar*)qcalloc(nChar + 10/*safe*/, sizeof(qwchar));
+			qwchar* ucs2buffer = (qwchar*)qcalloc(utf8Result.size() * 3 + 10/*safe*/, sizeof(qwchar));
 			if (ucs2buffer)
 			{
-				for (size_t iChar = 0; iChar < nChar; iChar++)
-				{
-					ucs2buffer[iChar] = (qwchar)inputUcs2[iChar];
-				}
+				ConvertUtf8toUnicode((const unsigned char*)(utf8Result.c_str()), utf8Result.size(), ucs2buffer);
 				VietnameseTextNormalizer vntObject;
 				vntObject.Input(ucs2buffer);
 				vntObject.Normalize();
@@ -979,16 +1026,10 @@ static PyObject* VietnameseTextNormalizerForTTS(PyObject* self, PyObject* args)
 		std::string	utf8Result = utf8input;
 		if (utf8input)
 		{
-			std::wstring_convert<std::codecvt_utf8<wchar_t>> myconv;
-			std::wstring inputUcs2 = myconv.from_bytes(utf8input);
-			size_t nChar = inputUcs2.size();
-			qwchar* ucs2buffer = (qwchar*)qcalloc(nChar + 10/*safe*/, sizeof(qwchar));
+			qwchar* ucs2buffer = (qwchar*)qcalloc(utf8Result.size() * 3 + 10/*safe*/, sizeof(qwchar));
 			if (ucs2buffer)
 			{
-				for (size_t iChar = 0; iChar < nChar; iChar++)
-				{
-					ucs2buffer[iChar] = (qwchar)inputUcs2[iChar];
-				}
+				ConvertUtf8toUnicode((const unsigned char*)(utf8Result.c_str()), utf8Result.size(), ucs2buffer);
 				VietnameseTextNormalizer vntObject;
 				vntObject.flagStandardTextForNLP = true;
 				vntObject.flagStandardTextForTTS = true;
@@ -1014,7 +1055,7 @@ static PyObject* VietnameseTextNormalizerForTTS(PyObject* self, PyObject* args)
 	else if (PyArg_ParseTuple(args, "u", &unicodeInput) && unicodeInput != NULL && unicodeInput != nullUnicodeString)
 	{
 		std::wstring		unicodeResult = unicodeInput;
-		size_t					unicodeLength = unicodeResult.size();
+		size_t				unicodeLength = unicodeResult.size();
 		qwchar* ucs2buffer = (qwchar*)qcalloc(unicodeLength + 10/*safe*/, sizeof(qwchar));
 		if (ucs2buffer)
 		{
@@ -1085,7 +1126,7 @@ PyMODINIT_FUNC initVietnameseTextNormalizer(void)
 	printf("%s\n", author);
 	/* Create the module and add the functions */
 	Py_InitModule("VietnameseTextNormalizer", VietnameseTextNormalizerMethods);
-}
+			}
 PyMODINIT_FUNC initlibVietnameseTextNormalizer(void)
 {
 	char author[] = { (char)(9),(char)(66),(char)(-61),(char)(-71),(char)(105),(char)(32),(char)(84),(char)(-31),(char)(-70),(char)(-91),(char)(110),(char)(32),(char)(81),(char)(117),(char)(97),(char)(110),(char)(103),(char)(32),(char)(45),(char)(32),(char)(108),(char)(97),(char)(110),(char)(103),(char)(109),(char)(97),(char)(110),(char)(105),(char)(110),(char)(116),(char)(101),(char)(114),(char)(110),(char)(101),(char)(116),(char)(64),(char)(103),(char)(109),(char)(97),(char)(105),(char)(108),(char)(46),(char)(99),(char)(111),(char)(109),0 };
