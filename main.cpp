@@ -1045,7 +1045,7 @@ static PyObject* VietnameseTextNormalizerStandard(PyObject* self, PyObject* args
 					char* bufferUtf8 = (char*)calloc(vntObject.standardTextLength * 4 + 100/*safe*/, sizeof(char));
 					if (bufferUtf8)
 					{
-						ConvertUnicodetoUtf8(vntObject.standardText, vntObject.standardTextLength, bufferUtf8);
+						ConvertUnicodetoUtf8(vntObject.standardText, vntObject.standardTextLength, (unsigned char*)bufferUtf8);
 						utf8Result = bufferUtf8;
 						qfree(bufferUtf8);
 					}			
@@ -1114,7 +1114,7 @@ static PyObject* VietnameseTextNormalizerForTTS(PyObject* self, PyObject* args)
 					char* bufferUtf8 = (char*)calloc(vntObject.standardTextLength * 4 + 100/*safe*/, sizeof(char));
 					if (bufferUtf8)
 					{
-						ConvertUnicodetoUtf8(vntObject.standardText, vntObject.standardTextLength, bufferUtf8);
+						ConvertUnicodetoUtf8(vntObject.standardText, vntObject.standardTextLength, (unsigned char*)bufferUtf8);
 						utf8Result = bufferUtf8;
 						qfree(bufferUtf8);
 					}
