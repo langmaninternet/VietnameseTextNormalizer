@@ -3,7 +3,7 @@ CPP_FILES = $(wildcard *.cpp)
 OBJECT_PYTHON3_FILES  = $(patsubst %.cpp, ObjectPython3/%.o, $(CPP_FILES))
 
 all: $(OBJECT_PYTHON3_FILES)
-	$$GPP_COMPILER -shared -o ReleasePython3/VietnameseTextNormalizer.so $(OBJECT_PYTHON3_FILES) -L. ; \
+	$$GPP_COMPILER -static-libgcc -static-libstdc++ -shared -o ReleasePython3/VietnameseTextNormalizer.so $(OBJECT_PYTHON3_FILES) -L. ; \
 	cp -f UnitTestVietnameseTextNormalizer.py ReleasePython3/ ; \
 	cd ReleasePython3 ; \
 	echo "Build Release Python3 Done" ; \
