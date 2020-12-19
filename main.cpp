@@ -900,7 +900,7 @@ void main(void)
 	//	vntObject.GenStandardText();
 	//	::MessageBoxW(0, vntObject.standardText, L"Output", MB_OK);
 
-	std::SetTitle(L"VietnameseTextNormalizer Build 2020.09.23");
+	std::SetTitle(L"VietnameseTextNormalizer Build 2020.12.19-XHTML");
 	std::HideCursor();
 	std::SetBackgroundColor(15);
 	std::SetTextColor(2);
@@ -928,7 +928,10 @@ void main(void)
 		if ((std::EndWith(std::GetLower(*itxt), L".txt")
 			|| std::EndWith(std::GetLower(*itxt), L".ftext")
 			|| std::EndWith(std::GetLower(*itxt), L".info")
-			|| std::EndWith(std::GetLower(*itxt), L".xml"))
+			|| std::EndWith(std::GetLower(*itxt), L".xml")
+			|| std::EndWith(std::GetLower(*itxt), L".html")
+			|| std::EndWith(std::GetLower(*itxt), L".xhtml")
+			)
 			&& std::GetRealFileName(*itxt) != L"info"
 			&& std::GetRealFileName(*itxt) != L"log"
 			&& (!StartWith(*itxt, L"fix\\")))
