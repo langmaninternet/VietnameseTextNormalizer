@@ -11,7 +11,7 @@ Cài đặt 7z để hỗ trợ giải nén file epub : https://www.7-zip.org/7z
 
 Tiến hành
 ------------
-![](Buoc01-Giainen.png)
+![](Buoc01-Giainen_.png)
 
 ![](Buoc02-Chaytool.png)
 
