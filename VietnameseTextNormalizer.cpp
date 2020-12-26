@@ -2677,6 +2677,22 @@ void				VietnameseTextNormalizer::Input(const qwchar* text)
 						break;
 					}
 				}
+
+				if (needSplitLeftMatchingVietnameseSyllable == false
+					&& leftMatchingVietnameseLength > 0
+					&& leftMatchingVietnameseIdentifier > 0
+					&& vnsyllables[leftMatchingVietnameseIdentifier].vietnamese
+					&& vnsyllables[leftMatchingVietnameseIdentifier].significant
+					&& vnsyllables[leftMatchingVietnameseIdentifier].tone > '0'
+					&& rightMathchingVietnameseIdentifier > 0
+					&& vnsyllables[rightMathchingVietnameseIdentifier].vietnamese
+					&& vnsyllables[rightMathchingVietnameseIdentifier].significant
+					&& vnsyllables[rightMathchingVietnameseIdentifier].tone > '0'
+					)
+				{
+					needSplitLeftMatchingVietnameseSyllable = true;
+				}
+
 				if (needSplitLeftMatchingVietnameseSyllable)
 				{
 					TEXT_NODE* backupTextNode = InsertVietnameseSyllableToTheTail(leftMatchingVietnameseIdentifier, currentOriginalSyllable, leftMatchingVietnameseLength, capital, leftTextNodeOffset0, leftTextNodeOffset1, leftTextNodeOffset2, leftTextNodeOffset3, leftTextNodeOffset4);
@@ -4471,6 +4487,38 @@ void				VietnameseTextNormalizer::Normalize(void)
 		}
 
 
+		/************************************************************************/
+		/* Bị dính liền theo lỗi typing                                         */
+		/************************************************************************/
+		if (textNode->next
+			&& textNode->originalText
+			&& textNode->next->originalText
+			&& vnsyllables[textNode->vietnameseSyllableIdentifier].vietnamese
+			&& vnsyllables[textNode->vietnameseSyllableIdentifier].significant
+			&& vnsyllables[textNode->vietnameseSyllableIdentifier].tone > '0'
+			&& vnsyllables[textNode->next->vietnameseSyllableIdentifier].vietnamese
+			&& vnsyllables[textNode->next->vietnameseSyllableIdentifier].significant
+			&& vnsyllables[textNode->next->vietnameseSyllableIdentifier].tone > '0'
+			&& textNode->next->capital == TEXT_NODE_CAPITAL_LOWER
+			&& textNode->capital == TEXT_NODE_CAPITAL_LOWER
+			&& textNode->originalText + textNode->originalTextLength == textNode->next->originalText)
+		{
+			textNode->needSpaceAfter = 1;
+		}
+		if (flagStandardTextForTTS
+			&& textNode->next
+			&& textNode->originalText
+			&& textNode->next->originalText
+			&& vnsyllables[textNode->vietnameseSyllableIdentifier].vietnamese
+			&& vnsyllables[textNode->vietnameseSyllableIdentifier].significant
+			&& vnsyllables[textNode->vietnameseSyllableIdentifier].tone > '0'
+			&& vnsyllables[textNode->next->vietnameseSyllableIdentifier].vietnamese
+			&& vnsyllables[textNode->next->vietnameseSyllableIdentifier].significant
+			&& vnsyllables[textNode->next->vietnameseSyllableIdentifier].tone > '0'
+			&& textNode->originalText + textNode->originalTextLength == textNode->next->originalText)
+		{
+			textNode->needSpaceAfter = 1;
+		}
 		/************************************************************************/
 		/* Convert Y - I                                                        */
 		/************************************************************************/
