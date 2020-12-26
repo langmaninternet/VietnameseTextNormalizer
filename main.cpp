@@ -946,7 +946,9 @@ void main(void)
 
 			VietnameseTextNormalizer vntObject;
 			//vntObject.flagStandardTextForTTS = true;
-
+#ifdef _DEBUG
+			vntObject.logFile = fopen("log.txt", "a");
+#endif
 			vntObject.Input(fileContent.c_str());
 			vntObject.Normalize();
 			vntObject.GenStandardText();
@@ -956,7 +958,7 @@ void main(void)
 				std::WriteFile(L"fix\\" + (*itxt), std::wstring(vntObject.standardText), true);
 				countTotalChange += vntObject.standardTextChange;
 #ifdef _DEBUG
-				vntObject.logFile = fopen("log.txt", "a");
+				//vntObject.logFile = fopen("log.txt", "a");
 				fseek(vntObject.logFile, 0, SEEK_END);
 				vntObject.Log("\n%ls :\n", std::GetRealFileName(*itxt).c_str());
 
