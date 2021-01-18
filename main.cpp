@@ -900,7 +900,7 @@ void main(void)
 	//	vntObject.GenStandardText();
 	//	::MessageBoxW(0, vntObject.standardText, L"Output", MB_OK);
 
-	std::SetTitle(L"VietnameseTextNormalizer Build 2020.12.19-XHTML");
+	std::SetTitle(L"VietnameseTextNormalizer Build 2021.01.08-XHTML");
 	std::HideCursor();
 	std::SetBackgroundColor(15);
 	std::SetTextColor(2);
