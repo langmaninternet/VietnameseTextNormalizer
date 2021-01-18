@@ -2088,6 +2088,7 @@ void				VietnameseTextNormalizer::Input(const qwchar* text)
 				bool flagNeedMoreLoopForCheckPreloadTag = true;
 				while (flagNeedMoreLoopForCheckPreloadTag)
 				{
+
 					if (text[0] == 0x3C/*<*/)/*start with [<..] */
 					{
 						switch (text[1])/*start with [<..] : 13 way and 7 case. Cost 1*/
@@ -2127,12 +2128,23 @@ void				VietnameseTextNormalizer::Input(const qwchar* text)
 						}//end of switch (text[1])/*start with [<..]*/
 
 					}/*end of if start with [<..] */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 					flagNeedMoreLoopForCheckPreloadTag = (backupText != text);
 					backupText = text;
 				}
-
-
-				currentOriginalSyllable = text;
 			}
 			qvsylidentifier			vietnameseSyllableIdentifier = (startOfNewNode && preloadTagEn == false) ? VietnameseSyllableDetection(text, &capital, &combiningTone, &leftMatchingVietnameseIdentifier, &leftMatchingCombiningTone) : 0;
 			if (vietnameseSyllableIdentifier == 0 && startOfNewNode && preloadTagEn == false) VietnameseSyllableWithHTMLEncodeDetection(text, &vietnameseSyllableIdentifier, &currentOriginalSyllableLength, &leftMatchingVietnameseIdentifier, &leftMatchingVietnameseLength, &capital);
