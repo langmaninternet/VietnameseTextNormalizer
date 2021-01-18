@@ -2111,7 +2111,7 @@ void				VietnameseTextNormalizer::Input(const qwchar* text)
 							}//end of switch (text[2])/*start with [<e..]*/
 							break;
 						case 0x6C/*l*/:/*text [<l>] cost 6*/if (text[2] == 0x3E/*>*/) { text += 3; preloadSize += 3; preloadTagL = true; }break;
-							//case 0x71/*q*/:/*text [<q>] cost 7*/if (text[2] == 0x3E/*>*/) { text += 3; preloadSize += 3; preloadTagQ = true; }break;
+						case 0x71/*q*/:/*text [<q>] cost 7*/if (text[2] == 0x3E/*>*/) { text += 3; preloadSize += 3; preloadTagQ = true; }break;
 						case 0x73/*s*/:/*text [<s>] cost 8*/if (text[2] == 0x3E/*>*/) { text += 3; preloadSize += 3;/* preloadTagS = true;*/ }break;
 						case 0x76/*v*/:
 							if (text[2] == 0x69/*i*/)/*start with [<vi..] */
@@ -2695,7 +2695,7 @@ void				VietnameseTextNormalizer::Input(const qwchar* text)
 
 				if (needSplitLeftMatchingVietnameseSyllable)
 				{
-					TEXT_NODE* backupTextNode = InsertVietnameseSyllableToTheTail(leftMatchingVietnameseIdentifier, currentOriginalSyllable, leftMatchingVietnameseLength, capital, leftTextNodeOffset0, leftTextNodeOffset1, leftTextNodeOffset2, leftTextNodeOffset3, leftTextNodeOffset4);
+					TEXT_NODE* backupTextNode = InsertVietnameseSyllableToTheTail(leftMatchingVietnameseIdentifier, currentOriginalSyllable + preloadSize, leftMatchingVietnameseLength, capital, leftTextNodeOffset0, leftTextNodeOffset1, leftTextNodeOffset2, leftTextNodeOffset3, leftTextNodeOffset4);
 					if (preloadTagVi)
 					{
 						backupTextNode->englishWordIdentifier = 0;
@@ -2736,7 +2736,7 @@ void				VietnameseTextNormalizer::Input(const qwchar* text)
 				}
 				else if (needSplitLeftMatchingEnglishWord)
 				{
-					TEXT_NODE* backupTextNode = InsertEnglishWordToTheTail(leftMatchingEnglishIdentifier, currentOriginalSyllable, leftMatchingEnglishLength, capital, leftTextNodeOffset0, leftTextNodeOffset1, leftTextNodeOffset2, leftTextNodeOffset3, leftTextNodeOffset4);
+					TEXT_NODE* backupTextNode = InsertEnglishWordToTheTail(leftMatchingEnglishIdentifier, currentOriginalSyllable + preloadSize, leftMatchingEnglishLength, capital, leftTextNodeOffset0, leftTextNodeOffset1, leftTextNodeOffset2, leftTextNodeOffset3, leftTextNodeOffset4);
 					if (preloadTagEn) backupTextNode->vietnameseLoanWordIndentifier = 0;
 					leftTextNodeOffset4 = leftTextNodeOffset3;
 					leftTextNodeOffset3 = leftTextNodeOffset2;
