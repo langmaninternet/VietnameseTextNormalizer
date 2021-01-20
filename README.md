@@ -40,9 +40,9 @@ make -j
 	+ Chạy file UnitTestVietnameseTextNormalizer.py
 
 
-- Trong thư viện có 2 hàm :
+- Trong thư viện :
 	+ Normalize : hàm chuẩn hóa dữ liệu Tiếng Việt cơ bản, chuẩn hóa i ngắn y dài đối với tên địa danh trong nước dựa theo văn bản hành chính nhà nước
-	+ ASRNormalize : hàm chuẩn hóa dữ liệu cho ASR, khác với hàm cơ bản là chọn lựa i ngắn y dài rõ ràng theo độ phổ thông của từ. Ví dụ sẽ chọn [bệnh lý] thay cho [bệnh lí]
+
 
 
 - Note : 
@@ -83,7 +83,7 @@ Ví dụ :
 tôi làm việ ở ban công ngệ FPT, tôi là người viêt nam 
 -> tôi làm việc ở ban công nghệ FPT, tôi là người việt nam
 
-+ Chuẩn hóa i ngắn y dài đối với tên các địa danh trong nước. Có mức chuẩn hóa cho ASR theo độ phổ thông của từ và perplexity của câu
++ Chuẩn hóa i ngắn y dài đối với tên các địa danh trong nước. 
 
 + Viết hoa 1 số tên địa danh phổ thông ở Việt Nam
 
