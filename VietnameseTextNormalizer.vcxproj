@@ -91,23 +91,23 @@
     <OutDir>D:\Work\Build\$(Configuration) 32Bit\</OutDir>
     <IntDir>D:\Work\Build\$(Configuration) 32Bit\$(ProjectName)\</IntDir>
     <TargetName>$(ProjectName)$(Configuration)32Bit</TargetName>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);C:\Users\langm\AppData\Local\Programs\Python\Python36\include;</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);Win64-Python3.9-Include;;</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>D:\Work\Build\$(Configuration) 32Bit\</OutDir>
     <IntDir>D:\Work\Build\$(Configuration) 32Bit\$(ProjectName)\</IntDir>
     <TargetName>$(ProjectName)$(Configuration)32Bit</TargetName>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);C:\Users\langm\AppData\Local\Programs\Python\Python36\include;</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);Win64-Python3.9-Include;;</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>D:\Work\Build\$(Configuration) 64bit\</OutDir>
     <IntDir>D:\Work\Build\$(Configuration) $(ProjectName) 64bit\</IntDir>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);C:\Users\langm\AppData\Local\Programs\Python\Python36\include;</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);Win64-Python3.9-Include;</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>D:\Work\Build\$(Configuration) 64bit\</OutDir>
     <IntDir>D:\Work\Build\$(Configuration) $(ProjectName) 64bit\</IntDir>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);C:\Users\langm\AppData\Local\Programs\Python\Python36\include;</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);Win64-Python3.9-Include;;</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

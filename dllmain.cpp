@@ -7,6 +7,8 @@
 #endif
 #ifdef _QUANGBT_DLL_LIB
 
+#pragma comment(lib, "python3-win64.lib") 
+
 // dllmain.cpp : Defines the entry point for the DLL application.
 #include "Windows.h"
 
