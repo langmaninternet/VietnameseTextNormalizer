@@ -85,12 +85,14 @@
     <OutDir>D:\Work\Build\$(Configuration) 64Bit\</OutDir>
     <IntDir>D:\Work\Build\$(Configuration) 64Bit\$(ProjectName)\</IntDir>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);Win64-Python3.9SDK;</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);Win64-Python3.9SDK;</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>D:\Work\Build\$(Configuration) 64Bit\</OutDir>
     <IntDir>D:\Work\Build\$(Configuration) 64Bit\$(ProjectName)\</IntDir>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);Win64-Python3.9SDK;</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);Win64-Python3.9SDK;</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
