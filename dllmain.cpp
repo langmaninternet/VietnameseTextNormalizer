@@ -1,3 +1,12 @@
+#ifdef _WIN32
+#define _QUANGBT_DLL_LIB
+#endif
+#ifdef _WIN64
+#undef _QUANGBT_DLL_LIB
+#define _QUANGBT_DLL_LIB
+#endif
+#ifdef _QUANGBT_DLL_LIB
+
 // dllmain.cpp : Defines the entry point for the DLL application.
 #include "Windows.h"
 
@@ -17,3 +26,4 @@ BOOL APIENTRY DllMain( HMODULE hModule,
     return TRUE;
 }
 
+#endif
