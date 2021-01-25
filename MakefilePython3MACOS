@@ -1,0 +1,28 @@
+
+CPP_FILES = $(wildcard *.cpp)
+OBJECT_PYTHON3_FILES = $(patsubst %.cpp, ObjectPython3/%.o, $(CPP_FILES))
+
+all: $(OBJECT_PYTHON3_FILES)
+	$$GPP_COMPILER -shared -o ReleasePython3/VietnameseTextNormalizer.so $(OBJECT_PYTHON3_FILES) -L. -L$$PYTHON3_LIB_PATH -l$$PYTHON3_LIB_NAME ; \
+	cp -f UnitTestVietnameseTextNormalizer.py ReleasePython3/ ; \
+	cd ReleasePython3 ; \
+	echo "Build Release Python3 Done" ; \
+	echo "Test Python3 - VietnameseTextNormalizer " ; \
+	python3 UnitTestVietnameseTextNormalizer.py ; 
+	
+
+
+release-dirs:
+	@ ( mkdir -p ObjectPython3 ReleasePython3 ; )
+
+ObjectPython3/%.o : %.cpp | release-dirs
+	$$GPP_COMPILER -c -fPIC -O3 -Wall $*.cpp -I$$PYTHON3_DEV_INCULE -o ObjectPython3/$*.o ;
+	
+clean: 
+	rm -rf ObjectPython3 ReleasePython3 ; 
+	clear ;
+
+
+.PHONY: all clean
+
+

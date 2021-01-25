@@ -23,12 +23,24 @@ make -j
 
 
 
-# For Python3  : Need setup path to python3_dev include and g++ 
+# For Python3 : Need setup path to python3_dev include and g++ 
 #apt install python3-dev
 #apt install g++
 export PYTHON3_DEV_INCULE=/usr/include/python3.6
 export GPP_COMPILER=g++
 cp -f MakefilePython3 Makefile
+make -j
+
+
+
+# For Python3 Mac OSX : Need setup path to python3_dev include and g++ 
+#apt install python3-dev
+#apt install g++
+export PYTHON3_DEV_INCULE=/usr/local/Cellar/python@3.9/3.9.1_3/Frameworks/Python.framework/Versions/3.9/include
+export PYTHON3_LIB_PATH=/usr/local/Cellar/python@3.9/3.9.1_3/Frameworks/Python.framework/Versions/3.9/lib
+export PYTHON3_LIB_NAME=python3.9
+export GPP_COMPILER=g++
+cp -f MakefilePython3MACOS Makefile
 make -j
 
 
