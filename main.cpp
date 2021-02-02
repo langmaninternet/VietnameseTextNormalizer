@@ -1091,7 +1091,7 @@ static PyObject* VietnameseTextNormalizerStandard(PyObject* self, PyObject* args
 	PyArg_ParseTuple(args, "O", &argsObject);
 	return argsObject;
 }
-static PyObject* VietnameseTextNormalizerForTTS(PyObject* self, PyObject* args)
+static PyObject* FNormalize(PyObject* self, PyObject* args)
 {
 	char				nullUtf8String[10] = { 0 };
 	wchar_t				nullUnicodeString[10] = { 0 };
@@ -1166,7 +1166,7 @@ static PyObject* VietnameseTextNormalizerForTTS(PyObject* self, PyObject* args)
 static PyMethodDef	VietnameseTextNormalizerMethods[] = {
 	{ "VietnameseTextNormalizer", VietnameseTextNormalizerStandard, METH_VARARGS, "OutputString VietnameseTextNormalizer(String)" },
 	{ "Normalize", VietnameseTextNormalizerStandard, METH_VARARGS, "OutputString Normalize(String)" },
-	{ "TTSNormalize", VietnameseTextNormalizerForTTS, METH_VARARGS, "OutputString TTSNormalize(String)" },
+	{ "FNormalize", FNormalize, METH_VARARGS, "OutputString FNormalize(String)" },
 	{ NULL, NULL, 0, NULL }
 };
 #if (PY_MAJOR_VERSION == 3)

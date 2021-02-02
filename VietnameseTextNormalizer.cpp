@@ -2128,20 +2128,6 @@ void				VietnameseTextNormalizer::Input(const qwchar* text)
 						}//end of switch (text[1])/*start with [<..]*/
 
 					}/*end of if start with [<..] */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 					flagNeedMoreLoopForCheckPreloadTag = (backupText != text);
 					backupText = text;
 				}
@@ -2393,7 +2379,9 @@ void				VietnameseTextNormalizer::Input(const qwchar* text)
 					switch (text[leftMatchingVietnameseLength])
 					{
 					case 0x201C/*“ left double quotation mark*/:
+					case 0x201D/*” right double quotation mark*/:
 					case 0x2018/*‘ left single quotation mark*/:
+					case 0x2019/*’ right single quotation mark*/:
 						needSplitLeftMatchingVietnameseSyllable = true;
 						flagNeedSpace = true;
 						break;
@@ -2421,6 +2409,13 @@ void				VietnameseTextNormalizer::Input(const qwchar* text)
 					case 0x9/*Tab*/:
 						needSplitLeftMatchingVietnameseSyllable = true;
 						needIgnoreSeparateCharacter = 1;
+						break;
+					case 0x2026/*Horizontal ellipsis …*/:
+					case 0x2018/*‘ left single quotation mark*/:
+					case 0x2019/*’ right single quotation mark*/:
+					case 0x201D/*” right double quotation mark*/:
+					case 0x201C/*“ left double quotation mark*/:
+						needSplitLeftMatchingVietnameseSyllable = true;
 						break;
 					case 0x0/*NULL*/:
 						originalTextLength = int(text - originalText) + leftMatchingVietnameseLength;
@@ -2472,38 +2467,22 @@ void				VietnameseTextNormalizer::Input(const qwchar* text)
 					case 0x75/*u*/:case 0xF9/*ù*/:case 0xFA/*ú*/:case 0x1EE7/*ủ*/:case 0x169/*ũ*/:case 0x1EE5/*ụ*/:
 					case 0x1B0/*ư*/:case 0x1EEB/*ừ*/:case 0x1EE9/*ứ*/:case 0x1EED/*ử*/:case 0x1EEF/*ữ*/:case 0x1EF1/*ự*/:
 					case 0x79/*y*/:case 0x1EF3/*ỳ*/:case 0xFD/*ý*/:case 0x1EF7/*ỷ*/:case 0x1EF9/*ỹ*/:case 0x1EF5/*ỵ*/:
-
-
 					case 0x300/*VIETNAMESE_TONE_HUYEN*/:
 					case 0x340/*VIETNAMESE_TONE_HUYEN*/:
 					case 0x2CB/*VIETNAMESE_TONE_HUYEN*/:
-
 					case 0x303/*VIETNAMESE_TONE_NGA*/:
 					case 0x309/*VIETNAMESE_TONE_HOI*/:
-
-
 					case 0x301/*VIETNAMESE_TONE_SAC*/:
 					case 0xB4/*VIETNAMESE_TONE_SAC*/:
 					case 0x341/*VIETNAMESE_TONE_SAC*/:
 					case 0x2CA/*VIETNAMESE_TONE_SAC*/:
 					case 0x1FFD/*VIETNAMESE_TONE_SAC*/:
-
-
-
 					case 0x323/*VIETNAMESE_TONE_NANG*/:
-
-
-
-
-
-
 					case 0x302/*Combining Circumflex Accent*/:
 					case 0x311/*Combining Inverted Breve*/:
 					case 0x306/*Combining Breve*/:
 					case 0x30C/*Combining Caron*/:
 					case 0x31B/*Combining Horn*/:
-
-
 					case 0x200B/*Zero width space*/:
 					case 0xFEFF/*Zero width no-break space*/:
 						break;
@@ -5173,6 +5152,24 @@ void				VietnameseTextNormalizer::GenStandardText(void)
 					break;
 				}
 			}
+			if (flagStandardTextForTTS)
+			{
+				for (int iChar = 0; iChar < standardTextLength; iChar++)
+				{
+					switch (standardText[iChar])
+					{
+					//	case 0x200B/*Zero width space*/:
+					//	case 0xFEFF/*Zero width no-break space*/:
+					//	case 0xA0/*Non-breaking space*/:
+					//		standardText[iChar] = L' ';
+					//		standardTextChange++;
+					//		break;
+
+						abc; sad;
+					}
+				}
+			}
+
 		}
 	}
 }
