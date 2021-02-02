@@ -3260,6 +3260,7 @@ void				VietnameseTextNormalizer::Normalize(void)
 						/************************************************************************/
 						/* Các dấu câu có trên bàn phím                                         */
 						/************************************************************************/
+					case 0xB0/*° Degree Sign*/:text[textLength] = (qwchar)0xB0/*# number sign*/; textLower[textLength] = (qwchar)0xB0/*# number sign*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = (qwchar)iChar; textLength++; textCountOtherOnKeyBoard++; break;
 					case 0x21/*! exclamation mark*/:text[textLength] = (qwchar)0x21/*! exclamation mark*/; textLower[textLength] = (qwchar)0x21/*! exclamation mark*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = (qwchar)iChar; textLength++; textCountOtherOnKeyBoard++; break;
 					case 0x22/*" quotation mark   (entity name is quot;)*/:text[textLength] = (qwchar)0x22/*" quotation mark   (entity name is quot;)*/; textLower[textLength] = (qwchar)0x22/*" quotation mark   (entity name is quot;)*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = (qwchar)iChar; textLength++; textCountOtherOnKeyBoard++; break;
 					case 0x23/*# number sign*/:text[textLength] = (qwchar)0x23/*# number sign*/; textLower[textLength] = (qwchar)0x23/*# number sign*/; textType[textLength] = CHARACTER_TYPE_OTHER_ON_KEYBOARD; textIndex[textLength] = (qwchar)iChar; textLength++; textCountOtherOnKeyBoard++; break;
