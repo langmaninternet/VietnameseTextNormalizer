@@ -5165,7 +5165,7 @@ void				VietnameseTextNormalizer::GenStandardText(void)
 					//		standardTextChange++;
 					//		break;
 
-						abc; sad;
+						//	abc; sad;
 					}
 				}
 			}
