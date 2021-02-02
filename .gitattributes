@@ -1,4 +1,9 @@
 ###############################################################################
 # Set default behavior to automatically normalize line endings.
 ###############################################################################
+*.py  eol=lf
+*.c  eol=lf
+*.cpp  eol=lf
+*.h  eol=lf
+*.txt  eol=lf
 * text=auto eol=lf
