@@ -13,7 +13,7 @@
 {
 	ValidateSyllableData();
 	ValidateWordData();
-	flagStandardTextForTTS = false;
+	flagStandardTextForQuangBT = false;
 	flagValidateToolMode = false;
 	Init();
 
@@ -3598,7 +3598,7 @@ void				VietnameseTextNormalizer::Normalize(void)
 						textIndex[textLength] = (qwchar)iChar;
 						textLength++;
 						textCountUnknownCharacter++;
-						if (flagStandardTextForTTS)
+						if (flagStandardTextForQuangBT)
 						{
 							text[textLength] = 0x20/*space*/;
 							textLower[textLength] = 0x20/*space*/;
@@ -4409,7 +4409,7 @@ void				VietnameseTextNormalizer::Normalize(void)
 				}
 				UpdateVietnameseTextNodeContext(textNode);
 			}
-			else if (flagStandardTextForTTS)
+			else if (flagStandardTextForQuangBT)
 			{
 				if (currentSure > 0.0 && otherSure > 0.0 && currentSure < otherSure)
 				{
@@ -4480,7 +4480,7 @@ void				VietnameseTextNormalizer::Normalize(void)
 		{
 			textNode->needSpaceAfter = 1;
 		}
-		if (flagStandardTextForTTS
+		if (flagStandardTextForQuangBT
 			&& textNode->next
 			&& textNode->originalText
 			&& textNode->next->originalText
@@ -4664,7 +4664,7 @@ void				VietnameseTextNormalizer::Normalize(void)
 		}
 
 	}
-	if (flagStandardTextForTTS)
+	if (flagStandardTextForQuangBT)
 	{
 		for (TEXT_NODE* textNode = head; textNode/*!=NULL*/; textNode = textNode->next)
 		{
@@ -5179,7 +5179,7 @@ void				VietnameseTextNormalizer::GenStandardText(void)
 					break;
 				}
 			}
-			if (flagStandardTextForTTS)
+			if (flagStandardTextForQuangBT)
 			{
 				for (int iChar = 0; iChar < standardTextLength; iChar++)
 				{
