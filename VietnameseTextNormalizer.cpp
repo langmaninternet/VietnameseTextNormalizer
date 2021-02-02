@@ -102,7 +102,7 @@ void				VietnameseTextNormalizer::Log(const qwchar* wstr, int wstrlen)
 	if (logFile/*!=NULL*/ && wstr/*!=NULL*/ && wstrlen > 0)
 	{
 		if (wstrlen == 1 && wstr[0] == 0xA/*\n Line Feed*/) Log("\\n");
-		else if (wstrlen == 1 && wstr[0] == 0xD/*\r Line Feed*/) Log("\\r");
+		else if (wstrlen == 1 && wstr[0] == 0xD/*\r Carriage Return*/) Log("\\r");
 		else
 		{
 			unsigned char* bufferUtf8 = (unsigned char*)qcalloc(wstrlen * 3 + 5/*Safe*/, sizeof(unsigned char));
@@ -5194,12 +5194,16 @@ void				VietnameseTextNormalizer::GenStandardText(void)
 					case 0x201B/*‛ left single quotation mark*/:
 					case 0x2019/*’ right single quotation mark*/:
 						standardText[iChar] = 0x27/* ' */;
-						break;
-						
+						break;						
 					case  0x2013/*–*/:
 					case  0x2014/*—*/:
 					case  0x2015/*―*/:
 						standardText[iChar] = 0x2D/*-*/;
+						break;
+					case 0xD/*\r Carriage Return*/:
+					case 0xA/*\n Line Feed*/:
+					case 0x9/*Tab*/:
+						standardText[iChar] = 0x20/*Space*/;
 						break;
 					}
 				}
