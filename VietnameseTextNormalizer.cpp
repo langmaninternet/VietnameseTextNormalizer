@@ -2379,9 +2379,7 @@ void				VietnameseTextNormalizer::Input(const qwchar* text)
 					switch (text[leftMatchingVietnameseLength])
 					{
 					case 0x201C/*“ left double quotation mark*/:
-					case 0x201D/*” right double quotation mark*/:
 					case 0x2018/*‘ left single quotation mark*/:
-					case 0x2019/*’ right single quotation mark*/:
 						needSplitLeftMatchingVietnameseSyllable = true;
 						flagNeedSpace = true;
 						break;
