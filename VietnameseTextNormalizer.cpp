@@ -5154,20 +5154,20 @@ void				VietnameseTextNormalizer::GenStandardText(void)
 			}
 			if (flagStandardTextForTTS)
 			{
-				for (int iChar = 0; iChar < standardTextLength; iChar++)
-				{
-					switch (standardText[iChar])
-					{
-					//	case 0x200B/*Zero width space*/:
-					//	case 0xFEFF/*Zero width no-break space*/:
-					//	case 0xA0/*Non-breaking space*/:
-					//		standardText[iChar] = L' ';
-					//		standardTextChange++;
-					//		break;
-
-						//	abc; sad;
-					}
-				}
+				//	for (int iChar = 0; iChar < standardTextLength; iChar++)
+				//	{
+				//		switch (standardText[iChar])
+				//		{
+				//		//	case 0x200B/*Zero width space*/:
+				//		//	case 0xFEFF/*Zero width no-break space*/:
+				//		//	case 0xA0/*Non-breaking space*/:
+				//		//		standardText[iChar] = L' ';
+				//		//		standardTextChange++;
+				//		//		break;
+				//	
+				//			//	abc; sad;
+				//		}
+				//	}
 			}
 
 		}
