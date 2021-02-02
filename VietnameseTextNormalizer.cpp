@@ -4314,8 +4314,6 @@ void				VietnameseTextNormalizer::Normalize(void)
 	}
 
 
-
-
 	/************************************************************************/
 	/* Correct                                                              */
 	/************************************************************************/
@@ -4688,6 +4686,8 @@ void				VietnameseTextNormalizer::Normalize(void)
 					break;
 				}
 			}
+
+
 		}
 	}
 
@@ -5205,9 +5205,252 @@ void				VietnameseTextNormalizer::GenStandardText(void)
 					case 0x9/*Tab*/:
 						standardText[iChar] = 0x20/*Space*/;
 						break;
+
+
+
+						/************************************************************************/
+						/* Nhóm các kí tự được chấp nhận                                        */
+						/************************************************************************/
+					case 0xE0/*af*/:
+					case 0xE1/*as*/:
+					case 0x1EA3/*ar*/:
+					case 0xE3/*ax*/:
+					case 0x1EA1/*aj*/:
+					case 0x103/*aw*/:
+					case 0x1EB1/*awf*/:
+					case 0x1EAF/*aws*/:
+					case 0x1EB3/*awr*/:
+					case 0x1EB5/*awx*/:
+					case 0x1EB7/*awj*/:
+					case 0xE2/*aa*/:
+					case 0x1EA7/*aaf*/:
+					case 0x1EA5/*aas*/:
+					case 0x1EA9/*aar*/:
+					case 0x1EAB/*aax*/:
+					case 0x1EAD/*aaj*/:
+					case 0xE8/*ef*/:
+					case 0xE9/*es*/:
+					case 0x1EBB/*er*/:
+					case 0x1EBD/*ex*/:
+					case 0x1EB9/*ej*/:
+					case 0xEA/*ee*/:
+					case 0x1EC1/*eef*/:
+					case 0x1EBF/*ees*/:
+					case 0x1EC3/*eer*/:
+					case 0x1EC5/*eex*/:
+					case 0x1EC7/*eej*/:
+					case 0xEC/*if*/:
+					case 0xED/*is*/:
+					case 0x1EC9/*ir*/:
+					case 0x129/*ix*/:
+					case 0x1ECB/*ij*/:
+					case 0xF2/*of*/:
+					case 0xF3/*os*/:
+					case 0x1ECF/*or*/:
+					case 0xF5/*ox*/:
+					case 0x1ECD/*oj*/:
+					case 0xF4/*oo*/:
+					case 0x1ED3/*oof*/:
+					case 0x1ED1/*oos*/:
+					case 0x1ED5/*oor*/:
+					case 0x1ED7/*oox*/:
+					case 0x1ED9/*ooj*/:
+					case 0x1A1/*ow*/:
+					case 0x1EDD/*owf*/:
+					case 0x1EDB/*ows*/:
+					case 0x1EDF/*owr*/:
+					case 0x1EE1/*owx*/:
+					case 0x1EE3/*owj*/:
+					case 0xF9/*uf*/:
+					case 0xFA/*us*/:
+					case 0x1EE7/*ur*/:
+					case 0x169/*ux*/:
+					case 0x1EE5/*uj*/:
+					case 0x1B0/*uw*/:
+					case 0x1EEB/*uwf*/:
+					case 0x1EE9/*uws*/:
+					case 0x1EED/*uwr*/:
+					case 0x1EEF/*uwx*/:
+					case 0x1EF1/*uwj*/:
+					case 0x1EF3/*yf*/:
+					case 0xFD/*ys*/:
+					case 0x1EF7/*yr*/:
+					case 0x1EF9/*yx*/:
+					case 0x1EF5/*yj*/:
+					case 0x111/*dd*/:
+					case 0x61/*a*/:
+					case 0x62/*b*/:
+					case 0x63/*c*/:
+					case 0x64/*d*/:
+					case 0x65/*e*/:
+					case 0x66/*f*/:
+					case 0x67/*g*/:
+					case 0x68/*h*/:
+					case 0x69/*i*/:
+					case 0x6A/*j*/:
+					case 0x6B/*k*/:
+					case 0x6C/*l*/:
+					case 0x6D/*m*/:
+					case 0x6E/*n*/:
+					case 0x6F/*o*/:
+					case 0x70/*p*/:
+					case 0x71/*q*/:
+					case 0x72/*r*/:
+					case 0x73/*s*/:
+					case 0x74/*t*/:
+					case 0x75/*u*/:
+					case 0x76/*v*/:
+					case 0x77/*w*/:
+					case 0x78/*x*/:
+					case 0x79/*y*/:
+					case 0x7A/*z*/:
+					case 0xC0/*AF*/:
+					case 0xC1/*AS*/:
+					case 0x1EA2/*AR*/:
+					case 0xC3/*AX*/:
+					case 0x1EA0/*AJ*/:
+					case 0x102/*AW*/:
+					case 0x1EB0/*AWF*/:
+					case 0x1EAE/*AWS*/:
+					case 0x1EB2/*AWR*/:
+					case 0x1EB4/*AWX*/:
+					case 0x1EB6/*AWJ*/:
+					case 0xC2/*AA*/:
+					case 0x1EA6/*AAF*/:
+					case 0x1EA4/*AAS*/:
+					case 0x1EA8/*AAR*/:
+					case 0x1EAA/*AAX*/:
+					case 0x1EAC/*AAJ*/:
+					case 0xC8/*EF*/:
+					case 0xC9/*ES*/:
+					case 0x1EBA/*ER*/:
+					case 0x1EBC/*EX*/:
+					case 0x1EB8/*EJ*/:
+					case 0xCA/*EE*/:
+					case 0x1EC0/*EEF*/:
+					case 0x1EBE/*EES*/:
+					case 0x1EC2/*EER*/:
+					case 0x1EC4/*EEX*/:
+					case 0x1EC6/*EEJ*/:
+					case 0xCC/*IF*/:
+					case 0xCD/*IS*/:
+					case 0x1EC8/*IR*/:
+					case 0x128/*IX*/:
+					case 0x1ECA/*IJ*/:
+					case 0xD2/*OF*/:
+					case 0xD3/*OS*/:
+					case 0x1ECE/*OR*/:
+					case 0xD5/*OX*/:
+					case 0x1ECC/*OJ*/:
+					case 0xD4/*OO*/:
+					case 0x1ED2/*OOF*/:
+					case 0x1ED0/*OOS*/:
+					case 0x1ED4/*OOR*/:
+					case 0x1ED6/*OOX*/:
+					case 0x1ED8/*OOJ*/:
+					case 0x1A0/*OW*/:
+					case 0x1EDC/*OWF*/:
+					case 0x1EDA/*OWS*/:
+					case 0x1EDE/*OWR*/:
+					case 0x1EE0/*OWX*/:
+					case 0x1EE2/*OWJ*/:
+					case 0xD9/*UF*/:
+					case 0xDA/*US*/:
+					case 0x1EE6/*UR*/:
+					case 0x168/*UX*/:
+					case 0x1EE4/*UJ*/:
+					case 0x1AF/*UW*/:
+					case 0x1EEA/*UWF*/:
+					case 0x1EE8/*UWS*/:
+					case 0x1EEC/*UWR*/:
+					case 0x1EEE/*UWX*/:
+					case 0x1EF0/*UWJ*/:
+					case 0x1EF2/*YF*/:
+					case 0xDD/*YS*/:
+					case 0x1EF6/*YR*/:
+					case 0x1EF8/*YX*/:
+					case 0x1EF4/*YJ*/:
+					case 0x110/*DD*/:
+					case 0x41/*A*/:
+					case 0x42/*B*/:
+					case 0x43/*C*/:
+					case 0x44/*D*/:
+					case 0x45/*E*/:
+					case 0x46/*F*/:
+					case 0x47/*G*/:
+					case 0x48/*H*/:
+					case 0x49/*I*/:
+					case 0x4A/*J*/:
+					case 0x4B/*K*/:
+					case 0x4C/*L*/:
+					case 0x4D/*M*/:
+					case 0x4E/*N*/:
+					case 0x4F/*O*/:
+					case 0x50/*P*/:
+					case 0x51/*Q*/:
+					case 0x52/*R*/:
+					case 0x53/*S*/:
+					case 0x54/*T*/:
+					case 0x55/*U*/:
+					case 0x56/*V*/:
+					case 0x57/*W*/:
+					case 0x58/*X*/:
+					case 0x59/*Y*/:
+					case 0x5A/*Z*/:
+					case 0x30/*0*/:
+					case 0x31/*1*/:
+					case 0x32/*2*/:
+					case 0x33/*3*/:
+					case 0x34/*4*/:
+					case 0x35/*5*/:
+					case 0x36/*6*/:
+					case 0x37/*7*/:
+					case 0x38/*8*/:
+					case 0x39/*9*/:
+					case 0xB0/*° Degree Sign*/:
+					case 0x21/*! exclamation mark*/:
+					case 0x22/*" quotation mark   (entity name is quot;)*/:
+					case 0x23/*# number sign*/:
+					case 0x24/*$ dollar sign*/:
+					case 0x25/*% percent sign*/:
+					case 0x26/*& ampersand   (entity name is &amp;)*/:
+					case 0x27/*' apostrophe*/:
+					case 0x28/*( left parenthesis*/:
+					case 0x29/*) right parenthesis*/:
+					case 0x2A/** asterisk*/:
+					case 0x2B/*+ plus sign*/:
+					case 0x2C/*, comma*/:
+					case 0x2D/*- hyphen-minus*/:
+					case 0x2E/*. dot*/:
+					case 0x2F/*/ slash*/:
+					case 0x3A/*"; colon*/:
+					case 0x3B/*; semicolon*/:
+					case 0x3C/*< less-than sign   (entity name is &lt;)*/:
+					case 0x3D/*= equals sign*/:
+					case 0x3E/*> greater-than sign   (entity name is &gt;)*/:
+					case 0x3F/*? question mark*/:
+					case 0x40/*@ commercial at*/:
+					case 0x5B/*[ left square bracket*/:
+					case 0x5C/*\ reverse solidus*/:
+					case 0x5D/*] right square bracket*/:
+					case 0x5E/*^ circumflex accent*/:
+					case 0x5F/*_ low line*/:
+					case 0x60/*` grave accent*/:
+					case 0x7B/*{ left curly bracket*/:
+					case 0x7C/*| vertical line*/:
+					case 0x7D/*} right curly bracket*/:
+					case 0x7E/*~ tilde*/:
+					case 0x20/*Space*/:
+						/* do nothing*/
+						break;
+
+
+
+					default:
+						standardText[iChar] = 0x20/*Space*/;
+						break;
 					}
 				}
-
 				int iSaveChar = 0;
 				for (int iCheckChar = 0; iCheckChar < standardTextLength; iCheckChar++)
 				{
