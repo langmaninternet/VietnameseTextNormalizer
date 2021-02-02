@@ -2559,20 +2559,13 @@ void				VietnameseTextNormalizer::Input(const qwchar* text)
 					case 0x300/*VIETNAMESE_TONE_HUYEN*/:
 					case 0x340/*VIETNAMESE_TONE_HUYEN*/:
 					case 0x2CB/*VIETNAMESE_TONE_HUYEN*/:
-
-
 					case 0x303/*VIETNAMESE_TONE_NGA*/:
 					case 0x309/*VIETNAMESE_TONE_HOI*/:
-
-
 					case 0x301/*VIETNAMESE_TONE_SAC*/:
 					case 0xB4/*VIETNAMESE_TONE_SAC*/:
 					case 0x341/*VIETNAMESE_TONE_SAC*/:
 					case 0x2CA/*VIETNAMESE_TONE_SAC*/:
 					case 0x1FFD/*VIETNAMESE_TONE_SAC*/:
-
-
-
 					case 0x323/*VIETNAMESE_TONE_NANG*/:
 					case 0x200B/*Zero width space*/:
 					case 0xFEFF/*Zero width no-break space*/:
@@ -2732,7 +2725,7 @@ void				VietnameseTextNormalizer::Input(const qwchar* text)
 					leftTextNodeOffset2 = leftTextNodeOffset1;
 					leftTextNodeOffset1 = leftTextNodeOffset0;
 					leftTextNodeOffset0 = backupTextNode;
-					if (text[1] != 0x20/*space*/ && (text[0] == 0x201D/*”*/ || text[0] == 0x2019/*’*/)) backupTextNode->needSpaceAfter = 1;
+					//if (text[1] != 0x20/*space*/ && (text[0] == 0x201D/*”*/ || text[0] == 0x2019/*’*/)) backupTextNode->needSpaceAfter = 1;
 
 					text++;
 					currentOriginalSyllable = text;
@@ -2823,17 +2816,13 @@ void				VietnameseTextNormalizer::Input(const qwchar* text)
 					case 0x300/*` VIETNAMESE_TONE_HUYEN*/:
 					case 0x340/*VIETNAMESE_TONE_HUYEN*/:
 					case 0x2CB/*VIETNAMESE_TONE_HUYEN*/:
-
 					case 0x303/*~ VIETNAMESE_TONE_NGA*/:
 					case 0x309/*? VIETNAMESE_TONE_HOI*/:
-
 					case 0x301/*' VIETNAMESE_TONE_SAC*/:
 					case 0xB4/*' VIETNAMESE_TONE_SAC*/:
 					case 0x341/*VIETNAMESE_TONE_SAC*/:
 					case 0x2CA/*VIETNAMESE_TONE_SAC*/:
 					case 0x1FFD/*VIETNAMESE_TONE_SAC*/:
-
-
 					case 0x323/*. VIETNAMESE_TONE_NANG*/:
 					case 0x302/* ̂ */:
 					case 0x306/* ̆ */:
@@ -2842,9 +2831,6 @@ void				VietnameseTextNormalizer::Input(const qwchar* text)
 					case 0x31B/* ̛ */:
 					case 0x3A1/*P*/:
 					case 0x3C1/*p*/:
-
-
-
 						text++;
 						currentOriginalSyllableLength++;
 						startOfNewNode = 0;
