@@ -1847,6 +1847,7 @@ TEXT_NODE* VietnameseTextNormalizer::InsertUnknownNodeToTail(qwchar const* nodeO
 			case 0x2018/*‘ left single quotation mark*/:
 			case 0x201B/*‛ left single quotation mark*/:
 			case 0x201C/*“ left double quotation mark*/:
+			case 0x201F/*‟ left double quotation mark*/:
 
 			case 0x27/*' single quotation mark*/:
 			case 0x22/*" double quotation mark*/:
@@ -2381,6 +2382,7 @@ void				VietnameseTextNormalizer::Input(const qwchar* text)
 					switch (text[leftMatchingVietnameseLength])
 					{
 					case 0x201C/*“ left double quotation mark*/:
+					case 0x201F/*‟ left double quotation mark*/:
 					case 0x2018/*‘ left single quotation mark*/:
 					case 0x201B/*‛ left single quotation mark*/:
 						needSplitLeftMatchingVietnameseSyllable = true;
@@ -2417,6 +2419,7 @@ void				VietnameseTextNormalizer::Input(const qwchar* text)
 					case 0x2019/*’ right single quotation mark*/:
 					case 0x201D/*” right double quotation mark*/:
 					case 0x201C/*“ left double quotation mark*/:
+					case 0x201F/*‟ left double quotation mark*/:
 						needSplitLeftMatchingVietnameseSyllable = true;
 						break;
 					case 0x0/*NULL*/:
@@ -3666,6 +3669,7 @@ void				VietnameseTextNormalizer::Normalize(void)
 							case 0x201B/*‛ left single quotation mark*/:
 							case 0x2019/*’ right single quotation mark*/:
 							case 0x201C/*“ left double quotation mark*/:
+							case 0x201F/*‟ left double quotation mark*/:
 							case 0x201D/*” right double quotation mark*/:
 							case 0x27/*' single quotation mark*/:
 							case 0x22/*" double quotation mark*/:
@@ -4670,6 +4674,7 @@ void				VietnameseTextNormalizer::Normalize(void)
 				switch (textNode->text[0])
 				{
 				case 0x201C/*“ left double quotation mark*/:
+				case 0x201F/*‟ left double quotation mark*/:
 				case 0x201D/*” right double quotation mark*/:
 				case 0x2018/*‘ left single quotation mark*/:
 				case 0x201B/*‛ left single quotation mark*/:
@@ -5180,6 +5185,7 @@ void				VietnameseTextNormalizer::GenStandardText(void)
 					switch (standardText[iChar])
 					{
 					case 0x201C/*“ left double quotation mark*/:
+					case 0x201F/*‟ left double quotation mark*/:
 					case 0x201D/*” right double quotation mark*/:
 						standardText[iChar] = 0x22/* " */;
 						break;
