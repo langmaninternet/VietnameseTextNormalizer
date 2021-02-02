@@ -5174,7 +5174,7 @@ void				VietnameseTextNormalizer::GenStandardText(void)
 				case 0x200B/*Zero width space*/:
 				case 0xFEFF/*Zero width no-break space*/:
 				case 0xA0/*Non-breaking space*/:
-					standardText[iChar] = L' ';
+					standardText[iChar] = 0x20/*Space*/;
 					standardTextChange++;
 					break;
 				}
@@ -5194,7 +5194,7 @@ void				VietnameseTextNormalizer::GenStandardText(void)
 					case 0x201B/*‛ left single quotation mark*/:
 					case 0x2019/*’ right single quotation mark*/:
 						standardText[iChar] = 0x27/* ' */;
-						break;						
+						break;
 					case  0x2013/*–*/:
 					case  0x2014/*—*/:
 					case  0x2015/*―*/:
@@ -5207,8 +5207,18 @@ void				VietnameseTextNormalizer::GenStandardText(void)
 						break;
 					}
 				}
-			}
 
+				int iSaveChar = 0;
+				for (int iCheckChar = 0; iCheckChar < standardTextLength; iCheckChar++)
+				{
+					if (standardText[iCheckChar] == 0x20/*Space*/ && (iSaveChar == 0 || standardText[iSaveChar - 1] == 0x20/*Space*/))
+					{
+						//skip - do nothing
+					}
+					else standardText[iSaveChar++] = standardText[iCheckChar];
+				}
+				standardTextLength = iSaveChar;
+			}
 		}
 	}
 }
