@@ -1845,7 +1845,7 @@ TEXT_NODE* VietnameseTextNormalizer::InsertUnknownNodeToTail(qwchar const* nodeO
 			case 0x28/*(*/:
 			case 0x29/*)*/:
 			case 0x2018/*‘ left single quotation mark*/:
-
+			case 0x201B/*‛ left single quotation mark*/:
 			case 0x201C/*“ left double quotation mark*/:
 
 			case 0x27/*' single quotation mark*/:
@@ -1889,6 +1889,8 @@ TEXT_NODE* VietnameseTextNormalizer::InsertUnknownNodeToTail(qwchar const* nodeO
 
 			case 0x2D/*-*/:
 			case  0x2013/*–*/:
+			case  0x2014/*—*/:
+			case  0x2015/*―*/:
 				if (flagValidateToolMode)
 				{
 					textNode->textNodeType = TEXT_NODE_TYPE_IGNORE_NODE;
@@ -2380,6 +2382,7 @@ void				VietnameseTextNormalizer::Input(const qwchar* text)
 					{
 					case 0x201C/*“ left double quotation mark*/:
 					case 0x2018/*‘ left single quotation mark*/:
+					case 0x201B/*‛ left single quotation mark*/:
 						needSplitLeftMatchingVietnameseSyllable = true;
 						flagNeedSpace = true;
 						break;
@@ -2410,6 +2413,7 @@ void				VietnameseTextNormalizer::Input(const qwchar* text)
 						break;
 					case 0x2026/*Horizontal ellipsis …*/:
 					case 0x2018/*‘ left single quotation mark*/:
+					case 0x201B/*‛ left single quotation mark*/:
 					case 0x2019/*’ right single quotation mark*/:
 					case 0x201D/*” right double quotation mark*/:
 					case 0x201C/*“ left double quotation mark*/:
@@ -2809,6 +2813,8 @@ void				VietnameseTextNormalizer::Input(const qwchar* text)
 					case 0x2F/*/ slash*/:
 					case 0x2D/*-*/:
 					case  0x2013/*–*/:
+					case  0x2014/*—*/:
+					case  0x2015/*―*/:
 					case 0x2C/*,*/:
 					case 0x2E/*.*/:
 					case 0x200B/*Zero width space*/:
@@ -3657,6 +3663,7 @@ void				VietnameseTextNormalizer::Normalize(void)
 							case 0x28/*(*/:
 							case 0x29/*)*/:
 							case 0x2018/*‘ left single quotation mark*/:
+							case 0x201B/*‛ left single quotation mark*/:
 							case 0x2019/*’ right single quotation mark*/:
 							case 0x201C/*“ left double quotation mark*/:
 							case 0x201D/*” right double quotation mark*/:
@@ -3677,6 +3684,8 @@ void				VietnameseTextNormalizer::Normalize(void)
 
 							case 0x2D/*-*/:
 							case  0x2013/*–*/:
+							case  0x2014/*—*/:
+							case  0x2015/*―*/:
 								insertTextNode->textNodeType = TEXT_NODE_TYPE_SILENCE;
 								insertTextNode->silenceTimeInSecond = silenceShortTime;
 								break;
@@ -4652,6 +4661,30 @@ void				VietnameseTextNormalizer::Normalize(void)
 		}
 
 	}
+	if (flagStandardTextForTTS)
+	{
+		for (TEXT_NODE* textNode = head; textNode/*!=NULL*/; textNode = textNode->next)
+		{
+			if (textNode->text && textNode->textLength == 1)
+			{
+				switch (textNode->text[0])
+				{
+				case 0x201C/*“ left double quotation mark*/:
+				case 0x201D/*” right double quotation mark*/:
+				case 0x2018/*‘ left single quotation mark*/:
+				case 0x201B/*‛ left single quotation mark*/:
+				case 0x2019/*’ right single quotation mark*/:
+					textNode->needSpaceAfter = 1;
+					if (textNode->back)
+					{
+						textNode->back->needSpaceAfter = 1;
+					}
+					break;
+				}
+			}
+		}
+	}
+
 
 
 
@@ -4861,6 +4894,10 @@ void				VietnameseTextNormalizer::Normalize(void)
 		//}
 	}
 #endif
+
+
+
+
 	/************************************************************************/
 	/* Log                                                                  */
 	/************************************************************************/
@@ -5138,20 +5175,27 @@ void				VietnameseTextNormalizer::GenStandardText(void)
 			}
 			if (flagStandardTextForTTS)
 			{
-				//	for (int iChar = 0; iChar < standardTextLength; iChar++)
-				//	{
-				//		switch (standardText[iChar])
-				//		{
-				//		//	case 0x200B/*Zero width space*/:
-				//		//	case 0xFEFF/*Zero width no-break space*/:
-				//		//	case 0xA0/*Non-breaking space*/:
-				//		//		standardText[iChar] = L' ';
-				//		//		standardTextChange++;
-				//		//		break;
-				//	
-				//			//	abc; sad;
-				//		}
-				//	}
+				for (int iChar = 0; iChar < standardTextLength; iChar++)
+				{
+					switch (standardText[iChar])
+					{
+					case 0x201C/*“ left double quotation mark*/:
+					case 0x201D/*” right double quotation mark*/:
+						standardText[iChar] = 0x22/* " */;
+						break;
+					case 0x2018/*‘ left single quotation mark*/:
+					case 0x201B/*‛ left single quotation mark*/:
+					case 0x2019/*’ right single quotation mark*/:
+						standardText[iChar] = 0x27/* ' */;
+						break;
+						
+					case  0x2013/*–*/:
+					case  0x2014/*—*/:
+					case  0x2015/*―*/:
+						standardText[iChar] = 0x2D/*-*/;
+						break;
+					}
+				}
 			}
 
 		}
