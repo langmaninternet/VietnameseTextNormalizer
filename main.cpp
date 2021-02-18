@@ -1312,14 +1312,14 @@ static struct PyModuleDef VietnameseTextNormalizerModule = {
 PyMODINIT_FUNC PyInit_VietnameseTextNormalizer(void)
 {
 	char author[] = { (char)(9),(char)(66),(char)(-61),(char)(-71),(char)(105),(char)(32),(char)(84),(char)(-31),(char)(-70),(char)(-91),(char)(110),(char)(32),(char)(81),(char)(117),(char)(97),(char)(110),(char)(103),(char)(32),(char)(45),(char)(32),(char)(108),(char)(97),(char)(110),(char)(103),(char)(109),(char)(97),(char)(110),(char)(105),(char)(110),(char)(116),(char)(101),(char)(114),(char)(110),(char)(101),(char)(116),(char)(64),(char)(103),(char)(109),(char)(97),(char)(105),(char)(108),(char)(46),(char)(99),(char)(111),(char)(109),0 };
-	printf("Init Vietnamese Text Normalizer version 1.7\n");
+	printf("Init Vietnamese Text Normalizer version 1.8\n");
 	printf("%s\n", author);
 	return PyModule_Create(&VietnameseTextNormalizerModule);
 }
 PyMODINIT_FUNC PyInit_libVietnameseTextNormalizer(void)
 {
 	char author[] = { (char)(9),(char)(66),(char)(-61),(char)(-71),(char)(105),(char)(32),(char)(84),(char)(-31),(char)(-70),(char)(-91),(char)(110),(char)(32),(char)(81),(char)(117),(char)(97),(char)(110),(char)(103),(char)(32),(char)(45),(char)(32),(char)(108),(char)(97),(char)(110),(char)(103),(char)(109),(char)(97),(char)(110),(char)(105),(char)(110),(char)(116),(char)(101),(char)(114),(char)(110),(char)(101),(char)(116),(char)(64),(char)(103),(char)(109),(char)(97),(char)(105),(char)(108),(char)(46),(char)(99),(char)(111),(char)(109),0 };
-	printf("Init Vietnamese Text Normalizer version 1.7\n");
+	printf("Init Vietnamese Text Normalizer version 1.8\n");
 	printf("%s\n", author);
 	return PyModule_Create(&VietnameseTextNormalizerModule);
 }
@@ -1327,7 +1327,7 @@ PyMODINIT_FUNC PyInit_libVietnameseTextNormalizer(void)
 PyMODINIT_FUNC initVietnameseTextNormalizer(void)
 {
 	char author[] = { (char)(9),(char)(66),(char)(-61),(char)(-71),(char)(105),(char)(32),(char)(84),(char)(-31),(char)(-70),(char)(-91),(char)(110),(char)(32),(char)(81),(char)(117),(char)(97),(char)(110),(char)(103),(char)(32),(char)(45),(char)(32),(char)(108),(char)(97),(char)(110),(char)(103),(char)(109),(char)(97),(char)(110),(char)(105),(char)(110),(char)(116),(char)(101),(char)(114),(char)(110),(char)(101),(char)(116),(char)(64),(char)(103),(char)(109),(char)(97),(char)(105),(char)(108),(char)(46),(char)(99),(char)(111),(char)(109),0 };
-	printf("Init Vietnamese Text Normalization version 1.7\n");
+	printf("Init Vietnamese Text Normalizer version 1.8\n");
 	printf("%s\n", author);
 	/* Create the module and add the functions */
 	Py_InitModule("VietnameseTextNormalizer", VietnameseTextNormalizerMethods);
@@ -1335,7 +1335,7 @@ PyMODINIT_FUNC initVietnameseTextNormalizer(void)
 PyMODINIT_FUNC initlibVietnameseTextNormalizer(void)
 {
 	char author[] = { (char)(9),(char)(66),(char)(-61),(char)(-71),(char)(105),(char)(32),(char)(84),(char)(-31),(char)(-70),(char)(-91),(char)(110),(char)(32),(char)(81),(char)(117),(char)(97),(char)(110),(char)(103),(char)(32),(char)(45),(char)(32),(char)(108),(char)(97),(char)(110),(char)(103),(char)(109),(char)(97),(char)(110),(char)(105),(char)(110),(char)(116),(char)(101),(char)(114),(char)(110),(char)(101),(char)(116),(char)(64),(char)(103),(char)(109),(char)(97),(char)(105),(char)(108),(char)(46),(char)(99),(char)(111),(char)(109),0 };
-	printf("Init Vietnamese Text Normalization version 1.7\n");
+	printf("Init Vietnamese Text Normalizer version 1.8\n");
 	printf("%s\n", author);
 	/* Create the module and add the functions */
 	Py_InitModule("VietnameseTextNormalizer", VietnameseTextNormalizerMethods);
