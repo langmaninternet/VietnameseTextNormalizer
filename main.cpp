@@ -1250,6 +1250,39 @@ static PyObject* GetFirstTone(PyObject* self, PyObject* args)
 #undef  VIETNAMESE_TONE_NANG_VALUE		
 
 
+qwchar				GetIBaseChar(qwchar wch)
+{
+	switch (wch)
+	{
+	case L'à':case L'á':case L'ả':case L'ã':case L'ạ':return L'a';
+	case L'è':case L'é':case L'ẻ':case L'ẽ':case L'ẹ':return L'e';
+	case L'ì':case L'í':case L'ỉ':case L'ĩ':case L'ị':return L'i';
+	case L'ò':case L'ó':case L'ỏ':case L'õ':case L'ọ':return L'o';
+	case L'ù':case L'ú':case L'ủ':case L'ũ':case L'ụ':return L'u';
+	case L'ỳ':case L'ý':case L'ỷ':case L'ỹ':case L'ỵ':return L'y';
+	case L'ầ':case L'ấ':case L'ẩ':case L'ẫ':case L'ậ':return L'â';
+	case L'ề':case L'ế':case L'ể':case L'ễ':case L'ệ':return L'ê';
+	case L'ồ':case L'ố':case L'ổ':case L'ỗ':case L'ộ':return L'ô';
+	case L'ằ':case L'ắ':case L'ẳ':case L'ẵ':case L'ặ':return L'ă';
+	case L'ờ':case L'ớ':case L'ở':case L'ỡ':case L'ợ':return L'ơ';
+	case L'ừ':case L'ứ':case L'ử':case L'ữ':case L'ự':return L'ư';
+	case L'À':case L'Á':case L'Ả':case L'Ã':case L'Ạ':return L'A';
+	case L'È':case L'É':case L'Ẻ':case L'Ẽ':case L'Ẹ':return L'E';
+	case L'Ì':case L'Í':case L'Ỉ':case L'Ĩ':case L'Ị':return L'I';
+	case L'Ò':case L'Ó':case L'Ỏ':case L'Õ':case L'Ọ':return L'O';
+	case L'Ù':case L'Ú':case L'Ủ':case L'Ũ':case L'Ụ':return L'U';
+	case L'Ỳ':case L'Ý':case L'Ỷ':case L'Ỹ':case L'Ỵ':return L'Y';
+	case L'Ầ':case L'Ấ':case L'Ẩ':case L'Ẫ':case L'Ậ':return L'Â';
+	case L'Ề':case L'Ế':case L'Ể':case L'Ễ':case L'Ệ':return L'Ê';
+	case L'Ồ':case L'Ố':case L'Ổ':case L'Ỗ':case L'Ộ':return L'Ô';
+	case L'Ằ':case L'Ắ':case L'Ẳ':case L'Ẵ':case L'Ặ':return L'Ă';
+	case L'Ờ':case L'Ớ':case L'Ở':case L'Ỡ':case L'Ợ':return L'Ơ';
+	case L'Ừ':case L'Ứ':case L'Ử':case L'Ữ':case L'Ự':return L'Ư';
+	case L'Đ':return L'Đ';
+	}
+	return wch;
+}
+
 
 
 
