@@ -113,9 +113,6 @@ static int	ConvertUnicodetoUtf8(const qwchar* ucs2str, int ucs2length, unsigned 
 
 
 
-
-
-
 /************************************************************************/
 /* Main                                                                 */
 /************************************************************************/
@@ -1162,6 +1159,96 @@ static PyObject* FNormalize(PyObject* self, PyObject* args)
 }
 
 
+#undef  VIETNAMESE_TONE_NO_TONE_VALUE		
+#undef  VIETNAMESE_TONE_HUYEN_VALUE			
+#undef  VIETNAMESE_TONE_NGA_VALUE			
+#undef  VIETNAMESE_TONE_HOI_VALUE			
+#undef  VIETNAMESE_TONE_SAC_VALUE			
+#undef  VIETNAMESE_TONE_NANG_VALUE		
+#define VIETNAMESE_TONE_NO_TONE_VALUE		'1'
+#define VIETNAMESE_TONE_HUYEN_VALUE			'2'		
+#define VIETNAMESE_TONE_NGA_VALUE			'3'
+#define VIETNAMESE_TONE_HOI_VALUE			'4'
+#define VIETNAMESE_TONE_SAC_VALUE			'5'
+#define VIETNAMESE_TONE_NANG_VALUE			'6'
+qwchar		GetTone(qwchar wch)
+{
+	switch (wch)
+	{
+	case L'à':case L'À':case L'ằ':case L'Ằ':case L'ầ':case L'Ầ':case L'è':case L'È':case L'ề':case L'Ề':case L'ì':case L'Ì':
+	case L'ò':case L'Ò':case L'ồ':case L'Ồ':case L'ờ':case L'Ờ':case L'ù':case L'Ù':case L'ừ':case L'Ừ':case L'ỳ':case L'Ỳ':
+		return VIETNAMESE_TONE_HUYEN_VALUE;
+	case L'á':case L'Á':case L'ắ':case L'Ắ':case L'ấ':case L'Ấ':case L'é':case L'É':case L'ế':case L'Ế':case L'í':case L'Í':
+	case L'ó':case L'Ó':case L'ố':case L'Ố':case L'ớ':case L'Ớ':case L'ú':case L'Ú':case L'ứ':case L'Ứ':case L'ý':case L'Ý':
+		return VIETNAMESE_TONE_SAC_VALUE;
+	case L'ả':case L'Ả':case L'ẳ':case L'Ẳ':case L'ẩ':case L'Ẩ':case L'ẻ':case L'Ẻ':case L'ể':case L'Ể':case L'ỉ':case L'Ỉ':
+	case L'ỏ':case L'Ỏ':case L'ổ':case L'Ổ':case L'ở':case L'Ở':case L'ủ':case L'Ủ':case L'ử':case L'Ử':case L'ỷ':case L'Ỷ':
+		return VIETNAMESE_TONE_HOI_VALUE;
+	case L'ã':case L'Ã':case L'ẵ':case L'Ẵ':case L'ẫ':case L'Ẫ':case L'ẽ':case L'Ẽ':case L'ễ':case L'Ễ':case L'ĩ':case L'Ĩ':
+	case L'õ':case L'Õ':case L'ỗ':case L'Ỗ':case L'ỡ':case L'Ỡ':case L'ũ':case L'Ũ':case L'ữ':case L'Ữ':case L'ỹ':case L'Ỹ':
+		return VIETNAMESE_TONE_NGA_VALUE;
+	case L'ạ':case L'Ạ':case L'ặ':case L'Ặ':case L'ậ':case L'Ậ':case L'ẹ':case L'Ẹ':case L'ệ':case L'Ệ':case L'ị':case L'Ị':
+	case L'ọ':case L'Ọ':case L'ộ':case L'Ộ':case L'ợ':case L'Ợ':case L'ụ':case L'Ụ':case L'ự':case L'Ự':case L'ỵ':case L'Ỵ':
+		return VIETNAMESE_TONE_NANG_VALUE;
+	}
+	return VIETNAMESE_TONE_NO_TONE_VALUE;
+}
+static PyObject* GetFirstTone(PyObject* self, PyObject* args)
+{
+	char				nullUtf8String[10] = { 0 };
+	wchar_t				nullUnicodeString[10] = { 0 };
+	char* utf8input = nullUtf8String;
+	wchar_t* unicodeInput = nullUnicodeString;
+	char		utf8Result[2] = { VIETNAMESE_TONE_NO_TONE_VALUE,0 };
+	if (PyArg_ParseTuple(args, "s", &utf8input) && utf8input != NULL && utf8input != nullUtf8String)
+	{
+		std::string	utf8String = utf8input;		
+		if (utf8input)
+		{
+			qwchar* ucs2buffer = (qwchar*)qcalloc(utf8String.size() + 100/*safe*/, sizeof(qwchar));
+			if (ucs2buffer)
+			{
+				ConvertUtf8toUnicode((const unsigned char*)(utf8String.c_str()), utf8String.size(), ucs2buffer);
+				qwchar* iucs2 = ucs2buffer
+					for (int iChar = 0, nMaxChar = int(utf8String.size()); iChar < nMaxChar && (*iucs2) != 0; iChar++, iucs2++)
+					{
+						utf8Result[0] = GetTone(*p);
+						if (utf8Result[0] != VIETNAMESE_TONE_NO_TONE_VALUE)
+						{
+							/*soft break*/
+							iChar = nMaxChar;
+						}
+					}
+				utf8String = utf8Result;
+				qfree(ucs2buffer);
+			}
+		}
+		return Py_BuildValue("s", utf8Result);
+	}
+	else if (PyArg_ParseTuple(args, "u", &unicodeInput) && unicodeInput != NULL && unicodeInput != nullUnicodeString)
+	{
+		std::wstring		unicodeString = unicodeInput;
+		wchar_t				unicodeResult[2] = { VIETNAMESE_TONE_NO_TONE_VALUE,0 };
+		for (int iChar = 0, nMaxChar = int(unicodeString.size()); iChar < nMaxChar; iChar++)
+		{
+			unicodeResult[0] = GetTone(unicodeString[iChar]);
+			if (unicodeResult[0] != L'1')
+			{
+				/*soft break*/
+				iChar = nMaxChar;
+			}
+		}
+		return  Py_BuildValue("u", (Py_UNICODE*)unicodeResult);
+	}
+	return Py_BuildValue("s", utf8Result);
+}
+#undef  VIETNAMESE_TONE_NO_TONE_VALUE		
+#undef  VIETNAMESE_TONE_HUYEN_VALUE			
+#undef  VIETNAMESE_TONE_NGA_VALUE			
+#undef  VIETNAMESE_TONE_HOI_VALUE			
+#undef  VIETNAMESE_TONE_SAC_VALUE			
+#undef  VIETNAMESE_TONE_NANG_VALUE		
+
 
 
 
@@ -1174,6 +1261,7 @@ static PyMethodDef	VietnameseTextNormalizerMethods[] = {
 	{ "VietnameseTextNormalizer", VietnameseTextNormalizerStandard, METH_VARARGS, "OutputString VietnameseTextNormalizer(String)" },
 	{ "Normalize", VietnameseTextNormalizerStandard, METH_VARARGS, "OutputString Normalize(String)" },
 	{ "FNormalize", FNormalize, METH_VARARGS, "OutputString FNormalize(String)" },
+	{ "GetFirstTone", GetFirstTone, METH_VARARGS, "OutputString GetFirstTone(String) # bằng: '1', huyền: '2', ngã: '3', hỏi: '4', sắc: '5', nặng: '6' " },
 	{ NULL, NULL, 0, NULL }
 };
 #if (PY_MAJOR_VERSION == 3)
