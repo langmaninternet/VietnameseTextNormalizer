@@ -19,3 +19,13 @@ print ("sắc   : " + VietnameseTextNormalizer.GetFirstTone("sắc"))
 print ("nặng  : " + VietnameseTextNormalizer.GetFirstTone("nặng"))
 print ("Other : " + VietnameseTextNormalizer.GetFirstTone(''))
 print ("Other : " + VietnameseTextNormalizer.GetFirstTone(u''))
+
+
+a=VietnameseTextNormalizer.GetIBase(u"UCS2 : Tôi làm việ ở ban công ngệ FPT, tôi là người viêt nam. hôm nay tôi ko thích ăn mì tôm. tôi làm đc 2 bài tập.");
+print (a)
+print (type(a))
+
+
+b=VietnameseTextNormalizer.GetIBase(" UTF8 : Tôi làm việ ở ban công ngệ FPT, tôi là người viêt nam. hôm nay tôi ko thích ăn mì tôm. tôi làm đc 2 bài tập.");
+print (b)
+print (type(b))

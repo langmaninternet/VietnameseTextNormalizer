@@ -1075,11 +1075,12 @@ static PyObject* VietnameseTextNormalizerStandard(PyObject* self, PyObject* args
 			if (vntObject.standardText && vntObject.standardTextChange > 0)
 			{
 				printf("Normalization : %d change(s) - Ucs2 mode\n", vntObject.standardTextChange);
-				unicodeResult.clear();
+				unicodeResult.erase(0);
 				unicodeResult.reserve(vntObject.standardTextLength + 10/*safe*/);
 				for (int iChar = 0; iChar < vntObject.standardTextChange; iChar++)
 				{
-					unicodeResult += (wchar_t)(vntObject.standardText[iChar]);
+					unicodeResult.push_back((wchar_t)(vntObject.standardText[iChar]));
+					//unicodeResult += (wchar_t)(vntObject.standardText[iChar]);
 				}
 			}
 		}
@@ -1145,7 +1146,7 @@ static PyObject* FNormalize(PyObject* self, PyObject* args)
 			if (vntObject.standardText && vntObject.standardTextChange > 0)
 			{
 				printf("Normalization : %d change(s) - Ucs2 mode\n", vntObject.standardTextChange);
-				unicodeResult.clear();
+				unicodeResult.erase(0);
 				unicodeResult.reserve(vntObject.standardTextLength + 10/*safe*/);
 				for (int iChar = 0; iChar < vntObject.standardTextChange; iChar++)
 				{
@@ -1219,7 +1220,7 @@ static PyObject* GetFirstTone(PyObject* self, PyObject* args)
 					if (utf8Result[0] != VIETNAMESE_TONE_NO_TONE_VALUE)
 					{
 						/*soft break*/
-						iChar = nMaxChar;
+						iChar = utf8StringSize;
 					}
 				}
 				utf8String = utf8Result;
@@ -1286,6 +1287,56 @@ qwchar				GetIBaseChar(qwchar wch)
 	return wch;
 }
 
+static PyObject* GetIBase(PyObject* self, PyObject* args)
+{
+	char				nullUtf8String[10] = { 0 };
+	wchar_t				nullUnicodeString[10] = { 0 };
+	char* utf8input = nullUtf8String;
+	wchar_t* unicodeInput = nullUnicodeString;
+	if (PyArg_ParseTuple(args, "s", &utf8input) && utf8input != NULL && utf8input != nullUtf8String)
+	{
+		std::string					utf8Result = utf8input;
+		int							utf8inputSize = utf8Result.size();
+		if (utf8input)
+		{
+			qwchar* ucs2buffer = (qwchar*)qcalloc(utf8inputSize + 100/*safe*/, sizeof(qwchar));
+			if (ucs2buffer)
+			{
+				ConvertUtf8toUnicode((const unsigned char*)(utf8Result.c_str()), utf8inputSize, ucs2buffer);
+				qwchar* iucs2 = ucs2buffer;
+				int     ucs2Length = 0;
+				for (int iChar = 0; iChar < utf8inputSize && (*iucs2) != 0; iChar++, iucs2++)
+				{
+					*iucs2 = GetIBaseChar(*iucs2);
+					ucs2Length++;
+				}
+				char* bufferUtf8 = (char*)calloc(utf8inputSize + 100/*safe*/, sizeof(char));
+				if (bufferUtf8)
+				{
+					ConvertUnicodetoUtf8(ucs2buffer, ucs2Length, (unsigned char*)bufferUtf8);
+					utf8Result = bufferUtf8;
+					qfree(bufferUtf8);
+				}
+
+				qfree(ucs2buffer);
+			}
+		}
+		return Py_BuildValue("s", utf8Result.c_str());
+	}
+	else if (PyArg_ParseTuple(args, "u", &unicodeInput) && unicodeInput != NULL && unicodeInput != nullUnicodeString)
+	{
+		std::wstring		unicodeResult = unicodeInput;
+		size_t				unicodeLength = unicodeResult.size();
+		for (size_t iChar = 0; iChar < unicodeLength; iChar++)
+		{
+			unicodeResult[iChar] = GetIBaseChar(unicodeResult[iChar]);
+		}
+		return  Py_BuildValue("u", (Py_UNICODE*)(unicodeResult.c_str()));
+	}
+	PyObject* argsObject = NULL;
+	PyArg_ParseTuple(args, "O", &argsObject);
+	return argsObject;
+}
 
 
 
@@ -1298,6 +1349,7 @@ static PyMethodDef	VietnameseTextNormalizerMethods[] = {
 	{ "Normalize", VietnameseTextNormalizerStandard, METH_VARARGS, "OutputString Normalize(String)" },
 	{ "FNormalize", FNormalize, METH_VARARGS, "OutputString FNormalize(String)" },
 	{ "GetFirstTone", GetFirstTone, METH_VARARGS, "OutputString GetFirstTone(String) # bằng: '1', huyền: '2', ngã: '3', hỏi: '4', sắc: '5', nặng: '6' " },
+	{ "GetIBase", GetIBase, METH_VARARGS, "OutputString GetIBase(String)" },
 	{ NULL, NULL, 0, NULL }
 };
 #if (PY_MAJOR_VERSION == 3)
