@@ -1272,6 +1272,7 @@ qwchar				GetIBaseChar(qwchar wch)
 	case L'ằ':case L'ắ':case L'ẳ':case L'ẵ':case L'ặ':return L'ă';
 	case L'ờ':case L'ớ':case L'ở':case L'ỡ':case L'ợ':return L'ơ';
 	case L'ừ':case L'ứ':case L'ử':case L'ữ':case L'ự':return L'ư';
+
 	case L'À':case L'Á':case L'Ả':case L'Ã':case L'Ạ':return L'A';
 	case L'È':case L'É':case L'Ẻ':case L'Ẽ':case L'Ẹ':return L'E';
 	case L'Ì':case L'Í':case L'Ỉ':case L'Ĩ':case L'Ị':return L'I';
@@ -1284,6 +1285,7 @@ qwchar				GetIBaseChar(qwchar wch)
 	case L'Ằ':case L'Ắ':case L'Ẳ':case L'Ẵ':case L'Ặ':return L'Ă';
 	case L'Ờ':case L'Ớ':case L'Ở':case L'Ỡ':case L'Ợ':return L'Ơ';
 	case L'Ừ':case L'Ứ':case L'Ử':case L'Ữ':case L'Ự':return L'Ư';
+
 	case L'Đ':return L'Đ';
 	}
 	return wch;
@@ -1342,6 +1344,97 @@ static PyObject* GetIBase(PyObject* self, PyObject* args)
 
 
 
+wchar_t				GetBaseLowerChar(wchar_t wch)
+{
+	switch (wch)
+	{
+	case L'A':case L'à':case L'À':case L'á':case L'Á':case L'ả':case L'Ả':case L'ã':case L'Ã':case L'ạ':case L'Ạ':return L'a';
+	case L'E':case L'è':case L'È':case L'é':case L'É':case L'ẻ':case L'Ẻ':case L'ẽ':case L'Ẽ':case L'ẹ':case L'Ẹ':return L'e';
+	case L'I':case L'ì':case L'Ì':case L'í':case L'Í':case L'ỉ':case L'Ỉ':case L'ĩ':case L'Ĩ':case L'ị':case L'Ị':return L'i';
+	case L'O':case L'ò':case L'Ò':case L'ó':case L'Ó':case L'ỏ':case L'Ỏ':case L'õ':case L'Õ':case L'ọ':case L'Ọ':return L'o';
+	case L'U':case L'ù':case L'Ù':case L'ú':case L'Ú':case L'ủ':case L'Ủ':case L'ũ':case L'Ũ':case L'ụ':case L'Ụ':return L'u';
+	case L'Y':case L'ỳ':case L'Ỳ':case L'ý':case L'Ý':case L'ỷ':case L'Ỷ':case L'ỹ':case L'Ỹ':case L'ỵ':case L'Ỵ':return L'y';
+	case L'Â':case L'ầ':case L'Ầ':case L'ấ':case L'Ấ':case L'ẩ':case L'Ẩ':case L'ẫ':case L'Ẫ':case L'ậ':case L'Ậ':return L'â';
+	case L'Ê':case L'ề':case L'Ề':case L'ế':case L'Ế':case L'ể':case L'Ể':case L'ễ':case L'Ễ':case L'ệ':case L'Ệ':return L'ê';
+	case L'Ô':case L'ồ':case L'Ồ':case L'ố':case L'Ố':case L'ổ':case L'Ổ':case L'ỗ':case L'Ỗ':case L'ộ':case L'Ộ':return L'ô';
+	case L'Ă':case L'ằ':case L'Ằ':case L'ắ':case L'Ắ':case L'ẳ':case L'Ẳ':case L'ẵ':case L'Ẵ':case L'ặ':case L'Ặ':return L'ă';
+	case L'Ơ':case L'ờ':case L'Ờ':case L'ớ':case L'Ớ':case L'ở':case L'Ở':case L'ỡ':case L'Ỡ':case L'ợ':case L'Ợ':return L'ơ';
+	case L'Ư':case L'ừ':case L'Ừ':case L'ứ':case L'Ứ':case L'ử':case L'Ử':case L'ữ':case L'Ữ':case L'ự':case L'Ự':return L'ư';
+	case L'Đ':return L'đ';
+	case L'B':return L'b';
+	case L'C':return L'c';
+	case L'D':return L'd';
+	case L'F':return L'f';
+	case L'G':return L'g';
+	case L'H':return L'h';
+	case L'J':return L'j';
+	case L'K':return L'k';
+	case L'L':return L'l';
+	case L'M':return L'm';
+	case L'N':return L'n';
+	case L'P':return L'p';
+	case L'Q':return L'q';
+	case L'R':return L'r';
+	case L'S':return L's';
+	case L'T':return L't';
+	case L'V':return L'v';
+	case L'W':return L'w';
+	case L'X':return L'x';
+	case L'Z':return L'z';
+	}
+	return wch;
+}
+static PyObject* GetBaseLower(PyObject* self, PyObject* args)
+{
+	char				nullUtf8String[10] = { 0 };
+	wchar_t				nullUnicodeString[10] = { 0 };
+	char* utf8input = nullUtf8String;
+	wchar_t* unicodeInput = nullUnicodeString;
+	if (PyArg_ParseTuple(args, "s", &utf8input) && utf8input != NULL && utf8input != nullUtf8String)
+	{
+		std::string					utf8Result = utf8input;
+		int							utf8inputSize = utf8Result.size();
+		if (utf8input)
+		{
+			qwchar* ucs2buffer = (qwchar*)qcalloc(utf8inputSize + 100/*safe*/, sizeof(qwchar));
+			if (ucs2buffer)
+			{
+				ConvertUtf8toUnicode((const unsigned char*)(utf8Result.c_str()), utf8inputSize, ucs2buffer);
+				qwchar* iucs2 = ucs2buffer;
+				int     ucs2Length = 0;
+				for (int iChar = 0; iChar < utf8inputSize && (*iucs2) != 0; iChar++, iucs2++)
+				{
+					*iucs2 = GetBaseLowerChar(*iucs2);
+					ucs2Length++;
+				}
+				char* bufferUtf8 = (char*)calloc(utf8inputSize + 100/*safe*/, sizeof(char));
+				if (bufferUtf8)
+				{
+					ConvertUnicodetoUtf8(ucs2buffer, ucs2Length, (unsigned char*)bufferUtf8);
+					utf8Result = bufferUtf8;
+					qfree(bufferUtf8);
+				}
+
+				qfree(ucs2buffer);
+			}
+		}
+		return Py_BuildValue("s", utf8Result.c_str());
+	}
+	else if (PyArg_ParseTuple(args, "u", &unicodeInput) && unicodeInput != NULL && unicodeInput != nullUnicodeString)
+	{
+		std::wstring		unicodeResult = unicodeInput;
+		size_t				unicodeLength = unicodeResult.size();
+		for (size_t iChar = 0; iChar < unicodeLength; iChar++)
+		{
+			unicodeResult[iChar] = GetBaseLowerChar(unicodeResult[iChar]);
+		}
+		return  Py_BuildValue("u", (Py_UNICODE*)(unicodeResult.c_str()));
+	}
+	PyObject* argsObject = NULL;
+	PyArg_ParseTuple(args, "O", &argsObject);
+	return argsObject;
+}
+
 
 /************************************************************************/
 /*                                                                      */
@@ -1352,6 +1445,7 @@ static PyMethodDef	VietnameseTextNormalizerMethods[] = {
 	{ "FNormalize", FNormalize, METH_VARARGS, "OutputString FNormalize(String)" },
 	{ "GetFirstTone", GetFirstTone, METH_VARARGS, "OutputString GetFirstTone(String) # bằng: '1', huyền: '2', ngã: '3', hỏi: '4', sắc: '5', nặng: '6' " },
 	{ "GetIBase", GetIBase, METH_VARARGS, "OutputString GetIBase(String)" },
+	{ "GetBaseLower", GetBaseLower, METH_VARARGS, "OutputString GetBaseLower(String)" },
 	{ NULL, NULL, 0, NULL }
 };
 #if (PY_MAJOR_VERSION == 3)
