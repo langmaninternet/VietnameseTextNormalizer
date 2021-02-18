@@ -1202,15 +1202,16 @@ static PyObject* GetFirstTone(PyObject* self, PyObject* args)
 	char		utf8Result[2] = { VIETNAMESE_TONE_NO_TONE_VALUE,0 };
 	if (PyArg_ParseTuple(args, "s", &utf8input) && utf8input != NULL && utf8input != nullUtf8String)
 	{
-		std::string	utf8String = utf8input;
+		std::string		utf8String = utf8input;
+		int				utf8StringSize = (int)(utf8String.size());
 		if (utf8input)
 		{
-			qwchar* ucs2buffer = (qwchar*)qcalloc(utf8String.size() + 100/*safe*/, sizeof(qwchar));
+			qwchar* ucs2buffer = (qwchar*)qcalloc(utf8StringSize + 100/*safe*/, sizeof(qwchar));
 			if (ucs2buffer)
 			{
-				ConvertUtf8toUnicode((const unsigned char*)(utf8String.c_str()), utf8String.size(), ucs2buffer);
+				ConvertUtf8toUnicode((const unsigned char*)(utf8String.c_str()), utf8StringSize, ucs2buffer);
 				qwchar* iucs2 = ucs2buffer;
-				for (int iChar = 0, nMaxChar = int(utf8String.size()); iChar < nMaxChar && (*iucs2) != 0; iChar++, iucs2++)
+				for (int iChar = 0; iChar < utf8StringSize && (*iucs2) != 0; iChar++, iucs2++)
 				{
 					utf8Result[0] = GetTone(*iucs2);
 					if (utf8Result[0] != VIETNAMESE_TONE_NO_TONE_VALUE)
