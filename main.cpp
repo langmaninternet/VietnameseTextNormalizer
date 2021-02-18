@@ -630,7 +630,7 @@ namespace std
 #if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) || defined(_MSC_VER)
 		std::string buffer;
 		int		bufferUtf8Length = int(wstr.size() * 4 + 10);
-		char*	bufferUtf8 = (char*)calloc(bufferUtf8Length, sizeof(char));
+		char* bufferUtf8 = (char*)calloc(bufferUtf8Length, sizeof(char));
 		if (bufferUtf8)
 		{
 			ConvertUnicodetoUtf8(wstr.c_str(), (int)wstr.size(), (unsigned char*)bufferUtf8);
@@ -1035,7 +1035,7 @@ static PyObject* VietnameseTextNormalizerStandard(PyObject* self, PyObject* args
 		std::string	utf8Result = utf8input;
 		if (utf8input)
 		{
-			qwchar* ucs2buffer = (qwchar*)qcalloc(utf8Result.size()  + 100/*safe*/, sizeof(qwchar));
+			qwchar* ucs2buffer = (qwchar*)qcalloc(utf8Result.size() + 100/*safe*/, sizeof(qwchar));
 			if (ucs2buffer)
 			{
 				ConvertUtf8toUnicode((const unsigned char*)(utf8Result.c_str()), utf8Result.size(), ucs2buffer);
@@ -1045,14 +1045,14 @@ static PyObject* VietnameseTextNormalizerStandard(PyObject* self, PyObject* args
 				vntObject.GenStandardText();
 				if (vntObject.standardText && vntObject.standardTextChange > 0)
 				{
-					printf("Normalization : %d change(s) - Utf8 mode\n", vntObject.standardTextChange);					
+					printf("Normalization : %d change(s) - Utf8 mode\n", vntObject.standardTextChange);
 					char* bufferUtf8 = (char*)calloc(vntObject.standardTextLength * 4 + 100/*safe*/, sizeof(char));
 					if (bufferUtf8)
 					{
 						ConvertUnicodetoUtf8(vntObject.standardText, vntObject.standardTextLength, (unsigned char*)bufferUtf8);
 						utf8Result = bufferUtf8;
 						qfree(bufferUtf8);
-					}			
+					}
 				}
 				qfree(ucs2buffer);
 			}
@@ -1160,6 +1160,13 @@ static PyObject* FNormalize(PyObject* self, PyObject* args)
 	PyArg_ParseTuple(args, "O", &argsObject);
 	return argsObject;
 }
+
+
+
+
+
+
+
 /************************************************************************/
 /*                                                                      */
 /************************************************************************/
