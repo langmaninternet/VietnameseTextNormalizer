@@ -1077,7 +1077,7 @@ static PyObject* VietnameseTextNormalizerStandard(PyObject* self, PyObject* args
 				printf("Normalization : %d change(s) - Ucs2 mode\n", vntObject.standardTextChange);
 				unicodeResult.erase(0);
 				unicodeResult.reserve(vntObject.standardTextLength + 10/*safe*/);
-				for (int iChar = 0; iChar < vntObject.standardTextChange; iChar++)
+				for (int iChar = 0; iChar < vntObject.standardTextLength; iChar++)
 				{
 					unicodeResult.push_back((wchar_t)(vntObject.standardText[iChar]));
 					//unicodeResult += (wchar_t)(vntObject.standardText[iChar]);
@@ -1232,14 +1232,16 @@ static PyObject* GetFirstTone(PyObject* self, PyObject* args)
 	else if (PyArg_ParseTuple(args, "u", &unicodeInput) && unicodeInput != NULL && unicodeInput != nullUnicodeString)
 	{
 		std::wstring		unicodeString = unicodeInput;
+		int					unicodeStringLength = int(unicodeString.size());
 		wchar_t				unicodeResult[2] = { VIETNAMESE_TONE_NO_TONE_VALUE,0 };
-		for (int iChar = 0, nMaxChar = int(unicodeString.size()); iChar < nMaxChar; iChar++)
+
+		for (int iChar = 0; iChar < unicodeStringLength; iChar++)
 		{
 			unicodeResult[0] = GetTone(unicodeString[iChar]);
 			if (unicodeResult[0] != L'1')
 			{
 				/*soft break*/
-				iChar = nMaxChar;
+				iChar = unicodeStringLength;
 			}
 		}
 		return  Py_BuildValue("u", (Py_UNICODE*)unicodeResult);
