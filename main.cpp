@@ -1148,7 +1148,7 @@ static PyObject* FNormalize(PyObject* self, PyObject* args)
 				printf("Normalization : %d change(s) - Ucs2 mode\n", vntObject.standardTextChange);
 				unicodeResult.erase(0);
 				unicodeResult.reserve(vntObject.standardTextLength + 10/*safe*/);
-				for (int iChar = 0; iChar < vntObject.standardTextChange; iChar++)
+				for (int iChar = 0; iChar < vntObject.standardTextLength; iChar++)
 				{
 					unicodeResult += (wchar_t)(vntObject.standardText[iChar]);
 				}
