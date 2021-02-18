@@ -1075,6 +1075,7 @@ static PyObject* VietnameseTextNormalizerStandard(PyObject* self, PyObject* args
 			if (vntObject.standardText && vntObject.standardTextChange > 0)
 			{
 				printf("Normalization : %d change(s) - Ucs2 mode\n", vntObject.standardTextChange);
+				unicodeResult.clear();
 				unicodeResult.reserve(vntObject.standardTextLength + 10/*safe*/);
 				for (int iChar = 0; iChar < vntObject.standardTextChange; iChar++)
 				{
@@ -1144,6 +1145,7 @@ static PyObject* FNormalize(PyObject* self, PyObject* args)
 			if (vntObject.standardText && vntObject.standardTextChange > 0)
 			{
 				printf("Normalization : %d change(s) - Ucs2 mode\n", vntObject.standardTextChange);
+				unicodeResult.clear();
 				unicodeResult.reserve(vntObject.standardTextLength + 10/*safe*/);
 				for (int iChar = 0; iChar < vntObject.standardTextChange; iChar++)
 				{
