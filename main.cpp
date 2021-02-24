@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <list>
+#include <cctype>
 
 //#undef WIN32_NORMALIZER_TOOL
 #ifndef WIN32_NORMALIZER_TOOL
@@ -1379,7 +1380,7 @@ wchar_t				GetBaseLowerChar(wchar_t wch)
 	case L'X':return L'x';
 	case L'Z':return L'z';
 	}
-	return wch;
+	return std::tolower(wch);
 }
 static PyObject* GetBaseLower(PyObject* self, PyObject* args)
 {
@@ -1469,7 +1470,7 @@ wchar_t				GetBaseUpperChar(wchar_t wch)
 	case L'X':return L'X';
 	case L'Z':return L'Z';
 	}
-	return wch;
+	return std::toupper(wch);
 }
 static PyObject* GetBaseUpper(PyObject* self, PyObject* args)
 {
