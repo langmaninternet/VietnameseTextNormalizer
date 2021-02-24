@@ -2,7 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <list>
-#include <cctype>
+
 
 //#undef WIN32_NORMALIZER_TOOL
 #ifndef WIN32_NORMALIZER_TOOL
@@ -1358,8 +1358,8 @@ wchar_t				GetBaseLowerChar(wchar_t wch)
 	case L'Ă':case L'ằ':case L'Ằ':case L'ắ':case L'Ắ':case L'ẳ':case L'Ẳ':case L'ẵ':case L'Ẵ':case L'ặ':case L'Ặ':return L'ă';
 	case L'Ơ':case L'ờ':case L'Ờ':case L'ớ':case L'Ớ':case L'ở':case L'Ở':case L'ỡ':case L'Ỡ':case L'ợ':case L'Ợ':return L'ơ';
 	case L'Ư':case L'ừ':case L'Ừ':case L'ứ':case L'Ứ':case L'ử':case L'Ử':case L'ữ':case L'Ữ':case L'ự':case L'Ự':return L'ư';
-	case L'Đ':return L'đ';
-	case L'B':return L'b';
+	case L'Ð':case L'Đ':return L'đ';
+	case L'B':return L'b';	
 	case L'C':return L'c';
 	case L'D':return L'd';
 	case L'F':return L'f';
@@ -1380,7 +1380,7 @@ wchar_t				GetBaseLowerChar(wchar_t wch)
 	case L'X':return L'x';
 	case L'Z':return L'z';
 	}
-	return std::tolower(wch);
+	return wch;
 }
 static PyObject* GetBaseLower(PyObject* self, PyObject* args)
 {
@@ -1436,41 +1436,41 @@ wchar_t				GetBaseUpperChar(wchar_t wch)
 {
 	switch (wch)
 	{
-	case L'A':case L'à':case L'À':case L'á':case L'Á':case L'ả':case L'Ả':case L'ã':case L'Ã':case L'ạ':case L'Ạ':return L'A';
-	case L'E':case L'è':case L'È':case L'é':case L'É':case L'ẻ':case L'Ẻ':case L'ẽ':case L'Ẽ':case L'ẹ':case L'Ẹ':return L'E';
-	case L'I':case L'ì':case L'Ì':case L'í':case L'Í':case L'ỉ':case L'Ỉ':case L'ĩ':case L'Ĩ':case L'ị':case L'Ị':return L'I';
-	case L'O':case L'ò':case L'Ò':case L'ó':case L'Ó':case L'ỏ':case L'Ỏ':case L'õ':case L'Õ':case L'ọ':case L'Ọ':return L'O';
-	case L'U':case L'ù':case L'Ù':case L'ú':case L'Ú':case L'ủ':case L'Ủ':case L'ũ':case L'Ũ':case L'ụ':case L'Ụ':return L'U';
-	case L'Y':case L'ỳ':case L'Ỳ':case L'ý':case L'Ý':case L'ỷ':case L'Ỷ':case L'ỹ':case L'Ỹ':case L'ỵ':case L'Ỵ':return L'Y';
-	case L'Â':case L'ầ':case L'Ầ':case L'ấ':case L'Ấ':case L'ẩ':case L'Ẩ':case L'ẫ':case L'Ẫ':case L'ậ':case L'Ậ':return L'Â';
-	case L'Ê':case L'ề':case L'Ề':case L'ế':case L'Ế':case L'ể':case L'Ể':case L'ễ':case L'Ễ':case L'ệ':case L'Ệ':return L'Ê';
-	case L'Ô':case L'ồ':case L'Ồ':case L'ố':case L'Ố':case L'ổ':case L'Ổ':case L'ỗ':case L'Ỗ':case L'ộ':case L'Ộ':return L'Ô';
-	case L'Ă':case L'ằ':case L'Ằ':case L'ắ':case L'Ắ':case L'ẳ':case L'Ẳ':case L'ẵ':case L'Ẵ':case L'ặ':case L'Ặ':return L'Ă';
-	case L'Ơ':case L'ờ':case L'Ờ':case L'ớ':case L'Ớ':case L'ở':case L'Ở':case L'ỡ':case L'Ỡ':case L'ợ':case L'Ợ':return L'Ơ';
-	case L'Ư':case L'ừ':case L'Ừ':case L'ứ':case L'Ứ':case L'ử':case L'Ử':case L'ữ':case L'Ữ':case L'ự':case L'Ự':return L'Ư';
+	case L'a':case L'à':case L'À':case L'á':case L'Á':case L'ả':case L'Ả':case L'ã':case L'Ã':case L'ạ':case L'Ạ':return L'A';
+	case L'e':case L'è':case L'È':case L'é':case L'É':case L'ẻ':case L'Ẻ':case L'ẽ':case L'Ẽ':case L'ẹ':case L'Ẹ':return L'E';
+	case L'i':case L'ì':case L'Ì':case L'í':case L'Í':case L'ỉ':case L'Ỉ':case L'ĩ':case L'Ĩ':case L'ị':case L'Ị':return L'I';
+	case L'o':case L'ò':case L'Ò':case L'ó':case L'Ó':case L'ỏ':case L'Ỏ':case L'õ':case L'Õ':case L'ọ':case L'Ọ':return L'O';
+	case L'u':case L'ù':case L'Ù':case L'ú':case L'Ú':case L'ủ':case L'Ủ':case L'ũ':case L'Ũ':case L'ụ':case L'Ụ':return L'U';
+	case L'y':case L'ỳ':case L'Ỳ':case L'ý':case L'Ý':case L'ỷ':case L'Ỷ':case L'ỹ':case L'Ỹ':case L'ỵ':case L'Ỵ':return L'Y';
+	case L'â':case L'ầ':case L'Ầ':case L'ấ':case L'Ấ':case L'ẩ':case L'Ẩ':case L'ẫ':case L'Ẫ':case L'ậ':case L'Ậ':return L'Â';
+	case L'ê':case L'ề':case L'Ề':case L'ế':case L'Ế':case L'ể':case L'Ể':case L'ễ':case L'Ễ':case L'ệ':case L'Ệ':return L'Ê';
+	case L'ô':case L'ồ':case L'Ồ':case L'ố':case L'Ố':case L'ổ':case L'Ổ':case L'ỗ':case L'Ỗ':case L'ộ':case L'Ộ':return L'Ô';
+	case L'ă':case L'ằ':case L'Ằ':case L'ắ':case L'Ắ':case L'ẳ':case L'Ẳ':case L'ẵ':case L'Ẵ':case L'ặ':case L'Ặ':return L'Ă';
+	case L'ơ':case L'ờ':case L'Ờ':case L'ớ':case L'Ớ':case L'ở':case L'Ở':case L'ỡ':case L'Ỡ':case L'ợ':case L'Ợ':return L'Ơ';
+	case L'ư':case L'ừ':case L'Ừ':case L'ứ':case L'Ứ':case L'ử':case L'Ử':case L'ữ':case L'Ữ':case L'ự':case L'Ự':return L'Ư';
 	case L'Đ':return L'Đ';
-	case L'B':return L'B';
-	case L'C':return L'C';
-	case L'D':return L'D';
-	case L'F':return L'F';
-	case L'G':return L'G';
-	case L'H':return L'H';
-	case L'J':return L'J';
-	case L'K':return L'K';
-	case L'L':return L'L';
-	case L'M':return L'M';
-	case L'N':return L'N';
-	case L'P':return L'P';
-	case L'Q':return L'Q';
-	case L'R':return L'R';
-	case L'S':return L'S';
-	case L'T':return L'T';
-	case L'V':return L'V';
-	case L'W':return L'W';
-	case L'X':return L'X';
-	case L'Z':return L'Z';
+	case L'b':return L'B';
+	case L'c':return L'C';
+	case L'd':return L'D';
+	case L'f':return L'F';
+	case L'g':return L'G';
+	case L'h':return L'H';
+	case L'j':return L'J';
+	case L'k':return L'K';
+	case L'l':return L'L';
+	case L'm':return L'M';
+	case L'n':return L'N';
+	case L'p':return L'P';
+	case L'q':return L'Q';
+	case L'r':return L'R';
+	case L's':return L'S';
+	case L't':return L'T';
+	case L'v':return L'V';
+	case L'w':return L'W';
+	case L'x':return L'X';
+	case L'z':return L'Z';
 	}
-	return std::toupper(wch);
+	return wch;
 }
 static PyObject* GetBaseUpper(PyObject* self, PyObject* args)
 {
