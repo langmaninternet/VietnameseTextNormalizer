@@ -105,7 +105,7 @@ tôi làm việ ở ban công ngệ FPT, tôi là người viêt nam
 
 + Tự động sửa 1 số lỗi khác............
 
-+ Code viết bằng C++, Wraper lại cho à python, chạy rất nhanh. 3MB text Utf-8 chỉ cần 0.01s để xử lý (không tính I/O)
++ Code viết bằng C++, Wraper lại cho python, chạy rất nhanh. 3MB text Utf-8 chỉ cần 0.01s để xử lý (không tính I/O)
 
 
 Note : Tiêu chí sửa của mình là chỉ sửa khi chắc chắn.  Vì thế nên không thể cover được tất cả các trường hợp nhưng mình sẽ update dần dần.
