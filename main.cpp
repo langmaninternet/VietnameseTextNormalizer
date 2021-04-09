@@ -1448,7 +1448,7 @@ wchar_t				GetBaseUpperChar(wchar_t wch)
 	case L'ă':case L'ằ':case L'Ằ':case L'ắ':case L'Ắ':case L'ẳ':case L'Ẳ':case L'ẵ':case L'Ẵ':case L'ặ':case L'Ặ':return L'Ă';
 	case L'ơ':case L'ờ':case L'Ờ':case L'ớ':case L'Ớ':case L'ở':case L'Ở':case L'ỡ':case L'Ỡ':case L'ợ':case L'Ợ':return L'Ơ';
 	case L'ư':case L'ừ':case L'Ừ':case L'ứ':case L'Ứ':case L'ử':case L'Ử':case L'ữ':case L'Ữ':case L'ự':case L'Ự':return L'Ư';
-	case 'đ':case L'Đ':return L'Đ';
+	case L'đ':case L'Đ':return L'Đ';
 	case L'b':return L'B';
 	case L'c':return L'C';
 	case L'd':return L'D';
