@@ -150,6 +150,12 @@ struct TEXT_NODE
 	char					syllablePositionBackwardInPhrase;
 	char					countNumberSyllableInPhrase;
 	/************************************************************************/
+	/* Sentence context information                                         */
+	/************************************************************************/
+	char					syllablePositionForwardInSentence;
+	char					syllablePositionBackwardInSentence;
+	char					countNumberSyllableInSentence;
+	/************************************************************************/
 	/* Waveform infomation                                                  */
 	/************************************************************************/
 	double					waveformLengthInSecond;
