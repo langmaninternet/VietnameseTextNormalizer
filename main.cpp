@@ -48,50 +48,49 @@ static void	ConvertUtf8toUnicode(const unsigned char* utf8str, int utf8strlength
 }
 static int	ConvertUnicodetoUtf8(const qwchar* ucs2str, int ucs2length, unsigned char* utf8buffer)
 {
-	int				convertlength = 0;
+	int convertlength = 0;
 	if (ucs2str && ucs2length > 0 && utf8buffer)
 	{
-		unsigned char* p_utf8buffer = utf8buffer;
-		for (int counter = 0, end = ucs2length; counter < end; counter++)
+		for (int iwchar = 0; iwchar < ucs2length; iwchar++)
 		{
 			if (0x0080 > *ucs2str)
 			{
 				/* 1 byte UTF-8 Character.*/
-				*p_utf8buffer = (unsigned char)(*ucs2str);
+				*utf8buffer = (unsigned char)(*ucs2str);
 				convertlength++;
 				ucs2str++;
-				p_utf8buffer++;
+				utf8buffer++;
 			}
 			else if (0x0800 > *ucs2str)
 			{
-				if (*(p_utf8buffer - 1) == 20)
+				if (*(utf8buffer - 1) == 20)
 				{
-					*p_utf8buffer = (unsigned char)(*ucs2str);
+					*utf8buffer = (unsigned char)(*ucs2str);
 					convertlength++;
 					ucs2str++;
-					p_utf8buffer++;
+					utf8buffer++;
 					continue;
 				}
 
 				/*2 bytes UTF-8 Character.*/
-				*p_utf8buffer = ((unsigned char)((*ucs2str) >> 6)) | 0xc0;
-				*(p_utf8buffer + 1) = ((unsigned char)((*ucs2str) & 0x003F)) | 0x80;
+				*utf8buffer = ((unsigned char)((*ucs2str) >> 6)) | 0xc0;
+				*(utf8buffer + 1) = ((unsigned char)((*ucs2str) & 0x003F)) | 0x80;
 				convertlength += 2;
 				ucs2str++;
-				p_utf8buffer += 2;
+				utf8buffer += 2;
 			}
 			else
 			{
 				/* 3 bytes UTF-8 Character .*/
-				*p_utf8buffer = ((unsigned char)((*ucs2str) >> 12)) | 0xE0;
-				*(p_utf8buffer + 1) = ((unsigned char)(((*ucs2str) & 0x0FC0) >> 6)) | 0x80;
-				*(p_utf8buffer + 2) = ((unsigned char)((*ucs2str) & 0x003F)) | 0x80;
+				*utf8buffer = ((unsigned char)((*ucs2str) >> 12)) | 0xE0;
+				*(utf8buffer + 1) = ((unsigned char)(((*ucs2str) & 0x0FC0) >> 6)) | 0x80;
+				*(utf8buffer + 2) = ((unsigned char)((*ucs2str) & 0x003F)) | 0x80;
 				convertlength += 3;
 				ucs2str++;
-				p_utf8buffer += 3;
+				utf8buffer += 3;
 			}
 		}
-		*p_utf8buffer = 0;
+		*utf8buffer = 0;
 	}
 	return convertlength;
 }
