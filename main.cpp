@@ -12,15 +12,14 @@ extern "C"
 }
 #endif
 
-
-
 static void	ConvertUtf8toUnicode(const unsigned char* utf8str, int utf8strlength, qwchar* ucs2buffer)
 {
 	if (utf8str && ucs2buffer)
 	{
 		for (int ichar = 0; ichar < utf8strlength && utf8str[0] != 0; ichar++)
 		{
-			if ((utf8str[0] & 0xE0) == 0xC0 && (utf8str[1] & 0xC0) == 0x80)
+			if (/*safe*/ichar + 1 < utf8strlength && utf8str[1] != 0 &&
+				/*condition*/ (utf8str[0] & 0xE0) == 0xC0 && (utf8str[1] & 0xC0) == 0x80)
 			{
 				/* 2 bytes UTF-8 Character.*/
 				*ucs2buffer = (((qwchar)(utf8str[0] & 0x001F)) << 6) | (utf8str[1] & 0x3F);
@@ -28,10 +27,11 @@ static void	ConvertUtf8toUnicode(const unsigned char* utf8str, int utf8strlength
 				utf8str += 2;
 				ichar++;
 			}
-			else if ((utf8str[0] & 0xF0) == 0xE0 && (utf8str[1] & 0xC0) == 0x80 && (utf8str[2] & 0xC0) == 0x80)
+			else if (/*safe*/ichar + 2 < utf8strlength && utf8str[1] != 0 && utf8str[2] != 0 &&
+				/*condition*/ (utf8str[0] & 0xF0) == 0xE0 && (utf8str[1] & 0xC0) == 0x80 && (utf8str[2] & 0xC0) == 0x80)
 			{
 				/* 3bytes UTF-8 Character.*/
-				*ucs2buffer = (((qwchar)(utf8str[0] & 0x000F)) << 12) | (((qwchar)(utf8str[1] & 0x3F)) << 6) | ((qwchar)(utf8str[2] & 0x3F));
+				*ucs2buffer = (qwchar)(((utf8str[0] & 0x000F)) << 12) | (((utf8str[1] & 0x3F)) << 6) | ((utf8str[2] & 0x3F));
 				ucs2buffer++;
 				utf8str += 3;
 				ichar += 2;
@@ -48,64 +48,53 @@ static void	ConvertUtf8toUnicode(const unsigned char* utf8str, int utf8strlength
 }
 static int	ConvertUnicodetoUtf8(const qwchar* ucs2str, int ucs2length, unsigned char* utf8buffer)
 {
+	int				convertlength = 0;
 	if (ucs2str && ucs2length > 0 && utf8buffer)
 	{
-		int				length = 0;
-		unsigned char* out = utf8buffer;
-		qwchar			temp_ucs2str_index = *ucs2str;
-		for (int counter = 0, step = 0, end = ucs2length; counter < end; counter++)
+		unsigned char* p_utf8buffer = utf8buffer;
+		for (int counter = 0, end = ucs2length; counter < end; counter++)
 		{
 			if (0x0080 > *ucs2str)
 			{
 				/* 1 byte UTF-8 Character.*/
-				*out = (unsigned char)(temp_ucs2str_index);
-				length++;
-				step = 1;
+				*p_utf8buffer = (unsigned char)(*ucs2str);
+				convertlength++;
 				ucs2str++;
-				temp_ucs2str_index = *(ucs2str);
-				out += step;
+				p_utf8buffer++;
 			}
 			else if (0x0800 > *ucs2str)
 			{
-				if (*(out - 1) == 20)
+				if (*(p_utf8buffer - 1) == 20)
 				{
-					*out = (unsigned char)(temp_ucs2str_index);
-					length++;
-					step = 1;
+					*p_utf8buffer = (unsigned char)(*ucs2str);
+					convertlength++;
 					ucs2str++;
-					temp_ucs2str_index = *(ucs2str);
-					out += step;
+					p_utf8buffer++;
 					continue;
 				}
 
 				/*2 bytes UTF-8 Character.*/
-				*out = ((unsigned char)(temp_ucs2str_index >> 6)) | 0xc0;
-				*(out + 1) = ((unsigned char)(temp_ucs2str_index & 0x003F)) | 0x80;
-				length += 2;
-				step = 2;
+				*p_utf8buffer = ((unsigned char)((*ucs2str) >> 6)) | 0xc0;
+				*(p_utf8buffer + 1) = ((unsigned char)((*ucs2str) & 0x003F)) | 0x80;
+				convertlength += 2;
 				ucs2str++;
-				temp_ucs2str_index = *(ucs2str);
-				out += step;
+				p_utf8buffer += 2;
 			}
 			else
 			{
 				/* 3 bytes UTF-8 Character .*/
-				*out = ((unsigned char)(temp_ucs2str_index >> 12)) | 0xE0;
-				*(out + 1) = ((unsigned char)((temp_ucs2str_index & 0x0FC0) >> 6)) | 0x80;
-				*(out + 2) = ((unsigned char)(temp_ucs2str_index & 0x003F)) | 0x80;
-				length += 3;
-				step = 3;
+				*p_utf8buffer = ((unsigned char)((*ucs2str) >> 12)) | 0xE0;
+				*(p_utf8buffer + 1) = ((unsigned char)(((*ucs2str) & 0x0FC0) >> 6)) | 0x80;
+				*(p_utf8buffer + 2) = ((unsigned char)((*ucs2str) & 0x003F)) | 0x80;
+				convertlength += 3;
 				ucs2str++;
-				temp_ucs2str_index = *(ucs2str);
-				out += step;
+				p_utf8buffer += 3;
 			}
 		}
-		*out = 0;
-		return length;
+		*p_utf8buffer = 0;
 	}
-	return 0;
+	return convertlength;
 }
-
 
 
 
@@ -167,7 +156,7 @@ namespace std
 	{
 #if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) 
 		HANDLE hOut;
-		CONSOLE_CURSOR_INFO ConCurInf;
+		CONSOLE_CURSOR_INFO ConCurInf = { 0 };
 		hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 		ConCurInf.dwSize = 10;
 		ConCurInf.bVisible = FALSE;
@@ -179,28 +168,28 @@ namespace std
 	{
 		if (format)
 		{
-#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) || defined(_MSC_VER)
-			wchar_t 	buffer[10250] = { 0 };
-			va_list args;
-			va_start(args, format);
-			_vsnwprintf_s(buffer, 10240, format, args);
-			va_end(args);
-			int supportFlag = 0;
-
-			if (GetLower(title).find(L"lỗi") != std::wstring::npos) supportFlag = MB_ICONERROR;
-			else if (GetLower(title).find(L"cảnh báo") != std::wstring::npos) supportFlag = MB_ICONWARNING;
-			::MessageBoxW(0, buffer, title.c_str(), MB_OK | supportFlag);
+			wchar_t* buffer = (wchar_t*)calloc(10250, sizeof(wchar_t));
+			if (buffer)
+			{
+				va_list args;
+				va_start(args, format);
+#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) 
+				vswprintf_s(buffer, 10240, format, args);
+				va_end(args);
+				int supportFlag = 0;
+				if (title.find(L"Lỗi") != std::wstring::npos) supportFlag = MB_ICONERROR;
+				else if (title.find(L"Cảnh báo") != std::wstring::npos) supportFlag = MB_ICONWARNING;
+				::MessageBoxW(0, (LPCWSTR)buffer, title.c_str(), MB_OK | supportFlag);
 #else
-			wchar_t 	buffer[10250] = { 0 };
-			va_list args;
-			va_start(args, format);
-			vswprintf(buffer, 10240, format, args);
-			va_end(args);
-			SetTextColor(CONSOLE_COLOR_BOLD);
-			printf("%s\n", GetString(title).c_str());
-			SetTextColor(CONSOLE_COLOR_DISABLE_BOLD);
-			printf("%s\n", GetString(buffer).c_str());
+				vswprintf(buffer, 10240, format, args);
+				va_end(args);
+				gui::SetTextColor(CONSOLE_COLOR_BOLD);
+				fprintf(stderr, "%s\n", GetString(title).c_str());
+				gui::SetTextColor(CONSOLE_COLOR_DISABLE_BOLD);
+				fprintf(stderr, "%s\n", GetString(buffer).c_str());
 #endif
+				free(buffer);
+			}
 		}
 	}
 	void			SetTextColor(int color)
