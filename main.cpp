@@ -12,7 +12,10 @@ extern "C"
 }
 #endif
 
-static void	ConvertUtf8toUnicode(const unsigned char* utf8str, int utf8strlength, qwchar* ucs2buffer)
+/************************************************************************/
+/* Utf8 - QuangBT Code                                                  */
+/************************************************************************/
+static void	QuangBTConvertUtf8toUnicode(const unsigned char* utf8str, int utf8strlength, qwchar* ucs2buffer)
 {
 	if (utf8str && ucs2buffer)
 	{
@@ -46,7 +49,7 @@ static void	ConvertUtf8toUnicode(const unsigned char* utf8str, int utf8strlength
 		}
 	}
 }
-static int	ConvertUnicodetoUtf8(const qwchar* ucs2str, int ucs2length, unsigned char* utf8buffer)
+static int	QuangBTConvertUnicodetoUtf8(const qwchar* ucs2str, int ucs2length, unsigned char* utf8buffer)
 {
 	int convertlength = 0;
 	if (ucs2str && ucs2length > 0 && utf8buffer)
@@ -555,7 +558,7 @@ namespace std
 		qwchar* ucs2buffer = (qwchar*)qcalloc(str.size() * 3 + 10/*safe*/, sizeof(qwchar));
 		if (ucs2buffer)
 		{
-			ConvertUtf8toUnicode((const unsigned char*)(str.c_str()), str.size(), ucs2buffer);
+			QuangBTConvertUtf8toUnicode((const unsigned char*)(str.c_str()), str.size(), ucs2buffer);
 			std::wstring bufferW = ucs2buffer;
 			qfree(ucs2buffer);
 			return bufferW;
@@ -586,7 +589,7 @@ namespace std
 			qwchar* ucs2buffer = (qwchar*)qcalloc(bufferA.size() * 3 + 10/*safe*/, sizeof(qwchar));
 			if (ucs2buffer)
 			{
-				ConvertUtf8toUnicode((const unsigned char*)(bufferA.c_str()), bufferA.size(), ucs2buffer);
+				QuangBTConvertUtf8toUnicode((const unsigned char*)(bufferA.c_str()), bufferA.size(), ucs2buffer);
 				std::wstring bufferW = ucs2buffer;
 				qfree(ucs2buffer);
 				return bufferW;
@@ -603,7 +606,7 @@ namespace std
 			qwchar* ucs2buffer = (qwchar*)qcalloc(bufferA.size() * 3 + 10/*safe*/, sizeof(qwchar));
 			if (ucs2buffer)
 			{
-				ConvertUtf8toUnicode((const unsigned char*)(bufferA.c_str()), bufferA.size(), ucs2buffer);
+				QuangBTConvertUtf8toUnicode((const unsigned char*)(bufferA.c_str()), bufferA.size(), ucs2buffer);
 				std::wstring bufferW = ucs2buffer;
 				qfree(ucs2buffer);
 				return bufferW;
@@ -619,7 +622,7 @@ namespace std
 		char* bufferUtf8 = (char*)calloc(bufferUtf8Length, sizeof(char));
 		if (bufferUtf8)
 		{
-			ConvertUnicodetoUtf8(wstr.c_str(), (int)wstr.size(), (unsigned char*)bufferUtf8);
+			QuangBTConvertUnicodetoUtf8(wstr.c_str(), (int)wstr.size(), (unsigned char*)bufferUtf8);
 
 			buffer += bufferUtf8;
 			free(bufferUtf8);
@@ -1024,7 +1027,7 @@ static PyObject* VietnameseTextNormalizerStandard(PyObject* self, PyObject* args
 			qwchar* ucs2buffer = (qwchar*)qcalloc(utf8Result.size() + 100/*safe*/, sizeof(qwchar));
 			if (ucs2buffer)
 			{
-				ConvertUtf8toUnicode((const unsigned char*)(utf8Result.c_str()), utf8Result.size(), ucs2buffer);
+				QuangBTConvertUtf8toUnicode((const unsigned char*)(utf8Result.c_str()), utf8Result.size(), ucs2buffer);
 				VietnameseTextNormalizer vntObject;
 				vntObject.Input(ucs2buffer);
 				vntObject.Normalize();
@@ -1035,7 +1038,7 @@ static PyObject* VietnameseTextNormalizerStandard(PyObject* self, PyObject* args
 					char* bufferUtf8 = (char*)calloc(vntObject.standardTextLength * 4 + 100/*safe*/, sizeof(char));
 					if (bufferUtf8)
 					{
-						ConvertUnicodetoUtf8(vntObject.standardText, vntObject.standardTextLength, (unsigned char*)bufferUtf8);
+						QuangBTConvertUnicodetoUtf8(vntObject.standardText, vntObject.standardTextLength, (unsigned char*)bufferUtf8);
 						utf8Result = bufferUtf8;
 						qfree(bufferUtf8);
 					}
@@ -1093,7 +1096,7 @@ static PyObject* FNormalize(PyObject* self, PyObject* args)
 			qwchar* ucs2buffer = (qwchar*)qcalloc(utf8Result.size() + 100/*safe*/, sizeof(qwchar));
 			if (ucs2buffer)
 			{
-				ConvertUtf8toUnicode((const unsigned char*)(utf8Result.c_str()), utf8Result.size(), ucs2buffer);
+				QuangBTConvertUtf8toUnicode((const unsigned char*)(utf8Result.c_str()), utf8Result.size(), ucs2buffer);
 				VietnameseTextNormalizer vntObject;
 				vntObject.flagStandardTextForQuangBT = true;
 				vntObject.Input(ucs2buffer);
@@ -1105,7 +1108,7 @@ static PyObject* FNormalize(PyObject* self, PyObject* args)
 					char* bufferUtf8 = (char*)calloc(vntObject.standardTextLength * 4 + 100/*safe*/, sizeof(char));
 					if (bufferUtf8)
 					{
-						ConvertUnicodetoUtf8(vntObject.standardText, vntObject.standardTextLength, (unsigned char*)bufferUtf8);
+						QuangBTConvertUnicodetoUtf8(vntObject.standardText, vntObject.standardTextLength, (unsigned char*)bufferUtf8);
 						utf8Result = bufferUtf8;
 						qfree(bufferUtf8);
 					}
@@ -1201,7 +1204,7 @@ static PyObject* GetFirstTone(PyObject* self, PyObject* args)
 			qwchar* ucs2buffer = (qwchar*)qcalloc(utf8StringSize + 100/*safe*/, sizeof(qwchar));
 			if (ucs2buffer)
 			{
-				ConvertUtf8toUnicode((const unsigned char*)(utf8String.c_str()), utf8StringSize, ucs2buffer);
+				QuangBTConvertUtf8toUnicode((const unsigned char*)(utf8String.c_str()), utf8StringSize, ucs2buffer);
 				qwchar* iucs2 = ucs2buffer;
 				for (int iChar = 0; iChar < utf8StringSize && (*iucs2) != 0; iChar++, iucs2++)
 				{
@@ -1295,7 +1298,7 @@ static PyObject* GetBase(PyObject* self, PyObject* args)
 			qwchar* ucs2buffer = (qwchar*)qcalloc(utf8inputSize + 100/*safe*/, sizeof(qwchar));
 			if (ucs2buffer)
 			{
-				ConvertUtf8toUnicode((const unsigned char*)(utf8Result.c_str()), utf8inputSize, ucs2buffer);
+				QuangBTConvertUtf8toUnicode((const unsigned char*)(utf8Result.c_str()), utf8inputSize, ucs2buffer);
 				qwchar* iucs2 = ucs2buffer;
 				int     ucs2Length = 0;
 				for (int iChar = 0; iChar < utf8inputSize && (*iucs2) != 0; iChar++, iucs2++)
@@ -1306,7 +1309,7 @@ static PyObject* GetBase(PyObject* self, PyObject* args)
 				char* bufferUtf8 = (char*)calloc(utf8inputSize + 100/*safe*/, sizeof(char));
 				if (bufferUtf8)
 				{
-					ConvertUnicodetoUtf8(ucs2buffer, ucs2Length, (unsigned char*)bufferUtf8);
+					QuangBTConvertUnicodetoUtf8(ucs2buffer, ucs2Length, (unsigned char*)bufferUtf8);
 					utf8Result = bufferUtf8;
 					qfree(bufferUtf8);
 				}
@@ -1385,7 +1388,7 @@ static PyObject* GetBaseLower(PyObject* self, PyObject* args)
 			qwchar* ucs2buffer = (qwchar*)qcalloc(utf8inputSize + 100/*safe*/, sizeof(qwchar));
 			if (ucs2buffer)
 			{
-				ConvertUtf8toUnicode((const unsigned char*)(utf8Result.c_str()), utf8inputSize, ucs2buffer);
+				QuangBTConvertUtf8toUnicode((const unsigned char*)(utf8Result.c_str()), utf8inputSize, ucs2buffer);
 				qwchar* iucs2 = ucs2buffer;
 				int     ucs2Length = 0;
 				for (int iChar = 0; iChar < utf8inputSize && (*iucs2) != 0; iChar++, iucs2++)
@@ -1396,7 +1399,7 @@ static PyObject* GetBaseLower(PyObject* self, PyObject* args)
 				char* bufferUtf8 = (char*)calloc(utf8inputSize + 100/*safe*/, sizeof(char));
 				if (bufferUtf8)
 				{
-					ConvertUnicodetoUtf8(ucs2buffer, ucs2Length, (unsigned char*)bufferUtf8);
+					QuangBTConvertUnicodetoUtf8(ucs2buffer, ucs2Length, (unsigned char*)bufferUtf8);
 					utf8Result = bufferUtf8;
 					qfree(bufferUtf8);
 				}
@@ -1475,7 +1478,7 @@ static PyObject* GetBaseUpper(PyObject* self, PyObject* args)
 			qwchar* ucs2buffer = (qwchar*)qcalloc(utf8inputSize + 100/*safe*/, sizeof(qwchar));
 			if (ucs2buffer)
 			{
-				ConvertUtf8toUnicode((const unsigned char*)(utf8Result.c_str()), utf8inputSize, ucs2buffer);
+				QuangBTConvertUtf8toUnicode((const unsigned char*)(utf8Result.c_str()), utf8inputSize, ucs2buffer);
 				qwchar* iucs2 = ucs2buffer;
 				int     ucs2Length = 0;
 				for (int iChar = 0; iChar < utf8inputSize && (*iucs2) != 0; iChar++, iucs2++)
@@ -1486,7 +1489,7 @@ static PyObject* GetBaseUpper(PyObject* self, PyObject* args)
 				char* bufferUtf8 = (char*)calloc(utf8inputSize + 100/*safe*/, sizeof(char));
 				if (bufferUtf8)
 				{
-					ConvertUnicodetoUtf8(ucs2buffer, ucs2Length, (unsigned char*)bufferUtf8);
+					QuangBTConvertUnicodetoUtf8(ucs2buffer, ucs2Length, (unsigned char*)bufferUtf8);
 					utf8Result = bufferUtf8;
 					qfree(bufferUtf8);
 				}
