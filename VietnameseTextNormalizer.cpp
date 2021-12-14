@@ -4375,93 +4375,93 @@ void				VietnameseTextNormalizer::Normalize(void)
 		}
 
 
-		if (textNode->vietnameseSyllableIdentifier > 0
-			&& textNode->englishWordIdentifier == 0
-			&& textNode->vietnameseAbbreviationIndentifier == 0
-			&& textNode->vietnameseLoanWordIndentifier == 0
-			&& textNode->vietnameseMissingIndentifiler == 0
-			&& vnsyllables[textNode->vietnameseSyllableIdentifier].iyidentifier
-			&& vnsyllables[vnsyllables[textNode->vietnameseSyllableIdentifier].iyidentifier].significant
-			&& vnsyllables[textNode->vietnameseSyllableIdentifier].coefficient < vnsyllables[vnsyllables[textNode->vietnameseSyllableIdentifier].iyidentifier].coefficient
-			)
-		{
-			qvsylidentifier otherWayIdentifier = vnsyllables[textNode->vietnameseSyllableIdentifier].iyidentifier;
-			double currentSure = SignificantScore(textNode, textNode->vietnameseSyllableIdentifier) + PerplexityScore(textNode, textNode->vietnameseSyllableIdentifier);
-			double otherSure = SignificantScore(textNode, otherWayIdentifier) + PerplexityScore(textNode, otherWayIdentifier);
-			if (currentSure == 0.0 && otherSure > 0.0)
-			{
-				textNode->vietnameseSyllableIdentifier = otherWayIdentifier;
-				switch (textNode->capital)
-				{
-				case TEXT_NODE_CAPITAL_LOWER:
-					textNode->text = vnsyllables[otherWayIdentifier].lower;
-					textNode->textLength = vnsyllables[otherWayIdentifier].length;
-					break;
-				case TEXT_NODE_CAPITAL_UPPER:
-					textNode->text = vnsyllables[otherWayIdentifier].upper;
-					textNode->textLength = vnsyllables[otherWayIdentifier].length;
-					break;
-				case TEXT_NODE_CAPITAL_CAPITAL:
-					textNode->text = vnsyllables[otherWayIdentifier].capital;
-					textNode->textLength = vnsyllables[otherWayIdentifier].length;
-					break;
-				default:
-					/*do not change any-thing*/
-					break;
-				}
-				UpdateVietnameseTextNodeContext(textNode);
-			}
-			else if (flagStandardTextForQuangBT)
-			{
-				if (currentSure > 0.0 && otherSure > 0.0 && currentSure < otherSure)
-				{
-					textNode->vietnameseSyllableIdentifier = otherWayIdentifier;
-					switch (textNode->capital)
-					{
-					case TEXT_NODE_CAPITAL_LOWER:
-						textNode->text = vnsyllables[otherWayIdentifier].lower;
-						textNode->textLength = vnsyllables[otherWayIdentifier].length;
-						break;
-					case TEXT_NODE_CAPITAL_UPPER:
-						textNode->text = vnsyllables[otherWayIdentifier].upper;
-						textNode->textLength = vnsyllables[otherWayIdentifier].length;
-						break;
-					case TEXT_NODE_CAPITAL_CAPITAL:
-						textNode->text = vnsyllables[otherWayIdentifier].capital;
-						textNode->textLength = vnsyllables[otherWayIdentifier].length;
-						break;
-					default:
-						/*do not change any-thing*/
-						break;
-					}
-					UpdateVietnameseTextNodeContext(textNode);
-				}
-				else if (currentSure == otherSure && vnsyllables[textNode->vietnameseSyllableIdentifier].coefficient < vnsyllables[otherWayIdentifier].coefficient)
-				{
-					textNode->vietnameseSyllableIdentifier = otherWayIdentifier;
-					switch (textNode->capital)
-					{
-					case TEXT_NODE_CAPITAL_LOWER:
-						textNode->text = vnsyllables[otherWayIdentifier].lower;
-						textNode->textLength = vnsyllables[otherWayIdentifier].length;
-						break;
-					case TEXT_NODE_CAPITAL_UPPER:
-						textNode->text = vnsyllables[otherWayIdentifier].upper;
-						textNode->textLength = vnsyllables[otherWayIdentifier].length;
-						break;
-					case TEXT_NODE_CAPITAL_CAPITAL:
-						textNode->text = vnsyllables[otherWayIdentifier].capital;
-						textNode->textLength = vnsyllables[otherWayIdentifier].length;
-						break;
-					default:
-						/*do not change any-thing*/
-						break;
-					}
-					UpdateVietnameseTextNodeContext(textNode);
-				}
-			}
-
-		}
+		//				if (textNode->vietnameseSyllableIdentifier > 0
+		//					&& textNode->englishWordIdentifier == 0
+		//					&& textNode->vietnameseAbbreviationIndentifier == 0
+		//					&& textNode->vietnameseLoanWordIndentifier == 0
+		//					&& textNode->vietnameseMissingIndentifiler == 0
+		//					&& vnsyllables[textNode->vietnameseSyllableIdentifier].iyidentifier
+		//					&& vnsyllables[vnsyllables[textNode->vietnameseSyllableIdentifier].iyidentifier].significant
+		//					&& vnsyllables[textNode->vietnameseSyllableIdentifier].coefficient < vnsyllables[vnsyllables[textNode->vietnameseSyllableIdentifier].iyidentifier].coefficient
+		//					)
+		//				{
+		//					qvsylidentifier otherWayIdentifier = vnsyllables[textNode->vietnameseSyllableIdentifier].iyidentifier;
+		//					double currentSure = SignificantScore(textNode, textNode->vietnameseSyllableIdentifier) + PerplexityScore(textNode, textNode->vietnameseSyllableIdentifier);
+		//					double otherSure = SignificantScore(textNode, otherWayIdentifier) + PerplexityScore(textNode, otherWayIdentifier);
+		//					if (currentSure == 0.0 && otherSure > 0.0)
+		//					{
+		//						textNode->vietnameseSyllableIdentifier = otherWayIdentifier;
+		//						switch (textNode->capital)
+		//						{
+		//						case TEXT_NODE_CAPITAL_LOWER:
+		//							textNode->text = vnsyllables[otherWayIdentifier].lower;
+		//							textNode->textLength = vnsyllables[otherWayIdentifier].length;
+		//							break;
+		//						case TEXT_NODE_CAPITAL_UPPER:
+		//							textNode->text = vnsyllables[otherWayIdentifier].upper;
+		//							textNode->textLength = vnsyllables[otherWayIdentifier].length;
+		//							break;
+		//						case TEXT_NODE_CAPITAL_CAPITAL:
+		//							textNode->text = vnsyllables[otherWayIdentifier].capital;
+		//							textNode->textLength = vnsyllables[otherWayIdentifier].length;
+		//							break;
+		//						default:
+		//							/*do not change any-thing*/
+		//							break;
+		//						}
+		//						UpdateVietnameseTextNodeContext(textNode);
+		//					}
+		//					else if (flagStandardTextForQuangBT)
+		//					{
+		//						if (currentSure > 0.0 && otherSure > 0.0 && currentSure < otherSure)
+		//						{
+		//							textNode->vietnameseSyllableIdentifier = otherWayIdentifier;
+		//							switch (textNode->capital)
+		//							{
+		//							case TEXT_NODE_CAPITAL_LOWER:
+		//								textNode->text = vnsyllables[otherWayIdentifier].lower;
+		//								textNode->textLength = vnsyllables[otherWayIdentifier].length;
+		//								break;
+		//							case TEXT_NODE_CAPITAL_UPPER:
+		//								textNode->text = vnsyllables[otherWayIdentifier].upper;
+		//								textNode->textLength = vnsyllables[otherWayIdentifier].length;
+		//								break;
+		//							case TEXT_NODE_CAPITAL_CAPITAL:
+		//								textNode->text = vnsyllables[otherWayIdentifier].capital;
+		//								textNode->textLength = vnsyllables[otherWayIdentifier].length;
+		//								break;
+		//							default:
+		//								/*do not change any-thing*/
+		//								break;
+		//							}
+		//							UpdateVietnameseTextNodeContext(textNode);
+		//						}
+		//						else if (currentSure == otherSure && vnsyllables[textNode->vietnameseSyllableIdentifier].coefficient < vnsyllables[otherWayIdentifier].coefficient)
+		//						{
+		//							textNode->vietnameseSyllableIdentifier = otherWayIdentifier;
+		//							switch (textNode->capital)
+		//							{
+		//							case TEXT_NODE_CAPITAL_LOWER:
+		//								textNode->text = vnsyllables[otherWayIdentifier].lower;
+		//								textNode->textLength = vnsyllables[otherWayIdentifier].length;
+		//								break;
+		//							case TEXT_NODE_CAPITAL_UPPER:
+		//								textNode->text = vnsyllables[otherWayIdentifier].upper;
+		//								textNode->textLength = vnsyllables[otherWayIdentifier].length;
+		//								break;
+		//							case TEXT_NODE_CAPITAL_CAPITAL:
+		//								textNode->text = vnsyllables[otherWayIdentifier].capital;
+		//								textNode->textLength = vnsyllables[otherWayIdentifier].length;
+		//								break;
+		//							default:
+		//								/*do not change any-thing*/
+		//								break;
+		//							}
+		//							UpdateVietnameseTextNodeContext(textNode);
+		//						}
+		//					}
+		//				
+		//				}
 
 
 		/************************************************************************/
