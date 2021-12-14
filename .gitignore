@@ -280,10 +280,10 @@ __pycache__/
 *.pyc
 Makefile
 TestData/baomoi.txt
-TestData/baomoi.txt
-TestData/baomoi.txt
 TestData/duochanoi.txt
 TestData/lamchame.txt
 TestData/tathy.txt
 TestData/vitalk.txt
 TestData/vnexpress.txt
+TestData/*
+
