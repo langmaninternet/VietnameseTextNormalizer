@@ -95,8 +95,6 @@ Ví dụ :
 tôi làm việ ở ban công ngệ FPT, tôi là người viêt nam 
 -> tôi làm việc ở ban công nghệ FPT, tôi là người việt nam
 
-+ Chuẩn hóa i ngắn y dài đối với tên các địa danh trong nước. 
-
 + Viết hoa 1 số tên địa danh phổ thông ở Việt Nam
 
 + Sửa lại việc viết sai chính tả ở 1 số vùng miền như : sự việc xẩy ra (Miền Bắc), xe ô tô bổn chỗ (Miền Trung), ...
