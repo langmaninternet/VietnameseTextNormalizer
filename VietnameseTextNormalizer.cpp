@@ -4381,7 +4381,9 @@ void				VietnameseTextNormalizer::Normalize(void)
 			&& textNode->vietnameseLoanWordIndentifier == 0
 			&& textNode->vietnameseMissingIndentifiler == 0
 			&& vnsyllables[textNode->vietnameseSyllableIdentifier].iyidentifier
-			&& vnsyllables[vnsyllables[textNode->vietnameseSyllableIdentifier].iyidentifier].significant)
+			&& vnsyllables[vnsyllables[textNode->vietnameseSyllableIdentifier].iyidentifier].significant
+			&& vnsyllables[textNode->vietnameseSyllableIdentifier].coefficient < vnsyllables[vnsyllables[textNode->vietnameseSyllableIdentifier].iyidentifier].coefficient
+			)
 		{
 			qvsylidentifier otherWayIdentifier = vnsyllables[textNode->vietnameseSyllableIdentifier].iyidentifier;
 			double currentSure = SignificantScore(textNode, textNode->vietnameseSyllableIdentifier) + PerplexityScore(textNode, textNode->vietnameseSyllableIdentifier);
