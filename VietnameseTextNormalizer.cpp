@@ -4496,6 +4496,25 @@ void				VietnameseTextNormalizer::Normalize(void)
 		{
 			textNode->needSpaceAfter = 1;
 		}
+		if (flagStandardTextForQuangBT
+			&& textNode->textLength == 1
+			&& textNode->text
+			&& textNode->text[0] == 0x2E/*.*/
+			&& textNode->next
+			&& textNode->next->textNodeType == TEXT_NODE_TYPE_VIETNAMESE_SYLLABLE
+			&& textNode->next->vietnameseSyllableIdentifier > 0
+			&& vnsyllables[textNode->next->vietnameseSyllableIdentifier].vietnamese 
+
+			&& textNode->back
+			&& textNode->back->textNodeType == TEXT_NODE_TYPE_VIETNAMESE_SYLLABLE
+			&& textNode->back->vietnameseSyllableIdentifier>0
+			&& vnsyllables[textNode->back->vietnameseSyllableIdentifier].vietnamese
+			)
+		{
+			textNode->back->needSpaceAfter = 1;
+		}
+
+
 		/************************************************************************/
 		/* Convert Y - I                                                        */
 		/************************************************************************/
