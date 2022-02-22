@@ -2489,6 +2489,7 @@ void				VietnameseTextNormalizer::Input(const qwchar* text)
 					case 0x30C/*Combining Caron*/:
 					case 0x31B/*Combining Horn*/:
 					case 0x200B/*Zero width space*/:
+					case 0x200E/*Left to right mark*/:
 					case 0xFEFF/*Zero width no-break space*/:
 						break;
 					default:
@@ -2575,6 +2576,7 @@ void				VietnameseTextNormalizer::Input(const qwchar* text)
 					case 0x1FFD/*VIETNAMESE_TONE_SAC*/:
 					case 0x323/*VIETNAMESE_TONE_NANG*/:
 					case 0x200B/*Zero width space*/:
+					case 0x200E/*Left to right mark*/:
 					case 0xFEFF/*Zero width no-break space*/:
 					case 0x302/*Combining Circumflex Accent*/:
 					case 0x311/*Combining Inverted Breve*/:
@@ -2638,6 +2640,7 @@ void				VietnameseTextNormalizer::Input(const qwchar* text)
 					case 0x9/*Tab*/:
 						break;
 					case 0x200B/*Zero width space*/:
+					case 0x200E/*Left to right mark*/:
 					case 0xFEFF/*Zero width no-break space*/:
 					case 0xA0/*Non-breaking space*/:
 						needIgnoreLeftCharacter = true;
@@ -2821,6 +2824,7 @@ void				VietnameseTextNormalizer::Input(const qwchar* text)
 					case 0x2C/*,*/:
 					case 0x2E/*.*/:
 					case 0x200B/*Zero width space*/:
+					case 0x200E/*Left to right mark*/:
 					case 0xFEFF/*Zero width no-break space*/:
 					case 0x300/*` VIETNAMESE_TONE_HUYEN*/:
 					case 0x340/*VIETNAMESE_TONE_HUYEN*/:
@@ -5193,6 +5197,7 @@ void				VietnameseTextNormalizer::GenStandardText(void)
 				switch (standardText[iChar])
 				{
 				case 0x200B/*Zero width space*/:
+				case 0x200E/*Left to right mark*/:
 				case 0xFEFF/*Zero width no-break space*/:
 				case 0xA0/*Non-breaking space*/:
 					standardText[iChar] = 0x20/*Space*/;
