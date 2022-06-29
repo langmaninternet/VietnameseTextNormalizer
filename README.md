@@ -36,6 +36,8 @@ make -j
 # For Python3 Mac OSX : Need setup path to python3_dev include and g++ 
 #brew install python3-dev
 #brew install g++
+# and setup PATH to include and lib
+# Cellar is my username, you must change to your user
 export PYTHON3_DEV_INCULE=/usr/local/Cellar/python@3.9/3.9.1_3/Frameworks/Python.framework/Versions/3.9/include
 export PYTHON3_LIB_PATH=/usr/local/Cellar/python@3.9/3.9.1_3/Frameworks/Python.framework/Versions/3.9/lib
 export PYTHON3_LIB_NAME=python3.9
