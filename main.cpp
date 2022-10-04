@@ -34,10 +34,19 @@ static void	QuangBTConvertUtf8toUnicode(const unsigned char* utf8str, int utf8st
 				/*condition*/ (utf8str[0] & 0xF0) == 0xE0 && (utf8str[1] & 0xC0) == 0x80 && (utf8str[2] & 0xC0) == 0x80)
 			{
 				/* 3bytes UTF-8 Character.*/
-				*ucs2buffer = (qwchar)(((utf8str[0] & 0x000F)) << 12) | (((utf8str[1] & 0x3F)) << 6) | ((utf8str[2] & 0x3F));
+				*ucs2buffer = (qwchar)((utf8str[0] & 0x000F) << 12) | ((utf8str[1] & 0x3F) << 6) | (utf8str[2] & 0x3F);
 				ucs2buffer++;
 				utf8str += 3;
 				ichar += 2;
+			}
+			else if (/*safe*/ichar + 3 < utf8strlength && utf8str[1] != 0 && utf8str[2] != 0 &&
+				/*condition*/ (utf8str[0] & 0xF0) == 0xE0 && (utf8str[1] & 0xC0) == 0x80 && (utf8str[2] & 0xC0) == 0x80 && (utf8str[3] & 0xC0) == 0x80)
+			{
+				/* 4bytes UTF-8 Character.*/
+				*ucs2buffer = (qwchar)((utf8str[0] & 0x000F) << 18) | ((utf8str[1] & 0x3F) << 12) | ((utf8str[2] & 0x3F) << 6) | (utf8str[3] & 0x3F);
+				ucs2buffer++;
+				utf8str += 4;
+				ichar += 3;
 			}
 			else
 			{
@@ -1350,7 +1359,7 @@ wchar_t				GetBaseLowerChar(wchar_t wch)
 	case L'Ơ':case L'ờ':case L'Ờ':case L'ớ':case L'Ớ':case L'ở':case L'Ở':case L'ỡ':case L'Ỡ':case L'ợ':case L'Ợ':return L'ơ';
 	case L'Ư':case L'ừ':case L'Ừ':case L'ứ':case L'Ứ':case L'ử':case L'Ử':case L'ữ':case L'Ữ':case L'ự':case L'Ự':return L'ư';
 	case L'Ð':case L'Đ':return L'đ';
-	case L'B':return L'b';	
+	case L'B':return L'b';
 	case L'C':return L'c';
 	case L'D':return L'd';
 	case L'F':return L'f';
