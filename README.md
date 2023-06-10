@@ -24,9 +24,9 @@ make -j
 
 
 # For Python3 : Need setup path to python3_dev include and g++ 
-#apt install python3-dev
-#apt install g++
-export PYTHON3_DEV_INCULE=/usr/include/python3.6
+# sudo apt install python3-dev
+# sudo apt install g++
+export PYTHON3_DEV_INCULE=/usr/include/python3.8
 export GPP_COMPILER=g++
 cp -f MakefilePython3 Makefile
 make -j
