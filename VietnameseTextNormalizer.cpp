@@ -1889,9 +1889,9 @@ TEXT_NODE* VietnameseTextNormalizer::InsertUnknownNodeToTail(qwchar const* nodeO
 			case 0x3D/*=*/:textNode->textNodeType = TEXT_NODE_TYPE_VIETNAMESE_SYLLABLE; textNode->vietnameseSyllableIdentifier = VIETNAMESE_SYLLABLE_B_AWF_N_G; break;
 
 			case 0x2D/*-*/:
-			case  0x2013/*–*/:
-			case  0x2014/*—*/:
-			case  0x2015/*―*/:
+			case 0x2013/*–*/:
+			case 0x2014/*—*/:
+			case 0x2015/*―*/:
 				if (flagValidateToolMode)
 				{
 					textNode->textNodeType = TEXT_NODE_TYPE_IGNORE_NODE;
@@ -2818,9 +2818,9 @@ void				VietnameseTextNormalizer::Input(const qwchar* text)
 					case 0x79/*y*/:case 0x1EF3/*ỳ*/:case 0xFD/*ý*/:case 0x1EF7/*ỷ*/:case 0x1EF9/*ỹ*/:case 0x1EF5/*ỵ*/:
 					case 0x2F/*/ slash*/:
 					case 0x2D/*-*/:
-					case  0x2013/*–*/:
-					case  0x2014/*—*/:
-					case  0x2015/*―*/:
+					case 0x2013/*–*/:
+					case 0x2014/*—*/:
+					case 0x2015/*―*/:
 					case 0x2C/*,*/:
 					case 0x2E/*.*/:
 					case 0x200B/*Zero width space*/:
@@ -3692,9 +3692,9 @@ void				VietnameseTextNormalizer::Normalize(void)
 							case 0x3D/*=*/:insertTextNode->textNodeType = TEXT_NODE_TYPE_VIETNAMESE_SYLLABLE; insertTextNode->vietnameseSyllableIdentifier = VIETNAMESE_SYLLABLE_B_AWF_N_G; break;
 
 							case 0x2D/*-*/:
-							case  0x2013/*–*/:
-							case  0x2014/*—*/:
-							case  0x2015/*―*/:
+							case 0x2013/*–*/:
+							case 0x2014/*—*/:
+							case 0x2015/*―*/:
 								insertTextNode->textNodeType = TEXT_NODE_TYPE_SILENCE;
 								insertTextNode->silenceTimeInSecond = silenceShortTime;
 								break;
@@ -5221,9 +5221,9 @@ void				VietnameseTextNormalizer::GenStandardText(void)
 					case 0x2019/*’ right single quotation mark*/:
 						standardText[iChar] = 0x27/* ' */;
 						break;
-					case  0x2013/*–*/:
-					case  0x2014/*—*/:
-					case  0x2015/*―*/:
+					case 0x2013/*–*/:
+					case 0x2014/*—*/:
+					case 0x2015/*―*/:
 						standardText[iChar] = 0x2D/*-*/;
 						break;
 					case 0xD/*\r Carriage Return*/:
